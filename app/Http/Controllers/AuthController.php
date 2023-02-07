@@ -40,7 +40,7 @@ class AuthController extends Controller
 
         $user = Auth::guard('api')->user();
         return response()->json([
-                'status' => 'success',
+                'status' => '200',
                 'user' => $user,
                 'authorisation' => [
                     'token' => $token,
@@ -65,7 +65,7 @@ class AuthController extends Controller
 
         $token = Auth::login($user);
         return response()->json([
-            'status' => 'success',
+            'status' => '201',
             'message' => 'User created successfully',
             'user' => $user,
             'authorisation' => [
