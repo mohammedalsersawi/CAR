@@ -96,4 +96,11 @@ class AuthController extends Controller
         ]);
     }
 
+    // $request->validate(['email' => 'required|email']);
+    //     $token = Str::random(64);
+    //     Mail::send('admin.auth.reset-password', ['token' => $token], function($message) use($request){
+    //         $message->to($request->email);
+    //         $message->subject('Reset Password');
+    //     });
+
 }
