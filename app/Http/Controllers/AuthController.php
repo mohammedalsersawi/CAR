@@ -25,10 +25,10 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|string|email',
+            'phone' => 'required|numeric|digits:10|exists:users,phone',
             'password' => 'required|string',
         ]);
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->only('phone', 'password');
 
         $token = Auth::guard('api')->attempt($credentials);
         if (!$token) {
@@ -51,15 +51,14 @@ class AuthController extends Controller
     }
 
     public function register(Request $request){
+
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'phone' => 'required|numeric|digits:10|unique:users',
             'password' => 'required|string|min:6',
         ]);
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
+            'phone' => $request->phone,
             'password' => Hash::make($request->password),
         ]);
 
@@ -79,7 +78,7 @@ class AuthController extends Controller
     {
         Auth::guard('api')->logout();
         return response()->json([
-            'status' => 'success',
+            'status' => '200',
             'message' => 'Successfully logged out',
         ]);
     }
