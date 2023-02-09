@@ -29,6 +29,9 @@ Route::group(
         Route::controller(ModelController::class)->group(function () {
             Route::get('/model', 'index')->name('model');
             Route::post('/model/store', 'store')->name('model.store');
+            Route::GET('/model/edit/{id?}', 'edit')->name('model.edit');
+            Route::delete('/model/delete/{id?}', 'destroy')->name('model.delete');
+
         });
     }
 );
