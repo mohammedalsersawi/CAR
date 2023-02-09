@@ -5,28 +5,6 @@
 @section('styles')
 @endsection
 @section('content')
-    <button  data-bs-toggle="modal" data-bs-target="#add" class="btn btn-success waves-effect waves-light">Add</button>
-    <div class="modal fade" id="add" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Add New Admin</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-footer">
-                    <div >
-                        <div class="card">
-                            <div class="card-body">
-                                <!-- End Form -->
-                            </div>
-                        </div>
-                        <!-- End Card -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="content-wrapper">
         <div class="content-header row">
             <div class="content-header-left col-md-9 col-12 mb-2">
@@ -66,7 +44,7 @@
                                             <div class="form-group">
                                                 <label for="s_title">@lang('title')</label>
                                                 <input id="s_title" type="text" class="search_input form-control"
-                                                    placeholder="@lang('title')">
+                                                       placeholder="@lang('title')">
                                             </div>
                                         </div>
                                         <div class="col-3" style="margin-top: 20px">
@@ -83,30 +61,31 @@
                                         </div>
                                         <div class="col-3" style="margin-top: 20px">
                                             <div class="form-group">
-
+                                                <button class="btn btn-outline-primary" type="button" data-toggle="modal"
+                                                        data-target="#create_modal"><span><i class="fa fa-plus"></i>Add</span>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
                                 </form>
                             </div>
                             <div class="table-responsive card-datatable">
+                                <div id="alreat" >
+
+                                </div>
                                 <table class="table" id="datatable">
                                     <thead>
-                                        <tr>
-                                            <th class="checkbox-column sorting_disabled" rowspan="1" colspan="1"
-                                                style="width: 35px;" aria-label=" Record Id ">
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox"
-                                                        class="table_ids custom-control-input dt-checkboxes"
-                                                        id="select_all">
-                                                    <label class="custom-control-label" for="select_all"></label>
-                                                </div>
-                                            </th>
-                                            <th>@lang('uuid')</th>
-                                            <th>@lang('title')</th>
-                                            <th style="width: 225px;">@lang('actions')</th>
-                                        </tr>
+                                    <tr>
+                                        <th>@lang('#')</th>
+                                        <th>@lang('title')</th>
+                                        <th>@lang('image')</th>
+                                        <th style="width: 225px;">@lang('actions')</th>
+                                    </tr>
                                     </thead>
+                                    <tbody id="table-brand">
+                                    @include('admin.pages.brands.inclode',['brand' => $brand])
+
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -117,10 +96,100 @@
         </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="create_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="form_add" data-action="{{ route('brand.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="col">
+                            <label for="Name" class="mr-sm-2">@lang('Name')
+                                :</label>
+                            <input   id="name" type="text" name="name" class="form-control">
+                        </div>
+                        <div class="col">
+                            <label for="Name_en" class="mr-sm-2">@lang('Name English')
+                                :</label>
+                            <input  type="text" class="form-control" id="name-en" name="name_en">
+                        </div>
+                        <label for="name">@lang('image')</label>
+                        <input type="file" class="form-control"
+                               placeholder="enter name" name="image"
+                        >
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary btn-submit">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('js')
+    <script>
+            $('#form_add').on('submit', function(event){
+                event.preventDefault();
+                var url = $('#form_add').attr('data-action');
+
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    data: new FormData(this),
+                    dataType: 'JSON',
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success:function(res)
+                    {
+
+                            $("#create_modal").modal('hide');
+                            $('#table-brand').html(res);
+                            $('#alreat').text('Adddd succesfully').addClass('alert alert-success');
+                            $(".alert").fadeTo(2000, 500).slideUp(500, function(){
+                                $(".alert").slideUp(500);
+                            });
+                    },
+                    error: function(response) {
+
+                        $("#create_modal").modal('hide');
+                        $('#table-brand').html(response);
+                        $('#alreat').text('Add succesfully').addClass('alert alert-success');
+                        $(".alert").fadeTo(2000, 500).slideUp(500, function(){
+                            $(".alert").slideUp(500);
+                        });
+                    }
+                });
+            });
+            function deletebrand(id) {
+                var url = $('#form_delete').attr('data-action');
+                $.ajax({
+                    type: 'delete',
+                    url: url,
+                    data: {
+                        _token: '{{csrf_token()}}',
+                        id:id
+                    },
+                    success: function (res) {
+                        $("#delete"+id).modal('hide');
+                        $('#row'+id).remove();
+                        $('#alreat').text('Deleted succesfully').addClass('alert alert-success');
+                    },
+                    error: function (error) {
+                        $('#alreat').text('Deleted Fail').addClass('alert alert-danger');
+                    }
+                });
+            }
+           </script>
 @endsection
 @section('scripts')
-    <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/classic/ckeditor.js"></script>
-    <script></script>
 @endsection

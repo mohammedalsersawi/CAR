@@ -7,6 +7,7 @@ use App\Models\Brand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class BrandController extends Controller
@@ -37,11 +38,18 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name'=>'required|max:20',
+        $validator = Validator($request->all(),[
+            'name'=>'required|max:20|unique:brands',
             'image'=>'required'
         ]);
+        if ($validator->fails()){
+            return response()->json([
+                'error' =>$validator->getMessageBag()->first(), 'Brand'
+            ]);
+        }
+
         if ($request->has('id')){
+
             DB::beginTransaction();
             try {
                 $brand=Brand::findOrFail($request->id);
@@ -56,9 +64,7 @@ class BrandController extends Controller
                 $data['image']=$imagename;
                 $brand->update($data);
                 DB::commit();
-                return response()->json([
-                    'success' => 'true',
-                ]);
+
             }catch (Throwable $e){
                 DB::rollBack();
                 return response()->json([
@@ -66,24 +72,42 @@ class BrandController extends Controller
                 ]);
             }
         }else{
-            DB::beginTransaction();
-            try {
+
+//            DB::beginTransaction();
+//            try {
 
                 $imagename = 'brand' . time() . '_' . $request->file('image')->getClientOriginalName();
                 $request->file('image')->move(public_path('upload/images/brand'), $imagename);
-                $data=$request->except('image');
-                $data['image']=$imagename;
-                Brand::create($data);
-                DB::commit();
-                return response()->json([
-                    'success' => 'true',
+
+
+            $brands=   Brand::create([
+                    'name' => ['en' => $request->name_en, 'ar' => $request->name],
+                    'image'=>$imagename
                 ]);
-            }catch (Throwable $e){
-                DB::rollBack();
-                return response()->json([
-                    'error' => $e
-                ]);
-            }
+//            if ($brands) {
+                    $brand=Brand::all();
+                return view('admin.pages.brands.inclode',compact('brand'))->render();
+
+//            }else{
+//                return response()->json([
+//                    'message' => $brands ? "Created Successfully" : "Failed to Create"
+//                ], $brands ? Response::HTTP_CREATED : Response::HTTP_BAD_REQUEST);
+//            }
+//                DB::commit();
+
+//                if ($brands){
+//                    $brand=Brand::all();
+//                    return view('admin.pages.brands.inclode',compact('brand'))->render();
+//                }else{
+//                    return response()->json([
+//                        'error' => 'ddd'
+//                    ],Response::HTTP_BAD_REQUEST);
+//                }
+
+//            }catch (Throwable $e){
+//                DB::rollBack();
+
+//            }
         }
     }
 
@@ -94,11 +118,23 @@ class BrandController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        $brand=Brand::findOrFail($id);
-        File::delete(public_path('upload/images/brand/'.$brand->image));
-        $brand->delete();
+        DB::beginTransaction();
+        try {
+            $brand = Brand::findOrFail($request->id);
+            File::delete(public_path('upload/images/brand/'.$brand->image));
+            $brand->delete();
+            DB::commit();
+            return response()->json([
+                'true' => 'Deleted successfully'
+            ]);
+        }catch (Throwable $e){
+            DB::rollBack();
+            return response()->json([
+                'error' => $e
+            ]);
+        }
 
     }
 }
