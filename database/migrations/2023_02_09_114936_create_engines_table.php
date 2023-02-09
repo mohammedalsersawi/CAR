@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('engines', function (Blueprint $table) {
             $table->id();
+            $table->text('name');
             $table->timestamps();
         });
     }

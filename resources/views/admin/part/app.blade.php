@@ -148,6 +148,16 @@
                         <i data-feather="file-text"></i><span class="menu-title text-truncate">الموديل</span>
                     </a>
                 </li>
+                <li class="nav-item ">
+                    <a class="d-flex align-items-center" href="{{ route('engines') }}">
+                        <i data-feather="file-text"></i><span class="menu-title text-truncate">المحركات</span>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="d-flex align-items-center" href="{{ route('fuel_type') }}">
+                        <i data-feather="file-text"></i><span class="menu-title text-truncate">نوع الوقود</span>
+                    </a>
+                </li>
 
             </ul>
         </div>

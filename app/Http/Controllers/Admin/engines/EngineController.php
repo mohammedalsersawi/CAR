@@ -1,32 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Car;
+namespace App\Http\Controllers\Admin\engines;
 
-use DataTables;
-use App\Models\ModelCar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Admin\ResponseTrait;
+use App\Models\Engine;
 
-
-class ModelController extends Controller
+class EngineController extends Controller
 {
     use ResponseTrait;
 
     public function index(Request $request)
     {
-        if ($request->ajax()) {
-            $data = ModelCar::query();
-            return Datatables::of($data)->addIndexColumn()
-                ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0)" class="btn btn-primary btn-sm">View</a>';
-                    return $btn;
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-        }
 
-        return view('admin.pages.model-car.index');
+        return view('admin.pages.engines.index');
     }
 
     public function store(Request $request)
@@ -37,14 +25,14 @@ class ModelController extends Controller
                 $rules['name_' . $key] = 'required|string|max:255';
             }
             $this->validate($request, $rules);
-            $ModelCar = new ModelCar();
+            $engines = new Engine();
             $translations = [
                 'en' => $request->name_en,
                 'ar' => $request->name_ar
             ];
-            $ModelCar->setTranslations('name', $translations);
-            $ModelCar->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
-            $ModelCar->save();
+            $engines->setTranslations('name', $translations);
+            $engines->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
+            $engines->save();
             return $this->sendResponse(null, 'تم الاضافة بنجاح');
         } else {
             $rules = [];
@@ -52,14 +40,14 @@ class ModelController extends Controller
                 $rules['name_' . $key] = 'required|string|max:255';
             }
             $this->validate($request, $rules);
-            $ModelCar = ModelCar::find($request->id);
+            $engines = Engine::find($request->id);
             $translations = [
                 'en' => $request->name_en,
                 'ar' => $request->name_ar
             ];
-            $ModelCar->setTranslations('name', $translations);
-            $ModelCar->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
-            $ModelCar->save();
+            $engines->setTranslations('name', $translations);
+            $engines->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
+            $engines->save();
             return $this->sendResponse(null, 'تم التعدييل بنجاح');
         }
     }
@@ -67,15 +55,14 @@ class ModelController extends Controller
 
     public function edit($id)
     {
-        $ModelCar = ModelCar::find($id);
-        return response()->json(['status' => true, 'data' => $ModelCar]);
-        return $this->sendResponse($ModelCar, null);
+        $engines = Engine::find($id);
+        return $this->sendResponse($engines, null);
 
     }
 
     public function destroy($id)
     {
-        $ModelCar = ModelCar::find($id);
+        $ModelCar = Engine::find($id);
         $ModelCar->delete();
         return $this->sendResponse(null, 'تم الحذف بنجاح');
     }

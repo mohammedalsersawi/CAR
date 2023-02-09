@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Car\ModelController;
+use App\Http\Controllers\Admin\engines\EngineController;
+use App\Http\Controllers\Admin\engines\EnginesController;
+use App\Http\Controllers\Admin\fuel_type\FuelTypeController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 /*
@@ -31,7 +34,18 @@ Route::group(
             Route::post('/model/store', 'store')->name('model.store');
             Route::GET('/model/edit/{id?}', 'edit')->name('model.edit');
             Route::delete('/model/delete/{id?}', 'destroy')->name('model.delete');
-
+        });
+        Route::controller(EngineController::class)->group(function () {
+            Route::get('/engines', 'index')->name('engines');
+            Route::post('/engines/store', 'store')->name('engines.store');
+            Route::GET('/engines/edit/{id?}', 'edit')->name('engines.edit');
+            Route::delete('/engines/delete/{id?}', 'destroy')->name('engines.delete');
+        });
+        Route::controller(FuelTypeController::class)->group(function () {
+            Route::get('/fuel/type', 'index')->name('fuel_type');
+            Route::post('/fuel/type/store', 'store')->name('fuel_type.store');
+            Route::GET('/fuel/type/edit/{id?}', 'edit')->name('fuel_type.edit');
+            Route::delete('/fuel/type/delete/{id?}', 'destroy')->name('fuel_type.delete');
         });
     }
 );

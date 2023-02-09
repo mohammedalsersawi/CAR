@@ -1,32 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Car;
+namespace App\Http\Controllers\Admin\fuel_type;
 
-use DataTables;
-use App\Models\ModelCar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Admin\ResponseTrait;
+use App\Models\FuelType;
 
-
-class ModelController extends Controller
+class FuelTypeController extends Controller
 {
     use ResponseTrait;
 
     public function index(Request $request)
     {
-        if ($request->ajax()) {
-            $data = ModelCar::query();
-            return Datatables::of($data)->addIndexColumn()
-                ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0)" class="btn btn-primary btn-sm">View</a>';
-                    return $btn;
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-        }
 
-        return view('admin.pages.model-car.index');
+        return view('admin.pages.fuel_type.index');
     }
 
     public function store(Request $request)
@@ -37,14 +25,14 @@ class ModelController extends Controller
                 $rules['name_' . $key] = 'required|string|max:255';
             }
             $this->validate($request, $rules);
-            $ModelCar = new ModelCar();
+            $fuel_type = new FuelType();
             $translations = [
                 'en' => $request->name_en,
                 'ar' => $request->name_ar
             ];
-            $ModelCar->setTranslations('name', $translations);
-            $ModelCar->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
-            $ModelCar->save();
+            $fuel_type->setTranslations('name', $translations);
+            $fuel_type->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
+            $fuel_type->save();
             return $this->sendResponse(null, 'تم الاضافة بنجاح');
         } else {
             $rules = [];
@@ -52,14 +40,14 @@ class ModelController extends Controller
                 $rules['name_' . $key] = 'required|string|max:255';
             }
             $this->validate($request, $rules);
-            $ModelCar = ModelCar::find($request->id);
+            $fuel_type = FuelType::find($request->id);
             $translations = [
                 'en' => $request->name_en,
                 'ar' => $request->name_ar
             ];
-            $ModelCar->setTranslations('name', $translations);
-            $ModelCar->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
-            $ModelCar->save();
+            $fuel_type->setTranslations('name', $translations);
+            $fuel_type->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
+            $fuel_type->save();
             return $this->sendResponse(null, 'تم التعدييل بنجاح');
         }
     }
@@ -67,16 +55,15 @@ class ModelController extends Controller
 
     public function edit($id)
     {
-        $ModelCar = ModelCar::find($id);
-        return response()->json(['status' => true, 'data' => $ModelCar]);
-        return $this->sendResponse($ModelCar, null);
+        $fuel_type = FuelType::find($id);
+        return $this->sendResponse($fuel_type, null);
 
     }
 
     public function destroy($id)
     {
-        $ModelCar = ModelCar::find($id);
-        $ModelCar->delete();
+        $fuel_type = FuelType::find($id);
+        $fuel_type->delete();
         return $this->sendResponse(null, 'تم الحذف بنجاح');
     }
 }

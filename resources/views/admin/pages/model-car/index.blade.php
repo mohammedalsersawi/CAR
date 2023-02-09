@@ -64,7 +64,7 @@
                                                 <button class="btn btn-outline-primary" type="button" data-toggle="modal"
                                                     data-target="#create_modal"><span><i class="fa fa-plus"></i>اضافة</span>
                                                 </button>
-                                                <a class="btn btn-success btn_edit btn-sm " data-id="6"
+                                                <a class="btn btn-success btn_edit btn-sm " data-id="1"
                                                     data-toggle="tooltip" title="تعديل">
                                                     <span class="fa fa-edit">تعديل</span>
                                                 </a>
@@ -160,7 +160,6 @@
                 success: function(data) {
                     $('#create_modal').modal('hide');
                     $("#add_model_form").trigger("reset");
-
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     $.each(jqXHR.responseJSON.errors, function(key, val) {
@@ -172,6 +171,7 @@
         });
         //Update
         $(document).on('click', '.btn_edit', function(e) {
+            debugger;
             e.preventDefault();
             let id = $(this).data('id');
             $('#create_modal .modal-title').text('Update');
@@ -180,6 +180,7 @@
                 method: 'get',
                 beforeSend: function() {},
                 success: function(data) {
+                    console.log(data);
                     $.each(data.data.name, function(key, val) {
                         $('#add_model_form [name=name_' + key + ']').val(val)
                     });
