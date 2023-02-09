@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ModelController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -23,6 +24,11 @@ Route::group(
     function () {
         Route::prefix('admin')->middleware('auth')->group(function () {
             Route::view('index', 'admin.pages.indexCar');
+        });
+
+        Route::controller(ModelController::class)->group(function () {
+            Route::get('/model', 'index')->name('model');
+            Route::post('/model/store', 'store')->name('model.store');
         });
     }
 );

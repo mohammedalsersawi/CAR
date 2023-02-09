@@ -142,9 +142,9 @@
         <div class="shadow-bottom"></div>
         <div class="main-menu-content">
             <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-                <li class="nav-item {{explode('/',\Request::path())[2] == 'companies' ? 'active' : '' }}">
-                    <a class="d-flex align-items-center" href="{{url('/admin/companies')}}">
-                        <i data-feather="file-text"></i><span class="menu-title text-truncate">@lang('companies')</span>
+                <li class="nav-item ">
+                    <a class="d-flex align-items-center" href="{{ route('model') }}">
+                        <i data-feather="file-text"></i><span class="menu-title text-truncate">الموديل</span>
                     </a>
                 </li>
 
