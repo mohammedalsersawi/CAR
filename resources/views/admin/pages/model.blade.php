@@ -64,6 +64,14 @@
                                                 <button class="btn btn-outline-primary" type="button" data-toggle="modal"
                                                     data-target="#create_modal"><span><i class="fa fa-plus"></i>اضافة</span>
                                                 </button>
+                                                <a class="btn btn-success btn_edit btn-sm " data-id="6"
+                                                    data-toggle="tooltip" title="تعديل">
+                                                    <span class="fa fa-edit">تعديل</span>
+                                                </a>
+                                                <a class="btn btn-danger btn_delete  btn-sm  " data-id="7"
+                                                    data-toggle="tooltip" title="حذف">
+                                                    <span class="fa fa fa-times">حذف</span>
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
@@ -73,20 +81,14 @@
                                 <table class="table" id="datatable">
                                     <thead>
                                         <tr>
-                                            <th class="checkbox-column sorting_disabled" rowspan="1" colspan="1"
-                                                style="width: 35px;" aria-label=" Record Id ">
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox"
-                                                        class="table_ids custom-control-input dt-checkboxes"
-                                                        id="select_all">
-                                                    <label class="custom-control-label" for="select_all"></label>
-                                                </div>
-                                            </th>
-                                            <th>@lang('uuid')</th>
-                                            <th>@lang('title')</th>
-                                            <th style="width: 225px;">@lang('actions')</th>
+                                            <th>id</th>
+                                            <th>name_en</th>
+                                            <th>name_ar</th>
+                                            <th style="width: 225px;">actin</th>
                                         </tr>
                                     </thead>
+                                    <tbody></tbody>
+
                                 </table>
                             </div>
                         </div>
@@ -110,6 +112,7 @@
                 </div>
                 <form action="{{ route('model.store') }}" method="POST" id="add_model_form">
                     @csrf
+                    <input type="hidden" name="id" id="id" class="form-control" />
                     <div class="modal-body">
                         @foreach (locales() as $key => $value)
                             <div class="col-12">
@@ -118,7 +121,7 @@
                                     <input type="text" class="form-control"
                                         placeholder="@lang('name') @lang($value)" name="name_{{ $key }}"
                                         id="name_{{ $key }}">
-                                        <small class="text-danger last_name_error" id="name_{{ $key }}_error"></small>
+                                    <small class="text-danger last_name_error" id="name_{{ $key }}_error"></small>
                                 </div>
                             </div>
                         @endforeach
@@ -137,6 +140,12 @@
 @section('scripts')
     <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/classic/ckeditor.js"></script>
     <script>
+         $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        //add
         $(document).on('submit', '#add_model_form', function(e) {
             e.preventDefault();
             let data_ = $(this).serialize();
@@ -160,6 +169,79 @@
                     });
                 }
             })
-        })
+        });
+        //Update
+        $(document).on('click', '.btn_edit', function(e) {
+            e.preventDefault();
+            let id = $(this).data('id');
+            $('#create_modal .modal-title').text('Update');
+            $.ajax({
+                url: "{{ route('model.edit') }}" + '/' + id,
+                method: 'get',
+                beforeSend: function() {},
+                success: function(data) {
+                    $.each(data.data.name, function(key, val) {
+                        $('#add_model_form [name=name_' + key + ']').val(val)
+                    });
+                    $('#add_model_form [name="id"]').val(data.data.id)
+                    $('#create_modal').modal('show');
+                },
+                error: function(jqXHR, textStatus, errorThrown) {}
+            });
+        });
+
+        $(document).on('click', '.btn_delete', function(e) {
+            e.preventDefault();
+            let deleted_id = $(this).data('id');
+            Swal.fire({
+                text: 'هل تريد استمرار علمية الحذف ؟',
+                confirmButtonClass: 'btn btn-success btn-sm ',
+                cancelButtonClass: 'btn btn-danger  btn-sm',
+                confirmButtonText: "تأكيد",
+                cancelButtonText: " إلغاء",
+                buttonsStyling: false,
+                showCancelButton: true
+            }).then(function(result) {
+                if (result.value) {
+                    $.ajax({
+                        url: "{{ route('model.delete') }}" + '/' + deleted_id,
+                        type: 'delete',
+                        beforeSend: function() {},
+                        success: function(data) {
+                        },
+                        error: function() {}
+                    });
+                }
+            })
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(function() {
+            var table = $('#datatable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('model') }}",
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'name',
+                        name: 'name.en'
+                    },
+                    {
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+                ]
+            });
+        });
     </script>
 @endsection
