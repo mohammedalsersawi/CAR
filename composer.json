@@ -12,6 +12,7 @@
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "mcamara/laravel-localization": "^1.7",
+        "spatie/laravel-translatable": "^6.3",
         "tymon/jwt-auth": "dev-develop",
         "yajra/laravel-datatables-oracle": "^10.3"
     },

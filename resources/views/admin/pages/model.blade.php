@@ -61,8 +61,8 @@
                                         </div>
                                         <div class="col-3" style="margin-top: 20px">
                                             <div class="form-group">
-                                                <button id="search_btn" class="btn btn-outline-info" type="submit">
-                                                    <span><i class="fa fa-add"></i>اضافة</span>
+                                                <button class="btn btn-outline-primary" type="button" data-toggle="modal"
+                                                    data-target="#create_modal"><span><i class="fa fa-plus"></i>اضافة</span>
                                                 </button>
                                             </div>
                                         </div>
@@ -96,108 +96,38 @@
 
         </div>
     </div>
-    <div class="modal fade" id="create_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">@lang('create')</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form action="" id="create_form" method="POST" data-reset="true" class="ajax_form form-horizontal"
-                        enctype="multipart/form-data" novalidate>
-                        {{ csrf_field() }}
-                        <div class="row">
-                            @foreach (locales() as $key => $value)
-                                <div class="col-6">
-                                    <div class="form-group">
-                                        <label for="title_{{ $key }}">@lang('title') @lang($value)</label>
-                                        <input type="text" class="form-control"
-                                            placeholder="@lang('title') @lang($value)"
-                                            name="title_{{ $key }}" id="title_{{ $key }}">
-                                        <div class="invalid-feedback"></div>
-                                    </div>
-                                </div>
-                            @endforeach
-                            @foreach (locales() as $key => $value)
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <label for="content_{{ $key }}">@lang('content')
-                                            @lang($value)</label>
-                                        <textarea name="content_{{ $key }}" id="content_{{ $key }}" class="contents form-control"
-                                            cols="30" rows="3" placeholder="@lang('content') @lang($value)"></textarea>
-                                        <div class="invalid-feedback"></div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" form="create_form" class="submit_btn btn btn-primary">
-                        <i class="fa fa-spinner fa-spin" style="display: none;"></i>
-                        @lang('save')
-                    </button>
-                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">@lang('close')
-                    </button>{{--                            <button type="button" form="create_form" class="btn btn-primary">Send message</button> --}}
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <!-- Modal -->
+    <div class="modal fade" id="create_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
         aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">@lang('edit')</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <form action="" id="edit_form" method="POST" data-reset="true"
-                        class="ajax_form form-horizontal" enctype="multipart/form-data" novalidate>
-                        {{ csrf_field() }}
-                        {{ method_field('PUT') }}
-                        <div class="row">
-                            @foreach (locales() as $key => $value)
-                                <div class="col-6">
-                                    <div class="form-group">
-                                        <label for="edit_title_{{ $key }}">@lang('title')
-                                            @lang($value)</label>
-                                        <input type="text" class="form-control"
-                                            placeholder="@lang('title') @lang($value)"
-                                            name="title_{{ $key }}" id="edit_title_{{ $key }}">
-                                        <div class="invalid-feedback"></div>
-                                    </div>
+                <form action="{{ route('model.store') }}" method="POST" id="add_model_form">
+                    @csrf
+                    <div class="modal-body">
+                        @foreach (locales() as $key => $value)
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="name_{{ $key }}">@lang('name') @lang($value)</label>
+                                    <input type="text" class="form-control"
+                                        placeholder="@lang('name') @lang($value)" name="name_{{ $key }}"
+                                        id="name_{{ $key }}">
+                                        <small class="text-danger last_name_error" id="name_{{ $key }}_error"></small>
                                 </div>
-                            @endforeach
-                            @foreach (locales() as $key => $value)
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <label for="edit_content_{{ $key }}">@lang('content')
-                                            @lang($value)</label>
-                                        <textarea name="content_{{ $key }}" id="edit_content_{{ $key }}" class="contents form-control"
-                                            cols="30" rows="3" placeholder="@lang('content') @lang($value)"></textarea>
-                                        <div class="invalid-feedback"></div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" form="edit_form" class="submit_btn btn btn-primary">
-                        <i class="fa fa-spinner fa-spin" style="display: none;"></i>
-                        @lang('save')
-                    </button>
-                    <button type="button" class="btn btn-outline-danger"
-                        data-dismiss="modal">@lang('close')</button>
-                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -206,5 +136,30 @@
 @endsection
 @section('scripts')
     <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/classic/ckeditor.js"></script>
-    <script></script>
+    <script>
+        $(document).on('submit', '#add_model_form', function(e) {
+            e.preventDefault();
+            let data_ = $(this).serialize();
+            let url_ = $(this).attr('action');
+            $('input').removeClass('is-invalid');
+            $('.text-danger').text('');
+            $.ajax({
+                url: url_,
+                data: data_,
+                method: 'POST',
+                beforeSend: function() {},
+                success: function(data) {
+                    $('#create_modal').modal('hide');
+                    $("#add_model_form").trigger("reset");
+
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    $.each(jqXHR.responseJSON.errors, function(key, val) {
+                        $("#" + key + "_error").text(val[0]);
+                        $('input[name=' + key + ']').addClass('is-invalid');
+                    });
+                }
+            })
+        })
+    </script>
 @endsection
