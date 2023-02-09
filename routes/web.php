@@ -17,6 +17,7 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 */
 
 
+
 Route::group(
     [
         'prefix' => LaravelLocalization::setLocale(),
