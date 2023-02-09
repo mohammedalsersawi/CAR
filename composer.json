@@ -11,7 +11,9 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
-        "tymon/jwt-auth": "dev-develop"
+        "mcamara/laravel-localization": "^1.7",
+        "tymon/jwt-auth": "dev-develop",
+        "yajra/laravel-datatables-oracle": "^10.3"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
@@ -28,11 +30,15 @@
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
         }
+
     },
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"
-        }
+        },
+        "files": [
+            "app/Http/Helpers.php"
+        ]
     },
     "scripts": {
         "post-autoload-dump": [
