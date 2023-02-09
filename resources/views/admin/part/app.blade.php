@@ -134,8 +134,8 @@
                 <li class="nav-item mr-auto"><a class="navbar-brand" href="{{ url('admin') }}"><span
                             class="brand-logo">
 
-                            <img src="{{ asset('dashboard/app-assets/images/logo/Logo.svg') }}"">
-
+                            <img src="{{ asset('dashboard/app-assets/images/logo/Logo.svg') }}">
+                        </span>
                     </a></li>
             </ul>
         </div>
@@ -145,6 +145,11 @@
                 <li class="nav-item ">
                     <a class="d-flex align-items-center" href="{{ route('model') }}">
                         <i data-feather="file-text"></i><span class="menu-title text-truncate">الموديل</span>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="d-flex align-items-center" href="{{ route('brand.index') }}">
+                        <i data-feather="file-text"></i><span class="menu-title text-truncate">Brand</span>
                     </a>
                 </li>
 

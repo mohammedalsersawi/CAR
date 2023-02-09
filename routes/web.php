@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\Admin\ModelController;
+use App\Http\Controllers\Admin\Car\BrandController;
+use App\Http\Controllers\Admin\Car\ModelController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -30,6 +31,7 @@ Route::group(
             Route::get('/model', 'index')->name('model');
             Route::post('/model/store', 'store')->name('model.store');
         });
+        Route::resource('brand',BrandController::class)->only(['index','store','destroy']);
     }
 );
 
