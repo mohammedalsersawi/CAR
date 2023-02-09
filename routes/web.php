@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\Admin\ModelController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\Car\ModelController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 /*
