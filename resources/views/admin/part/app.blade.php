@@ -135,8 +135,8 @@
                 <li class="nav-item mr-auto"><a class="navbar-brand" href="{{ url('admin') }}"><span
                             class="brand-logo">
 
-                            <img src="{{ asset('dashboard/app-assets/images/logo/Logo.svg') }}"">
-
+                            <img src="{{ asset('dashboard/app-assets/images/logo/Logo.svg') }}">
+                        </span>
                     </a></li>
             </ul>
         </div>

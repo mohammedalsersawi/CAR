@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\Car\BrandController;
 use App\Http\Controllers\Admin\Car\ModelController;
-use App\Http\Controllers\Admin\engines\EngineController;
 use App\Http\Controllers\Admin\engines\EnginesController;
 use App\Http\Controllers\Admin\fuel_type\FuelTypeController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -17,6 +16,7 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 
 
 Route::group(
@@ -47,6 +47,7 @@ Route::group(
             Route::GET('/fuel/type/edit/{id?}', 'edit')->name('fuel_type.edit');
             Route::delete('/fuel/type/delete/{id?}', 'destroy')->name('fuel_type.delete');
         });
+        Route::resource('brand',BrandController::class)->only(['index','store','destroy']);
     }
 );
 
