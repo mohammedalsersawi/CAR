@@ -55,6 +55,7 @@ Route::group(
             Route::GET('/brand/edit/{id?}', 'edit')->name('brand.edit');
             Route::delete('/brand/delete/{id?}', 'destroy')->name('brand.delete');
         });
+        Route::resource('brand',BrandController::class)->only(['index','store','destroy']);
     }
 );
 
