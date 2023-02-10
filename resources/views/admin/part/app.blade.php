@@ -158,6 +158,11 @@
                         <i data-feather="file-text"></i><span class="menu-title text-truncate">نوع الوقود</span>
                     </a>
                 </li>
+                <li class="nav-item ">
+                    <a class="d-flex align-items-center" href="{{ route('brand') }}">
+                        <i data-feather="file-text"></i><span class="menu-title text-truncate">brand</span>
+                    </a>
+                </li>
 
             </ul>
         </div>

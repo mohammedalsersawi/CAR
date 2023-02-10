@@ -62,8 +62,8 @@ class EngineController extends Controller
 
     public function destroy($id)
     {
-        $ModelCar = Engine::find($id);
-        $ModelCar->delete();
+        $engines = Engine::find($id);
+        $engines->delete();
         return $this->sendResponse(null, 'تم الحذف بنجاح');
     }
 }

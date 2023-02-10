@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('uploads', function (Blueprint $table) {
             $table->id();
-            $table->string('path')->comment('المسار');;
-            $table->string('file_type');
+            $table->string('full_small_path')->comment('المسار');;
             $table->string('full_original_path')->comment('رابط الصورة كامل الاصلية');
+            $table->string('file_type');
             $table->integer('relation_id')->nullable();
             $table->timestamps();
         });

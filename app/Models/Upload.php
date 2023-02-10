@@ -10,10 +10,10 @@ class Upload extends Model
     use HasFactory;
     protected $table="uploads";
     protected $fillable = [
-        'file',
         'file_type',
         'relation_id',
-        'folder',
+        'full_original_path',
+        'full_small_path'
     ];
 
 

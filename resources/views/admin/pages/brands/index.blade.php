@@ -10,7 +10,7 @@
             <div class="content-header-left col-md-9 col-12 mb-2">
                 <div class="row breadcrumbs-top">
                     <div class="col-12">
-                        <h2 class="content-header-title float-left mb-0">@lang('pages')</h2>
+                        <h2 class="content-header-title float-left mb-0">brands</h2>
                         <div class="breadcrumb-wrapper">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ url('/admin') }}">@lang('home')</a>
@@ -44,7 +44,7 @@
                                             <div class="form-group">
                                                 <label for="s_title">@lang('title')</label>
                                                 <input id="s_title" type="text" class="search_input form-control"
-                                                       placeholder="@lang('title')">
+                                                    placeholder="@lang('title')">
                                             </div>
                                         </div>
                                         <div class="col-3" style="margin-top: 20px">
@@ -62,30 +62,33 @@
                                         <div class="col-3" style="margin-top: 20px">
                                             <div class="form-group">
                                                 <button class="btn btn-outline-primary" type="button" data-toggle="modal"
-                                                        data-target="#create_modal"><span><i class="fa fa-plus"></i>Add</span>
+                                                    data-target="#create_modal"><span><i class="fa fa-plus"></i>اضافة</span>
                                                 </button>
+                                                <a class="btn btn-success btn_edit btn-sm " data-id="1"
+                                                    data-toggle="tooltip" title="تعديل">
+                                                    <span class="fa fa-edit">تعديل</span>
+                                                </a>
+                                                <a class="btn btn-danger btn_delete  btn-sm  " data-id="7"
+                                                    data-toggle="tooltip" title="حذف">
+                                                    <span class="fa fa fa-times">حذف</span>
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
                                 </form>
                             </div>
                             <div class="table-responsive card-datatable">
-                                <div id="alreat" >
-
-                                </div>
                                 <table class="table" id="datatable">
                                     <thead>
-                                    <tr>
-                                        <th>@lang('#')</th>
-                                        <th>@lang('title')</th>
-                                        <th>@lang('image')</th>
-                                        <th style="width: 225px;">@lang('actions')</th>
-                                    </tr>
+                                        <tr>
+                                            <th>id</th>
+                                            <th>name_en</th>
+                                            <th>name_ar</th>
+                                            <th style="width: 225px;">actin</th>
+                                        </tr>
                                     </thead>
-                                    <tbody id="table-brand">
-                                    @include('admin.pages.brands.inclode',['brand' => $brand])
+                                    <tbody></tbody>
 
-                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -98,7 +101,7 @@
 
     <!-- Modal -->
     <div class="modal fade" id="create_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-         aria-hidden="true">
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -107,28 +110,44 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form id="form_add" data-action="{{ route('brand.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="" method="POST" id="add_model_form" enctype="multipart/form-data">
                     @csrf
+                    <input type="hidden" name="id" id="id" class="form-control" />
                     <div class="modal-body">
-                        <div class="col">
-                            <label for="Name" class="mr-sm-2">@lang('Name')
-                                :</label>
-                            <input   id="name" type="text" name="name" class="form-control">
+                        @foreach (locales() as $key => $value)
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="name_{{ $key }}">@lang('name') @lang($value)</label>
+                                    <input type="text" class="form-control"
+                                        placeholder="@lang('name') @lang($value)" name="name_{{ $key }}"
+                                        id="name_{{ $key }}">
+                                    <small class="text-danger last_name_error" id="name_{{ $key }}_error"></small>
+                                </div>
+                            </div>
+                        @endforeach
+                        <div class="col-12">
+                            <label for="icon">@lang('icon')</label>
+                            <div class="form-group">
+                                <div class="fileinput fileinput-exists" data-provides="fileinput">
+                                    <div class="fileinput-preview thumbnail" data-trigger="fileinput"
+                                        style="width: 200px; height: 150px;">
+                                        <img id="edit_src_image" src="" alt="" />
+                                    </div>
+                                    <div>
+                                        <span class="btn btn-secondary btn-file ">
+                                            <span class="fileinput-new"> @lang('select_image')</span>
+                                            <span class="fileinput-exists"> @lang('select_image')</span>
+                                            <input type="file" name="image"></span>
+                                        <small class="text-danger last_name_error" id="image_error"></small>
+                                    </div>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col">
-                            <label for="Name_en" class="mr-sm-2">@lang('Name English')
-                                :</label>
-                            <input  type="text" class="form-control" id="name-en" name="name_en">
-                        </div>
-                        <label for="name">@lang('image')</label>
-                        <input type="file" class="form-control"
-                               placeholder="enter name" name="image"
-                        >
-
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary btn-submit">Save changes</button>
+                        <button class="btn btn-primary">Save changes</button>
                     </div>
                 </form>
             </div>
@@ -136,60 +155,119 @@
     </div>
 @endsection
 @section('js')
-    <script>
-            $('#form_add').on('submit', function(event){
-                event.preventDefault();
-                var url = $('#form_add').attr('data-action');
-
-                $.ajax({
-                    url: url,
-                    method: 'POST',
-                    data: new FormData(this),
-                    dataType: 'JSON',
-                    contentType: false,
-                    cache: false,
-                    processData: false,
-                    success:function(res)
-                    {
-
-                            $("#create_modal").modal('hide');
-                            $('#table-brand').html(res);
-                            $('#alreat').text('Adddd succesfully').addClass('alert alert-success');
-                            $(".alert").fadeTo(2000, 500).slideUp(500, function(){
-                                $(".alert").slideUp(500);
-                            });
-                    },
-                    error: function(response) {
-
-                        $("#create_modal").modal('hide');
-                        $('#table-brand').html(response);
-                        $('#alreat').text('Add succesfully').addClass('alert alert-success');
-                        $(".alert").fadeTo(2000, 500).slideUp(500, function(){
-                            $(".alert").slideUp(500);
-                        });
-                    }
-                });
-            });
-            function deletebrand(id) {
-                var url = $('#form_delete').attr('data-action');
-                $.ajax({
-                    type: 'delete',
-                    url: url,
-                    data: {
-                        _token: '{{csrf_token()}}',
-                        id:id
-                    },
-                    success: function (res) {
-                        $("#delete"+id).modal('hide');
-                        $('#row'+id).remove();
-                        $('#alreat').text('Deleted succesfully').addClass('alert alert-success');
-                    },
-                    error: function (error) {
-                        $('#alreat').text('Deleted Fail').addClass('alert alert-danger');
-                    }
-                });
-            }
-           </script>
 @endsection
 @section('scripts')
+    <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/classic/ckeditor.js"></script>
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        //add
+        $('#add_model_form').on('submit', function(event) {
+            event.preventDefault();
+            var data = new FormData(this);
+            var url = "{{ route('brand.store') }}";
+            $('input').removeClass('is-invalid');
+            $('.text-danger').text('');
+            $('.btn-file').addClass('');
+            $('#edit_src_image').attr('src', '');
+            $.ajax({
+                type: "POST",
+                cache: false,
+                contentType: false,
+                processData: false,
+                url,
+                data,
+                success: function(result) {
+                    $('#create_modal').modal('hide');
+                    $("#add_model_form").trigger("reset");
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    $.each(jqXHR.responseJSON.errors, function(key, val) {
+                        $("#" + key + "_error").text(val[0]);
+                        $('input[name=' + key + ']').addClass('is-invalid');
+                        $('.btn-file').addClass('btn btn-danger');
+                        var source = '{!! asset("uploads/'+data.data.avatar.full_small_path+'") !!}';
+                        $('#edit_src_image').attr('src', source);
+                    });
+                }
+            });
+        });
+        //Update
+        $(document).on('click', '.btn_edit', function(e) {
+            e.preventDefault();
+            let id = $(this).data('id');
+            $('#create_modal .modal-title').text('Update');
+            $.ajax({
+                url: "{{ route('brand.edit') }}" + '/' + id,
+                method: 'get',
+                beforeSend: function() {},
+                success: function(data) {
+                    $.each(data.data.name, function(key, val) {
+                        $('#add_model_form [name=name_' + key + ']').val(val)
+                    });
+                    var source = '{!! asset("uploads/'+data.data.avatar.full_small_path+'") !!}';
+                    $('#edit_src_image').attr('src', source);
+                    $('#add_model_form [name="id"]').val(data.data.id)
+                    $('#create_modal').modal('show');
+                },
+                error: function(jqXHR, textStatus, errorThrown) {}
+            });
+        });
+
+        $(document).on('click', '.btn_delete', function(e) {
+            e.preventDefault();
+            let deleted_id = $(this).data('id');
+            Swal.fire({
+                text: 'هل تريد استمرار علمية الحذف ؟',
+                confirmButtonClass: 'btn btn-success btn-sm ',
+                cancelButtonClass: 'btn btn-danger  btn-sm',
+                confirmButtonText: "تأكيد",
+                cancelButtonText: " إلغاء",
+                buttonsStyling: false,
+                showCancelButton: true
+            }).then(function(result) {
+                if (result.value) {
+                    $.ajax({
+                        url: "{{ route('brand.delete') }}" + '/' + deleted_id,
+                        type: 'delete',
+                        beforeSend: function() {},
+                        success: function(data) {},
+                        error: function() {}
+                    });
+                }
+            })
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(function() {
+            var table = $('#datatable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('model') }}",
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'name',
+                        name: 'name.en'
+                    },
+                    {
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+                ]
+            });
+        });
+    </script>
 @endsection
