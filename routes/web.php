@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Car\ModelController;
 use App\Http\Controllers\Admin\brand\BrandController;
 use App\Http\Controllers\Admin\engines\EngineController;
-use App\Http\Controllers\Admin\engines\EnginesController;
 use App\Http\Controllers\Admin\fuel_type\FuelTypeController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -55,7 +54,6 @@ Route::group(
             Route::GET('/brand/edit/{id?}', 'edit')->name('brand.edit');
             Route::delete('/brand/delete/{id?}', 'destroy')->name('brand.delete');
         });
-        Route::resource('brand',BrandController::class)->only(['index','store','destroy']);
     }
 );
 
