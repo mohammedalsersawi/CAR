@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Engine extends Model
 {
-    use HasFactory, HasTranslations;
+    use HasFactory,
+        HasTranslations;
     public $translatable = ['name'];
     protected $fillable = [
         'name',

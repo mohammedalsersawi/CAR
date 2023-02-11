@@ -163,6 +163,11 @@
                         <i data-feather="file-text"></i><span class="menu-title text-truncate">brand</span>
                     </a>
                 </li>
+                <li class="nav-item ">
+                    <a class="d-flex align-items-center" href="{{ route('room.index') }}">
+                        <i data-feather="file-text"></i><span class="menu-title text-truncate">@lang('Room')</span>
+                    </a>
+                </li>
 
             </ul>
         </div>

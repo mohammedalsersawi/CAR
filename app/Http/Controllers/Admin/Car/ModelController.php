@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Admin\ResponseTrait;
 
 
+
 class ModelController extends Controller
 {
     use ResponseTrait;
@@ -19,7 +20,14 @@ class ModelController extends Controller
             $data = ModelCar::query();
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0)" class="btn btn-primary btn-sm">View</a>';
+                    $btn = '<a href="javascript:void(0)" class="btn btn-success btn_edit btn-sm" data-id="'.$row->id.'"
+                                                    data-toggle="tooltip" title="تعديل">
+                                                    <span class="fa fa-edit">تعديل</span>
+                             </a>
+                             <a href="javascript:void(0)" class="btn btn-danger btn_delete  btn-sm " data-id="'.$row->id.'"
+                                                    data-toggle="tooltip" title="حذف">
+                                                    <span class="fa fa fa-times">حذف</span>
+                             </a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])
