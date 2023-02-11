@@ -64,14 +64,6 @@
                                                 <button class="btn btn-outline-primary" type="button" data-toggle="modal"
                                                     data-target="#create_modal"><span><i class="fa fa-plus"></i>اضافة</span>
                                                 </button>
-                                                <a class="btn btn-success btn_edit btn-sm " data-id="1"
-                                                    data-toggle="tooltip" title="تعديل">
-                                                    <span class="fa fa-edit">تعديل</span>
-                                                </a>
-                                                <a class="btn btn-danger btn_delete  btn-sm  " data-id="7"
-                                                    data-toggle="tooltip" title="حذف">
-                                                    <span class="fa fa fa-times">حذف</span>
-                                                </a>
                                             </div>
                                         </div>
                                     </div>
@@ -82,9 +74,9 @@
                                     <thead>
                                         <tr>
                                             <th>id</th>
-                                            <th>name_en</th>
-                                            <th>name_ar</th>
-                                            <th style="width: 225px;">actin</th>
+                                            <th>Name</th>
+                                            <th>Image</th>
+                                            <th style="width: 225px;">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -158,12 +150,49 @@
 @endsection
 @section('scripts')
     <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/classic/ckeditor.js"></script>
+    <script type="text/javascript">
+
+            var table = $('#datatable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('brand') }}",
+                columns: [{
+                    data: 'id',
+                    name: 'id'
+                },
+                    {
+                        data: 'name.{{app()->currentLocale()}}',
+                        name: 'name.en'
+                    },
+                    {
+                        "name": "image",
+                        "data": "image",
+                        "render": function (data, type, full, meta) {
+                            return "<img src=\"" + data + "\" height=\"50\"/>";
+                        },
+                        "title": "Image",
+                        "orderable": true,
+                        "searchable": true
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+                ]
+
+        });
+    </script>
     <script>
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
+
+
         //add
         $('#add_model_form').on('submit', function(event) {
             event.preventDefault();
@@ -183,6 +212,7 @@
                 success: function(result) {
                     $('#create_modal').modal('hide');
                     $("#add_model_form").trigger("reset");
+                    table.draw()
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     $.each(jqXHR.responseJSON.errors, function(key, val) {
@@ -212,6 +242,7 @@
                     $('#edit_src_image').attr('src', source);
                     $('#add_model_form [name="id"]').val(data.data.id)
                     $('#create_modal').modal('show');
+                    table.draw()
                 },
                 error: function(jqXHR, textStatus, errorThrown) {}
             });
@@ -234,7 +265,9 @@
                         url: "{{ route('brand.delete') }}" + '/' + deleted_id,
                         type: 'delete',
                         beforeSend: function() {},
-                        success: function(data) {},
+                        success: function(data) {
+                            table.draw()
+                        },
                         error: function() {}
                     });
                 }
@@ -242,32 +275,5 @@
         });
     </script>
 
-    <script type="text/javascript">
-        $(function() {
-            var table = $('#datatable').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: "{{ route('model') }}",
-                columns: [{
-                        data: 'id',
-                        name: 'id'
-                    },
-                    {
-                        data: 'name',
-                        name: 'name.en'
-                    },
-                    {
-                        data: 'id',
-                        name: 'id'
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false
-                    },
-                ]
-            });
-        });
-    </script>
+
 @endsection

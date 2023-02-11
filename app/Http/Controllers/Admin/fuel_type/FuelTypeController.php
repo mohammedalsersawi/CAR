@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Admin\ResponseTrait;
 use App\Models\FuelType;
+use DataTables;
 
 class FuelTypeController extends Controller
 {
@@ -13,7 +14,23 @@ class FuelTypeController extends Controller
 
     public function index(Request $request)
     {
-
+        if ($request->ajax()) {
+            $data = FuelType::query();
+            return Datatables::of($data)->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="javascript:void(0)" class="btn btn-success btn_edit btn-sm" data-id="'.$row->id.'"
+                                                    data-toggle="tooltip" title="تعديل">
+                                                    <span class="fa fa-edit">تعديل</span>
+                             </a>
+                             <a href="javascript:void(0)" class="btn btn-danger btn_delete  btn-sm " data-id="'.$row->id.'"
+                                                    data-toggle="tooltip" title="حذف">
+                                                    <span class="fa fa fa-times">حذف</span>
+                             </a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
         return view('admin.pages.fuel_type.index');
     }
 

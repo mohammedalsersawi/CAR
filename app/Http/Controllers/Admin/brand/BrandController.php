@@ -6,7 +6,7 @@ use Throwable;
 use App\Models\Brand;
 use App\Utils\ImageUpload;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use DataTables;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Admin\ResponseTrait;
 
@@ -17,6 +17,32 @@ class BrandController extends Controller
 
     public function index(Request $request)
     {
+        if ($request->ajax()) {
+            $data = Brand::query();
+            return Datatables::of($data)->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="javascript:void(0)" class="btn btn-success btn_edit btn-sm" data-id="'.$row->id.'"
+                                                    data-toggle="tooltip" title="تعديل">
+                                                    <span class="fa fa-edit">تعديل</span>
+                             </a>
+                             <a href="javascript:void(0)" class="btn btn-danger btn_delete  btn-sm " data-id="'.$row->id.'"
+                                                    data-toggle="tooltip" title="حذف">
+                                                    <span class="fa fa fa-times">حذف</span>
+                             </a>';
+                    return $btn;
+                })
+                ->addColumn('image', function ($row) {
+//                    $image='<div>
+//                         <img src="'.asset('uploads/'.$row->avatar->full_small_path).'" alt="..." class="img-thumbnail">
+//
+//                           </div>
+//                   ';
+                    return 'http://127.0.0.1:8000/uploads/'.$row->avatar->full_small_path;
+                })
+                ->rawColumns(['image'])
+                ->rawColumns(['action'])
+                ->make(true);
+        }
 
         return view('admin.pages.brands.index');
     }
