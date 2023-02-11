@@ -118,23 +118,26 @@
                             </div>
                         @endforeach
                         <div class="col-12">
+                            <input type="file" name="image"></span>
+
                             <label for="icon">@lang('icon')</label>
-                            <div class="form-group">
-                                <div class="fileinput fileinput-exists" data-provides="fileinput">
-                                    <div class="fileinput-preview thumbnail" data-trigger="fileinput"
-                                        style="width: 200px; height: 150px;">
-                                        <img id="edit_src_image" src="" alt="" />
-                                    </div>
-                                    <div>
-                                        <span class="btn btn-secondary btn-file ">
-                                            <span class="fileinput-new"> @lang('select_image')</span>
-                                            <span class="fileinput-exists"> @lang('select_image')</span>
-                                            <input type="file" name="image"></span>
-                                        <small class="text-danger last_name_error" id="image_error"></small>
-                                    </div>
-                                    <div class="invalid-feedback"></div>
-                                </div>
-                            </div>
+{{--                            <div class="form-group">--}}
+{{--                                --}}
+{{--                                <div class="fileinput fileinput-exists" data-provides="fileinput">--}}
+{{--                                    <div class="fileinput-preview thumbnail" data-trigger="fileinput"--}}
+{{--                                        style="width: 200px; height: 150px;">--}}
+{{--                                        <img id="edit_src_image" src="" alt="" />--}}
+{{--                                    </div>--}}
+{{--                                    <div>--}}
+{{--                                        <span class="btn btn-secondary btn-file ">--}}
+{{--                                            <span class="fileinput-new"> @lang('select_image')</span>--}}
+{{--                                            <span class="fileinput-exists"> @lang('select_image')</span>--}}
+{{--                                            <input type="file" name="image"></span>--}}
+{{--                                        <small class="text-danger last_name_error" id="image_error"></small>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="invalid-feedback"></div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
                         </div>
                     </div>
                     <div class="modal-footer">

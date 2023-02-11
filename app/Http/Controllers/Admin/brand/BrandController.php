@@ -80,6 +80,7 @@ class BrandController extends Controller
             ];
             $brands->setTranslations('name', $translations);
             $brands->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
+            
             $brands->save();
             if($request->hasFile('image')){
                 ImageUpload::UploadImage($request->image, 'brands' ,null, null ,1);
