@@ -134,11 +134,11 @@
                                         <img id="edit_src_image" src="" alt="" />
                                     </div>
                                     <div>
-                                        <span class="btn btn-secondary btn-file ">
+                                        <span class="btn btn-secondary btn-file  ">
                                             <span class="fileinput-new"> @lang('select_image')</span>
                                             <span class="fileinput-exists"> @lang('select_image')</span>
                                             <input type="file" name="image"></span>
-                                        <small class="text-danger last_name_error" id="image_error"></small>
+                                        <small class="text-danger last_image_error" id="image_error"></small>
                                     </div>
                                     <div class="invalid-feedback"></div>
                                 </div>
@@ -171,7 +171,8 @@
             var url = "{{ route('brand.store') }}";
             $('input').removeClass('is-invalid');
             $('.text-danger').text('');
-            $('.btn-file').addClass('');
+            $('.btn-file').addClass('btn btn-secondary');
+            $('.btn-file').removeClass('btn btn-outline-danger');
             $('#edit_src_image').attr('src', '');
             $.ajax({
                 type: "POST",
@@ -188,10 +189,10 @@
                     $.each(jqXHR.responseJSON.errors, function(key, val) {
                         $("#" + key + "_error").text(val[0]);
                         $('input[name=' + key + ']').addClass('is-invalid');
-                        $('.btn-file').addClass('btn btn-danger');
-                        var source = '{!! asset("uploads/'+data.data.avatar.full_small_path+'") !!}';
-                        $('#edit_src_image').attr('src', source);
                     });
+                    $('.btn-file').removeClass('btn btn-secondary');
+                    $('.btn-file').addClass('btn btn-outline-danger');
+
                 }
             });
         });
