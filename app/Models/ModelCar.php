@@ -14,6 +14,11 @@ class ModelCar extends Model
         'name',
     ];
 
+    protected $appends = ['name_text'];
 
+    public function getNameTextAttribute()
+    {
+        return @$this->name;
+    }
 
 }

@@ -25,41 +25,20 @@ class BrandController extends Controller
 
     public function store(Request $request)
     {
+        $rules = [];
+        foreach (locales() as $key => $language) {
+            $rules['name_' . $key] = 'required|string|max:255';
+        }
         if (!$request->filled('id')) {
-            $rules = [];
-            foreach (locales() as $key => $language) {
-                $rules['name_' . $key] = 'required|string|max:255';
-                $rules['image'] = 'required|mimes:jpg,jpeg,png,gif';
-            }
-            $this->validate($request, $rules);
-            $brands = new Brand();
-            $translations = [
-                'en' => $request->name_en,
-                'ar' => $request->name_ar
-            ];
-            $brands->setTranslations('name', $translations);
-            $brands->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
-            $brands->save();
-            ImageUpload::UploadImage($request->image, 'brands', $brands->id);
-            return $this->sendResponse(null, 'تم الاضافة بنجاح');
-        } else {
-            $rules = [];
-            foreach (locales() as $key => $language) {
-                $rules['name_' . $key] = 'required|string|max:255';
-            }
-            $this->validate($request, $rules);
-            $brands = Brand::find($request->id);
-            $translations = [
-                'en' => $request->name_en,
-                'ar' => $request->name_ar
-            ];
-            $brands->setTranslations('name', $translations);
-            $brands->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
+            $rules['image'] = 'required|mimes:jpg,jpeg,png,gif';
+                $this->validate($request, $rules);
+                Brand::createWithRooms($request);
+                return $this->sendResponse(null, 'تم الاضافة بنجاح');
 
-            $brands->save();
-            if ($request->hasFile('image')) {
-                ImageUpload::UploadImage($request->image, 'brands', null, null, $request->id);
-            }
+        } else {
+            $rules['image'] = 'nullable|mimes:jpg,jpeg,png,gif';
+            $this->validate($request, $rules);
+            Brand::updateWithRooms($request);
 
             return $this->sendResponse(null, 'تم التعدييل بنجاح');
         }
@@ -74,24 +53,20 @@ class BrandController extends Controller
 
     public function destroy($id)
     {
-
-        $fileData = Upload::where(['relation_id' => $id, 'file_type' => 'brands'])->first();
-        File::delete(public_path('uploads/' . $fileData->full_small_path));
-        $fileData->delete();
         $brands = Brand::find($id);
         $brands->delete();
         return $this->sendResponse(null, 'تم الحذف بنجاح');
     }
 
 
-    public function indexTable(Request $request)
+    public function getData(Request $request)
     {
         $brands = Brand::query();
         return Datatables::of($brands)
             ->filter(function ($query) use ($request) {
                 $name = (urlencode($request->get('name')));
                 if ($request->get('name')) {
-                    $query->where('name->' . locale(), 'like', "%{$request->get('name')}%");
+                    $query->where('name->' . locales(), 'like', "%{$request->get('name')}%");
                 }
             })->addColumn('action', function ($que) {
                 $data_attr = '';
@@ -109,13 +84,8 @@ class BrandController extends Controller
                 return $string;
             })
             ->addColumn('image', function ($row) {
-            //    return '{!! asset("uploads/'.$row->avatar->full_small_path.'") !!}';
-               $image='<div>
-                <img src="'.asset('uploads/'.$row->avatar->full_small_path).'" alt="..." class="img-thumbnail">
-                 </div>
-                                  ';
-             return 'http://127.0.0.1:8000/uploads/'.$row->avatar->full_small_path;
-
+                $imageData = $row->avatar->full_small_path;
+                return $imageData;
             })
             ->rawColumns(['image'])
             ->rawColumns(['action'])

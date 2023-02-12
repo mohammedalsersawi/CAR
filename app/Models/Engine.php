@@ -14,4 +14,10 @@ class Engine extends Model
     protected $fillable = [
         'name',
     ];
+    protected $appends = ['name_text'];
+
+    public function getNameTextAttribute()
+    {
+        return @$this->name;
+    }
 }
