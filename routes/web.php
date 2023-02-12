@@ -1,25 +1,14 @@
 <?php
 
+
+use App\Http\Controllers\Admin\Car\BrandController;
 use App\Http\Controllers\Admin\Car\ColorController;
-use App\Http\Controllers\Admin\room\RoomController;
+use App\Http\Controllers\Admin\Car\EngineController;
+use App\Http\Controllers\Admin\Car\FuelTypeController;
+use App\Http\Controllers\Admin\Car\RoomController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Car\ModelController;
-use App\Http\Controllers\Admin\brand\BrandController;
-use App\Http\Controllers\Admin\engines\EngineController;
-use App\Http\Controllers\Admin\fuel_type\FuelTypeController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 
 
 Route::group(

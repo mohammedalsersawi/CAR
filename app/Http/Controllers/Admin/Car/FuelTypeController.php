@@ -1,21 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\Admin\engines;
+namespace App\Http\Controllers\Admin\Car;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Admin\ResponseTrait;
-use App\Models\Engine;
+use App\Models\FuelType;
 use Yajra\DataTables\Facades\DataTables;
 
-class EngineController extends Controller
+class FuelTypeController extends Controller
 {
     use ResponseTrait;
 
     public function index(Request $request)
     {
-
-        return view('admin.pages.engines.index');
+        return view('admin.pages.fuel_type.index');
     }
 
     public function store(Request $request)
@@ -25,16 +24,16 @@ class EngineController extends Controller
             $rules['name_' . $key] = 'required|string|max:255';
         }
         $this->validate($request, $rules);
-
         if (!$request->filled('id')) {
-            Engine::create([
-                'name' => ['en' => $request->name_en, 'ar' => $request->name_ar]
-            ]);
+
+            $fuel_type = new FuelType();
+            $fuel_type->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
+            $fuel_type->save();
             return $this->sendResponse(null, 'تم الاضافة بنجاح');
         } else {
-            $engines = Engine::find($request->id);
-            $engines->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
-            $engines->save();
+            $fuel_type = FuelType::find($request->id);
+            $fuel_type->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
+            $fuel_type->save();
             return $this->sendResponse(null, 'تم التعدييل بنجاح');
         }
     }
@@ -42,27 +41,22 @@ class EngineController extends Controller
 
     public function edit($id)
     {
-        $engines = Engine::find($id);
-        return $this->sendResponse($engines, null);
+        $fuel_type = FuelType::find($id);
+        return $this->sendResponse($fuel_type, null);
     }
 
     public function destroy($id)
     {
-        $engines = Engine::find($id);
-        $engines->delete();
+        $fuel_type = FuelType::find($id);
+        $fuel_type->delete();
         return $this->sendResponse(null, 'تم الحذف بنجاح');
     }
 
     public function getData(Request $request)
     {
-        $engines = Engine::query();
-        return Datatables::of($engines)
-            ->filter(function ($query) use ($request) {
-                $name = (urlencode($request->get('name')));
-                if ($request->get('name')) {
-                    $query->where('name->' . locale(), 'like', "%{$request->get('name')}%");
-                }
-            })->addColumn('action', function ($que) {
+        $fuel_type = FuelType::query();
+        return Datatables::of($fuel_type)
+            ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-id="' . $que->id . '" ';
                 $data_attr .= 'data-name="' . $que->name . '" ';

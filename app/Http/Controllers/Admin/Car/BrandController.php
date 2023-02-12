@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\brand;
+namespace App\Http\Controllers\Admin\Car;
 
 use Throwable;
 use App\Models\Brand;
@@ -63,12 +63,13 @@ class BrandController extends Controller
     {
         $brands = Brand::query();
         return Datatables::of($brands)
-            ->filter(function ($query) use ($request) {
-                $name = (urlencode($request->get('name')));
-                if ($request->get('name')) {
-                    $query->where('name->' . locales(), 'like', "%{$request->get('name')}%");
-                }
-            })->addColumn('action', function ($que) {
+//            ->filter(function ($query) use ($request) {
+//                $name = (urlencode($request->get('name')));
+//                if ($request->get('name')) {
+//                    $query->where('name->' . locales(), 'like', "%{$request->get('name')}%");
+//                }
+//            })
+            ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-id="' . $que->id . '" ';
                 $data_attr .= 'data-name="' . $que->name . '" ';

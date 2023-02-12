@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\room;
+namespace App\Http\Controllers\Admin\Car;
 
 use App\Http\Controllers\Admin\ResponseTrait;
 use App\Http\Controllers\Controller;

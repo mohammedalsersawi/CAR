@@ -61,12 +61,13 @@ class ModelController extends Controller
     {
         $modelCars = ModelCar::query();
         return Datatables::of($modelCars)
-            ->filter(function ($query) use ($request) {
-                $name = (urlencode($request->get('name')));
-                if ($request->get('name')) {
-                    $query->where('name->' . locale(), 'like', "%{$request->get('name')}%");
-                }
-            })->addColumn('action', function ($que) {
+//            ->filter(function ($query) use ($request) {
+//                $name = (urlencode($request->get('name')));
+//                if ($request->get('name')) {
+//                    $query->where('name->' . locale(), 'like', "%{$request->get('name')}%");
+//                }
+//            })
+            ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-id="' . $que->id . '" ';
                 $data_attr .= 'data-name="' . $que->name . '" ';
