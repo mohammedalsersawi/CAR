@@ -103,10 +103,10 @@
                         @endforeach
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label for="color">@lang('color') @lang($value)</label>
+                                    <label for="color">@lang('color')</label>
                                     <input type="color" class="form-control"
-                                           placeholder="@lang('color') @lang($value)" name="color"
-                                           id="color">
+                                           placeholder="@lang('color')" name="color"
+                                           id="color" >
                                     <small class="text-danger last_name_error" id="color_error"></small>
                                 </div>
                             </div>
@@ -203,6 +203,7 @@
                         $('#add_model_form [name=name_' + key + ']').val(val)
                     });
                     $('#add_model_form [name="id"]').val(data.data.id)
+                    $('#add_model_form [name="color"]').val(data.data.color)
                     $('#create_modal').modal('show');
                     table.draw()
                 },

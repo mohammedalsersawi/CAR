@@ -63,15 +63,15 @@ class ColorController extends Controller
 
     public function edit($id)
     {
-        $engines = ColorCar::find($id);
-        return $this->sendResponse($engines, null);
+        $ColorCar = ColorCar::find($id);
+        return $this->sendResponse($ColorCar, null);
 
     }
 
     public function destroy($id)
     {
-        $engines = Engine::find($id);
-        $engines->delete();
+        $Color = ColorCar::find($id);
+        $Color->delete();
         return $this->sendResponse(null, 'تم الحذف بنجاح');
     }
 
