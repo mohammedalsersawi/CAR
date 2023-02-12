@@ -126,7 +126,7 @@
                 },
                     {
                         data: 'name.{{app()->currentLocale()}}',
-                        name: 'name.en'
+                        name: 'name'
                     },
                     {
                         data: 'action',
