@@ -40,25 +40,8 @@
                             <div class="card-body">
                                 <form id="search_form">
                                     <div class="row">
-                                        <div class="col-3">
-                                            <div class="form-group">
-                                                <label for="s_title">@lang('title')</label>
-                                                <input id="s_title" type="text" class="search_input form-control"
-                                                    placeholder="@lang('title')">
-                                            </div>
-                                        </div>
-                                        <div class="col-3" style="margin-top: 20px">
-                                            <div class="form-group">
-                                                <button id="search_btn" class="btn btn-outline-info" type="submit">
-                                                    <span><i class="fa fa-search"></i> @lang('search')</span>
-                                                </button>
-                                                <button id="clear_btn" class="btn btn-outline-secondary" type="submit">
-                                                    <span><i class="fa fa-undo"></i> @lang('reset')</span>
-                                                </button>
+                                       
 
-
-                                            </div>
-                                        </div>
                                         <div class="col-3" style="margin-top: 20px">
                                             <div class="form-group">
                                                 <button class="btn btn-outline-primary" type="button" data-toggle="modal"
@@ -242,6 +225,7 @@
                 method: 'get',
                 beforeSend: function() {},
                 success: function(data) {
+                    console.log(data);
                     $.each(data.data.name, function(key, val) {
                         $('#add_model_form [name=name_' + key + ']').val(val)
                     });

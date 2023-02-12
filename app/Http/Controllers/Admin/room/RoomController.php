@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\File;
 class RoomController extends Controller
 {
     use ResponseTrait;
+
+
     public function index(Request $request)
     {
         if ($request->ajax()) {
@@ -48,26 +50,19 @@ class RoomController extends Controller
         if ($request->id){
             $rules['image'] = 'nullable';
             $this->validate($request, $rules);
-            $room=RoomCar::findOrFail($request->id);
-            $room->update([
-                'name' => ['en' => $request->name_en, 'ar' => $request->name_ar],
-                'city' => ['en' => $request->city_en, 'ar' => $request->city_ar],
-            ]);
-            if($request->hasFile('image')){
-                ImageUpload::UploadImage($request->image, 'rooms' ,null, null ,$room->id);
-
-            }
+            RoomCar::updateWithRooms($request);
             return $this->sendResponse(null, 'تم التعديل بنجاح ');
         }
         $rules['image'] = 'required|image';
         $this->validate($request, $rules);
-       $room= RoomCar::create([
-            'name' => ['en' => $request->name_en, 'ar' => $request->name_ar],
-            'city' => ['en' => $request->city_en, 'ar' => $request->city_ar],
-        ]);
-        ImageUpload::UploadImage($request->image, 'rooms' ,$room->id, null ,null);
+        RoomCar::createWithRooms($request);
         return $this->sendResponse(null, 'تم الاضافة بنجاح');
     }
+
+
+
+
+
     public function edit($id){
         $brands = RoomCar::with('avatar')->find($id);
         return $this->sendResponse($brands, null);
@@ -75,7 +70,6 @@ class RoomController extends Controller
     public function destroy($id)
     {
         $Room = RoomCar::find($id);
-        File::delete(public_path('uploads/' . $Room->full_small_path));
         $Room->delete();
         return $this->sendResponse(null, 'تم الحذف بنجاح');
     }

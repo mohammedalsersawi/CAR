@@ -39,33 +39,19 @@ class ModelController extends Controller
 
     public function store(Request $request)
     {
+        $rules = [];
+        foreach (locales() as $key => $language) {
+            $rules['name_' . $key] = 'required|string|max:255';
+        }
+        $this->validate($request, $rules);
+
         if (!$request->filled('id')) {
-            $rules = [];
-            foreach (locales() as $key => $language) {
-                $rules['name_' . $key] = 'required|string|max:255';
-            }
-            $this->validate($request, $rules);
             $ModelCar = new ModelCar();
-            $translations = [
-                'en' => $request->name_en,
-                'ar' => $request->name_ar
-            ];
-            $ModelCar->setTranslations('name', $translations);
             $ModelCar->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
             $ModelCar->save();
             return $this->sendResponse(null, 'تم الاضافة بنجاح');
         } else {
-            $rules = [];
-            foreach (locales() as $key => $language) {
-                $rules['name_' . $key] = 'required|string|max:255';
-            }
-            $this->validate($request, $rules);
             $ModelCar = ModelCar::find($request->id);
-            $translations = [
-                'en' => $request->name_en,
-                'ar' => $request->name_ar
-            ];
-            $ModelCar->setTranslations('name', $translations);
             $ModelCar->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
             $ModelCar->save();
             return $this->sendResponse(null, 'تم التعدييل بنجاح');
