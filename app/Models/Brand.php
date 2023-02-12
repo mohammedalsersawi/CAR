@@ -17,7 +17,6 @@ class Brand extends Model
     use HasTranslations;
 
     public $translatable = ['name'];
-    protected $guarded=[];
     protected $fillable = [
         'name',
     ];

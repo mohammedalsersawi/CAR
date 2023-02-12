@@ -168,6 +168,11 @@
                         <i data-feather="file-text"></i><span class="menu-title text-truncate">@lang('Room')</span>
                     </a>
                 </li>
+                <li class="nav-item ">
+                    <a class="d-flex align-items-center" href="{{ route('color.index') }}">
+                        <i data-feather="file-text"></i><span class="menu-title text-truncate">@lang('Color')</span>
+                    </a>
+                </li>
 
             </ul>
         </div>

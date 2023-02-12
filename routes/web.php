@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Car\ColorController;
 use App\Http\Controllers\Admin\room\RoomController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Car\ModelController;
@@ -55,7 +56,8 @@ Route::group(
             Route::GET('/brand/edit/{id?}', 'edit')->name('brand.edit');
             Route::delete('/brand/delete/{id?}', 'destroy')->name('brand.delete');
         });
-        Route::resource('room',RoomController::class)->except(['create']);
+        Route::resource('room',RoomController::class)->except(['create','update']);
+        Route::resource('color',ColorController::class)->except(['create','show','update']);
     }
 );
 
