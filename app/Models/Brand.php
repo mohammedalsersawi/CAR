@@ -16,16 +16,23 @@ class Brand extends Model
     use HasFactory;
     use HasTranslations;
 
-    public $translatable = ['name'];
+    protected $translatable = ['name'];
+    protected $guarded=[];
     protected $fillable = [
         'name',
     ];
+    protected $appends = ['name_text'];
+
 
     public function avatar()
     {
         return $this->belongsTo(Upload::class, 'id','relation_id')->where('file_type','brands');
     }
 
+    public function getNameTextAttribute()
+    {
+        return @$this->name;
+    }
     public static function createWithRooms(Request $request){
         DB::beginTransaction();
         try {

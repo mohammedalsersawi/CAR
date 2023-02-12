@@ -52,13 +52,13 @@
                                     </div>
                                 </form>
                             </div>
-                            <div class="table-responsive card-datatable">
+                            <div class="table-responsive card-datatable" style="padding: 20px">
                                 <table class="table" id="datatable">
                                     <thead>
                                         <tr>
-                                            <th>id</th>
+                                            <th>#</th>
+                                            <th>image</th>
                                             <th>Name</th>
-                                            <th>Image</th>
                                             <th style="width: 225px;">Action</th>
                                         </tr>
                                     </thead>
@@ -101,83 +101,89 @@
                             </div>
                         @endforeach
                         <div class="col-12">
-                            <input type="file" name="image"></span>
-
-                            <label for="icon">@lang('icon')</label>
-{{--                            <div class="form-group">--}}
-{{--                                --}}
-{{--                                <div class="fileinput fileinput-exists" data-provides="fileinput">--}}
-{{--                                    <div class="fileinput-preview thumbnail" data-trigger="fileinput"--}}
-{{--                                        style="width: 200px; height: 150px;">--}}
-{{--                                        <img id="edit_src_image" src="" alt="" />--}}
-{{--                                    </div>--}}
-{{--                                    <div>--}}
-{{--                                        <span class="btn btn-secondary btn-file ">--}}
-{{--                                            <span class="fileinput-new"> @lang('select_image')</span>--}}
-{{--                                            <span class="fileinput-exists"> @lang('select_image')</span>--}}
-{{--                                            <input type="file" name="image"></span>--}}
-{{--                                        <small class="text-danger last_name_error" id="image_error"></small>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="invalid-feedback"></div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
+                            <div>
+                                <span class="btn btn-info btn-file ">
+                                    <span class="fileinput-new"> @lang('select_image')</span>
+                                    <span class="fileinput-exists"> @lang('select_image')</span>
+                                    <input type="file" name="image"></span>
+                                <small class="text-danger last_name_error" id="image_error"></small>
+                            </div>
+                            <div class="invalid-feedback"></div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button class="btn btn-primary">Save changes</button>
-                    </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button class="btn btn-primary">Save changes</button>
+                        </div>
                 </form>
             </div>
         </div>
     </div>
 @endsection
-@section('js')
-@endsection
 @section('scripts')
     <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/classic/ckeditor.js"></script>
     <script type="text/javascript">
-
-            var table = $('#datatable').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: "{{ route('brand') }}",
-                columns: [{
-                    data: 'id',
-                    name: 'id'
-                },
-                    {
-                        data: 'name.{{app()->currentLocale()}}',
-                        name: 'name.en'
-                    },
-                    {
-                        "name": "image",
-                        "data": "image",
-                        "render": function (data, type, full, meta) {
-                            return "<img src=\"" + data + "\" height=\"50\"/>";
-                        },
-                        "title": "Image",
-                        "orderable": true,
-                        "searchable": true
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false
-                    },
-                ]
-
-        });
-    </script>
-    <script>
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        //bindTable
+        var table = $('#datatable').DataTable({
+            processing: true,
+            serverSide: true,
+            responsive: true,
+
+            "oLanguage": {
+                @if (app()->isLocale('ar'))
+                    "sEmptyTable": "ليست هناك بيانات متاحة في الجدول",
+                    "sLoadingRecords": "جارٍ التحميل...",
+                    "sProcessing": "جارٍ التحميل...",
+                    "sLengthMenu": "أظهر _MENU_ مدخلات",
+                    "sZeroRecords": "لم يعثر على أية سجلات",
+                    "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
+                    "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
+                    "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
+                    "sInfoPostFix": "",
+                    "sSearch": "ابحث:",
+                    "oAria": {
+                        "sSortAscending": ": تفعيل لترتيب العمود تصاعدياً",
+                        "sSortDescending": ": تفعيل لترتيب العمود تنازلياً"
+                    },
+                @endif // "oPaginate": {"sPrevious": '<-', "sNext": '->'},
+            },
+            ajax: {
+                url: '{{ url(app()->getLocale() . '/brand/getData') }}',
+                data: function(d) {
+                    d.name = $('#s_name').val();
+                    console.log(d);
+                }
+            },
+            columns: [{
+                    data: 'id',
+                    name: 'id',
+                },
+                {
+                    "data": 'image',
+                    "name": 'image',
+                    render: function(data, type, full, meta) {
+                        return `<img src="{{ asset('uploads/${data}') }}" width="100" class="img-fluid img-thumbnail">`;
+                    },
+                },
+                {
+                    data: 'name_text',
+                    name: 'name'
+                },
 
 
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: true
+                },
+            ]
+
+        });
 
         //add
         $('#add_model_form').on('submit', function(event) {
@@ -187,7 +193,6 @@
             $('input').removeClass('is-invalid');
             $('.text-danger').text('');
             $('.btn-file').addClass('');
-            $('#edit_src_image').attr('src', '');
             $.ajax({
                 type: "POST",
                 cache: false,
@@ -205,12 +210,12 @@
                         $("#" + key + "_error").text(val[0]);
                         $('input[name=' + key + ']').addClass('is-invalid');
                         $('.btn-file').addClass('btn btn-danger');
-                        var source = '{!! asset("uploads/'+data.data.avatar.full_small_path+'") !!}';
-                        $('#edit_src_image').attr('src', source);
+
                     });
                 }
             });
         });
+
         //Update
         $(document).on('click', '.btn_edit', function(e) {
             e.preventDefault();
@@ -225,8 +230,7 @@
                     $.each(data.data.name, function(key, val) {
                         $('#add_model_form [name=name_' + key + ']').val(val)
                     });
-                    var source = '{!! asset("uploads/'+data.data.avatar.full_small_path+'") !!}';
-                    $('#edit_src_image').attr('src', source);
+
                     $('#add_model_form [name="id"]').val(data.data.id)
                     $('#create_modal').modal('show');
                     table.draw()
@@ -260,7 +264,9 @@
                 }
             })
         });
+
+        $('#create_modal').on('hidden.bs.modal', function(e) {
+            $('#create_modal .modal-title').text('اضافة ');
+        })
     </script>
-
-
 @endsection

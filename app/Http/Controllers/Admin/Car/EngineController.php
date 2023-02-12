@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers\Admin\Car;
 
-use Yajra\DataTables\Facades\DataTables;
-use App\Models\ModelCar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Admin\ResponseTrait;
+use App\Models\Engine;
+use Yajra\DataTables\Facades\DataTables;
 
-
-
-class ModelController extends Controller
+class EngineController extends Controller
 {
     use ResponseTrait;
 
     public function index(Request $request)
     {
-        return view('admin.pages.model-car.index');
+
+        return view('admin.pages.engines.index');
     }
 
     public function store(Request $request)
@@ -28,14 +27,14 @@ class ModelController extends Controller
         $this->validate($request, $rules);
 
         if (!$request->filled('id')) {
-            $ModelCar = new ModelCar();
-            $ModelCar->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
-            $ModelCar->save();
+            Engine::create([
+                'name' => ['en' => $request->name_en, 'ar' => $request->name_ar]
+            ]);
             return $this->sendResponse(null, 'تم الاضافة بنجاح');
         } else {
-            $ModelCar = ModelCar::find($request->id);
-            $ModelCar->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
-            $ModelCar->save();
+            $engines = Engine::find($request->id);
+            $engines->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
+            $engines->save();
             return $this->sendResponse(null, 'تم التعدييل بنجاح');
         }
     }
@@ -43,24 +42,21 @@ class ModelController extends Controller
 
     public function edit($id)
     {
-        $ModelCar = ModelCar::find($id);
-        return response()->json(['status' => true, 'data' => $ModelCar]);
-        return $this->sendResponse($ModelCar, null);
-
+        $engines = Engine::find($id);
+        return $this->sendResponse($engines, null);
     }
 
     public function destroy($id)
     {
-        $ModelCar = ModelCar::find($id);
-        $ModelCar->delete();
+        $engines = Engine::find($id);
+        $engines->delete();
         return $this->sendResponse(null, 'تم الحذف بنجاح');
     }
 
-
     public function getData(Request $request)
     {
-        $modelCars = ModelCar::query();
-        return Datatables::of($modelCars)
+        $engines = Engine::query();
+        return Datatables::of($engines)
 //            ->filter(function ($query) use ($request) {
 //                $name = (urlencode($request->get('name')));
 //                if ($request->get('name')) {

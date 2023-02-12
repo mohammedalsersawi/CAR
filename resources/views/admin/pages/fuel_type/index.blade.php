@@ -52,7 +52,7 @@
                                     </div>
                                 </form>
                             </div>
-                            <div class="table-responsive card-datatable">
+                            <div class="table-responsive card-datatable" style="padding: 20px">
                                 <table class="table" id="datatable">
                                     <thead>
                                         <tr>
@@ -113,37 +113,66 @@
 @endsection
 @section('scripts')
     <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/classic/ckeditor.js"></script>
-    <script type="text/javascript">
-
-            var table = $('#datatable').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: "{{ route('fuel_type') }}",
-                columns: [{
-                    data: 'id',
-                    name: 'id'
-                },
-                    {
-                        data: 'name.{{app()->currentLocale()}}',
-                        name: 'name'
-                    },
-
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false
-                    },
-                ]
-
-        });
-    </script>
     <script>
-         $.ajaxSetup({
+        $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
+        var table = $('#datatable').DataTable({
+            processing: true,
+            serverSide: true,
+            "oLanguage": {
+                @if (app()->isLocale('ar'))
+                    "sEmptyTable": "ليست هناك بيانات متاحة في الجدول",
+                    "sLoadingRecords": "جارٍ التحميل...",
+                    "sProcessing": "جارٍ التحميل...",
+                    "sLengthMenu": "أظهر _MENU_ مدخلات",
+                    "sZeroRecords": "لم يعثر على أية سجلات",
+                    "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
+                    "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
+                    "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
+                    "sInfoPostFix": "",
+                    "sSearch": "ابحث:",
+                    "oAria": {
+                        "sSortAscending": ": تفعيل لترتيب العمود تصاعدياً",
+                        "sSortDescending": ": تفعيل لترتيب العمود تنازلياً"
+                    },
+                @endif // "oPaginate": {"sPrevious": '<-', "sNext": '->'},
+                "oPaginate": {
+                    // remove previous & next text from pagination
+                    "sPrevious": '&nbsp;',
+                    "sNext": '&nbsp;'
+                }
+            },
+            ajax: {
+                url: '{{ url(app()->getLocale() . '/fuel/type/getData') }}',
+                data: function(d) {
+                    d.name = $('#s_name').val();
+                    console.log(d);
+                }
+            },
+            columns: [{
+                    data: 'id',
+                    name: 'id',
+                },
+                {
+                    data: 'name_text',
+                    name: 'name'
+                },
+
+
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                },
+            ]
+
+        });
+
         //add
         $(document).on('submit', '#add_model_form', function(e) {
             e.preventDefault();
@@ -215,7 +244,9 @@
                 }
             })
         });
+
+        $('#create_modal').on('hidden.bs.modal', function(e) {
+            $('#create_modal .modal-title').text('اضافة ');
+        })
     </script>
-
-
 @endsection

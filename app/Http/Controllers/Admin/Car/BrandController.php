@@ -2,22 +2,26 @@
 
 namespace App\Http\Controllers\Admin\Car;
 
-use Yajra\DataTables\Facades\DataTables;
-use App\Models\ModelCar;
+use Throwable;
+use App\Models\Brand;
+use App\Models\Upload;
+use App\Utils\ImageUpload;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
+use Yajra\DataTables\Facades\DataTables;
 use App\Http\Controllers\Admin\ResponseTrait;
 
-
-
-class ModelController extends Controller
+class BrandController extends Controller
 {
+
     use ResponseTrait;
 
     public function index(Request $request)
     {
-        return view('admin.pages.model-car.index');
+        return view('admin.pages.brands.index');
     }
+
 
     public function store(Request $request)
     {
@@ -25,17 +29,17 @@ class ModelController extends Controller
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
         }
-        $this->validate($request, $rules);
-
         if (!$request->filled('id')) {
-            $ModelCar = new ModelCar();
-            $ModelCar->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
-            $ModelCar->save();
-            return $this->sendResponse(null, 'تم الاضافة بنجاح');
+            $rules['image'] = 'required|mimes:jpg,jpeg,png,gif';
+                $this->validate($request, $rules);
+                Brand::createWithRooms($request);
+                return $this->sendResponse(null, 'تم الاضافة بنجاح');
+
         } else {
-            $ModelCar = ModelCar::find($request->id);
-            $ModelCar->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
-            $ModelCar->save();
+            $rules['image'] = 'nullable|mimes:jpg,jpeg,png,gif';
+            $this->validate($request, $rules);
+            Brand::updateWithRooms($request);
+
             return $this->sendResponse(null, 'تم التعدييل بنجاح');
         }
     }
@@ -43,34 +47,33 @@ class ModelController extends Controller
 
     public function edit($id)
     {
-        $ModelCar = ModelCar::find($id);
-        return response()->json(['status' => true, 'data' => $ModelCar]);
-        return $this->sendResponse($ModelCar, null);
-
+        $brands = Brand::with('avatar')->find($id);
+        return $this->sendResponse($brands, null);
     }
 
     public function destroy($id)
     {
-        $ModelCar = ModelCar::find($id);
-        $ModelCar->delete();
+        $brands = Brand::find($id);
+        $brands->delete();
         return $this->sendResponse(null, 'تم الحذف بنجاح');
     }
 
 
     public function getData(Request $request)
     {
-        $modelCars = ModelCar::query();
-        return Datatables::of($modelCars)
+        $brands = Brand::query();
+        return Datatables::of($brands)
 //            ->filter(function ($query) use ($request) {
 //                $name = (urlencode($request->get('name')));
 //                if ($request->get('name')) {
-//                    $query->where('name->' . locale(), 'like', "%{$request->get('name')}%");
+//                    $query->where('name->' . locales(), 'like', "%{$request->get('name')}%");
 //                }
 //            })
             ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-id="' . $que->id . '" ';
                 $data_attr .= 'data-name="' . $que->name . '" ';
+                $data_attr .= 'data-image="' . $que->avatar->full_small_path . '" ';
                 foreach (locales() as $key => $value) {
                     $data_attr .= 'data-name_' . $key . '="' . $que->getTranslation('name', $key) . '" ';
                 }
@@ -81,6 +84,11 @@ class ModelController extends Controller
                     '">' . __('delete') . '</button>';
                 return $string;
             })
+            ->addColumn('image', function ($row) {
+                $imageData = $row->avatar->full_small_path;
+                return $imageData;
+            })
+            ->rawColumns(['image'])
             ->rawColumns(['action'])
             ->make(true);
     }
