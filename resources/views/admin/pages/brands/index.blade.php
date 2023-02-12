@@ -74,8 +74,8 @@
                                     <thead>
                                         <tr>
                                             <th>id</th>
-                                            <th>Name</th>
-                                            <th>Image</th>
+                                            <th>id</th>
+                                            <th>id</th>
                                             <th style="width: 225px;">Action</th>
                                         </tr>
                                     </thead>
@@ -121,22 +121,23 @@
                             <input type="file" name="image"></span>
 
                             <label for="icon">@lang('icon')</label>
-                            <div class="form-group">
-                                <div class="fileinput fileinput-exists" data-provides="fileinput">
-                                    <div class="fileinput-preview thumbnail" data-trigger="fileinput"
-                                        style="width: 200px; height: 150px;">
-                                        <img id="edit_src_image" src="" alt="" />
-                                    </div>
-                                    <div>
-                                        <span class="btn btn-secondary btn-file ">
-                                            <span class="fileinput-new"> @lang('select_image')</span>
-                                            <span class="fileinput-exists"> @lang('select_image')</span>
-                                            <input type="file" name="image"></span>
-                                        <small class="text-danger last_name_error" id="image_error"></small>
-                                    </div>
-                                    <div class="invalid-feedback"></div>
-                                </div>
-                            </div>
+                            {{--                            <div class="form-group"> --}}
+                            {{--                                --}}
+                            {{--                                <div class="fileinput fileinput-exists" data-provides="fileinput"> --}}
+                            {{--                                    <div class="fileinput-preview thumbnail" data-trigger="fileinput" --}}
+                            {{--                                        style="width: 200px; height: 150px;"> --}}
+                            {{--                                        <img id="edit_src_image" src="" alt="" /> --}}
+                            {{--                                    </div> --}}
+                            {{--                                    <div> --}}
+                            {{--                                        <span class="btn btn-secondary btn-file "> --}}
+                            {{--                                            <span class="fileinput-new"> @lang('select_image')</span> --}}
+                            {{--                                            <span class="fileinput-exists"> @lang('select_image')</span> --}}
+                            {{--                                            <input type="file" name="image"></span> --}}
+                            {{--                                        <small class="text-danger last_name_error" id="image_error"></small> --}}
+                            {{--                                    </div> --}}
+                            {{--                                    <div class="invalid-feedback"></div> --}}
+                            {{--                                </div> --}}
+                            {{--                            </div> --}}
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -153,36 +154,40 @@
 @section('scripts')
     <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/classic/ckeditor.js"></script>
     <script type="text/javascript">
-
-            var table = $('#datatable').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: "{{ route('brand') }}",
-                columns: [{
+        var table = $('#datatable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: '{{ url(app()->getLocale() . '/admin/indexTable') }}',
+                data: function(d) {
+                    d.name = $('#s_name').val();
+                    console.log(d);
+                }
+            },
+            columns: [{
                     data: 'id',
-                    name: 'id'
+                    name: 'id',
                 },
-                    {
-                        data: 'name.{{app()->currentLocale()}}',
-                        name: 'name.en'
+                {
+                    "data": 'image',
+                    "name": 'image',
+                    "render": function(data, type, full, meta) {
+                        return "<img src=\"" + data + "\" height=\"50\"/>";
                     },
-                    {
-                        "name": "image",
-                        "data": "image",
-                        "render": function (data, type, full, meta) {
-                            return "<img src=\"" + data + "\" height=\"50\"/>";
-                        },
-                        "title": "Image",
-                        "orderable": true,
-                        "searchable": true
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false
-                    },
-                ]
+                },
+                {
+                    data: 'name_text',
+                    name: 'name'
+                },
+
+
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                },
+            ]
 
         });
     </script>
@@ -202,8 +207,7 @@
             var url = "{{ route('brand.store') }}";
             $('input').removeClass('is-invalid');
             $('.text-danger').text('');
-            $('.btn-file').addClass('btn btn-secondary');
-            $('.btn-file').removeClass('btn btn-outline-danger');
+            $('.btn-file').addClass('');
             $('#edit_src_image').attr('src', '');
             $.ajax({
                 type: "POST",
@@ -221,10 +225,10 @@
                     $.each(jqXHR.responseJSON.errors, function(key, val) {
                         $("#" + key + "_error").text(val[0]);
                         $('input[name=' + key + ']').addClass('is-invalid');
+                        $('.btn-file').addClass('btn btn-danger');
+                        var source = '{!! asset("uploads/'+data.data.avatar.full_small_path+'") !!}';
+                        $('#edit_src_image').attr('src', source);
                     });
-                    $('.btn-file').removeClass('btn btn-secondary');
-                    $('.btn-file').addClass('btn btn-outline-danger');
-
                 }
             });
         });
@@ -277,6 +281,4 @@
             })
         });
     </script>
-
-
 @endsection

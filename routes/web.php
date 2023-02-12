@@ -28,7 +28,7 @@ Route::group(
     ],
     function () {
         Route::prefix('admin')->middleware('auth')->group(function () {
-            Route::view('index', 'admin.pages.indexCar');
+            Route::view('index', 'admin.part.app');
         });
 
         Route::controller(ModelController::class)->group(function () {
@@ -49,11 +49,13 @@ Route::group(
             Route::GET('/fuel/type/edit/{id?}', 'edit')->name('fuel_type.edit');
             Route::delete('/fuel/type/delete/{id?}', 'destroy')->name('fuel_type.delete');
         });
-        Route::controller(BrandController::class)->group(function () {
+        Route::controller(BrandController::class)->prefix('admin')->group(function () {
             Route::get('/brand', 'index')->name('brand');
             Route::post('/brand/store', 'store')->name('brand.store');
             Route::GET('/brand/edit/{id?}', 'edit')->name('brand.edit');
             Route::delete('/brand/delete/{id?}', 'destroy')->name('brand.delete');
+            Route::get('/indexTable', 'indexTable')->name('brand.indexTable');
+
         });
         Route::resource('room',RoomController::class)->except(['create']);
     }
