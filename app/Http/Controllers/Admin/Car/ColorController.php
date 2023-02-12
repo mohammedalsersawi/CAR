@@ -33,7 +33,7 @@ class ColorController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view('admin.pages.color.index');
+        return view('admin.pages.car.color');
     }
 
 

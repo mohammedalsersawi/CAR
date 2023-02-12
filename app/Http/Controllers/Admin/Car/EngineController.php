@@ -15,7 +15,7 @@ class EngineController extends Controller
     public function index(Request $request)
     {
 
-        return view('admin.pages.engines.index');
+        return view('admin.pages.car.engines');
     }
 
     public function store(Request $request)
@@ -57,12 +57,6 @@ class EngineController extends Controller
     {
         $engines = Engine::query();
         return Datatables::of($engines)
-//            ->filter(function ($query) use ($request) {
-//                $name = (urlencode($request->get('name')));
-//                if ($request->get('name')) {
-//                    $query->where('name->' . locale(), 'like', "%{$request->get('name')}%");
-//                }
-//            })
             ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-id="' . $que->id . '" ';

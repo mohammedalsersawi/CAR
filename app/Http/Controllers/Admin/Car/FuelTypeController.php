@@ -14,7 +14,7 @@ class FuelTypeController extends Controller
 
     public function index(Request $request)
     {
-        return view('admin.pages.fuel_type.index');
+        return view('admin.pages.car.fuel-type');
     }
 
     public function store(Request $request)

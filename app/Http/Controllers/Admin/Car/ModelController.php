@@ -16,7 +16,7 @@ class ModelController extends Controller
 
     public function index(Request $request)
     {
-        return view('admin.pages.model-car.index');
+        return view('admin.pages.car.mode-car');
     }
 
     public function store(Request $request)
@@ -61,12 +61,6 @@ class ModelController extends Controller
     {
         $modelCars = ModelCar::query();
         return Datatables::of($modelCars)
-//            ->filter(function ($query) use ($request) {
-//                $name = (urlencode($request->get('name')));
-//                if ($request->get('name')) {
-//                    $query->where('name->' . locale(), 'like', "%{$request->get('name')}%");
-//                }
-//            })
             ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-id="' . $que->id . '" ';

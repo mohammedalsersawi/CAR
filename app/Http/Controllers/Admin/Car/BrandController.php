@@ -19,7 +19,7 @@ class BrandController extends Controller
 
     public function index(Request $request)
     {
-        return view('admin.pages.brands.index');
+        return view('admin.pages.car.brand');
     }
 
 
@@ -63,12 +63,6 @@ class BrandController extends Controller
     {
         $brands = Brand::query();
         return Datatables::of($brands)
-//            ->filter(function ($query) use ($request) {
-//                $name = (urlencode($request->get('name')));
-//                if ($request->get('name')) {
-//                    $query->where('name->' . locales(), 'like', "%{$request->get('name')}%");
-//                }
-//            })
             ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-id="' . $que->id . '" ';

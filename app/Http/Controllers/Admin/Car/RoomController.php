@@ -38,7 +38,7 @@ class RoomController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view('admin.pages.rooms.index');
+        return view('admin.pages.car.rooms');
 
     }
     public function store(Request $request){

@@ -114,33 +114,7 @@
 @endsection
 @section('scripts')
     <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/classic/ckeditor.js"></script>
-{{--<<<<<<< HEAD--}}
-{{--    <script type="text/javascript">--}}
 
-{{--            var table = $('#datatable').DataTable({--}}
-{{--                processing: true,--}}
-{{--                serverSide: true,--}}
-{{--                ajax: "{{ route('engines') }}",--}}
-{{--                columns: [{--}}
-{{--                    data: 'id',--}}
-{{--                    name: 'id'--}}
-{{--                },--}}
-{{--                    {--}}
-{{--                        data: 'name.{{app()->currentLocale()}}',--}}
-{{--                        name: 'name'--}}
-{{--                    },--}}
-{{--                    {--}}
-{{--                        data: 'action',--}}
-{{--                        name: 'action',--}}
-{{--                        orderable: false,--}}
-{{--                        searchable: false--}}
-{{--                    },--}}
-{{--                ]--}}
-
-{{--        });--}}
-{{--    </script>--}}
-{{--=======--}}
-{{-->>>>>>> b6abbf658e229945cfeb5b5dd6fc491958774749--}}
     <script>
         $.ajaxSetup({
             headers: {
