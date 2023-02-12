@@ -238,6 +238,7 @@
                 method: 'get',
                 beforeSend: function() {},
                 success: function(data) {
+                    console.log(data);
                     $.each(data.data.name, function(key, val) {
                         $('#add_model_form [name=name_' + key + ']').val(val)
                     });

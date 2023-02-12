@@ -36,33 +36,19 @@ class FuelTypeController extends Controller
 
     public function store(Request $request)
     {
+        $rules = [];
+        foreach (locales() as $key => $language) {
+            $rules['name_' . $key] = 'required|string|max:255';
+        }
+        $this->validate($request, $rules);
         if (!$request->filled('id')) {
-            $rules = [];
-            foreach (locales() as $key => $language) {
-                $rules['name_' . $key] = 'required|string|max:255';
-            }
-            $this->validate($request, $rules);
+
             $fuel_type = new FuelType();
-            $translations = [
-                'en' => $request->name_en,
-                'ar' => $request->name_ar
-            ];
-            $fuel_type->setTranslations('name', $translations);
             $fuel_type->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
             $fuel_type->save();
             return $this->sendResponse(null, 'تم الاضافة بنجاح');
         } else {
-            $rules = [];
-            foreach (locales() as $key => $language) {
-                $rules['name_' . $key] = 'required|string|max:255';
-            }
-            $this->validate($request, $rules);
             $fuel_type = FuelType::find($request->id);
-            $translations = [
-                'en' => $request->name_en,
-                'ar' => $request->name_ar
-            ];
-            $fuel_type->setTranslations('name', $translations);
             $fuel_type->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
             $fuel_type->save();
             return $this->sendResponse(null, 'تم التعدييل بنجاح');
