@@ -148,36 +148,42 @@
             <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
                 <li class="nav-item ">
                     <a class="d-flex align-items-center" href="{{ route('model') }}">
-                        <i data-feather="file-text"></i><span class="menu-title text-truncate">@lang('Model Cars')</span>
+                        <i data-feather="file-text"></i><span
+                            class="menu-title text-truncate">@lang('Model Cars')</span>
                     </a>
                 </li>
                 <li class="nav-item ">
                     <a class="d-flex align-items-center" href="{{ route('engines') }}">
-                        <i data-feather="file-text"></i><span class="menu-title text-truncate">@lang('Engine Cars')</span>
+                        <i data-feather="file-text"></i><span
+                            class="menu-title text-truncate">@lang('Engine Cars')</span>
                     </a>
                 </li>
                 <li class="nav-item ">
                     <a class="d-flex align-items-center" href="{{ route('fuel_type') }}">
-                        <i data-feather="file-text"></i><span class="menu-title text-truncate">@lang('Fuel Type Cars')</span>
+                        <i data-feather="file-text"></i><span
+                            class="menu-title text-truncate">@lang('Fuel Type Cars')</span>
                     </a>
                 </li>
                 <li class="nav-item ">
                     <a class="d-flex align-items-center" href="{{ route('brand') }}">
-                        <i data-feather="file-text"></i><span class="menu-title text-truncate">@lang('Brand Cars')</span>
+                        <i data-feather="file-text"></i><span
+                            class="menu-title text-truncate">@lang('Brand Cars')</span>
                     </a>
                 </li>
                 <li class="nav-item ">
                     <a class="d-flex align-items-center" href="{{ route('room.index') }}">
                         <i data-feather="file-text"></i><span
                             class="menu-title text-truncate">@lang('Room')</span>
-                        <i data-feather="file-text"></i><span class="menu-title text-truncate">@lang('Room Cars')</span>
+                        <i data-feather="file-text"></i><span
+                            class="menu-title text-truncate">@lang('Room Cars')</span>
                     </a>
                 </li>
                 <li class="nav-item ">
                     <a class="d-flex align-items-center" href="{{ route('color.index') }}">
                         <i data-feather="file-text"></i><span
                             class="menu-title text-truncate">@lang('Color')</span>
-                        <i data-feather="file-text"></i><span class="menu-title text-truncate">@lang('Color Cars')</span>
+                        <i data-feather="file-text"></i><span
+                            class="menu-title text-truncate">@lang('Color Cars')</span>
                     </a>
                 </li>
 
@@ -583,7 +589,7 @@
                 buttonsStyling: true
             }).then(function(result) {
                 if (result.value) {
-                  var url = $('.btn_delete').data('route');
+                    var url = $('.btn_delete').data('route');
                     console.log(url);
                     $.ajax({
                         url: url,
@@ -593,10 +599,10 @@
                             _token: '{{ csrf_token() }}'
                         },
                     }).done(function(data) {
-                            toastr.success('@lang('deleted')', '', {
-                                rtl: isRtl
-                            });
-                            table.draw()
+                        toastr.success('@lang('deleted')', '', {
+                            rtl: isRtl
+                        });
+                        table.draw()
 
                     }).fail(function() {
                         toastr.error('@lang('something_wrong')', '', {
@@ -610,6 +616,45 @@
                 }
             });
         });
+
+
+        $('#form_edit').on('submit', function(event) {
+            event.preventDefault();
+            var data = new FormData(this);
+            let url = $(this).attr('action');
+            let method = $(this).attr('method');
+            $.ajax({
+                type: method,
+                cache: false,
+                contentType: false,
+                processData: false,
+                url: url,
+                data: data,
+                beforeSend: function() {
+                    $('input').removeClass('is-invalid');
+                    $('.text-danger').text('');
+                    $('.btn-file').addClass('');
+                },
+                success: function(result) {
+                    $('#edit_modal').modal('hide');
+                    $('.form_edit').trigger("reset");
+                    toastr.success('@lang('done_successfully')', '', {
+                        rtl: isRtl
+                    });
+                    table.draw()
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    $.each(jqXHR.responseJSON.errors, function(key, val) {
+                        $("#" + key + "_error").text(val[0]);
+                        $('input[name=' + key + ']').addClass(
+                            'is-invalid');
+                        $('input[name=' + key + ']').addClass(
+                            'is-invalid');
+                    });
+
+                }
+            });
+        })
     </script>
 
 
