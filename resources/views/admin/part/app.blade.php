@@ -234,12 +234,10 @@
     <!-- BEGIN: Page JS-->
     {{-- <script src="{{asset('dashboard/app-assets/js/scripts/tables/table-datatables-basic.min.js')}}"></script> --}}
     <script src="{{ asset('dashboard/app-assets/js/scripts/extensions/ext-component-toastr.min.js') }}"></script>
-    s
     @yield('js')
 
     <script>
         var isRtl = '{{ LaravelLocalization::getCurrentLocaleDirection() }}' === 'rtl';
-
         var selectedIds = function() {
             return $("input[name='table_ids[]']:checked").map(function() {
                 return this.value;
@@ -248,275 +246,6 @@
         $('select').select2({
             dir: '{{ LaravelLocalization::getCurrentLocaleDirection() }}',
             placeholder: "@lang('select')",
-        });
-        $(document).ready(function() {
-            $(document).on('click', "#export_btn", function(e) {
-                e.preventDefault();
-                window.open(url + 'export?' + $('#search_form').serialize(), '_blank');
-            });
-
-            $(document).on('click', "#chart_btn", function(e) {
-                e.preventDefault();
-                window.open(url + 'chart?' + $('#search_form').serialize(), '_blank');
-            });
-
-            $("#advance_search_btn").click(function(e) {
-                e.preventDefault();
-                $('#advance_search_div').toggle(500);
-            });
-
-            $(document).on('change', "#select_all", function(e) {
-                var delete_btn = $('#delete_btn'),
-                    export_btn = $('#export_btn'),
-                    chart_btn = $('#chart_btn'),
-                    all_status_btn = $('.all_status_btn'),
-                    table_ids = $('.table_ids');
-                this.checked ? table_ids.each(function() {
-                    this.checked = true
-                }) : table_ids.each(function() {
-                    this.checked = false
-                })
-                delete_btn.attr('data-id', selectedIds().join());
-                export_btn.attr('data-id', selectedIds().join());
-                chart_btn.attr('data-id', selectedIds().join());
-                all_status_btn.attr('data-id', selectedIds().join());
-                if (selectedIds().join().length) {
-                    delete_btn.prop('disabled', '');
-                    all_status_btn.prop('disabled', '');
-                } else {
-                    delete_btn.prop('disabled', 'disabled');
-                    all_status_btn.prop('disabled', 'disabled');
-                }
-            });
-
-            $(document).on('change', ".table_ids", function(e) {
-                var delete_btn = $('#delete_btn'),
-                    select_all = $('#select_all'),
-                    all_status_btn = $('.all_status_btn');
-                if ($(".table_ids:checked").length === $(".table_ids").length) {
-                    select_all.prop("checked", true)
-                } else {
-                    select_all.prop("checked", false)
-                }
-                delete_btn.attr('data-id', selectedIds().join());
-                all_status_btn.attr('data-id', selectedIds().join());
-                console.log(selectedIds().join().length)
-                if (selectedIds().join().length) {
-                    delete_btn.prop('disabled', '');
-                    all_status_btn.prop('disabled', '');
-                } else {
-                    delete_btn.prop('disabled', 'disabled');
-                    all_status_btn.prop('disabled', 'disabled');
-                }
-            });
-
-            $('#search_btn').on('click', function(e) {
-                oTable.draw();
-                e.preventDefault();
-            });
-
-            $('#clear_btn').on('click', function(e) {
-                e.preventDefault();
-                $('.search_input').val("").trigger("change")
-                oTable.draw();
-            });
-
-            $(document).on("click", ".delete-btn", function(e) {
-                e.preventDefault();
-                var urls = url;
-                if (selectedIds().join().length) {
-                    urls += selectedIds().join();
-                } else {
-                    urls += $(this).data('id');
-                }
-                Swal.fire({
-                    title: '@lang('delete_confirmation')',
-                    text: '@lang('confirm_delete')',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: '@lang('yes')',
-                    cancelButtonText: '@lang('cancel')',
-                    customClass: {
-                        confirmButton: 'btn btn-primary',
-                        cancelButton: 'btn btn-outline-danger'
-                    },
-                    buttonsStyling: true
-                }).then(function(result) {
-                    if (result.value) {
-                        $.ajax({
-                            url: urls,
-                            method: 'DELETE',
-                            type: 'DELETE',
-                            data: {
-                                _token: '{{ csrf_token() }}'
-                            },
-                        }).done(function(data) {
-                            if (data.status) {
-                                toastr.success('@lang('deleted')', '', {
-                                    rtl: isRtl
-                                });
-                                oTable.draw();
-                                $('#select_all').prop('checked', false).trigger('change')
-                            } else {
-                                toastr.warning('@lang('not_deleted')', '', {
-                                    rtl: isRtl
-                                });
-                            }
-
-                        }).fail(function() {
-                            toastr.error('@lang('something_wrong')', '', {
-                                rtl: isRtl
-                            });
-                        });
-                    } else if (result.dismiss === Swal.DismissReason.cancel) {
-                        toastr.info('@lang('delete_canceled')', '', {
-                            rtl: isRtl
-                        })
-                    }
-                });
-            });
-            $(document).on("click", ".status_btn", function(e) {
-                e.preventDefault();
-                var ids = $(this).data('id');
-                var status = $(this).val();
-                var urls = url + 'update_status';
-                Swal.fire({
-                    title: '@lang('update_confirmation')',
-                    text: '@lang('confirm_update')',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: '@lang('yes')',
-                    cancelButtonText: '@lang('cancel')',
-                    customClass: {
-                        confirmButton: 'btn btn-primary',
-                        cancelButton: 'btn btn-outline-danger'
-                    },
-                    buttonsStyling: true
-                }).then(function(result) {
-                    if (result.value) {
-                        $.ajax({
-                            url: urls,
-                            method: 'PUT',
-                            type: 'PUT',
-                            data: {
-                                ids: ids,
-                                status: status,
-                                _token: '{{ csrf_token() }}'
-                            },
-                            success: function(data) {
-                                if (data.status) {
-                                    toastr.success('@lang('done_successfully')');
-                                    oTable.draw();
-                                } else {
-                                    toastr.error('@lang('something_wrong')');
-                                }
-                            }
-                        });
-                    } else if (result.dismiss === Swal.DismissReason.cancel) {
-                        toastr.info('@lang('update_canceled')', '', {
-                            rtl: isRtl
-                        })
-                    }
-                });
-            });
-
-            $('#create_modal,#edit_modal').on('hide.bs.modal', function(event) {
-                var form = $(this).find('form');
-                form.find('select').val('').trigger("change")
-                form[0].reset();
-                $('.submit_btn').removeAttr('disabled');
-                $('.fa-spinner.fa-spin').hide();
-                $(".is-invalid").removeClass("is-invalid");
-                $(".invalid-feedback").html("");
-            })
-
-            $(document).on('submit', '.ajax_form', function(e) {
-                // $('.submit_btn').prop('disabled', true);
-                e.preventDefault();
-                var form = $(this);
-                var url = $(this).attr('action');
-                var method = $(this).attr('method');
-                var reset = $(this).data('reset');
-                var Data = new FormData(this);
-                $('.submit_btn').attr('disabled', 'disabled');
-                $('.fa-spinner.fa-spin').show();
-                $.ajax({
-                    url: url,
-                    type: method,
-                    data: Data,
-                    contentType: false,
-                    processData: false,
-                    beforeSend: function() {
-                        $('.invalid-feedback').html('');
-                        $('.is-invalid ').removeClass('is-invalid');
-                        form.removeClass('was-validated');
-                    }
-                }).done(function(data) {
-                    if (data.status) {
-                        toastr.success('@lang('done_successfully')', '', {
-                            rtl: isRtl
-                        });
-                        if (reset === true) {
-                            console.log(isRtl)
-                            form[0].reset();
-                            $('.submit_btn').removeAttr('disabled');
-                            $('.fa-spinner.fa-spin').hide();
-                            $('.modal').modal('hide');
-                            oTable.draw();
-                        } else {
-                            $('.submit_btn').removeAttr('disabled');
-                            $('.fa-spinner.fa-spin').hide();
-                            $('.modal').modal('hide');
-                            oTable.draw();
-
-                            // var url = $('#cancel_btn').attr('href');
-                            // window.location.replace(url);
-                        }
-                    } else {
-                        if (data.message) {
-                            toastr.error(data.message, '', {
-                                rtl: isRtl
-                            });
-                        } else {
-                            toastr.error('@lang('something_wrong')', '', {
-                                rtl: isRtl
-                            });
-                        }
-                        $('.submit_btn').removeAttr('disabled');
-                        $('.fa-spinner.fa-spin').hide();
-                    }
-                }).fail(function(data) {
-                    if (data.status === 422) {
-                        var response = data.responseJSON;
-                        $.each(response.errors, function(key, value) {
-                            var str = (key.split("."));
-                            if (str[1] === '0') {
-                                key = str[0] + '[]';
-                            }
-                            $('[name="' + key + '"], [name="' + key + '[]"]').addClass(
-                                'is-invalid');
-                            $('[name="' + key + '"], [name="' + key + '[]"]').closest(
-                                '.form-group').find('.invalid-feedback').html(value[0]);
-                        });
-                    } else {
-                        toastr.error('@lang('something_wrong')', '', {
-                            rtl: isRtl
-                        });
-                    }
-                    $('.submit_btn').removeAttr('disabled');
-                    $('.fa-spinner.fa-spin').hide();
-
-                });
-            });
-
-
-
-            $('#datatable').on('draw', function() {
-                $("#select_all").prop("checked", false)
-                $('#delete_btn').prop('disabled', 'disabled');
-                $('.status_btn').prop('disabled', 'disabled');
-            });
-
         });
     </script>
     @yield('scripts')
@@ -536,11 +265,11 @@
 
 
     <script>
+
         $('.add-mode-form').on('submit', function(event) {
             event.preventDefault();
             var data = new FormData(this);
             let url = $(this).attr('action');
-
             var method = $(this).attr('method');
             $.ajax({
                 type: method,
@@ -549,11 +278,7 @@
                 processData: false,
                 url: url,
                 data: data,
-                beforeSend: function() {
-                    $('input').removeClass('is-invalid');
-                    $('.text-danger').text('');
-                    $('.btn-file').addClass('');
-                },
+                beforeSend: function() {},
                 success: function(result) {
                     $('#full-modal-stem').modal('hide');
                     $('.add_model_form').trigger("reset");
@@ -562,19 +287,29 @@
                     });
                     table.draw()
                 },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    $.each(jqXHR.responseJSON.errors, function(key, val) {
-                        $("#" + key + "_error").text(val[0]);
-                        $('input[name=' + key + ']').addClass('is-invalid');
-                    });
-                    $('input[name=image]').addClass('is-invalid');
-
+                error: function(data) {
+                    if (data.status === 422) {
+                        var response = data.responseJSON;
+                        $.each(response.errors, function(key, value) {
+                            var str = (key.split("."));
+                            if (str[1] === '0') {
+                                key = str[0] + '[]';
+                            }
+                            $('[name="' + key + '"], [name="' + key + '[]"]').addClass(
+                                'is-invalid');
+                            $('[name="' + key + '"], [name="' + key + '[]"]').closest(
+                                '.form-group').find('.invalid-feedback').html(value[0]);
+                        });
+                    } else {
+                        toastr.error('@lang('something_wrong')', '', {
+                            rtl: isRtl
+                        });
+                    }
                 }
             });
         });
-    </script>
 
-    <script>
+
         $(document).on("click", ".btn_delete", function(e) {
             var button = $(this)
             e.preventDefault();
@@ -594,9 +329,9 @@
                 if (result.value) {
 
                     var id = button.data('id')
-                    var url = window. location. href+'/'+id;
+                    var url = window.location.href + '/' + id;
                     alert(url)
-                    {{--url: "{{ route('engines.edit') }}" + '/' + id,--}}
+                    {{-- url: "{{ route('engines.edit') }}" + '/' + id, --}}
                     $.ajax({
                         url: url,
                         method: 'DELETE',
@@ -649,19 +384,34 @@
                     });
                     table.draw()
                 },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    $.each(jqXHR.responseJSON.errors, function(key, val) {
-                        $("#" + key + "_error").text(val[0]);
-                        $('input[name=' + key + ']').addClass(
-                            'is-invalid');
-                        $('input[name=' + key + ']').addClass(
-                            'is-invalid');
-                    });
-
+                error: function(data) {
+                    if (data.status === 422) {
+                        var response = data.responseJSON;
+                        $.each(response.errors, function(key, value) {
+                            var str = (key.split("."));
+                            if (str[1] === '0') {
+                                key = str[0] + '[]';
+                            }
+                            $('[name="' + key + '"], [name="' + key + '[]"]').addClass(
+                                'is-invalid');
+                            $('[name="' + key + '"], [name="' + key + '[]"]').closest(
+                                '.form-group').find('.invalid-feedback').html(value[0]);
+                        });
+                    } else {
+                        toastr.error('@lang('something_wrong')', '', {
+                            rtl: isRtl
+                        });
+                    }
                 }
             });
         })
+
+        $(document).on('click', '.button_modal', function(event) {
+            $('input').removeClass('is-invalid');
+            $('.invalid-feedback').text('');
+        });
     </script>
+
 
 
 </body>

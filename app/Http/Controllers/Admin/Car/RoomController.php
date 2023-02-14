@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\RoomCar;
 use App\Utils\ImageUpload;
 use Illuminate\Http\Request;
-use DataTables;
+use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\File;
 
 class RoomController extends Controller
@@ -19,14 +19,14 @@ class RoomController extends Controller
     {
 
         return view('admin.pages.room.rooms');
-
     }
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $rules = [];
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:45';
             $rules['city_' . $key] = 'required|string|max:45';
-                 }
+        }
 
         $rules['image'] = 'required|image';
         $this->validate($request, $rules);
@@ -34,11 +34,8 @@ class RoomController extends Controller
         return $this->sendResponse(null, 'تم الاضافة بنجاح');
     }
 
-
-
-
-
-    public function update(Request $request){
+    public function update(Request $request)
+    {
         $rules = [];
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:45';
@@ -55,12 +52,13 @@ class RoomController extends Controller
         $Room->delete();
         return $this->sendResponse(null, 'تم الحذف بنجاح');
     }
-    public function getData(){
+    public function getData()
+    {
         $data = RoomCar::query();
         return Datatables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function ($que) {
-             $data_attr = '';
+                $data_attr = '';
                 $data_attr .= 'data-id="' . $que->id . '" ';
                 $data_attr .= 'data-name="' . $que->name . '" ';
                 $data_attr .= 'data-image="' . $que->avatar->full_small_path . '" ';

@@ -26,7 +26,7 @@ class BrandController extends Controller
     public function store(Request $request)
     {
         $rules = [];
-        $rules['image'] = 'required';
+        $rules['image'] = 'required|image';
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
         }
@@ -60,7 +60,7 @@ class BrandController extends Controller
         $brands =   Brand::findOrFail($request->id);
         $brands->update($data);
         if ($request->hasFile('image')) {
-            ImageUpload::UploadImage($request->image, 'brands', null, null, $request->id);
+            ImageUpload::UploadImage($request->image, 'brands', null, null, $brands->id);
         }
         return $this->sendResponse(null, 'تم التعدييل بنجاح');
 

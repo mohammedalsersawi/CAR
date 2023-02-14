@@ -6,7 +6,7 @@ use App\Http\Controllers\Admin\ResponseTrait;
 use App\Http\Controllers\Controller;
 use App\Models\ColorCar;
 use Illuminate\Http\Request;
-use DataTables;
+use Yajra\DataTables\Facades\DataTables;
 
 class ColorController extends Controller
 {
@@ -14,7 +14,7 @@ class ColorController extends Controller
     use ResponseTrait;
     public function index(Request $request)
     {
-            return view('admin.pages.color.color');
+        return view('admin.pages.color.color');
     }
 
 
@@ -24,14 +24,17 @@ class ColorController extends Controller
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
         }
-        $rules['color']='required|string';
-        $this->validate($request, $rules);
-            ColorCar::create([
-                'name'=>['en' => $request->name_en, 'ar' => $request->name_ar],
-                'color'=>$request->color
-            ]);
-            return $this->sendResponse(null, 'تم الاضافة بنجاح');
+        $rules['color'] = 'required|string';
 
+        $this->validate($request, $rules);
+        $data = [];
+        foreach (locales() as $key => $language) {
+            $data['name'][$key] = $request->get('name_' . $key);
+        }
+        $data['color'] = $request->color;
+        $this->validate($request, $rules);
+        ColorCar::query()->create($data);
+        return $this->sendResponse(null, 'تم الاضافة بنجاح');
     }
 
 
@@ -41,14 +44,15 @@ class ColorController extends Controller
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
         }
-
         $this->validate($request, $rules);
-        $Color = ColorCar::find($request->id);
-        $Color->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
-        $Color->color=$request->color;
-        $Color->save();
+        $data = [];
+        foreach (locales() as $key => $language) {
+            $data['name'][$key] = $request->get('name_' . $key);
+        }
+        $data['color'] = $request->color;
+        $colorCar =   ColorCar::findOrFail($request->id);
+        $colorCar->update($data);
         return $this->sendResponse(null, 'تم التعدييل بنجاح');
-
     }
 
     public function destroy($id)
@@ -59,7 +63,8 @@ class ColorController extends Controller
     }
 
 
-    public function getData(){
+    public function getData()
+    {
         $modelCars = ColorCar::query();
         return Datatables::of($modelCars)
             ->addIndexColumn()
@@ -81,5 +86,4 @@ class ColorController extends Controller
             ->rawColumns(['action'])
             ->make(true);
     }
-
 }

@@ -36,7 +36,7 @@
 
                                         <div class="col-3" style="margin-top: 20px">
                                             <div class="form-group">
-                                                <button class="btn btn-outline-primary" type="button" data-toggle="modal"
+                                                <button class="btn btn-outline-primary button_modal" type="button" data-toggle="modal"
                                                     data-target="#full-modal-stem"><span><i
                                                             class="fa fa-plus"></i>@lang('add')</span>
                                                 </button>
@@ -68,7 +68,7 @@
 
     <!-- Modal -->
     <div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-         aria-hidden="true">
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -78,7 +78,7 @@
                     </button>
                 </div>
                 <form action="{{ route('model.update') }}" method="POST" id="form_edit" class=""
-                      enctype="multipart/form-data">
+                    enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="id" id="id" class="form-control" />
                     <div class="modal-body">
@@ -87,15 +87,16 @@
                                 <div class="form-group">
                                     <label for="name_{{ $key }}">@lang('name') @lang($value)</label>
                                     <input type="text" class="form-control"
-                                           placeholder="@lang('name') @lang($value)" name="name_{{ $key }}"
-                                           id="edit_name_{{ $key }}">
-                                    <small class="text-danger last_name_error" id="name_{{ $key }}_error"></small>
+                                        placeholder="@lang('name') @lang($value)" name="name_{{ $key }}"
+                                        id="edit_name_{{ $key }}">
+                                    <div class="invalid-feedback"></div>
                                 </div>
                             </div>
                         @endforeach
 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('close')</button>
+                            <button type="button" class="btn btn-secondary"
+                                data-dismiss="modal">@lang('close')</button>
                             <button class="btn btn-primary">@lang('save changes')</button>
                         </div>
                     </div>
@@ -116,7 +117,8 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('model.store') }}" method="POST" id="add_model_form" class="add-mode-form" class="add_model_form">
+                <form action="{{ route('model.store') }}" method="POST" id="add_model_form" class="add-mode-form"
+                    class="add_model_form">
                     @csrf
                     <input type="hidden" name="id" id="id" class="form-control" />
                     <div class="modal-body">
@@ -125,9 +127,9 @@
                                 <div class="form-group">
                                     <label for="name_{{ $key }}">@lang('name') @lang($value)</label>
                                     <input type="text" class="form-control"
-                                        placeholder="@lang('name') @lang($value)" name="name_{{ $key }}"
-                                        id="name_{{ $key }}">
-                                    <small class="text-danger last_name_error" id="name_{{ $key }}_error"></small>
+                                        placeholder="@lang('name') @lang($value)"
+                                        name="name_{{ $key }}" id="name_{{ $key }}">
+                                    <div class="invalid-feedback"></div>
                                 </div>
                             </div>
                         @endforeach
@@ -184,8 +186,12 @@
                     d.name = $('#s_name').val();
                 }
             },
-            columns: [
-                { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+            columns: [{
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    orderable: false,
+                    searchable: false
+                },
                 {
                     data: 'name_text',
                     name: 'name'
@@ -206,11 +212,13 @@
         $(document).ready(function() {
             $(document).on('click', '.btn_edit', function(event) {
                 event.preventDefault();
+                $('input').removeClass('is-invalid');
+                $('.invalid-feedback').text('');
                 var button = $(this)
                 var id = button.data('id')
                 $('#id').val(id);
                 @foreach (locales() as $key => $value)
-                $('#edit_name_{{ $key }}').val(button.data('name_{{ $key }}'))
+                    $('#edit_name_{{ $key }}').val(button.data('name_{{ $key }}'))
                 @endforeach
 
 

@@ -26,10 +26,12 @@ class ModelController extends Controller
             $rules['name_' . $key] = 'required|string|max:255';
         }
         $this->validate($request, $rules);
-            $ModelCar = new ModelCar();
-            $ModelCar->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
-            $ModelCar->save();
-            return $this->sendResponse(null, 'تم الاضافة بنجاح');
+        $data = [];
+        foreach (locales() as $key => $language) {
+            $data['name'][$key] = $request->get('name_' . $key);
+        }
+        ModelCar::query()->create($data);
+        return $this->sendResponse(null, 'تم الاضافة بنجاح');
 
     }
 
@@ -41,9 +43,13 @@ class ModelController extends Controller
             $rules['name_' . $key] = 'required|string|max:255';
         }
         $this->validate($request, $rules);
-        $ModelCar = ModelCar::find($request->id);
-        $ModelCar->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
-        $ModelCar->save();
+        $data = [];
+        foreach (locales() as $key => $language) {
+            $data['name'][$key] = $request->get('name_' . $key);
+        }
+        $data['color'] = $request->color;
+        $modelCar =   ModelCar::findOrFail($request->id);
+        $modelCar->update($data);
         return $this->sendResponse(null, 'تم التعدييل بنجاح');
 
     }

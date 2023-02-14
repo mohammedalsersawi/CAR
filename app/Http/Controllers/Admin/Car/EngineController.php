@@ -24,11 +24,13 @@ class EngineController extends Controller
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
         }
+        $data = [];
+        foreach (locales() as $key => $language) {
+            $data['name'][$key] = $request->get('name_' . $key);
+        }
         $this->validate($request, $rules);
-            Engine::create([
-                'name' => ['en' => $request->name_en, 'ar' => $request->name_ar]
-            ]);
-            return $this->sendResponse(null, 'تم الاضافة بنجاح');
+        Engine::query()->create($data);
+        return $this->sendResponse(null, 'تم الاضافة بنجاح');
 
     }
 
@@ -40,9 +42,12 @@ class EngineController extends Controller
             $rules['name_' . $key] = 'required|string|max:255';
         }
         $this->validate($request, $rules);
-        $engines = Engine::find($request->id);
-        $engines->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
-        $engines->save();
+        $data = [];
+        foreach (locales() as $key => $language) {
+            $data['name'][$key] = $request->get('name_' . $key);
+        }
+        $engines = Engine::findOrFail($request->id);
+        $engines->update($data);
         return $this->sendResponse(null, 'تم التعدييل بنجاح');
     }
 

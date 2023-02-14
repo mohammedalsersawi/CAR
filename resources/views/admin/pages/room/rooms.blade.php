@@ -43,15 +43,16 @@
 
                                         <div class="col-3" style="margin-top: 20px">
                                             <div class="form-group">
-                                                <button class="btn btn-outline-primary" type="button" data-toggle="modal"
-                                                        data-target="#full-modal-stem"><span><i class="fa fa-plus"></i>@lang('add')</span>
+                                                <button class="btn btn-outline-primary button_modal" type="button"
+                                                    data-toggle="modal" data-target="#full-modal-stem"><span><i
+                                                            class="fa fa-plus"></i>@lang('add')</span>
                                                 </button>
                                             </div>
                                         </div>
                                     </div>
                                 </form>
                             </div>
-                            <div class="table-responsive card-datatable">
+                            <div class="table-responsive card-datatable" style="padding: 20px">
                                 <table class="table" id="datatable">
                                     <thead>
                                         <tr>
@@ -77,7 +78,7 @@
 
     <!-- Modal -->
     <div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-         aria-hidden="true">
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -87,7 +88,7 @@
                     </button>
                 </div>
                 <form action="{{ route('room.update') }}" method="POST" id="form_edit" class=""
-                      enctype="multipart/form-data">
+                    enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="id" id="id" class="form-control" />
                     <div class="modal-body">
@@ -96,35 +97,34 @@
                                 <div class="form-group">
                                     <label for="name_{{ $key }}">@lang('name') @lang($value)</label>
                                     <input type="text" class="form-control"
-                                           placeholder="@lang('name') @lang($value)" name="name_{{ $key }}"
-                                           id="edit_name_{{ $key }}">
-                                    <small class="text-danger last_name_error" id="name_{{ $key }}_error"></small>
+                                        placeholder="@lang('name') @lang($value)" name="name_{{ $key }}"
+                                        id="edit_name_{{ $key }}">
+                                    <div class="invalid-feedback"></div>
                                 </div>
                             </div>
                         @endforeach
-                            @foreach(locales() as $key => $value)
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <label for="city_{{ $key }}">@lang('city') @lang($value)</label>
-                                        <input type="text" class="form-control"
-                                               placeholder="@lang('city') @lang($value)" name="city_{{ $key }}"
-                                               id="city_{{ $key }}">
-                                        <small class="text-danger last_city_error" id="city_{{ $key }}_error"></small>
-                                    </div>
+                        @foreach (locales() as $key => $value)
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="city_{{ $key }}">@lang('city') @lang($value)</label>
+                                    <input type="text" class="form-control"
+                                        placeholder="@lang('city') @lang($value)" name="city_{{ $key }}"
+                                        id="city_{{ $key }}">
+                                    <div class="invalid-feedback"></div>
                                 </div>
-                            @endforeach
-                        <div class="col-12">
-                            <div>
-                            <span class="btn btn-info btn-file ">
-                                <span class="fileinput-new"> @lang('select_image')</span>
-                                <span class="fileinput-exists"> @lang('select_image')</span>
-                                <input type="file" name="image"></span>
-                                <small class="text-danger last_name_error" id="image_error"></small>
                             </div>
-                            <div class="invalid-feedback"></div>
+                        @endforeach
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="image">@lang('image')</label>
+                                <input type="file" accept="image/*" class="form-control" placeholder="@lang('image')"
+                                    name="image" id="image">
+                                <div class="invalid-feedback"></div>
+                            </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('close')</button>
+                            <button type="button" class="btn btn-secondary"
+                                data-dismiss="modal">@lang('close')</button>
                             <button class="btn btn-primary">@lang('save changes')</button>
                         </div>
                     </div>
@@ -145,43 +145,41 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{route('room.store')}}" method="POST" id="add_model_form" class="add-mode-form" enctype="multipart/form-data">
+                <form action="{{ route('room.store') }}" method="POST" id="add_model_form" class="add-mode-form"
+                    enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" name="id" id="id" class="form-control" />
                     <div class="modal-body">
                         @foreach (locales() as $key => $value)
                             <div class="col-12">
                                 <div class="form-group">
                                     <label for="name_{{ $key }}">@lang('name') @lang($value)</label>
                                     <input type="text" class="form-control"
-                                        placeholder="@lang('name') @lang($value)" name="name_{{ $key }}"
-                                        id="name_{{ $key }}">
-                                    <small class="text-danger last_name_error" id="name_{{ $key }}_error"></small>
+                                        placeholder="@lang('name') @lang($value)"
+                                        name="name_{{ $key }}" id="name_{{ $key }}">
+                                        <div class="invalid-feedback"></div>
                                 </div>
                             </div>
-
                         @endforeach
-                        @foreach(locales() as $key => $value)
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <label for="city_{{ $key }}">@lang('city') @lang($value)</label>
-                                        <input type="text" class="form-control"
-                                               placeholder="@lang('city') @lang($value)" name="city_{{ $key }}"
-                                               id="city_{{ $key }}">
-                                        <small class="text-danger last_city_error" id="city_{{ $key }}_error"></small>
-                                    </div>
-                                </div>
-                            @endforeach
+                        @foreach (locales() as $key => $value)
                             <div class="col-12">
-                                <div>
-                            <span class="btn btn-info btn-file ">
-                                <span class="fileinput-new"> @lang('select_image')</span>
-                                <span class="fileinput-exists"> @lang('select_image')</span>
-                                <input type="file" name="image"></span>
-                                    <small class="text-danger last_name_error" id="image_error"></small>
+                                <div class="form-group">
+                                    <label for="city_{{ $key }}">@lang('city') @lang($value)</label>
+                                    <input type="text" class="form-control"
+                                        placeholder="@lang('city') @lang($value)"
+                                        name="city_{{ $key }}" id="city_{{ $key }}">
+                                        <div class="invalid-feedback"></div>
+
                                 </div>
+                            </div>
+                        @endforeach
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="image">@lang('image')</label>
+                                <input type="file" accept="image/*" class="form-control"
+                                    placeholder="@lang('image')" name="image" id="image">
                                 <div class="invalid-feedback"></div>
                             </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('close')</button>
@@ -197,38 +195,41 @@
 @section('scripts')
     <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/classic/ckeditor.js"></script>
     <script type="text/javascript">
-
-            var table = $('#datatable').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: "{{ route('room.getData') }}",
-                columns: [
-                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-                    {
-                        data: 'name.{{app()->currentLocale()}}',
-                        name: 'name'
+        var table = $('#datatable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('room.getData') }}",
+            columns: [{
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: 'name.{{ app()->currentLocale() }}',
+                    name: 'name'
+                },
+                {
+                    data: 'city.{{ app()->currentLocale() }}',
+                    name: 'city'
+                },
+                {
+                    "name": "image",
+                    "data": "image",
+                    "render": function(data, type, full, meta) {
+                        return "<img src=\"" + data + "\" height=\"50\"/>";
                     },
-                    {
-                        data: 'city.{{app()->currentLocale()}}',
-                        name: 'city'
-                    },
-                    {
-                        "name": "image",
-                        "data": "image",
-                        "render": function (data, type, full, meta) {
-                            return "<img src=\"" + data + "\" height=\"50\"/>";
-                        },
-                        "title": "Image",
-                        "orderable": true,
-                        "searchable": true
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false
-                    },
-                ]
+                    "title": "Image",
+                    "orderable": true,
+                    "searchable": true
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                },
+            ]
 
         });
     </script>
@@ -239,23 +240,22 @@
             }
         });
 
-
         $(document).ready(function() {
             $(document).on('click', '.btn_edit', function(event) {
                 event.preventDefault();
+                $('input').removeClass('is-invalid');
+                $('.invalid-feedback').text('');
                 var button = $(this)
                 var id = button.data('id')
                 $('#id').val(id);
                 @foreach (locales() as $key => $value)
-                $('#edit_name_{{ $key }}').val(button.data('name_{{ $key }}'))
+                    $('#edit_name_{{ $key }}').val(button.data('name_{{ $key }}'))
                 @endforeach
                 @foreach (locales() as $key => $value)
-                $('#city_{{ $key }}').val(button.data('city_{{ $key }}'))
+                    $('#city_{{ $key }}').val(button.data('city_{{ $key }}'))
                 @endforeach
 
             });
         });
     </script>
-
-
 @endsection

@@ -44,8 +44,9 @@
 
                                         <div class="col-3" style="margin-top: 20px">
                                             <div class="form-group">
-                                                <button class="btn btn-outline-primary" type="button" data-toggle="modal"
-                                                    data-target="#full-modal-stem"><span><i class="fa fa-plus"></i>@lang('add')</span>
+                                                <button class="btn btn-outline-primary button_modal" type="button"
+                                                    data-toggle="modal" data-target="#full-modal-stem"><span><i
+                                                            class="fa fa-plus"></i>@lang('add')</span>
                                                 </button>
 
                                             </div>
@@ -73,8 +74,77 @@
 
         </div>
     </div>
-    @include('admin.pages.engine.modal')
+    <!-- Modal -->
+    <div class="modal fade" id="full-modal-stem" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">@lang('add')</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ route('engines.store') }}" method="POST" id="add_model_form" class="add-mode-form">
+                    <div class="modal-body">
+                        @foreach (locales() as $key => $value)
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="name_{{ $key }}">@lang('name') @lang($value)</label>
+                                    <input type="text" class="form-control"
+                                        placeholder="@lang('name') @lang($value)" name="name_{{ $key }}"
+                                        id="name_{{ $key }}">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('close')</button>
+                        <button type="submit" class="btn btn-primary">@lang('add')</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ route('engines.update') }}" method="POST" id="form_edit" class=""
+                    enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="id" id="id" class="form-control" />
+                    <div class="modal-body">
+                        @foreach (locales() as $key => $value)
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="name_{{ $key }}">@lang('name') @lang($value)</label>
+                                    <input type="text" class="form-control"
+                                        placeholder="@lang('name') @lang($value)"
+                                        name="name_{{ $key }}" id="edit_name_{{ $key }}">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        @endforeach
 
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                data-dismiss="modal">@lang('close')</button>
+                            <button class="btn btn-primary">@lang('save changes')</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <!-- Modal -->
 @endsection
 @section('js')
@@ -122,8 +192,12 @@
                     console.log(d);
                 }
             },
-            columns: [
-                { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+            columns: [{
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    orderable: false,
+                    searchable: false
+                },
                 {
                     data: 'name_text',
                     name: 'name'
@@ -144,11 +218,13 @@
         $(document).ready(function() {
             $(document).on('click', '.edit_btn', function(event) {
                 event.preventDefault();
+                $('input').removeClass('is-invalid');
+                $('.invalid-feedback').text('');
                 var button = $(this)
                 var id = button.data('id');
                 $('#id').val(id);
                 @foreach (locales() as $key => $value)
-                $('#edit_name_{{ $key }}').val(button.data('name_{{ $key }}'))
+                    $('#edit_name_{{ $key }}').val(button.data('name_{{ $key }}'))
                 @endforeach
 
             });

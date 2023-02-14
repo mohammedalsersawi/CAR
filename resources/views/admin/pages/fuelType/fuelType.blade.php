@@ -40,12 +40,11 @@
                             <div class="card-body">
                                 <form id="search_form">
                                     <div class="row">
-
                                         <div class="col-3" style="margin-top: 20px">
                                             <div class="form-group">
-                                                <button class="btn btn-outline-primary" type="button"
-                                                        data-toggle="modal"
-                                                        data-target="#full-modal-stem"><span><i class="fa fa-plus"></i>@lang('add')</span>
+                                                <button class="btn btn-outline-primary button_modal" type="button" data-toggle="modal"
+                                                    data-target="#full-modal-stem"><span><i
+                                                            class="fa fa-plus"></i>@lang('add')</span>
                                                 </button>
 
                                             </div>
@@ -56,11 +55,11 @@
                             <div class="table-responsive card-datatable" style="padding: 20px">
                                 <table class="table" id="datatable">
                                     <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>@lang('name')</th>
-                                        <th style="width: 225px;">@lang('actions')</th>
-                                    </tr>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>@lang('name')</th>
+                                            <th style="width: 225px;">@lang('actions')</th>
+                                        </tr>
                                     </thead>
                                     <tbody></tbody>
 
@@ -77,7 +76,7 @@
     <!-- Modal -->
     <!-- Modal -->
     <div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-         aria-hidden="true">
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -87,7 +86,7 @@
                     </button>
                 </div>
                 <form action="{{ route('fuelType.update') }}" method="POST" id="form_edit" class=""
-                      enctype="multipart/form-data">
+                    enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="id" id="id" class="form-control" />
                     <div class="modal-body">
@@ -96,15 +95,16 @@
                                 <div class="form-group">
                                     <label for="name_{{ $key }}">@lang('name') @lang($value)</label>
                                     <input type="text" class="form-control"
-                                           placeholder="@lang('name') @lang($value)" name="name_{{ $key }}"
-                                           id="edit_name_{{ $key }}">
-                                    <small class="text-danger last_name_error" id="name_{{ $key }}_error"></small>
+                                        placeholder="@lang('name') @lang($value)" name="name_{{ $key }}"
+                                        id="edit_name_{{ $key }}">
+                                    <div class="invalid-feedback"></div>
                                 </div>
                             </div>
                         @endforeach
 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('close')</button>
+                            <button type="button" class="btn btn-secondary"
+                                data-dismiss="modal">@lang('close')</button>
                             <button class="btn btn-primary">@lang('save changes')</button>
                         </div>
                     </div>
@@ -118,7 +118,7 @@
 
     <!-- Modal -->
     <div class="modal fade" id="full-modal-stem" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-         aria-hidden="true">
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -136,9 +136,9 @@
                                 <div class="form-group">
                                     <label for="name_{{ $key }}">@lang('name') @lang($value)</label>
                                     <input type="text" class="form-control"
-                                           placeholder="@lang('name') @lang($value)" name="name_{{ $key }}"
-                                           id="name_{{ $key }}">
-                                    <small class="text-danger last_name_error" id="name_{{ $key }}_error"></small>
+                                        placeholder="@lang('name') @lang($value)"
+                                        name="name_{{ $key }}" id="name_{{ $key }}">
+                                    <div class="invalid-feedback"></div>
                                 </div>
                             </div>
                         @endforeach
@@ -151,8 +151,6 @@
             </div>
         </div>
     </div>
-
-
 @endsection
 @section('js')
 @endsection
@@ -170,20 +168,20 @@
             serverSide: true,
             "oLanguage": {
                 @if (app()->isLocale('ar'))
-                "sEmptyTable": "ليست هناك بيانات متاحة في الجدول",
-                "sLoadingRecords": "جارٍ التحميل...",
-                "sProcessing": "جارٍ التحميل...",
-                "sLengthMenu": "أظهر _MENU_ مدخلات",
-                "sZeroRecords": "لم يعثر على أية سجلات",
-                "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
-                "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
-                "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
-                "sInfoPostFix": "",
-                "sSearch": "ابحث:",
-                "oAria": {
-                    "sSortAscending": ": تفعيل لترتيب العمود تصاعدياً",
-                    "sSortDescending": ": تفعيل لترتيب العمود تنازلياً"
-                },
+                    "sEmptyTable": "ليست هناك بيانات متاحة في الجدول",
+                    "sLoadingRecords": "جارٍ التحميل...",
+                    "sProcessing": "جارٍ التحميل...",
+                    "sLengthMenu": "أظهر _MENU_ مدخلات",
+                    "sZeroRecords": "لم يعثر على أية سجلات",
+                    "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
+                    "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
+                    "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
+                    "sInfoPostFix": "",
+                    "sSearch": "ابحث:",
+                    "oAria": {
+                        "sSortAscending": ": تفعيل لترتيب العمود تصاعدياً",
+                        "sSortDescending": ": تفعيل لترتيب العمود تنازلياً"
+                    },
                 @endif // "oPaginate": {"sPrevious": '<-', "sNext": '->'},
                 "oPaginate": {
                     // remove previous & next text from pagination
@@ -193,15 +191,15 @@
             },
             ajax: {
                 url: '{{ url(app()->getLocale() . '/fuel/type/getData') }}',
-                data: function (d) {
+                data: function(d) {
                     d.name = $('#s_name').val();
                     console.log(d);
                 }
             },
             columns: [{
-                data: 'id',
-                name: 'id',
-            },
+                    data: 'id',
+                    name: 'id',
+                },
                 {
                     data: 'name_text',
                     name: 'name'
@@ -221,11 +219,13 @@
         $(document).ready(function() {
             $(document).on('click', '.edit_btn', function(event) {
                 event.preventDefault();
+                $('input').removeClass('is-invalid');
+                $('.invalid-feedback').text('');
                 var button = $(this)
                 var id = button.data('id');
                 $('#id').val(id);
                 @foreach (locales() as $key => $value)
-                $('#edit_name_{{ $key }}').val(button.data('name_{{ $key }}'))
+                    $('#edit_name_{{ $key }}').val(button.data('name_{{ $key }}'))
                 @endforeach
 
             });

@@ -13,44 +13,49 @@ use Spatie\Translatable\HasTranslations;
 class RoomCar extends Model
 {
     use HasFactory, HasTranslations;
-    public $translatable = ['name','city'];
-    protected $guarded=[];
+    public $translatable = ['name', 'city'];
+    protected $guarded = [];
     public function avatar()
     {
-        return $this->belongsTo(Upload::class, 'id','relation_id')->where('file_type','rooms');
+        return $this->belongsTo(Upload::class, 'id', 'relation_id')->where('file_type', 'rooms');
     }
-    public static function createWithRooms(Request $request){
+    public static function createWithRooms(Request $request)
+    {
         DB::beginTransaction();
         try {
-            $room= RoomCar::create([
-                'name' => ['en' => $request->name_en, 'ar' => $request->name_ar],
-                'city' => ['en' => $request->city_en, 'ar' => $request->city_ar],
-            ]);
-            ImageUpload::UploadImage($request->image, 'rooms' ,$room->id, null ,null);
+
+            $data = [];
+            foreach (locales() as $key => $language) {
+                $data['name'][$key] = $request->get('name_' . $key);
+                $data['city'][$key] = $request->get('city_' . $key);
+            }
+            $room =  RoomCar::query()->create($data);
+            ImageUpload::UploadImage($request->image, 'rooms', $room->id, null, null);
             DB::commit();
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
         }
-
     }
-    public static function updateWithRooms(Request $request){
+    public static function updateWithRooms(Request $request)
+    {
         DB::beginTransaction();
         try {
-            $room=RoomCar::findOrFail($request->id);
-            $room->update([
-                'name' => ['en' => $request->name_en, 'ar' => $request->name_ar],
-                'city' => ['en' => $request->city_en, 'ar' => $request->city_ar],
-            ]);
-            if($request->hasFile('image')){
-                ImageUpload::UploadImage($request->image, 'rooms' ,null, null ,$room->id);
+            $data = [];
+            foreach (locales() as $key => $language) {
+                $data['name'][$key] = $request->get('name_' . $key);
+                $data['city'][$key] = $request->get('city_' . $key);
+            }
+            $room = RoomCar::findOrFail($request->id);
+            $room->update($data);
+            if ($request->hasFile('image')) {
+                ImageUpload::UploadImage($request->image, 'rooms', null, null, $room->id);
             }
             DB::commit();
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
         }
-
     }
 
 
@@ -60,9 +65,5 @@ class RoomCar extends Model
             File::delete(public_path('uploads/' . $room->avatar->full_small_path));
             $room->avatar()->delete();
         });
-
     }
-
-
-
 }

@@ -24,11 +24,13 @@ class FuelTypeController extends Controller
             $rules['name_' . $key] = 'required|string|max:255';
         }
         $this->validate($request, $rules);
-            $fuel_type = new FuelType();
-            $fuel_type->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
-            $fuel_type->save();
-            return $this->sendResponse(null, 'تم الاضافة بنجاح');
+        $data = [];
+        foreach (locales() as $key => $language) {
+            $data['name'][$key] = $request->get('name_' . $key);
         }
+        FuelType::query()->create($data);
+        return $this->sendResponse(null, 'تم الاضافة بنجاح');
+    }
 
 
 
@@ -39,9 +41,13 @@ class FuelTypeController extends Controller
             $rules['name_' . $key] = 'required|string|max:255';
         }
         $this->validate($request, $rules);
-        $fuel_type = FuelType::find($request->id);
-        $fuel_type->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
-        $fuel_type->save();
+        $data = [];
+        foreach (locales() as $key => $language) {
+            $data['name'][$key] = $request->get('name_' . $key);
+        }
+        $data['color'] = $request->color;
+        $fuelType =   FuelType::findOrFail($request->id);
+        $fuelType->update($data);
         return $this->sendResponse(null, 'تم التعدييل بنجاح');
     }
 
