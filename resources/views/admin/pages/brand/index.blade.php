@@ -1,6 +1,6 @@
 @extends('admin.part.app')
 @section('title')
-    @lang('pages')
+    @lang('Brand Cars')
 @endsection
 @section('styles')
 @endsection
@@ -10,7 +10,7 @@
             <div class="content-header-left col-md-9 col-12 mb-2">
                 <div class="row breadcrumbs-top">
                     <div class="col-12">
-                        <h2 class="content-header-title float-left mb-0">brands</h2>
+                        <h2 class="content-header-title float-left mb-0">@lang('Brand Cars')</h2>
                         <div class="breadcrumb-wrapper">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ url('/admin') }}">@lang('home')</a>
@@ -58,9 +58,9 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>image</th>
-                                            <th>Name</th>
-                                            <th style="width: 225px;">Action</th>
+                                            <th>@lang('image')</th>
+                                            <th>@lang('name')</th>
+                                            <th style="width: 225px;">@lang('actions')</th>
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -118,10 +118,8 @@
                     console.log(d);
                 }
             },
-            columns: [{
-                    data: 'id',
-                    name: 'id',
-                },
+            columns: [
+                { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                 {
                     "data": 'image',
                     "name": 'image',

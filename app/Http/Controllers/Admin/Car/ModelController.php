@@ -61,6 +61,7 @@ class ModelController extends Controller
     {
         $modelCars = ModelCar::query();
         return Datatables::of($modelCars)
+            ->addIndexColumn()
             ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-id="' . $que->id . '" ';

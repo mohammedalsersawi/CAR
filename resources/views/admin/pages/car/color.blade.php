@@ -1,6 +1,6 @@
 @extends('admin.part.app')
 @section('title')
-    @lang('pages')
+    @lang('Color Cars')
 @endsection
 @section('styles')
 @endsection
@@ -10,7 +10,7 @@
             <div class="content-header-left col-md-9 col-12 mb-2">
                 <div class="row breadcrumbs-top">
                     <div class="col-12">
-                        <h2 class="content-header-title float-left mb-0">engines</h2>
+                        <h2 class="content-header-title float-left mb-0"> @lang('Color Cars')</h2>
                         <div class="breadcrumb-wrapper">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ url('/admin') }}">@lang('home')</a>
@@ -45,7 +45,7 @@
                                         <div class="col-3" style="margin-top: 20px">
                                             <div class="form-group">
                                                 <button class="btn btn-outline-primary" type="button" data-toggle="modal"
-                                                    data-target="#create_modal"><span><i class="fa fa-plus"></i>اضافة</span>
+                                                    data-target="#create_modal"><span><i class="fa fa-plus"></i>@lang('add')</span>
                                                 </button>
 
                                             </div>
@@ -57,10 +57,10 @@
                                 <table class="table" id="datatable">
                                     <thead>
                                         <tr>
-                                            <th>id</th>
-                                            <th>Name</th>
-                                            <th>Color</th>
-                                            <th style="width: 225px;">Action</th>
+                                            <th>#</th>
+                                            <th>@lang('colors')</th>
+                                            <th>@lang('name')</th>
+                                            <th style="width: 225px;">@lang('actions')</th>
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -113,8 +113,8 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('close')</button>
+                        <button class="btn btn-primary">@lang('save changes')</button>
                     </div>
                 </form>
             </div>
@@ -132,10 +132,8 @@
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('color.index') }}",
-                columns: [{
-                    data: 'id',
-                    name: 'id'
-                },
+                columns: [
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                     {
                         data: 'name.{{app()->currentLocale()}}',
                         name: 'name'

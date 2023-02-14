@@ -1,6 +1,6 @@
 @extends('admin.part.app')
 @section('title')
-    @lang('pages')
+    @lang('Fuel Type Cars')
 @endsection
 @section('styles')
 @endsection
@@ -10,7 +10,7 @@
             <div class="content-header-left col-md-9 col-12 mb-2">
                 <div class="row breadcrumbs-top">
                     <div class="col-12">
-                        <h2 class="content-header-title float-left mb-0">نوع الوقود</h2>
+                        <h2 class="content-header-title float-left mb-0"> @lang('Fuel Type Cars')</h2>
                         <div class="breadcrumb-wrapper">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ url('/admin') }}">@lang('home')</a>
@@ -44,7 +44,7 @@
                                         <div class="col-3" style="margin-top: 20px">
                                             <div class="form-group">
                                                 <button class="btn btn-outline-primary" type="button" data-toggle="modal"
-                                                    data-target="#create_modal"><span><i class="fa fa-plus"></i>اضافة</span>
+                                                    data-target="#create_modal"><span><i class="fa fa-plus"></i>@lang('add')</span>
                                                 </button>
 
                                             </div>
@@ -56,9 +56,9 @@
                                 <table class="table" id="datatable">
                                     <thead>
                                         <tr>
-                                            <th>id</th>
-                                            <th>Name</th>
-                                            <th style="width: 225px;">Action</th>
+                                            <th>#</th>
+                                            <th>@lang('name')</th>
+                                            <th style="width: 225px;">@lang('actions')</th>
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -79,7 +79,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">@lang('add')</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -101,8 +101,8 @@
                         @endforeach
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('close')</button>
+                        <button class="btn btn-primary">@lang('save changes')</button>
                     </div>
                 </form>
             </div>
