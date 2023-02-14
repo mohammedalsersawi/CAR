@@ -91,7 +91,7 @@ class BrandController extends Controller
                 $delete_route = "{{route('brand.delete',$que->id)}}";
                 $string .= '<button class="edit_btn btn btn-sm btn-outline-primary btn_edit" data-toggle="modal"
                     data-target="#edit_modal" ' . $data_attr . '>' . __('edit') . '</button>';
-                $string .= ' <button type="button"   data-route="http://127.0.0.1:8000/en/brand/'.$que->id.'" class="btn btn-sm btn-outline-danger btn_delete" data-id="' . $que->id .
+                $string .= ' <button type="button"  class="btn btn-sm btn-outline-danger btn_delete" data-id="' . $que->id .
                     '">' . __('delete') . '  </button>';
                 return $string;
             })

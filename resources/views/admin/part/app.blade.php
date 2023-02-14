@@ -159,7 +159,7 @@
                     </a>
                 </li>
                 <li class="nav-item ">
-                    <a class="d-flex align-items-center" href="{{ route('fuel_type') }}">
+                    <a class="d-flex align-items-center" href="{{ route('fuelType') }}">
                         <i data-feather="file-text"></i><span
                             class="menu-title text-truncate">@lang('Fuel Type Cars')</span>
                     </a>
@@ -173,15 +173,11 @@
                 <li class="nav-item ">
                     <a class="d-flex align-items-center" href="{{ route('room.index') }}">
                         <i data-feather="file-text"></i><span
-                            class="menu-title text-truncate">@lang('Room')</span>
-                        <i data-feather="file-text"></i><span
                             class="menu-title text-truncate">@lang('Room Cars')</span>
                     </a>
                 </li>
                 <li class="nav-item ">
                     <a class="d-flex align-items-center" href="{{ route('color.index') }}">
-                        <i data-feather="file-text"></i><span
-                            class="menu-title text-truncate">@lang('Color')</span>
                         <i data-feather="file-text"></i><span
                             class="menu-title text-truncate">@lang('Color Cars')</span>
                     </a>
@@ -534,11 +530,17 @@
             }
         })
     </script>
+
+
+
+
+
     <script>
         $('.add-mode-form').on('submit', function(event) {
             event.preventDefault();
             var data = new FormData(this);
             let url = $(this).attr('action');
+
             var method = $(this).attr('method');
             $.ajax({
                 type: method,
@@ -574,6 +576,7 @@
 
     <script>
         $(document).on("click", ".btn_delete", function(e) {
+            var button = $(this)
             e.preventDefault();
             Swal.fire({
                 title: '@lang('delete_confirmation')',
@@ -589,8 +592,11 @@
                 buttonsStyling: true
             }).then(function(result) {
                 if (result.value) {
-                    var url = $('.btn_delete').data('route');
-                    console.log(url);
+
+                    var id = button.data('id')
+                    var url = window. location. href+'/'+id;
+                    alert(url)
+                    {{--url: "{{ route('engines.edit') }}" + '/' + id,--}}
                     $.ajax({
                         url: url,
                         method: 'DELETE',

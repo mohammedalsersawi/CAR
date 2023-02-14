@@ -15,31 +15,10 @@ class RoomController extends Controller
     use ResponseTrait;
 
 
-    public function index(Request $request)
+    public function index()
     {
-        if ($request->ajax()) {
-            $data = RoomCar::query();
-            return Datatables::of($data)
-                ->addIndexColumn()
-                ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0)" class="btn btn-success btn_edit btn-sm" data-id="' . $row->id . '"
-                                                    data-toggle="tooltip" title="تعديل">
-                                                    <span class="fa fa-edit">تعديل</span>
-                             </a>
-                             <a href="javascript:void(0)" class="btn btn-danger btn_delete  btn-sm " data-id="' . $row->id . '"
-                                                    data-toggle="tooltip" title="حذف">
-                                                    <span class="fa fa fa-times">حذف</span>
-                             </a>';
-                    return $btn;
-                })
-                ->addColumn('image', function ($row) {
-                    return 'http://127.0.0.1:8000/uploads/' . $row->avatar->full_small_path;
-                })
-                ->rawColumns(['image'])
-                ->rawColumns(['action'])
-                ->make(true);
-        }
-        return view('admin.pages.car.rooms');
+
+        return view('admin.pages.room.rooms');
 
     }
     public function store(Request $request){
@@ -48,12 +27,7 @@ class RoomController extends Controller
             $rules['name_' . $key] = 'required|string|max:45';
             $rules['city_' . $key] = 'required|string|max:45';
                  }
-        if ($request->id){
-            $rules['image'] = 'nullable';
-            $this->validate($request, $rules);
-            RoomCar::updateWithRooms($request);
-            return $this->sendResponse(null, 'تم التعديل بنجاح ');
-        }
+
         $rules['image'] = 'required|image';
         $this->validate($request, $rules);
         RoomCar::createWithRooms($request);
@@ -64,14 +38,51 @@ class RoomController extends Controller
 
 
 
-    public function edit($id){
-        $brands = RoomCar::with('avatar')->find($id);
-        return $this->sendResponse($brands, null);
+    public function update(Request $request){
+        $rules = [];
+        foreach (locales() as $key => $language) {
+            $rules['name_' . $key] = 'required|string|max:45';
+            $rules['city_' . $key] = 'required|string|max:45';
+        }
+        $rules['image'] = 'nullable|image';
+        $this->validate($request, $rules);
+        RoomCar::updateWithRooms($request);
+        return $this->sendResponse(null, 'تم التعديل بنجاح ');
     }
     public function destroy($id)
     {
         $Room = RoomCar::find($id);
         $Room->delete();
         return $this->sendResponse(null, 'تم الحذف بنجاح');
+    }
+    public function getData(){
+        $data = RoomCar::query();
+        return Datatables::of($data)
+            ->addIndexColumn()
+            ->addColumn('action', function ($que) {
+             $data_attr = '';
+                $data_attr .= 'data-id="' . $que->id . '" ';
+                $data_attr .= 'data-name="' . $que->name . '" ';
+                $data_attr .= 'data-image="' . $que->avatar->full_small_path . '" ';
+                foreach (locales() as $key => $value) {
+                    $data_attr .= 'data-name_' . $key . '="' . $que->getTranslation('name', $key) . '" ';
+                }
+                foreach (locales() as $key => $value) {
+                    $data_attr .= 'data-city_' . $key . '="' . $que->getTranslation('city', $key) . '" ';
+                }
+                $string = '';
+                $delete_route = "{{route('brand.delete',$que->id)}}";
+                $string .= '<button class="edit_btn btn btn-sm btn-outline-primary btn_edit" data-toggle="modal"
+                    data-target="#edit_modal" ' . $data_attr . '>' . __('edit') . '</button>';
+                $string .= ' <button type="button"  class="btn btn-sm btn-outline-danger btn_delete" data-id="' . $que->id .
+                    '">' . __('delete') . '  </button>';
+                return $string;
+            })
+            ->addColumn('image', function ($row) {
+                return 'http://127.0.0.1:8000/uploads/' . $row->avatar->full_small_path;
+            })
+            ->rawColumns(['image'])
+            ->rawColumns(['action'])
+            ->make(true);
     }
 }

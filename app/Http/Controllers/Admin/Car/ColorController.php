@@ -14,52 +14,7 @@ class ColorController extends Controller
     use ResponseTrait;
     public function index(Request $request)
     {
-        if ($request->ajax()) {
-
-
-            $modelCars = ModelCar::query();
-            return Datatables::of($modelCars)
-                ->addIndexColumn()
-                ->addColumn('action', function ($que) {
-                    $data_attr = '';
-                    $data_attr .= 'data-id="' . $que->id . '" ';
-                    $data_attr .= 'data-name="' . $que->name . '" ';
-                    foreach (locales() as $key => $value) {
-                        $data_attr .= 'data-name_' . $key . '="' . $que->getTranslation('name', $key) . '" ';
-                    }
-                    $string = '';
-                    $string .= '<button class="edit_btn btn btn-sm btn-outline-primary btn_edit" data-toggle="modal"
-                    data-target="#edit_modal" ' . $data_attr . '>' . __('edit') . '</button>';
-                    $string .= ' <button type="button" class="btn btn-sm btn-outline-danger btn_delete" data-id="' . $que->id .
-                        '">' . __('delete') . '</button>';
-                    return $string;
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-
-
-
-
-            $data = ColorCar::query();
-            return Datatables::of($data)
-                ->addIndexColumn()
-                ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0)" class="btn btn-success btn_edit btn-sm" data-id="' . $row->id . '"
-                                                    data-toggle="tooltip" title="تعديل">
-                                                    <span class="fa fa-edit">'.__('edit').'</span>
-                             </a>
-                             <a href="javascript:void(0)" class="btn btn-danger btn_delete  btn-sm " data-id="' . $row->id . '"
-                                                    data-toggle="tooltip" title="حذف">
-                                                    <span class="fa fa fa-times">'.__('delete').'</span>
-                             </a>';
-                    return $btn;
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-        }
-
-
-        return view('admin.pages.car.color');
+            return view('admin.pages.color.color');
     }
 
 
@@ -69,28 +24,30 @@ class ColorController extends Controller
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
         }
+        $rules['color']='required|string';
         $this->validate($request, $rules);
-
-        if (!$request->filled('id')) {
             ColorCar::create([
                 'name'=>['en' => $request->name_en, 'ar' => $request->name_ar],
                 'color'=>$request->color
             ]);
             return $this->sendResponse(null, 'تم الاضافة بنجاح');
-        } else {
-            $Color = ColorCar::find($request->id);
-            $Color->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
-            $Color->color=$request->color;
-            $Color->save();
-            return $this->sendResponse(null, 'تم التعدييل بنجاح');
-        }
+
     }
 
 
-    public function edit($id)
+    public function update(Request $request)
     {
-        $ColorCar = ColorCar::find($id);
-        return $this->sendResponse($ColorCar, null);
+        $rules = [];
+        foreach (locales() as $key => $language) {
+            $rules['name_' . $key] = 'required|string|max:255';
+        }
+
+        $this->validate($request, $rules);
+        $Color = ColorCar::find($request->id);
+        $Color->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
+        $Color->color=$request->color;
+        $Color->save();
+        return $this->sendResponse(null, 'تم التعدييل بنجاح');
 
     }
 
@@ -99,6 +56,30 @@ class ColorController extends Controller
         $Color = ColorCar::find($id);
         $Color->delete();
         return $this->sendResponse(null, 'تم الحذف بنجاح');
+    }
+
+
+    public function getData(){
+        $modelCars = ColorCar::query();
+        return Datatables::of($modelCars)
+            ->addIndexColumn()
+            ->addColumn('action', function ($que) {
+                $data_attr = '';
+                $data_attr .= 'data-id="' . $que->id . '" ';
+                $data_attr .= 'data-color="' . $que->color . '" ';
+                $data_attr .= 'data-name="' . $que->name . '" ';
+                foreach (locales() as $key => $value) {
+                    $data_attr .= 'data-name_' . $key . '="' . $que->getTranslation('name', $key) . '" ';
+                }
+                $string = '';
+                $string .= '<button class="edit_btn btn btn-sm btn-outline-primary btn_edit" data-toggle="modal"
+                    data-target="#edit_modal" ' . $data_attr . '>' . __('edit') . '</button>';
+                $string .= ' <button type="button" class="btn btn-sm btn-outline-danger btn_delete" data-id="' . $que->id .
+                    '">' . __('delete') . '</button>';
+                return $string;
+            })
+            ->rawColumns(['action'])
+            ->make(true);
     }
 
 }

@@ -15,7 +15,7 @@ class EngineController extends Controller
     public function index(Request $request)
     {
 
-        return view('admin.pages.car.engines');
+        return view('admin.pages.engine.engines');
     }
 
     public function store(Request $request)
@@ -25,25 +25,25 @@ class EngineController extends Controller
             $rules['name_' . $key] = 'required|string|max:255';
         }
         $this->validate($request, $rules);
-
-        if (!$request->filled('id')) {
             Engine::create([
                 'name' => ['en' => $request->name_en, 'ar' => $request->name_ar]
             ]);
             return $this->sendResponse(null, 'تم الاضافة بنجاح');
-        } else {
-            $engines = Engine::find($request->id);
-            $engines->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
-            $engines->save();
-            return $this->sendResponse(null, 'تم التعدييل بنجاح');
-        }
+
     }
 
 
-    public function edit($id)
+    public function update(Request $request)
     {
-        $engines = Engine::find($id);
-        return $this->sendResponse($engines, null);
+        $rules = [];
+        foreach (locales() as $key => $language) {
+            $rules['name_' . $key] = 'required|string|max:255';
+        }
+        $this->validate($request, $rules);
+        $engines = Engine::find($request->id);
+        $engines->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
+        $engines->save();
+        return $this->sendResponse(null, 'تم التعدييل بنجاح');
     }
 
     public function destroy($id)

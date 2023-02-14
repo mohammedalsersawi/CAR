@@ -14,9 +14,9 @@ class ModelController extends Controller
 {
     use ResponseTrait;
 
-    public function index(Request $request)
+    public function index()
     {
-        return view('admin.pages.car.mode-car');
+        return view('admin.pages.model.mode-car');
     }
 
     public function store(Request $request)
@@ -26,26 +26,25 @@ class ModelController extends Controller
             $rules['name_' . $key] = 'required|string|max:255';
         }
         $this->validate($request, $rules);
-
-        if (!$request->filled('id')) {
             $ModelCar = new ModelCar();
             $ModelCar->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
             $ModelCar->save();
             return $this->sendResponse(null, 'تم الاضافة بنجاح');
-        } else {
-            $ModelCar = ModelCar::find($request->id);
-            $ModelCar->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
-            $ModelCar->save();
-            return $this->sendResponse(null, 'تم التعدييل بنجاح');
-        }
+
     }
 
 
-    public function edit($id)
+    public function update(Request $request)
     {
-        $ModelCar = ModelCar::find($id);
-        return response()->json(['status' => true, 'data' => $ModelCar]);
-        return $this->sendResponse($ModelCar, null);
+        $rules = [];
+        foreach (locales() as $key => $language) {
+            $rules['name_' . $key] = 'required|string|max:255';
+        }
+        $this->validate($request, $rules);
+        $ModelCar = ModelCar::find($request->id);
+        $ModelCar->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
+        $ModelCar->save();
+        return $this->sendResponse(null, 'تم التعدييل بنجاح');
 
     }
 
@@ -57,7 +56,7 @@ class ModelController extends Controller
     }
 
 
-    public function getData(Request $request)
+    public function getData()
     {
         $modelCars = ModelCar::query();
         return Datatables::of($modelCars)

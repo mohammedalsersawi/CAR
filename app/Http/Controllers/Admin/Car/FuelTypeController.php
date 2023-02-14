@@ -12,9 +12,9 @@ class FuelTypeController extends Controller
 {
     use ResponseTrait;
 
-    public function index(Request $request)
+    public function index()
     {
-        return view('admin.pages.car.fuel-type');
+        return view('admin.pages.fuelType.fuelType');
     }
 
     public function store(Request $request)
@@ -24,25 +24,25 @@ class FuelTypeController extends Controller
             $rules['name_' . $key] = 'required|string|max:255';
         }
         $this->validate($request, $rules);
-        if (!$request->filled('id')) {
-
             $fuel_type = new FuelType();
             $fuel_type->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
             $fuel_type->save();
             return $this->sendResponse(null, 'تم الاضافة بنجاح');
-        } else {
-            $fuel_type = FuelType::find($request->id);
-            $fuel_type->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
-            $fuel_type->save();
-            return $this->sendResponse(null, 'تم التعدييل بنجاح');
         }
-    }
 
 
-    public function edit($id)
+
+    public function update(Request $request)
     {
-        $fuel_type = FuelType::find($id);
-        return $this->sendResponse($fuel_type, null);
+        $rules = [];
+        foreach (locales() as $key => $language) {
+            $rules['name_' . $key] = 'required|string|max:255';
+        }
+        $this->validate($request, $rules);
+        $fuel_type = FuelType::find($request->id);
+        $fuel_type->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
+        $fuel_type->save();
+        return $this->sendResponse(null, 'تم التعدييل بنجاح');
     }
 
     public function destroy($id)
