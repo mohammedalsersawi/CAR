@@ -44,8 +44,8 @@ Route::group(
         Route::controller(BrandController::class)->group(function () {
             Route::get('/brand', 'index')->name('brand');
             Route::post('/brand/store', 'store')->name('brand.store');
-            Route::GET('/brand/edit/{id?}', 'edit')->name('brand.edit');
-            Route::delete('/brand/delete/{id?}', 'destroy')->name('brand.delete');
+            Route::post('/brand/update', 'update')->name('brand.update');
+            Route::delete('/brand/{id?}', 'destroy')->name('brand.delete');
             Route::get('brand/getData', 'getData')->name('brand.getData');
         });
         Route::resource('room',RoomController::class)->except(['create','update']);

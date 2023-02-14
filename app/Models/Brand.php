@@ -39,7 +39,7 @@ class Brand extends Model
             $brands=Brand::create([
                 'name' => ['en' => $request->name_en, 'ar' => $request->name_ar],
             ]);
-            ImageUpload::UploadImage($request->image, 'brands', $brands->id , 17);
+            ImageUpload::UploadImage($request->image, 'brands', $brands->id , null , null);
             DB::commit();
         }catch (\Exception $e) {
             DB::rollBack();

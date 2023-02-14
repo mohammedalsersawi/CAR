@@ -165,12 +165,14 @@
                 </li>
                 <li class="nav-item ">
                     <a class="d-flex align-items-center" href="{{ route('room.index') }}">
-                        <i data-feather="file-text"></i><span class="menu-title text-truncate">@lang('Room')</span>
+                        <i data-feather="file-text"></i><span
+                            class="menu-title text-truncate">@lang('Room')</span>
                     </a>
                 </li>
                 <li class="nav-item ">
                     <a class="d-flex align-items-center" href="{{ route('color.index') }}">
-                        <i data-feather="file-text"></i><span class="menu-title text-truncate">@lang('Color')</span>
+                        <i data-feather="file-text"></i><span
+                            class="menu-title text-truncate">@lang('Color')</span>
                     </a>
                 </li>
 
@@ -228,40 +230,42 @@
     @yield('js')
 
     <script>
+        var isRtl = '{{ LaravelLocalization::getCurrentLocaleDirection() }}' === 'rtl';
 
-        var isRtl = '{{LaravelLocalization::getCurrentLocaleDirection()}}' === 'rtl';
-
-        var selectedIds = function () {
-            return $("input[name='table_ids[]']:checked").map(function () {
+        var selectedIds = function() {
+            return $("input[name='table_ids[]']:checked").map(function() {
                 return this.value;
             }).get();
         };
         $('select').select2({
-            dir: '{{LaravelLocalization::getCurrentLocaleDirection()}}',
+            dir: '{{ LaravelLocalization::getCurrentLocaleDirection() }}',
             placeholder: "@lang('select')",
         });
-        $(document).ready(function () {
-            $(document).on('click', "#export_btn", function (e) {
+        $(document).ready(function() {
+            $(document).on('click', "#export_btn", function(e) {
                 e.preventDefault();
                 window.open(url + 'export?' + $('#search_form').serialize(), '_blank');
             });
 
-            $(document).on('click', "#chart_btn", function (e) {
+            $(document).on('click', "#chart_btn", function(e) {
                 e.preventDefault();
                 window.open(url + 'chart?' + $('#search_form').serialize(), '_blank');
             });
 
-            $("#advance_search_btn").click(function (e) {
+            $("#advance_search_btn").click(function(e) {
                 e.preventDefault();
                 $('#advance_search_div').toggle(500);
             });
 
-            $(document).on('change', "#select_all", function (e) {
-                var delete_btn = $('#delete_btn'), export_btn = $('#export_btn'),
-                    chart_btn = $('#chart_btn'), all_status_btn = $('.all_status_btn'), table_ids = $('.table_ids');
-                this.checked ? table_ids.each(function () {
+            $(document).on('change', "#select_all", function(e) {
+                var delete_btn = $('#delete_btn'),
+                    export_btn = $('#export_btn'),
+                    chart_btn = $('#chart_btn'),
+                    all_status_btn = $('.all_status_btn'),
+                    table_ids = $('.table_ids');
+                this.checked ? table_ids.each(function() {
                     this.checked = true
-                }) : table_ids.each(function () {
+                }) : table_ids.each(function() {
                     this.checked = false
                 })
                 delete_btn.attr('data-id', selectedIds().join());
@@ -277,8 +281,10 @@
                 }
             });
 
-            $(document).on('change', ".table_ids", function (e) {
-                var delete_btn = $('#delete_btn'), select_all = $('#select_all'), all_status_btn = $('.all_status_btn');
+            $(document).on('change', ".table_ids", function(e) {
+                var delete_btn = $('#delete_btn'),
+                    select_all = $('#select_all'),
+                    all_status_btn = $('.all_status_btn');
                 if ($(".table_ids:checked").length === $(".table_ids").length) {
                     select_all.prop("checked", true)
                 } else {
@@ -296,18 +302,18 @@
                 }
             });
 
-            $('#search_btn').on('click', function (e) {
+            $('#search_btn').on('click', function(e) {
                 oTable.draw();
                 e.preventDefault();
             });
 
-            $('#clear_btn').on('click', function (e) {
+            $('#clear_btn').on('click', function(e) {
                 e.preventDefault();
                 $('.search_input').val("").trigger("change")
                 oTable.draw();
             });
 
-            $(document).on("click", ".delete-btn", function (e) {
+            $(document).on("click", ".delete-btn", function(e) {
                 e.preventDefault();
                 var urls = url;
                 if (selectedIds().join().length) {
@@ -327,16 +333,16 @@
                         cancelButton: 'btn btn-outline-danger'
                     },
                     buttonsStyling: true
-                }).then(function (result) {
+                }).then(function(result) {
                     if (result.value) {
                         $.ajax({
                             url: urls,
                             method: 'DELETE',
                             type: 'DELETE',
                             data: {
-                                _token: '{{csrf_token()}}'
+                                _token: '{{ csrf_token() }}'
                             },
-                        }).done(function (data) {
+                        }).done(function(data) {
                             if (data.status) {
                                 toastr.success('@lang('deleted')', '', {
                                     rtl: isRtl
@@ -349,7 +355,7 @@
                                 });
                             }
 
-                        }).fail(function () {
+                        }).fail(function() {
                             toastr.error('@lang('something_wrong')', '', {
                                 rtl: isRtl
                             });
@@ -361,7 +367,7 @@
                     }
                 });
             });
-            $(document).on("click", ".status_btn", function (e) {
+            $(document).on("click", ".status_btn", function(e) {
                 e.preventDefault();
                 var ids = $(this).data('id');
                 var status = $(this).val();
@@ -378,7 +384,7 @@
                         cancelButton: 'btn btn-outline-danger'
                     },
                     buttonsStyling: true
-                }).then(function (result) {
+                }).then(function(result) {
                     if (result.value) {
                         $.ajax({
                             url: urls,
@@ -387,9 +393,9 @@
                             data: {
                                 ids: ids,
                                 status: status,
-                                _token: '{{csrf_token()}}'
+                                _token: '{{ csrf_token() }}'
                             },
-                            success: function (data) {
+                            success: function(data) {
                                 if (data.status) {
                                     toastr.success('@lang('done_successfully')');
                                     oTable.draw();
@@ -406,7 +412,7 @@
                 });
             });
 
-            $('#create_modal,#edit_modal').on('hide.bs.modal', function (event) {
+            $('#create_modal,#edit_modal').on('hide.bs.modal', function(event) {
                 var form = $(this).find('form');
                 form.find('select').val('').trigger("change")
                 form[0].reset();
@@ -416,7 +422,7 @@
                 $(".invalid-feedback").html("");
             })
 
-            $(document).on('submit', '.ajax_form', function (e) {
+            $(document).on('submit', '.ajax_form', function(e) {
                 // $('.submit_btn').prop('disabled', true);
                 e.preventDefault();
                 var form = $(this);
@@ -432,12 +438,12 @@
                     data: Data,
                     contentType: false,
                     processData: false,
-                    beforeSend: function () {
+                    beforeSend: function() {
                         $('.invalid-feedback').html('');
                         $('.is-invalid ').removeClass('is-invalid');
                         form.removeClass('was-validated');
                     }
-                }).done(function (data) {
+                }).done(function(data) {
                     if (data.status) {
                         toastr.success('@lang('done_successfully')', '', {
                             rtl: isRtl
@@ -471,16 +477,18 @@
                         $('.submit_btn').removeAttr('disabled');
                         $('.fa-spinner.fa-spin').hide();
                     }
-                }).fail(function (data) {
+                }).fail(function(data) {
                     if (data.status === 422) {
                         var response = data.responseJSON;
-                        $.each(response.errors, function (key, value) {
+                        $.each(response.errors, function(key, value) {
                             var str = (key.split("."));
                             if (str[1] === '0') {
                                 key = str[0] + '[]';
                             }
-                            $('[name="' + key + '"], [name="' + key + '[]"]').addClass('is-invalid');
-                            $('[name="' + key + '"], [name="' + key + '[]"]').closest('.form-group').find('.invalid-feedback').html(value[0]);
+                            $('[name="' + key + '"], [name="' + key + '[]"]').addClass(
+                                'is-invalid');
+                            $('[name="' + key + '"], [name="' + key + '[]"]').closest(
+                                '.form-group').find('.invalid-feedback').html(value[0]);
                         });
                     } else {
                         toastr.error('@lang('something_wrong')', '', {
@@ -495,15 +503,13 @@
 
 
 
-            $('#datatable').on('draw', function () {
+            $('#datatable').on('draw', function() {
                 $("#select_all").prop("checked", false)
                 $('#delete_btn').prop('disabled', 'disabled');
                 $('.status_btn').prop('disabled', 'disabled');
             });
 
         });
-
-
     </script>
     @yield('scripts')
     <script>
@@ -516,8 +522,89 @@
             }
         })
     </script>
+    <script>
+        $('.add-mode-form').on('submit', function(event) {
+            event.preventDefault();
+            var data = new FormData(this);
+            let url = $(this).attr('action');
+            var method = $(this).attr('method');
+            $.ajax({
+                type: method,
+                cache: false,
+                contentType: false,
+                processData: false,
+                url: url,
+                data: data,
+                beforeSend: function() {
+                    $('input').removeClass('is-invalid');
+                    $('.text-danger').text('');
+                    $('.btn-file').addClass('');
+                },
+                success: function(result) {
+                    $('#full-modal-stem').modal('hide');
+                    $('.add_model_form').trigger("reset");
+                    toastr.success('@lang('done_successfully')', '', {
+                        rtl: isRtl
+                    });
+                    table.draw()
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    $.each(jqXHR.responseJSON.errors, function(key, val) {
+                        $("#" + key + "_error").text(val[0]);
+                        $('input[name=' + key + ']').addClass('is-invalid');
+                    });
+                    $('input[name=image]').addClass('is-invalid');
 
+                }
+            });
+        });
+    </script>
 
+    <script>
+        $(document).on("click", ".btn_delete", function(e) {
+            e.preventDefault();
+            Swal.fire({
+                title: '@lang('delete_confirmation')',
+                text: '@lang('confirm_delete')',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '@lang('yes')',
+                cancelButtonText: '@lang('cancel')',
+                customClass: {
+                    confirmButton: 'btn btn-primary',
+                    cancelButton: 'btn btn-outline-danger'
+                },
+                buttonsStyling: true
+            }).then(function(result) {
+                if (result.value) {
+                  var url = $('.btn_delete').data('route');
+                    console.log(url);
+                    $.ajax({
+                        url: url,
+                        method: 'DELETE',
+                        type: 'DELETE',
+                        data: {
+                            _token: '{{ csrf_token() }}'
+                        },
+                    }).done(function(data) {
+                            toastr.success('@lang('deleted')', '', {
+                                rtl: isRtl
+                            });
+                            table.draw()
+
+                    }).fail(function() {
+                        toastr.error('@lang('something_wrong')', '', {
+                            rtl: isRtl
+                        });
+                    });
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    toastr.info('@lang('delete_canceled')', '', {
+                        rtl: isRtl
+                    })
+                }
+            });
+        });
+    </script>
 
 
 </body>

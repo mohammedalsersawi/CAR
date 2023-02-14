@@ -19,36 +19,51 @@ class BrandController extends Controller
 
     public function index(Request $request)
     {
-        return view('admin.pages.car.brand');
+        return view('admin.pages.brand.index');
     }
 
 
     public function store(Request $request)
     {
         $rules = [];
+        $rules['image'] = 'required';
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
         }
-        if (!$request->filled('id')) {
-            $rules['image'] = 'required|mimes:jpg,jpeg,png,gif';
-                $this->validate($request, $rules);
-                Brand::createWithRooms($request);
-                return $this->sendResponse(null, 'تم الاضافة بنجاح');
 
-        } else {
-            $rules['image'] = 'nullable|mimes:jpg,jpeg,png,gif';
-            $this->validate($request, $rules);
-            Brand::updateWithRooms($request);
-
-            return $this->sendResponse(null, 'تم التعدييل بنجاح');
+        $this->validate($request, $rules);
+        $data = [];
+        foreach (locales() as $key => $language) {
+            $data['name'][$key] = $request->get('name_' . $key);
         }
+        $this->validate($request, $rules);
+        $brands =   Brand::query()->create($data);
+        if ($request->hasFile('image')) {
+            ImageUpload::UploadImage($request->image, 'brands', $brands->id, null, null);
+        }
+        return $this->sendResponse(null, 'تم التعدييل بنجاح');
     }
 
-
-    public function edit($id)
+    public function update(Request $request)
     {
-        $brands = Brand::with('avatar')->find($id);
-        return $this->sendResponse($brands, null);
+        $rules = [];
+        foreach (locales() as $key => $language) {
+            $rules['name_' . $key] = 'required|string|max:255';
+        }
+        $rules['image'] = 'nullable|image';
+        $this->validate($request, $rules);
+        $data = [];
+        foreach (locales() as $key => $language) {
+            $data['name'][$key] = $request->get('name_' . $key);
+        }
+        $this->validate($request, $rules);
+        $brands =   Brand::findOrFail($request->id);
+        $brands->update($data);
+        if ($request->hasFile('image')) {
+            ImageUpload::UploadImage($request->image, 'brands', null, null, $request->id);
+        }
+        return $this->sendResponse(null, 'تم التعدييل بنجاح');
+
     }
 
     public function destroy($id)
@@ -72,10 +87,11 @@ class BrandController extends Controller
                     $data_attr .= 'data-name_' . $key . '="' . $que->getTranslation('name', $key) . '" ';
                 }
                 $string = '';
+                $delete_route = "{{route('brand.delete',$que->id)}}";
                 $string .= '<button class="edit_btn btn btn-sm btn-outline-primary btn_edit" data-toggle="modal"
                     data-target="#edit_modal" ' . $data_attr . '>' . __('edit') . '</button>';
-                $string .= ' <button type="button" class="btn btn-sm btn-outline-danger btn_delete" data-id="' . $que->id .
-                    '">' . __('delete') . '</button>';
+                $string .= ' <button type="button"   data-route="http://127.0.0.1:8000/en/brand/'.$que->id.'" class="btn btn-sm btn-outline-danger btn_delete" data-id="' . $que->id .
+                    '">' . __('delete') . '  </button>';
                 return $string;
             })
             ->addColumn('image', function ($row) {
