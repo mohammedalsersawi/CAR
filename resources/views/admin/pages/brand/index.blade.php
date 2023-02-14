@@ -153,43 +153,7 @@
                 @foreach (locales() as $key => $value)
                     $('#edit_name_{{ $key }}').val(button.data('name_{{ $key }}'))
                 @endforeach
-                $('#form_edit').on('submit', function(event) {
-                    event.preventDefault();
-                    var data = new FormData(this);
-                    let url = $(this).attr('action');
-                    let method = $(this).attr('method');
-                    $.ajax({
-                        type: method,
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        url: url,
-                        data: data,
-                        beforeSend: function() {
-                            $('input').removeClass('is-invalid');
-                            $('.text-danger').text('');
-                            $('.btn-file').addClass('');
-                        },
-                        success: function(result) {
-                            $('#edit_modal').modal('hide');
-                            $('.form_edit').trigger("reset");
-                            toastr.success('@lang('done_successfully')', '', {
-                                rtl: isRtl
-                            });
-                            table.draw()
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                            $.each(jqXHR.responseJSON.errors, function(key, val) {
-                                $("#" + key + "_error").text(val[0]);
-                                $('input[name=' + key + ']').addClass(
-                                    'is-invalid');
-                                $('input[name=' + key + ']').addClass(
-                                    'is-invalid');
-                            });
 
-                        }
-                    });
-                })
             });
         });
     </script>
