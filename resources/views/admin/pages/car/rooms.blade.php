@@ -1,6 +1,6 @@
 @extends('admin.part.app')
 @section('title')
-    @lang('pages')
+    @lang('Room Cars')
 @endsection
 @section('styles')
 @endsection
@@ -10,7 +10,7 @@
             <div class="content-header-left col-md-9 col-12 mb-2">
                 <div class="row breadcrumbs-top">
                     <div class="col-12">
-                        <h2 class="content-header-title float-left mb-0">brands</h2>
+                        <h2 class="content-header-title float-left mb-0">@lang('Room Cars')</h2>
                         <div class="breadcrumb-wrapper">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ url('/admin') }}">@lang('home')</a>
@@ -44,7 +44,7 @@
                                         <div class="col-3" style="margin-top: 20px">
                                             <div class="form-group">
                                                 <button class="btn btn-outline-primary" type="button" data-toggle="modal"
-                                                    data-target="#create_modal"><span><i class="fa fa-plus"></i>اضافة</span>
+                                                        data-target="#create_modal"><span><i class="fa fa-plus"></i>@lang('add')</span>
                                                 </button>
                                             </div>
                                         </div>
@@ -55,11 +55,11 @@
                                 <table class="table" id="datatable">
                                     <thead>
                                         <tr>
-                                            <th>id</th>
-                                            <th>Name</th>
-                                            <th>City</th>
-                                            <th>Image</th>
-                                            <th style="width: 225px;">Action</th>
+                                            <th>#</th>
+                                            <th>@lang('image')</th>
+                                            <th>@lang('cities')</th>
+                                            <th>@lang('name')</th>
+                                            <th style="width: 225px;">@lang('actions')</th>
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -80,7 +80,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">@lang('add')</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -100,17 +100,18 @@
                                 </div>
                             </div>
 
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label for="city_{{ $key }}">@lang('city') @lang($value)</label>
-                                    <input type="text" class="form-control"
-                                           placeholder="@lang('city') @lang($value)" name="city_{{ $key }}"
-                                           id="city_{{ $key }}">
-                                    <small class="text-danger last_city_error" id="city_{{ $key }}_error"></small>
-                                </div>
-                            </div>
-
                         @endforeach
+                        @foreach(locales() as $key => $value)
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="city_{{ $key }}">@lang('city') @lang($value)</label>
+                                        <input type="text" class="form-control"
+                                               placeholder="@lang('city') @lang($value)" name="city_{{ $key }}"
+                                               id="city_{{ $key }}">
+                                        <small class="text-danger last_city_error" id="city_{{ $key }}_error"></small>
+                                    </div>
+                                </div>
+                            @endforeach
                         <div class="col-12">
                             <input type="file" name="image"></span>
 
@@ -135,8 +136,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('close')</button>
+                        <button class="btn btn-primary">@lang('save changes')</button>
                     </div>
                 </form>
             </div>
@@ -153,10 +154,8 @@
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('room.index') }}",
-                columns: [{
-                    data: 'id',
-                    name: 'id'
-                },
+                columns: [
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                     {
                         data: 'name.{{app()->currentLocale()}}',
                         name: 'name'
@@ -219,9 +218,11 @@
                     $.each(jqXHR.responseJSON.errors, function(key, val) {
                         $("#" + key + "_error").text(val[0]);
                         $('input[name=' + key + ']').addClass('is-invalid');
-                        $('.btn-file').addClass('btn btn-danger');
-                        var source = '{!! asset("uploads/'+data.data.avatar.full_small_path+'") !!}';
-                        $('#edit_src_image').attr('src', source);
+
+                    });
+                    $.each(jqXHR.responseJSON.errors, function(key, val) {
+                        $("#" + key + "_error").text(val[0]);
+                        $('input[city=' + key + ']').addClass('is-invalid');
                     });
                 }
             });

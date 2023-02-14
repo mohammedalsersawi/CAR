@@ -63,6 +63,7 @@ class BrandController extends Controller
     {
         $brands = Brand::query();
         return Datatables::of($brands)
+            ->addIndexColumn()
             ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-id="' . $que->id . '" ';

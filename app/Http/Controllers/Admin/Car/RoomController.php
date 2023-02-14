@@ -19,7 +19,8 @@ class RoomController extends Controller
     {
         if ($request->ajax()) {
             $data = RoomCar::query();
-            return Datatables::of($data)->addIndexColumn()
+            return Datatables::of($data)
+                ->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     $btn = '<a href="javascript:void(0)" class="btn btn-success btn_edit btn-sm" data-id="' . $row->id . '"
                                                     data-toggle="tooltip" title="تعديل">

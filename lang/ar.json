@@ -10,12 +10,14 @@
   "delivery_method": "طريقة تسليم الطلب",
   "delivery_method_example": "مثال: ترك الطلب عند الاستقبال",
   "save": "حفظ",
+    "save changes": "حفظ التغيرات",
   "edit_address": "تعديل العنوان",
   "edit_address_details": "تعديل تفاصيل العنوان",
   "home": "الرئيسية",
   "about_us": "من نحن",
   "how_do_we_work": "كيف نعمل",
   "subscriptions": "الاشتراكات",
+    "sure":"تاكيد",
   "help": "المساعدة",
   "profile": "الملف الشخصي",
   "logout": "تسجيل الخروج",
@@ -403,5 +405,11 @@
   "make_special": "مميزة",
   "make_not_special": "غير مميزة",
   "update_confirmation": "تأكيد التعديل",
-  "confirm_update": "حفظ التعديلات"
+  "confirm_update": "حفظ التعديلات",
+  "Room Cars": "غرف السيارات",
+    "Color Cars": "لون السيارات",
+    "Brand Cars": "ماركة السيارات",
+    "Model Cars": "مودل السيارات",
+    "Engine Cars": "محرك السيارات",
+    "Fuel Type Cars":  "نوع الوقود السيارات"
 }

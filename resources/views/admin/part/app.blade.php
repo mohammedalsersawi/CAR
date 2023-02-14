@@ -130,6 +130,9 @@
 
     <!-- BEGIN: Main Menu-->
     <div class="main-menu menu-fixed menu-accordion menu-shadow menu-dark" data-scroll-to-active="true">
+
+
+
         <div class="navbar-header">
             <ul class="nav navbar-nav flex-row">
                 <li class="nav-item mr-auto"><a class="navbar-brand" href="{{ url('admin') }}"><span
@@ -145,37 +148,38 @@
             <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
                 <li class="nav-item ">
                     <a class="d-flex align-items-center" href="{{ route('model') }}">
-                        <i data-feather="file-text"></i><span class="menu-title text-truncate">الموديل</span>
+                        <i data-feather="file-text"></i><span class="menu-title text-truncate">@lang('Model Cars')</span>
                     </a>
                 </li>
                 <li class="nav-item ">
                     <a class="d-flex align-items-center" href="{{ route('engines') }}">
-                        <i data-feather="file-text"></i><span class="menu-title text-truncate">المحركات</span>
+                        <i data-feather="file-text"></i><span class="menu-title text-truncate">@lang('Engine Cars')</span>
                     </a>
                 </li>
                 <li class="nav-item ">
                     <a class="d-flex align-items-center" href="{{ route('fuel_type') }}">
-                        <i data-feather="file-text"></i><span class="menu-title text-truncate">نوع الوقود</span>
+                        <i data-feather="file-text"></i><span class="menu-title text-truncate">@lang('Fuel Type Cars')</span>
                     </a>
                 </li>
                 <li class="nav-item ">
                     <a class="d-flex align-items-center" href="{{ route('brand') }}">
-                        <i data-feather="file-text"></i><span class="menu-title text-truncate">brand</span>
+                        <i data-feather="file-text"></i><span class="menu-title text-truncate">@lang('Brand Cars')</span>
                     </a>
                 </li>
                 <li class="nav-item ">
                     <a class="d-flex align-items-center" href="{{ route('room.index') }}">
-                        <i data-feather="file-text"></i><span class="menu-title text-truncate">@lang('Room')</span>
+                        <i data-feather="file-text"></i><span class="menu-title text-truncate">@lang('Room Cars')</span>
                     </a>
                 </li>
                 <li class="nav-item ">
                     <a class="d-flex align-items-center" href="{{ route('color.index') }}">
-                        <i data-feather="file-text"></i><span class="menu-title text-truncate">@lang('Color')</span>
+                        <i data-feather="file-text"></i><span class="menu-title text-truncate">@lang('Color Cars')</span>
                     </a>
                 </li>
 
             </ul>
         </div>
+
     </div>
     <!-- END: Main Menu-->
 

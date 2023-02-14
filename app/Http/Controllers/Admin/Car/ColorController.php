@@ -15,24 +15,50 @@ class ColorController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
+
+
+            $modelCars = ModelCar::query();
+            return Datatables::of($modelCars)
+                ->addIndexColumn()
+                ->addColumn('action', function ($que) {
+                    $data_attr = '';
+                    $data_attr .= 'data-id="' . $que->id . '" ';
+                    $data_attr .= 'data-name="' . $que->name . '" ';
+                    foreach (locales() as $key => $value) {
+                        $data_attr .= 'data-name_' . $key . '="' . $que->getTranslation('name', $key) . '" ';
+                    }
+                    $string = '';
+                    $string .= '<button class="edit_btn btn btn-sm btn-outline-primary btn_edit" data-toggle="modal"
+                    data-target="#edit_modal" ' . $data_attr . '>' . __('edit') . '</button>';
+                    $string .= ' <button type="button" class="btn btn-sm btn-outline-danger btn_delete" data-id="' . $que->id .
+                        '">' . __('delete') . '</button>';
+                    return $string;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+
+
+
+
             $data = ColorCar::query();
-            return Datatables::of($data)->addIndexColumn()
+            return Datatables::of($data)
+                ->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     $btn = '<a href="javascript:void(0)" class="btn btn-success btn_edit btn-sm" data-id="' . $row->id . '"
                                                     data-toggle="tooltip" title="تعديل">
-                                                    <span class="fa fa-edit">تعديل</span>
+                                                    <span class="fa fa-edit">'.__('edit').'</span>
                              </a>
                              <a href="javascript:void(0)" class="btn btn-danger btn_delete  btn-sm " data-id="' . $row->id . '"
                                                     data-toggle="tooltip" title="حذف">
-                                                    <span class="fa fa fa-times">حذف</span>
+                                                    <span class="fa fa fa-times">'.__('delete').'</span>
                              </a>';
                     return $btn;
                 })
-//                ->editColumn('color','coulm')
-//                ->rawColumns(['color'])
                 ->rawColumns(['action'])
                 ->make(true);
         }
+
+
         return view('admin.pages.car.color');
     }
 
