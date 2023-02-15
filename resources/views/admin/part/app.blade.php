@@ -265,12 +265,13 @@
 
 
     <script>
-
         $('.add-mode-form').on('submit', function(event) {
             event.preventDefault();
             var data = new FormData(this);
             let url = $(this).attr('action');
             var method = $(this).attr('method');
+            $('input').removeClass('is-invalid');
+            $('.invalid-feedback').text('');
             $.ajax({
                 type: method,
                 cache: false,
@@ -281,7 +282,7 @@
                 beforeSend: function() {},
                 success: function(result) {
                     $('#full-modal-stem').modal('hide');
-                    $('.add_model_form').trigger("reset");
+                    $('#add_model_form').trigger("reset");
                     toastr.success('@lang('done_successfully')', '', {
                         rtl: isRtl
                     });
@@ -330,8 +331,7 @@
 
                     var id = button.data('id')
                     var url = window.location.href + '/' + id;
-                    alert(url)
-                    {{-- url: "{{ route('engines.edit') }}" + '/' + id, --}}
+                    // {{-- url: "{{ route('engines.edit') }}" + '/' + id, --}}
                     $.ajax({
                         url: url,
                         method: 'DELETE',

@@ -37,7 +37,7 @@ class BrandController extends Controller
             $data['name'][$key] = $request->get('name_' . $key);
         }
         $this->validate($request, $rules);
-        $brands =   Brand::query()->create($data);
+        $brands =  Brand::query()->create($data);
         if ($request->hasFile('image')) {
             ImageUpload::UploadImage($request->image, 'brands', $brands->id, null, null);
         }
