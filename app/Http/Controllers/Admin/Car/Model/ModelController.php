@@ -31,7 +31,7 @@ class ModelController extends Controller
             $data['name'][$key] = $request->get('name_' . $key);
         }
         ModelCar::query()->create($data);
-        return $this->sendResponse(null, 'تم الاضافة بنجاح');
+        return $this->sendResponse(null, __('item_added'));
 
     }
 
@@ -50,7 +50,7 @@ class ModelController extends Controller
         $data['color'] = $request->color;
         $modelCar =   ModelCar::findOrFail($request->id);
         $modelCar->update($data);
-        return $this->sendResponse(null, 'تم التعدييل بنجاح');
+        return $this->sendResponse(null, __('item_edited'));
 
     }
 
@@ -58,7 +58,7 @@ class ModelController extends Controller
     {
         $ModelCar = ModelCar::find($id);
         $ModelCar->delete();
-        return $this->sendResponse(null, 'تم الحذف بنجاح');
+        return $this->sendResponse(null,null);
     }
 
 

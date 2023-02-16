@@ -29,7 +29,7 @@ class FuelTypeController extends Controller
             $data['name'][$key] = $request->get('name_' . $key);
         }
         FuelType::query()->create($data);
-        return $this->sendResponse(null, 'تم الاضافة بنجاح');
+        return $this->sendResponse(null, __('item_added'));
     }
 
 
@@ -48,14 +48,14 @@ class FuelTypeController extends Controller
         $data['color'] = $request->color;
         $fuelType =   FuelType::findOrFail($request->id);
         $fuelType->update($data);
-        return $this->sendResponse(null, 'تم التعدييل بنجاح');
+        return $this->sendResponse(null, __('item_edited'));
     }
 
     public function destroy($id)
     {
         $fuel_type = FuelType::find($id);
         $fuel_type->delete();
-        return $this->sendResponse(null, 'تم الحذف بنجاح');
+        return $this->sendResponse(null, null);
     }
 
     public function getData(Request $request)

@@ -195,6 +195,12 @@
                                     class="menu-title text-truncate">@lang('Color Cars')</span>
                             </a>
                         </li>
+                        <li class="nav-item ">
+                            <a class="d-flex align-items-center" href="{{ route('country.index') }}">
+                                <i data-feather="file-text"></i><span
+                                    class="menu-title text-truncate">@lang('Countrys')</span>
+                            </a>
+                        </li>
                     </ul>
 
                 </li>

@@ -31,7 +31,7 @@ class RoomController extends Controller
         $rules['image'] = 'required|image';
         $this->validate($request, $rules);
         RoomCar::createWithRooms($request);
-        return $this->sendResponse(null, 'تم الاضافة بنجاح');
+        return $this->sendResponse(null, __('item_added'));
     }
 
     public function update(Request $request)
@@ -44,13 +44,13 @@ class RoomController extends Controller
         $rules['image'] = 'nullable|image';
         $this->validate($request, $rules);
         RoomCar::updateWithRooms($request);
-        return $this->sendResponse(null, 'تم التعديل بنجاح ');
+        return $this->sendResponse(null, __('item_edited'));
     }
     public function destroy($id)
     {
         $Room = RoomCar::find($id);
         $Room->delete();
-        return $this->sendResponse(null, 'تم الحذف بنجاح');
+        return $this->sendResponse(null, null);
     }
     public function getData()
     {

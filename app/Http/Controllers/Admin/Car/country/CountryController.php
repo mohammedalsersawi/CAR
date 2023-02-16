@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Car\Color;
+namespace App\Http\Controllers\Admin\Car\country;
 
-use App\Http\Controllers\Admin\ResponseTrait;
-use App\Http\Controllers\Controller;
-use App\Models\ColorCar;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
+use App\Http\Controllers\Admin\ResponseTrait;
+use App\Models\Country;
 
-class ColorController extends Controller
+class CountryController extends Controller
 {
-
     use ResponseTrait;
+
     public function index(Request $request)
     {
-        return view('admin.pages.color.color');
-    }
 
+        return view('admin.pages.country.index');
+    }
 
     public function store(Request $request)
     {
@@ -24,17 +24,14 @@ class ColorController extends Controller
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
         }
-        $rules['color'] = 'required|string';
-
-        $this->validate($request, $rules);
         $data = [];
         foreach (locales() as $key => $language) {
             $data['name'][$key] = $request->get('name_' . $key);
         }
-        $data['color'] = $request->color;
         $this->validate($request, $rules);
-        ColorCar::query()->create($data);
+        Country::query()->create($data);
         return $this->sendResponse(null, __('item_added'));
+
     }
 
 
@@ -49,29 +46,26 @@ class ColorController extends Controller
         foreach (locales() as $key => $language) {
             $data['name'][$key] = $request->get('name_' . $key);
         }
-        $data['color'] = $request->color;
-        $colorCar =   ColorCar::findOrFail($request->id);
-        $colorCar->update($data);
+        $engines = Country::findOrFail($request->id);
+        $engines->update($data);
         return $this->sendResponse(null, __('item_edited'));
     }
 
     public function destroy($id)
     {
-        $Color = ColorCar::find($id);
-        $Color->delete();
-        return $this->sendResponse(null,null);
+        $engines = Country::find($id);
+        $engines->delete();
+        return $this->sendResponse(null,  null);
     }
 
-
-    public function getData()
+    public function getData(Request $request)
     {
-        $modelCars = ColorCar::query();
-        return Datatables::of($modelCars)
+        $countrys = Country::query();
+        return Datatables::of($countrys)
             ->addIndexColumn()
             ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-id="' . $que->id . '" ';
-                $data_attr .= 'data-color="' . $que->color . '" ';
                 $data_attr .= 'data-name="' . $que->name . '" ';
                 foreach (locales() as $key => $value) {
                     $data_attr .= 'data-name_' . $key . '="' . $que->getTranslation('name', $key) . '" ';
