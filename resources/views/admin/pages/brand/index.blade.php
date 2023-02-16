@@ -179,7 +179,6 @@
             processing: true,
             serverSide: true,
             responsive: true,
-
             "oLanguage": {
                 @if (app()->isLocale('ar'))
                     "sEmptyTable": "ليست هناك بيانات متاحة في الجدول",

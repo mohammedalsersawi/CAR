@@ -147,25 +147,25 @@
         <div class="main-menu-content">
             <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
                 <li class="nav-item ">
-                    <a class="d-flex align-items-center" href="{{ route('model') }}">
+                    <a class="d-flex align-items-center" href="{{ route('model.index') }}">
                         <i data-feather="file-text"></i><span
                             class="menu-title text-truncate">@lang('Model Cars')</span>
                     </a>
                 </li>
                 <li class="nav-item ">
-                    <a class="d-flex align-items-center" href="{{ route('engines') }}">
+                    <a class="d-flex align-items-center" href="{{ route('engines.index') }}">
                         <i data-feather="file-text"></i><span
                             class="menu-title text-truncate">@lang('Engine Cars')</span>
                     </a>
                 </li>
                 <li class="nav-item ">
-                    <a class="d-flex align-items-center" href="{{ route('fuelType') }}">
+                    <a class="d-flex align-items-center" href="{{ route('fuelType.index') }}">
                         <i data-feather="file-text"></i><span
                             class="menu-title text-truncate">@lang('Fuel Type Cars')</span>
                     </a>
                 </li>
                 <li class="nav-item ">
-                    <a class="d-flex align-items-center" href="{{ route('brand') }}">
+                    <a class="d-flex align-items-center" href="{{ route('brand.index') }}">
                         <i data-feather="file-text"></i><span
                             class="menu-title text-truncate">@lang('Brand Cars')</span>
                     </a>
@@ -271,6 +271,8 @@
             var data = new FormData(this);
             let url = $(this).attr('action');
             var method = $(this).attr('method');
+            $('input').removeClass('is-invalid');
+            $('.invalid-feedback').text('');
             $.ajax({
                 type: method,
                 cache: false,
@@ -278,6 +280,7 @@
                 processData: false,
                 url: url,
                 data: data,
+
                 beforeSend: function() {},
                 success: function(result) {
                     $('#full-modal-stem').modal('hide');
@@ -364,6 +367,7 @@
             var data = new FormData(this);
             let url = $(this).attr('action');
             let method = $(this).attr('method');
+
             $.ajax({
                 type: method,
                 cache: false,
@@ -385,7 +389,9 @@
                     table.draw()
                 },
                 error: function(data) {
+
                     if (data.status === 422) {
+
                         var response = data.responseJSON;
                         $.each(response.errors, function(key, value) {
                             var str = (key.split("."));

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Car;
+namespace App\Http\Controllers\Admin\Car\Model;
 
 use Yajra\DataTables\Facades\DataTables;
 use App\Models\ModelCar;
