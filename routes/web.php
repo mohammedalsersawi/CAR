@@ -12,6 +12,10 @@ use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 
+Route::prefix('/test')->group(function () {
+    Route::view('/', 'welcome');
+});
+
 Route::group(
     [
         'prefix' => LaravelLocalization::setLocale(),
@@ -19,7 +23,7 @@ Route::group(
     ],
     function () {
         Route::prefix('admin')->middleware('auth')->group(function () {
-            Route::view('index', 'admin.part.app');
+            Route::view('/', 'admin.part.app');
         });
         Route::controller(ModelController::class)->name('model.')->prefix('model')->group(function () {
             Route::get('/', 'index')->name('index');

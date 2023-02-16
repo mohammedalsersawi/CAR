@@ -107,17 +107,18 @@
                     <a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user"
                         href="javascript:void(0);" data-toggle="dropdown" aria-haspopup="true"
                         aria-expanded="false">
-                        <div class="user-nav d-sm-flex d-none"><span class="font-weight-bolder">admin</span>
+                        <div class="user-nav d-sm-flex d-none"><span class="font-weight-bolder">Admin</span>
                         </div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-user">
-                        <a class="dropdown-item" href=""><i class="mr-50" data-feather="user"></i>
+                        <a class="dropdown-item" href="{{ url('/admin/profile') }}"><i class="mr-50"
+                                data-feather="user"></i>
                             Profile</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             <i class="mr-50" data-feather="power"></i>Logout</a>
-                        <form id="logout-form" action="" method="POST" style="display: none;">
+                        <form id="logout-form" action="#" method="POST" style="display: none;">
                             {{ csrf_field() }}
                         </form>
                     </div>
@@ -130,22 +131,22 @@
 
     <!-- BEGIN: Main Menu-->
     <div class="main-menu menu-fixed menu-accordion menu-shadow menu-dark" data-scroll-to-active="true">
-
-
-
-        <div class="navbar-header">
+        <div class="navbar-header" style="height: unset !important;">
             <ul class="nav navbar-nav flex-row">
-                <li class="nav-item mr-auto"><a class="navbar-brand" href="{{ url('admin') }}"><span
-                            class="brand-logo">
-
-                            <img src="{{ asset('dashboard/app-assets/images/logo/Logo.svg') }}">
+                <li class="nav-item mr-auto" style="margin: 0 auto;">
+                    <a class="navbar-brand" href="{{ url('admin') }}">
+                        <span class="brand-logo">
+                            <img alt="logo" src="{{ asset('dashboard/app-assets/images/logo/Logo.svg') }}"
+                                style="max-width: 34% !important; margin: 0 auto; display: flex;" />
                         </span>
-                    </a></li>
+                    </a>
+                </li>
             </ul>
         </div>
         <div class="shadow-bottom"></div>
         <div class="main-menu-content">
             <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+<<<<<<< HEAD
                 <li class="nav-item ">
                     <a class="d-flex align-items-center" href="{{ route('model.index') }}">
                         <i data-feather="file-text"></i><span
@@ -181,11 +182,61 @@
                         <i data-feather="file-text"></i><span
                             class="menu-title text-truncate">@lang('Color Cars')</span>
                     </a>
+=======
+
+
+                <li class="nav-item has-sub  " style="">
+                    <a class="d-flex align-items-center" href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" class="feather feather-pie-chart">
+                            <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+                            <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+                        </svg>
+                        <span class="menu-title text-truncate" data-i18n="Charts">@lang('cars')</span></a>
+                    <ul class="menu-content">
+                        <li class="nav-item ">
+                            <a class="d-flex align-items-center" href="{{ route('model') }}">
+                                <i data-feather="file-text"></i><span
+                                    class="menu-title text-truncate">@lang('Model Cars')</span>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="d-flex align-items-center" href="{{ route('engines') }}">
+                                <i data-feather="file-text"></i><span
+                                    class="menu-title text-truncate">@lang('Engine Cars')</span>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="d-flex align-items-center" href="{{ route('fuelType') }}">
+                                <i data-feather="file-text"></i><span
+                                    class="menu-title text-truncate">@lang('Fuel Type Cars')</span>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="d-flex align-items-center" href="{{ route('brand') }}">
+                                <i data-feather="file-text"></i><span
+                                    class="menu-title text-truncate">@lang('Brand Cars')</span>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="d-flex align-items-center" href="{{ route('room.index') }}">
+                                <i data-feather="file-text"></i><span
+                                    class="menu-title text-truncate">@lang('Room Cars')</span>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="d-flex align-items-center" href="{{ route('color.index') }}">
+                                <i data-feather="file-text"></i><span
+                                    class="menu-title text-truncate">@lang('Color Cars')</span>
+                            </a>
+                        </li>
+                    </ul>
+>>>>>>> b0a25c8cb04f55094f6ec8d971ed81dcb2f1ea33
                 </li>
 
             </ul>
         </div>
-
     </div>
     <!-- END: Main Menu-->
 
@@ -226,7 +277,7 @@
     <!-- END: Page Vendor JS-->
 
     <!-- BEGIN: Theme JS-->
-    <script src="{{ asset('dashboard/app-assets/js/core/ap`-menu.min.js') }}"></script>
+    <script src="{{ asset('dashboard/app-assets/js/core/app-menu.min.js') }}"></script>
     <script src="{{ asset('dashboard/app-assets/js/core/app.min.js') }}"></script>
     <script src="{{ asset('dashboard/app-assets/js/scripts/customizer.min.js') }}"></script>
     <!-- END: Theme JS-->
@@ -234,7 +285,18 @@
     <!-- BEGIN: Page JS-->
     {{-- <script src="{{asset('dashboard/app-assets/js/scripts/tables/table-datatables-basic.min.js')}}"></script> --}}
     <script src="{{ asset('dashboard/app-assets/js/scripts/extensions/ext-component-toastr.min.js') }}"></script>
-    @yield('js')
+    <!-- END: Page JS-->
+
+    <script>
+        $(window).on('load', function() {
+            if (feather) {
+                feather.replace({
+                    width: 14,
+                    height: 14
+                });
+            }
+        })
+    </script>
 
     <script>
         var isRtl = '{{ LaravelLocalization::getCurrentLocaleDirection() }}' === 'rtl';
@@ -248,24 +310,10 @@
             placeholder: "@lang('select')",
         });
     </script>
+
     @yield('scripts')
-    <script>
-        $(window).on('load', function() {
-            if (feather) {
-                feather.replace({
-                    width: 14,
-                    height: 14
-                });
-            }
-        })
-    </script>
-
-
-
-
 
     <script>
-
         $('.add-mode-form').on('submit', function(event) {
             event.preventDefault();
             var data = new FormData(this);
@@ -284,7 +332,7 @@
                 beforeSend: function() {},
                 success: function(result) {
                     $('#full-modal-stem').modal('hide');
-                    $('.add_model_form').trigger("reset");
+                    $('#add_model_form').trigger("reset");
                     toastr.success('@lang('done_successfully')', '', {
                         rtl: isRtl
                     });
@@ -333,8 +381,7 @@
 
                     var id = button.data('id')
                     var url = window.location.href + '/' + id;
-                    alert(url)
-                    {{-- url: "{{ route('engines.edit') }}" + '/' + id, --}}
+                    // {{-- url: "{{ route('engines.edit') }}" + '/' + id, --}}
                     $.ajax({
                         url: url,
                         method: 'DELETE',
@@ -387,6 +434,7 @@
                         rtl: isRtl
                     });
                     table.draw()
+
                 },
                 error: function(data) {
 
@@ -418,9 +466,8 @@
         });
     </script>
 
-
-
 </body>
+
 <!-- END: Body-->
 
 </html>
