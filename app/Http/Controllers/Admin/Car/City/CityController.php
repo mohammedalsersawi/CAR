@@ -75,7 +75,7 @@ class CityController extends Controller
             ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-id="' . $que->id . '" ';
-                $data_attr .= 'data-country_name="' . $que->country->name . '" ';
+                $data_attr .= 'data-country_id="' . $que->country->id . '" ';
                 foreach (locales() as $key => $value) {
                     $data_attr .= 'data-name_' . $key . '="' . $que->getTranslation('name', $key) . '" ';
                 }
