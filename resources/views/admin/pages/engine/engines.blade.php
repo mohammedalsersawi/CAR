@@ -186,10 +186,9 @@
                 }
             },
             ajax: {
-                url: '{{ url(app()->getLocale() . '/engines/getData') }}',
+                url: '{{route('engines.getData',app()->getLocale())}}',
                 data: function(d) {
                     d.name = $('#s_name').val();
-                    console.log(d);
                 }
             },
             columns: [{

@@ -213,10 +213,9 @@
                 @endif // "oPaginate": {"sPrevious": '<-', "sNext": '->'},
             },
             ajax: {
-                url: '{{ url(app()->getLocale() . '/city/getData') }}',
+                url: '{{route('city.getData',app()->getLocale())}}',
                 data: function(d) {
                     d.name = $('#s_name').val();
-                    console.log(d);
                 }
             },
             columns: [{

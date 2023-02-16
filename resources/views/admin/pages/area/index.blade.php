@@ -211,7 +211,7 @@
                 @endif // "oPaginate": {"sPrevious": '<-', "sNext": '->'},
             },
             ajax: {
-                url: '{{ url(app()->getLocale() . '/area/getData') }}',
+                url: '{{route('area.getData',app()->getLocale())}}',
                 data: function(d) {
                     d.name = $('#s_name').val();
                 }
