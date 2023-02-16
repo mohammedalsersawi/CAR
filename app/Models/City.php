@@ -13,6 +13,10 @@ class City extends Model
     protected $guarded = [];
     protected $appends = ['name_text'];
 
+
+    public function country(){
+        return $this->belongsTo(Country::class);
+    }
     public function getNameTextAttribute()
     {
         return @$this->name;

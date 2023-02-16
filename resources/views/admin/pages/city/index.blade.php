@@ -1,6 +1,6 @@
 @extends('admin.part.app')
 @section('title')
-    @lang('Brand Cars')
+    @lang('city Cars')
 @endsection
 @section('styles')
 @endsection
@@ -10,7 +10,7 @@
             <div class="content-header-left col-md-9 col-12 mb-2">
                 <div class="row breadcrumbs-top">
                     <div class="col-12">
-                        <h2 class="content-header-title float-left mb-0">@lang('Brand Cars')</h2>
+                        <h2 class="content-header-title float-left mb-0">@lang('city')</h2>
                         <div class="breadcrumb-wrapper">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ url('/admin') }}">@lang('home')</a>
@@ -58,8 +58,8 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>@lang('image')</th>
                                             <th>@lang('name')</th>
+                                            <th>@lang('country')</th>
                                             <th style="width: 225px;">@lang('actions')</th>
                                         </tr>
                                     </thead>
@@ -86,7 +86,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('brand.store') }}" method="POST" id="add-mode-form" class="add-mode-form"
+                <form action="{{ route('city.store') }}" method="POST" id="add-mode-form" class="add-mode-form"
                     enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
@@ -101,14 +101,23 @@
                                 </div>
                             </div>
                         @endforeach
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="image">@lang('image')</label>
-                                <input type="file" accept="image/*" class="form-control" placeholder="@lang('image')"
-                                    name="image" id="image">
-                                <div class="invalid-feedback"></div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="">@lang('city')</label>
+                                    <select name="country_id" id="country_id"
+                                            class="select form-control" data-select2-id="select2-data-1-bgy2"
+                                            tabindex="-1" aria-hidden="true">
+                                        <option selected disabled>Select Category</option>
+                                        @foreach ($country as $itemm)
+                                            <option> {{$itemm->name}} </option>
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
                             </div>
-                        </div>
+
+
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
                                 data-dismiss="modal">@lang('close')</button>
@@ -131,7 +140,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('brand.update') }}" method="POST" id="form_edit" class=""
+                <form action="{{ route('city.update') }}" method="POST" id="form_edit" class=""
                     enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="id" id="id" class="form-control" />
@@ -147,14 +156,20 @@
                                 </div>
                             </div>
                         @endforeach
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="image">@lang('image')</label>
-                                <input type="file" accept="image/*" class="form-control"
-                                    placeholder="@lang('image')" name="image" id="image">
-                                <div class="invalid-feedback"></div>
+                            <div class="form-group row" data-select2-id="select2-data-12-1fss">
+                                <label class="col-lg-3 col-form-label">Add to Category</label>
+                                <div class="col-lg-9" data-select2-id="select2-data-11-lw53">
+                                    <select name="country_id" id="country_id"
+                                            class="select select2-hidden-accessible" data-select2-id="select2-data-1-bgy2"
+                                            tabindex="-1" aria-hidden="true">
+                                        <option selected disabled>Select Country</option>
+                                        @foreach ($country as $itemm)
+                                            <option> {{$itemm->name}} </option>
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
-                        </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
                                 data-dismiss="modal">@lang('close')</button>
@@ -198,7 +213,7 @@
                 @endif // "oPaginate": {"sPrevious": '<-', "sNext": '->'},
             },
             ajax: {
-                url: '{{ url(app()->getLocale() . '/brand/getData') }}',
+                url: '{{ url(app()->getLocale() . '/city/getData') }}',
                 data: function(d) {
                     d.name = $('#s_name').val();
                     console.log(d);
@@ -211,15 +226,12 @@
                     searchable: false
                 },
                 {
-                    "data": 'image',
-                    "name": 'image',
-                    render: function(data, type, full, meta) {
-                        return `<img src="{{ asset('uploads/${data}') }}" width="100" class="img-fluid img-thumbnail">`;
-                    },
-                },
-                {
                     data: 'name_text',
                     name: 'name'
+                },
+                {
+                    data: 'country',
+                    name: 'country'
                 },
 
 
@@ -242,6 +254,7 @@
                 var button = $(this)
                 var id = button.data('id')
                 $('#id').val(id);
+                $('country_id').val('')
                 @foreach (locales() as $key => $value)
                     $('#edit_name_{{ $key }}').val(button.data('name_{{ $key }}'))
                 @endforeach
