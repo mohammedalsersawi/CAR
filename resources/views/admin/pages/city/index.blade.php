@@ -253,21 +253,11 @@
                 event.preventDefault();
                 var button = $(this)
                 var id = button.data('id')
-                var country_name = button.data('country_name')
-                var country_id = button.data('country_id')
-                $('select option').text(country_name)
-                $('select option').attr("selected","selected");
-                $('#country_id').val(country_id).trigger('change')
-                // $("select option").each(function(){
-                //     if ($(this).text() == "B")
-                //         $(this).
-                // });
+                $('#edit_country_id').val(button.data('country_id')).trigger('change');
                 $('#id').val(id);
-                // $('country_name').val(country_name)
                 @foreach (locales() as $key => $value)
                 $('#edit_name_{{ $key }}').val(button.data('name_{{ $key }}'))
                 @endforeach
-                // $('#country_id [name="country_id"]').val(country_name);
 
             });
         });
