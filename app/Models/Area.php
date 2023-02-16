@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Engine extends Model
+class Area extends Model
 {
-    use HasFactory,
-        HasTranslations;
+    use HasFactory , HasTranslations;
+
     protected $translatable = ['name'];
     protected $guarded = [];
     protected $appends = ['name_text'];
