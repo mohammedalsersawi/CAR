@@ -207,6 +207,12 @@
                                     class="menu-title text-truncate">@lang('city')</span>
                             </a>
                         </li>
+                        <li class="nav-item ">
+                            <a class="d-flex align-items-center" href="{{ route('area.index') }}">
+                                <i data-feather="file-text"></i><span
+                                    class="menu-title text-truncate">@lang('area')</span>
+                            </a>
+                        </li>
 
                     </ul>
 

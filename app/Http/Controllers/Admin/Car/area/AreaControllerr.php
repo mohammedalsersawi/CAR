@@ -1,88 +1,80 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Car\City;
-
-use App\Http\Controllers\Admin\ResponseTrait;
-use App\Http\Controllers\Controller;
+namespace App\Http\Controllers\Admin\Car\area;
 
 use App\Models\City;
-use App\Models\Country;
-use App\Utils\ImageUpload;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\Admin\ResponseTrait;
+use App\Models\Area;
 use Yajra\DataTables\Facades\DataTables;
 
-class CityController extends Controller
+class AreaControllerr extends Controller
 {
     use ResponseTrait;
     public function index()
     {
-       $country=Country::select(['name','id'])->get();
+       $cities=City::select(['name','id'])->get();
 
-        return view('admin.pages.city.index',compact('country'));
+        return view('admin.pages.area.index',compact('cities'));
     }
 
 
     public function store(Request $request)
     {
+
         $rules = [];
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:45';
         }
-        $rules['country_id']='required|exists:countries,id';
+        $rules['city_id']='required|exists:cities,id';
         $this->validate($request, $rules);
         $data = [];
         foreach (locales() as $key => $language) {
             $data['name'][$key] = $request->get('name_' . $key);
         }
-        $data['country_id']=$request->country_id;
+        $data['city_id']=$request->city_id;
         $this->validate($request, $rules);
-         City::create($data);
-        return $this->sendResponse(null, 'تم الاضافة بنجاح');
+         Area::create($data);
+        return $this->sendResponse(null, __('item_added'));
     }
 
     public function update(Request $request)
     {
-        return $request;
-
         $rules = [];
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
         }
-        $rules['country_id']='required|exists:countries,id';
+        $rules['city_id']='required|exists:cities,id';
         $this->validate($request, $rules);
         $data = [];
         foreach (locales() as $key => $language) {
             $data['name'][$key] = $request->get('name_' . $key);
         }
-        $data['country_id']=$request->country_id;
-        $brands = City::findOrFail($request->id);
-        $brands->update($data);
-        return $this->sendResponse(null, 'تم التعدييل بنجاح');
+        $data['city_id']=$request->city_id;
+        $area = Area::findOrFail($request->id);
+        $area->update($data);
+        return $this->sendResponse(null, __('item_edited'));
 
     }
 
     public function destroy($id)
     {
-        $brands = City::destroy($id);
-        return $this->sendResponse(null, 'تم الحذف بنجاح');
+        $area = Area::destroy($id);
+        return $this->sendResponse(null, null);
     }
 
 
     public function getData(Request $request)
     {
-        $city = City::query();
+        $city = Area::query();
         return Datatables::of($city)
             ->addIndexColumn()
+
             ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-id="' . $que->id . '" ';
-<<<<<<< HEAD
-                $data_attr .= 'data-country_name="' . $que->country->name . '" ';
-                $data_attr .= 'data-country_id="' . $que->country->id . '" ';
-
-=======
-                $data_attr .= 'data-country_id="' . $que->country->id . '" ';
->>>>>>> d090c260147939ac6b425b30e6f6c67bab51d382
+                $data_attr .= 'data-city_id="' . $que->cites->id . '" ';
                 foreach (locales() as $key => $value) {
                     $data_attr .= 'data-name_' . $key . '="' . $que->getTranslation('name', $key) . '" ';
                 }
@@ -93,10 +85,10 @@ class CityController extends Controller
                     '">' . __('delete') . '  </button>';
                 return $string;
             })
-            ->addColumn('country',function ($que){
-                return $que->country->name;
+            ->addColumn('cites',function ($que){
+                return $que->cites->name;
             })
-            ->rawColumns(['country'])
+            ->rawColumns(['cites'])
             ->rawColumns(['action'])
             ->make(true);
     }

@@ -18,4 +18,8 @@ class Area extends Model
     {
         return @$this->name;
     }
+
+    public function cites(){
+        return $this->belongsTo(City::class,'city_id');
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Http\Controllers\Admin\Car\area\AreaControllerr;
 use App\Http\Controllers\Admin\Car\Brand\BrandController;
 use App\Http\Controllers\Admin\Car\City\CityController;
 use App\Http\Controllers\Admin\Car\Color\ColorController;
@@ -77,6 +77,13 @@ Route::group(
             Route::get('/getData', 'getData')->name('getData');
         });
         Route::controller(CountryController::class)->prefix('country')->name('country.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('/store', 'store')->name('store');
+            Route::post('/update', 'update')->name('update');
+            Route::delete('/{id?}', 'destroy')->name('delete');
+            Route::get('/getData', 'getData')->name('getData');
+        });
+        Route::controller(AreaControllerr::class)->prefix('area')->name('area.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::post('/store', 'store')->name('store');
             Route::post('/update', 'update')->name('update');

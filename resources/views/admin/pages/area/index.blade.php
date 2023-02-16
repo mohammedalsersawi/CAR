@@ -60,7 +60,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>@lang('name')</th>
-                                            <th>@lang('country')</th>
+                                            <th>@lang('area')</th>
                                             <th style="width: 225px;">@lang('actions')</th>
                                         </tr>
                                     </thead>
@@ -82,12 +82,12 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title add</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">@lang('add')</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('city.store') }}" method="POST" id="add-mode-form" class="add-mode-form"
+                <form action="{{ route("area.store") }}" method="POST" id="add-mode-form" class="add-mode-form"
                     enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
@@ -102,20 +102,18 @@
                                 </div>
                             </div>
                         @endforeach
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label for="">@lang('city')</label>
-                                    <select name="country_id" id="country_id"
-                                            class="select form-control" data-select2-id="select2-data-1-bgy2"
-                                            tabindex="-1" aria-hidden="true">
-                                        <option selected disabled>Select Counter</option>
-                                        @foreach ($country as $itemm)
-                                            <option value="{{$itemm->id}}"> {{$itemm->name}} </option>
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <div class="invalid-feedback"></div>
-                                </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="">@lang('city')</label>
+                                <select name="city_id" id="" class="select form-control"
+                                    data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                    <option selected disabled>Select @lang('area')</option>
+                                    @foreach ($cities as $itemm)
+                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback"></div>
                             </div>
                         </div>
 
@@ -142,7 +140,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('city.update') }}" method="POST" id="form_edit" class=""
+                <form action="{{ route('area.update') }}" method="POST" id="form_edit" class=""
                     enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="id" id="id" class="form-control" />
@@ -160,10 +158,10 @@
                         @endforeach
                         <div class="col-12">
                             <div class="form-group">
-                                <label for="country_id">@lang('cities')</label>
-                                <select class="form-control" id="edit_country_id" name="country_id" required>
-                                    <option value="">@lang('select')</option>
-                                    @foreach ($country as $itemm)
+                                <label for="city_id">@lang('cities')</label>
+                                <select class="form-control" id="edit_city_id" name="city_id" required>
+                                    <option value="">@lang('select') @lang('area')</option>
+                                    @foreach ($cities as $itemm)
                                         <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
                                     @endforeach
                                 </select>
@@ -213,10 +211,9 @@
                 @endif // "oPaginate": {"sPrevious": '<-', "sNext": '->'},
             },
             ajax: {
-                url: '{{ url(app()->getLocale() . '/city/getData') }}',
+                url: '{{ url(app()->getLocale() . '/area/getData') }}',
                 data: function(d) {
                     d.name = $('#s_name').val();
-                    console.log(d);
                 }
             },
             columns: [{
@@ -230,10 +227,9 @@
                     name: 'name'
                 },
                 {
-                    data: 'country',
-                    name: 'country'
+                    data: 'cites',
+                    name: 'cites'
                 },
-
 
                 {
                     data: 'action',
@@ -251,23 +247,13 @@
                 $('input').removeClass('is-invalid');
                 $('.invalid-feedback').text('');
                 event.preventDefault();
-                var button = $(this)
-                var id = button.data('id')
-                var country_name = button.data('country_name')
-                var country_id = button.data('country_id')
-                $('select option').text(country_name)
-                $('select option').attr("selected","selected");
-                $('#country_id').val(country_id).trigger('change')
-                // $("select option").each(function(){
-                //     if ($(this).text() == "B")
-                //         $(this).
-                // });
+                var button = $(this);
+                var id = button.data('id');
+                $('#edit_city_id').val(button.data('city_id')).trigger('change');
                 $('#id').val(id);
-                // $('country_name').val(country_name)
                 @foreach (locales() as $key => $value)
                     $('#edit_name_{{ $key }}').val(button.data('name_{{ $key }}'))
                 @endforeach
-                // $('#country_id [name="country_id"]').val(country_name);
 
             });
         });
