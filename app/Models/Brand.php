@@ -18,9 +18,7 @@ class Brand extends Model
 
     protected $translatable = ['name'];
     protected $guarded=[];
-    protected $fillable = [
-        'name',
-    ];
+
     protected $appends = ['name_text'];
 
 
