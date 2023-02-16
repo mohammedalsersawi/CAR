@@ -190,7 +190,6 @@
 
                 data: function(d) {
                     d.name = $('#s_name').val();
-                    console.log(d);
                 }
             },
             columns: [{

@@ -181,7 +181,7 @@
                 }
             },
             ajax: {
-                url: '{{ url(app()->getLocale() . '/model/getData') }}',
+                url: '{{route('model.getData',app()->getLocale())}}',
                 data: function(d) {
                     d.name = $('#s_name').val();
                 }
