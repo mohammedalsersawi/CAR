@@ -146,41 +146,57 @@
         <div class="shadow-bottom"></div>
         <div class="main-menu-content">
             <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-                <li class="nav-item ">
-                    <a class="d-flex align-items-center" href="{{ route('model.index') }}">
-                        <i data-feather="file-text"></i><span
-                            class="menu-title text-truncate">@lang('Model Cars')</span>
-                    </a>
-                </li>
-                <li class="nav-item ">
-                    <a class="d-flex align-items-center" href="{{ route('engines.index') }}">
-                        <i data-feather="file-text"></i><span
-                            class="menu-title text-truncate">@lang('Engine Cars')</span>
-                    </a>
-                </li>
-                <li class="nav-item ">
-                    <a class="d-flex align-items-center" href="{{ route('fuelType.index') }}">
-                        <i data-feather="file-text"></i><span
-                            class="menu-title text-truncate">@lang('Fuel Type Cars')</span>
-                    </a>
-                </li>
-                <li class="nav-item ">
-                    <a class="d-flex align-items-center" href="{{ route('brand.index') }}">
-                        <i data-feather="file-text"></i><span
-                            class="menu-title text-truncate">@lang('Brand Cars')</span>
-                    </a>
-                </li>
-                <li class="nav-item ">
-                    <a class="d-flex align-items-center" href="{{ route('room.index') }}">
-                        <i data-feather="file-text"></i><span
-                            class="menu-title text-truncate">@lang('Room Cars')</span>
-                    </a>
-                </li>
-                <li class="nav-item ">
-                    <a class="d-flex align-items-center" href="{{ route('color.index') }}">
-                        <i data-feather="file-text"></i><span
-                            class="menu-title text-truncate">@lang('Color Cars')</span>
-                    </a>
+
+
+
+                <li class="nav-item has-sub  " style="">
+                    <a class="d-flex align-items-center" href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" class="feather feather-pie-chart">
+                            <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+                            <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+                        </svg>
+                        <span class="menu-title text-truncate" data-i18n="Charts">@lang('cars')</span></a>
+                    <ul class="menu-content">
+                        <li class="nav-item ">
+                            <a class="d-flex align-items-center" href="{{ route('model.index') }}">
+                                <i data-feather="file-text"></i><span
+                                    class="menu-title text-truncate">@lang('Model Cars')</span>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="d-flex align-items-center" href="{{ route('model.index') }}">
+                                <i data-feather="file-text"></i><span
+                                    class="menu-title text-truncate">@lang('Engine Cars')</span>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="d-flex align-items-center" href="{{ route('model.index') }}">
+                                <i data-feather="file-text"></i><span
+                                    class="menu-title text-truncate">@lang('Fuel Type Cars')</span>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="d-flex align-items-center" href="{{ route('model.index') }}">
+                                <i data-feather="file-text"></i><span
+                                    class="menu-title text-truncate">@lang('Brand Cars')</span>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="d-flex align-items-center" href="{{ route('room.index') }}">
+                                <i data-feather="file-text"></i><span
+                                    class="menu-title text-truncate">@lang('Room Cars')</span>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="d-flex align-items-center" href="{{ route('color.index') }}">
+                                <i data-feather="file-text"></i><span
+                                    class="menu-title text-truncate">@lang('Color Cars')</span>
+                            </a>
+                        </li>
+                    </ul>
+
                 </li>
 
             </ul>
@@ -329,7 +345,6 @@
 
                     var id = button.data('id')
                     var url = window.location.href + '/' + id;
-                    // {{-- url: "{{ route('engines.edit') }}" + '/' + id, --}}
                     $.ajax({
                         url: url,
                         method: 'DELETE',
@@ -348,7 +363,7 @@
                             rtl: isRtl
                         });
                     });
-                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                }else if (result.dismiss === Swal.DismissReason.cancel) {
                     toastr.info('@lang('delete_canceled')', '', {
                         rtl: isRtl
                     })
