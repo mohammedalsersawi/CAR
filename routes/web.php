@@ -4,6 +4,7 @@
 use App\Http\Controllers\Admin\Car\Brand\BrandController;
 use App\Http\Controllers\Admin\Car\City\CityController;
 use App\Http\Controllers\Admin\Car\Color\ColorController;
+use App\Http\Controllers\Admin\Car\country\CountryController;
 use App\Http\Controllers\Admin\Car\Engine\EngineController;
 use App\Http\Controllers\Admin\Car\FulType\FuelTypeController;
 use App\Http\Controllers\Admin\Car\Model\ModelController;
@@ -69,6 +70,13 @@ Route::group(
             Route::get('/getData', 'getData')->name('getData');
         });
         Route::controller(CityController::class)->prefix('city')->name('city.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('/store', 'store')->name('store');
+            Route::post('/update', 'update')->name('update');
+            Route::delete('/{id?}', 'destroy')->name('delete');
+            Route::get('/getData', 'getData')->name('getData');
+        });
+        Route::controller(CountryController::class)->prefix('country')->name('country.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::post('/store', 'store')->name('store');
             Route::post('/update', 'update')->name('update');

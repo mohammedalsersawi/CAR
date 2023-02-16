@@ -41,7 +41,7 @@ class BrandController extends Controller
         if ($request->hasFile('image')) {
             ImageUpload::UploadImage($request->image, 'brands', $brands->id, null, null);
         }
-        return $this->sendResponse(null, 'تم التعدييل بنجاح');
+        return $this->sendResponse(null, __('item_added'));
     }
 
     public function update(Request $request)
@@ -62,7 +62,7 @@ class BrandController extends Controller
         if ($request->hasFile('image')) {
             ImageUpload::UploadImage($request->image, 'brands', null, null, $brands->id);
         }
-        return $this->sendResponse(null, 'تم التعدييل بنجاح');
+        return $this->sendResponse(null, __('item_edited'));
 
     }
 
@@ -70,7 +70,7 @@ class BrandController extends Controller
     {
         $brands = Brand::find($id);
         $brands->delete();
-        return $this->sendResponse(null, 'تم الحذف بنجاح');
+        return $this->sendResponse(null, null);
     }
 
 

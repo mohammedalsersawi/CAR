@@ -30,7 +30,7 @@ class EngineController extends Controller
         }
         $this->validate($request, $rules);
         Engine::query()->create($data);
-        return $this->sendResponse(null, 'تم الاضافة بنجاح');
+        return $this->sendResponse(null, __('item_added'));
 
     }
 
@@ -48,14 +48,14 @@ class EngineController extends Controller
         }
         $engines = Engine::findOrFail($request->id);
         $engines->update($data);
-        return $this->sendResponse(null, 'تم التعدييل بنجاح');
+        return $this->sendResponse(null, __('item_edited'));
     }
 
     public function destroy($id)
     {
         $engines = Engine::find($id);
         $engines->delete();
-        return $this->sendResponse(null, 'تم الحذف بنجاح');
+        return $this->sendResponse(null, null);
     }
 
     public function getData(Request $request)
