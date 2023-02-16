@@ -146,6 +146,43 @@
         <div class="shadow-bottom"></div>
         <div class="main-menu-content">
             <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+<<<<<<< HEAD
+                <li class="nav-item ">
+                    <a class="d-flex align-items-center" href="{{ route('model.index') }}">
+                        <i data-feather="file-text"></i><span
+                            class="menu-title text-truncate">@lang('Model Cars')</span>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="d-flex align-items-center" href="{{ route('engines.index') }}">
+                        <i data-feather="file-text"></i><span
+                            class="menu-title text-truncate">@lang('Engine Cars')</span>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="d-flex align-items-center" href="{{ route('fuelType.index') }}">
+                        <i data-feather="file-text"></i><span
+                            class="menu-title text-truncate">@lang('Fuel Type Cars')</span>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="d-flex align-items-center" href="{{ route('brand.index') }}">
+                        <i data-feather="file-text"></i><span
+                            class="menu-title text-truncate">@lang('Brand Cars')</span>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="d-flex align-items-center" href="{{ route('room.index') }}">
+                        <i data-feather="file-text"></i><span
+                            class="menu-title text-truncate">@lang('Room Cars')</span>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="d-flex align-items-center" href="{{ route('color.index') }}">
+                        <i data-feather="file-text"></i><span
+                            class="menu-title text-truncate">@lang('Color Cars')</span>
+                    </a>
+=======
 
 
                 <li class="nav-item has-sub  " style="">
@@ -195,6 +232,7 @@
                             </a>
                         </li>
                     </ul>
+>>>>>>> b0a25c8cb04f55094f6ec8d971ed81dcb2f1ea33
                 </li>
 
             </ul>
@@ -290,6 +328,7 @@
                 processData: false,
                 url: url,
                 data: data,
+
                 beforeSend: function() {},
                 success: function(result) {
                     $('#full-modal-stem').modal('hide');
@@ -375,6 +414,7 @@
             var data = new FormData(this);
             let url = $(this).attr('action');
             let method = $(this).attr('method');
+
             $.ajax({
                 type: method,
                 cache: false,
@@ -397,7 +437,9 @@
 
                 },
                 error: function(data) {
+
                     if (data.status === 422) {
+
                         var response = data.responseJSON;
                         $.each(response.errors, function(key, value) {
                             var str = (key.split("."));

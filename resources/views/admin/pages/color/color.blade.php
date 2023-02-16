@@ -59,8 +59,9 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>@lang('colors')</th>
                                             <th>@lang('name')</th>
+                                            <th>@lang('colors')</th>
+
                                             <th style="width: 225px;">@lang('actions')</th>
                                         </tr>
                                     </thead>
@@ -152,8 +153,8 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="color">@lang('color')</label>
-                                <input type="color" class="form-control" placeholder="@lang('color')"
-                                    name="color" id="color">
+                                <input type="color" class="form-control colors-list" placeholder="@lang('color')"
+                                name="color" >
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
@@ -214,6 +215,7 @@
         //add
         //Update
         $(document).ready(function() {
+            $('#color').val();
             $(document).on('click', '.edit_btn', function(event) {
                 event.preventDefault();
                 $('input').removeClass('is-invalid');
@@ -222,7 +224,8 @@
                 var id = button.data('id');
                 var color = button.data('color');
                 $('#id').val(id);
-                $('#color').val(color);
+                $('.colors-list').val(color);
+                console.log(color);
                 @foreach (locales() as $key => $value)
                     $('#edit_name_{{ $key }}').val(button.data('name_{{ $key }}'))
                 @endforeach

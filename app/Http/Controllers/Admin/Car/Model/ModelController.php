@@ -1,22 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Car;
+namespace App\Http\Controllers\Admin\Car\Model;
 
-use App\Http\Controllers\Admin\ResponseTrait;
-use App\Http\Controllers\Controller;
-use App\Models\ColorCar;
-use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+use App\Models\ModelCar;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\Admin\ResponseTrait;
 
-class ColorController extends Controller
+
+
+class ModelController extends Controller
 {
-
     use ResponseTrait;
-    public function index(Request $request)
-    {
-        return view('admin.pages.color.color');
-    }
 
+    public function index()
+    {
+        return view('admin.pages.model.mode-car');
+    }
 
     public function store(Request $request)
     {
@@ -24,17 +25,14 @@ class ColorController extends Controller
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
         }
-        $rules['color'] = 'required|string';
-
         $this->validate($request, $rules);
         $data = [];
         foreach (locales() as $key => $language) {
             $data['name'][$key] = $request->get('name_' . $key);
         }
-        $data['color'] = $request->color;
-        $this->validate($request, $rules);
-        ColorCar::query()->create($data);
+        ModelCar::query()->create($data);
         return $this->sendResponse(null, 'تم الاضافة بنجاح');
+
     }
 
 
@@ -50,28 +48,28 @@ class ColorController extends Controller
             $data['name'][$key] = $request->get('name_' . $key);
         }
         $data['color'] = $request->color;
-        $colorCar =   ColorCar::findOrFail($request->id);
-        $colorCar->update($data);
+        $modelCar =   ModelCar::findOrFail($request->id);
+        $modelCar->update($data);
         return $this->sendResponse(null, 'تم التعدييل بنجاح');
+
     }
 
     public function destroy($id)
     {
-        $Color = ColorCar::find($id);
-        $Color->delete();
+        $ModelCar = ModelCar::find($id);
+        $ModelCar->delete();
         return $this->sendResponse(null, 'تم الحذف بنجاح');
     }
 
 
     public function getData()
     {
-        $modelCars = ColorCar::query();
+        $modelCars = ModelCar::query();
         return Datatables::of($modelCars)
             ->addIndexColumn()
             ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-id="' . $que->id . '" ';
-                $data_attr .= 'data-color="' . $que->color . '" ';
                 $data_attr .= 'data-name="' . $que->name . '" ';
                 foreach (locales() as $key => $value) {
                     $data_attr .= 'data-name_' . $key . '="' . $que->getTranslation('name', $key) . '" ';

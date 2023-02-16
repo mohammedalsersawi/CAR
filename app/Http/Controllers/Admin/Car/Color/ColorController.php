@@ -1,21 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Car;
+namespace App\Http\Controllers\Admin\Car\Color;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\Admin\ResponseTrait;
-use App\Models\FuelType;
+use App\Http\Controllers\Controller;
+use App\Models\ColorCar;
+use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
-class FuelTypeController extends Controller
+class ColorController extends Controller
 {
-    use ResponseTrait;
 
-    public function index()
+    use ResponseTrait;
+    public function index(Request $request)
     {
-        return view('admin.pages.fuelType.fuelType');
+        return view('admin.pages.color.color');
     }
+
 
     public function store(Request $request)
     {
@@ -23,15 +24,18 @@ class FuelTypeController extends Controller
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
         }
+        $rules['color'] = 'required|string';
+
         $this->validate($request, $rules);
         $data = [];
         foreach (locales() as $key => $language) {
             $data['name'][$key] = $request->get('name_' . $key);
         }
-        FuelType::query()->create($data);
+        $data['color'] = $request->color;
+        $this->validate($request, $rules);
+        ColorCar::query()->create($data);
         return $this->sendResponse(null, 'تم الاضافة بنجاح');
     }
-
 
 
     public function update(Request $request)
@@ -46,26 +50,28 @@ class FuelTypeController extends Controller
             $data['name'][$key] = $request->get('name_' . $key);
         }
         $data['color'] = $request->color;
-        $fuelType =   FuelType::findOrFail($request->id);
-        $fuelType->update($data);
+        $colorCar =   ColorCar::findOrFail($request->id);
+        $colorCar->update($data);
         return $this->sendResponse(null, 'تم التعدييل بنجاح');
     }
 
     public function destroy($id)
     {
-        $fuel_type = FuelType::find($id);
-        $fuel_type->delete();
+        $Color = ColorCar::find($id);
+        $Color->delete();
         return $this->sendResponse(null, 'تم الحذف بنجاح');
     }
 
-    public function getData(Request $request)
+
+    public function getData()
     {
-        $fuel_type = FuelType::query();
-        return Datatables::of($fuel_type)
+        $modelCars = ColorCar::query();
+        return Datatables::of($modelCars)
             ->addIndexColumn()
             ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-id="' . $que->id . '" ';
+                $data_attr .= 'data-color="' . $que->color . '" ';
                 $data_attr .= 'data-name="' . $que->name . '" ';
                 foreach (locales() as $key => $value) {
                     $data_attr .= 'data-name_' . $key . '="' . $que->getTranslation('name', $key) . '" ';

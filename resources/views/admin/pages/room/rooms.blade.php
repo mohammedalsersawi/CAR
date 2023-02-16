@@ -198,6 +198,24 @@
         var table = $('#datatable').DataTable({
             processing: true,
             serverSide: true,
+            "oLanguage": {
+                @if (app()->isLocale('ar'))
+                "sEmptyTable": "ليست هناك بيانات متاحة في الجدول",
+                "sLoadingRecords": "جارٍ التحميل...",
+                "sProcessing": "جارٍ التحميل...",
+                "sLengthMenu": "أظهر _MENU_ مدخلات",
+                "sZeroRecords": "لم يعثر على أية سجلات",
+                "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
+                "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
+                "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
+                "sInfoPostFix": "",
+                "sSearch": "ابحث:",
+                "oAria": {
+                    "sSortAscending": ": تفعيل لترتيب العمود تصاعدياً",
+                    "sSortDescending": ": تفعيل لترتيب العمود تنازلياً"
+                },
+                @endif // "oPaginate": {"sPrevious": '<-', "sNext": '->'},
+            },
             ajax: "{{ route('room.getData') }}",
             columns: [{
                     data: 'DT_RowIndex',
@@ -219,9 +237,7 @@
                     "render": function(data, type, full, meta) {
                         return "<img src=\"" + data + "\" height=\"50\"/>";
                     },
-                    "title": "Image",
-                    "orderable": true,
-                    "searchable": true
+
                 },
                 {
                     data: 'action',
