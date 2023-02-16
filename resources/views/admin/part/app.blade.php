@@ -146,43 +146,7 @@
         <div class="shadow-bottom"></div>
         <div class="main-menu-content">
             <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-<<<<<<< HEAD
-                <li class="nav-item ">
-                    <a class="d-flex align-items-center" href="{{ route('model.index') }}">
-                        <i data-feather="file-text"></i><span
-                            class="menu-title text-truncate">@lang('Model Cars')</span>
-                    </a>
-                </li>
-                <li class="nav-item ">
-                    <a class="d-flex align-items-center" href="{{ route('engines.index') }}">
-                        <i data-feather="file-text"></i><span
-                            class="menu-title text-truncate">@lang('Engine Cars')</span>
-                    </a>
-                </li>
-                <li class="nav-item ">
-                    <a class="d-flex align-items-center" href="{{ route('fuelType.index') }}">
-                        <i data-feather="file-text"></i><span
-                            class="menu-title text-truncate">@lang('Fuel Type Cars')</span>
-                    </a>
-                </li>
-                <li class="nav-item ">
-                    <a class="d-flex align-items-center" href="{{ route('brand.index') }}">
-                        <i data-feather="file-text"></i><span
-                            class="menu-title text-truncate">@lang('Brand Cars')</span>
-                    </a>
-                </li>
-                <li class="nav-item ">
-                    <a class="d-flex align-items-center" href="{{ route('room.index') }}">
-                        <i data-feather="file-text"></i><span
-                            class="menu-title text-truncate">@lang('Room Cars')</span>
-                    </a>
-                </li>
-                <li class="nav-item ">
-                    <a class="d-flex align-items-center" href="{{ route('color.index') }}">
-                        <i data-feather="file-text"></i><span
-                            class="menu-title text-truncate">@lang('Color Cars')</span>
-                    </a>
-=======
+
 
 
                 <li class="nav-item has-sub  " style="">
@@ -196,25 +160,25 @@
                         <span class="menu-title text-truncate" data-i18n="Charts">@lang('cars')</span></a>
                     <ul class="menu-content">
                         <li class="nav-item ">
-                            <a class="d-flex align-items-center" href="{{ route('model') }}">
+                            <a class="d-flex align-items-center" href="{{ route('model.index') }}">
                                 <i data-feather="file-text"></i><span
                                     class="menu-title text-truncate">@lang('Model Cars')</span>
                             </a>
                         </li>
                         <li class="nav-item ">
-                            <a class="d-flex align-items-center" href="{{ route('engines') }}">
+                            <a class="d-flex align-items-center" href="{{ route('model.index') }}">
                                 <i data-feather="file-text"></i><span
                                     class="menu-title text-truncate">@lang('Engine Cars')</span>
                             </a>
                         </li>
                         <li class="nav-item ">
-                            <a class="d-flex align-items-center" href="{{ route('fuelType') }}">
+                            <a class="d-flex align-items-center" href="{{ route('model.index') }}">
                                 <i data-feather="file-text"></i><span
                                     class="menu-title text-truncate">@lang('Fuel Type Cars')</span>
                             </a>
                         </li>
                         <li class="nav-item ">
-                            <a class="d-flex align-items-center" href="{{ route('brand') }}">
+                            <a class="d-flex align-items-center" href="{{ route('model.index') }}">
                                 <i data-feather="file-text"></i><span
                                     class="menu-title text-truncate">@lang('Brand Cars')</span>
                             </a>
@@ -232,7 +196,7 @@
                             </a>
                         </li>
                     </ul>
->>>>>>> b0a25c8cb04f55094f6ec8d971ed81dcb2f1ea33
+
                 </li>
 
             </ul>
@@ -381,7 +345,6 @@
 
                     var id = button.data('id')
                     var url = window.location.href + '/' + id;
-                    // {{-- url: "{{ route('engines.edit') }}" + '/' + id, --}}
                     $.ajax({
                         url: url,
                         method: 'DELETE',
@@ -400,7 +363,7 @@
                             rtl: isRtl
                         });
                     });
-                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                }else if (result.dismiss === Swal.DismissReason.cancel) {
                     toastr.info('@lang('delete_canceled')', '', {
                         rtl: isRtl
                     })
