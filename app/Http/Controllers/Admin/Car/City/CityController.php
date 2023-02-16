@@ -24,7 +24,6 @@ class CityController extends Controller
 
     public function store(Request $request)
     {
-
         $rules = [];
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:45';
@@ -43,6 +42,8 @@ class CityController extends Controller
 
     public function update(Request $request)
     {
+        return $request;
+
         $rules = [];
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
@@ -76,6 +77,8 @@ class CityController extends Controller
                 $data_attr = '';
                 $data_attr .= 'data-id="' . $que->id . '" ';
                 $data_attr .= 'data-country_name="' . $que->country->name . '" ';
+                $data_attr .= 'data-country_id="' . $que->country->id . '" ';
+
                 foreach (locales() as $key => $value) {
                     $data_attr .= 'data-name_' . $key . '="' . $que->getTranslation('name', $key) . '" ';
                 }

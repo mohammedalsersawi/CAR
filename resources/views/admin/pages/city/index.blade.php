@@ -107,7 +107,7 @@
                                     <select name="country_id" id="country_id"
                                             class="select form-control" data-select2-id="select2-data-1-bgy2"
                                             tabindex="-1" aria-hidden="true">
-                                        <option selected disabled>Select Category</option>
+                                        <option selected disabled>Select Counter</option>
                                         @foreach ($country as $itemm)
                                             <option value="{{$itemm->id}}"> {{$itemm->name}} </option>
                                             </option>
@@ -159,12 +159,10 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <label for="">@lang('city')</label>
-                                    <select name="country_id" id="country_id"
-                                            class="select form-control" data-select2-id="select2-data-1-bgy2"
-                                            tabindex="-1" aria-hidden="true">
-                                        <option selected disabled>Select Category</option>
-                                            <option value=""></option>
-                                            </option>
+                                    <select name="country_id" id="country_id" class="form-control">
+                                        @foreach ($country as $itemm)
+                                            <option value="{{$itemm->id}}">{{$itemm->name}} </option>
+                                        @endforeach
                                     </select>
                                     <div class="invalid-feedback"></div>
                                 </div>
@@ -253,13 +251,20 @@
                 var button = $(this)
                 var id = button.data('id')
                 var country_name = button.data('country_name')
+                var country_id = button.data('country_id')
+                $('select option').text(country_name)
+                $('select option').attr("selected","selected");
+                $('#country_id').val(country_id).trigger('change')
+                // $("select option").each(function(){
+                //     if ($(this).text() == "B")
+                //         $(this).
+                // });
                 $('#id').val(id);
-                $('country_name').val(country_name)
+                // $('country_name').val(country_name)
                 @foreach (locales() as $key => $value)
                     $('#edit_name_{{ $key }}').val(button.data('name_{{ $key }}'))
                 @endforeach
-                $('#country_id [name="country_id"]').val(country_name)
-                    .selectpicker('refresh');
+                // $('#country_id [name="country_id"]').val(country_name);
 
             });
         });
