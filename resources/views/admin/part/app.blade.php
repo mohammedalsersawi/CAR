@@ -145,7 +145,45 @@
         </div>
         <div class="shadow-bottom"></div>
         <div class="main-menu-content">
+            <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+                <li class="nav-item ">
+                    <a class="d-flex align-items-center" href="{{ route('model.index') }}">
+                        <i data-feather="file-text"></i><span
+                            class="menu-title text-truncate">@lang('Model Cars')</span>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="d-flex align-items-center" href="{{ route('engines.index') }}">
+                        <i data-feather="file-text"></i><span
+                            class="menu-title text-truncate">@lang('Engine Cars')</span>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="d-flex align-items-center" href="{{ route('fuelType.index') }}">
+                        <i data-feather="file-text"></i><span
+                            class="menu-title text-truncate">@lang('Fuel Type Cars')</span>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="d-flex align-items-center" href="{{ route('brand.index') }}">
+                        <i data-feather="file-text"></i><span
+                            class="menu-title text-truncate">@lang('Brand Cars')</span>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="d-flex align-items-center" href="{{ route('room.index') }}">
+                        <i data-feather="file-text"></i><span
+                            class="menu-title text-truncate">@lang('Room Cars')</span>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="d-flex align-items-center" href="{{ route('color.index') }}">
+                        <i data-feather="file-text"></i><span
+                            class="menu-title text-truncate">@lang('Color Cars')</span>
+                    </a>
+                </li>
 
+            </ul>
         </div>
     </div>
     <!-- END: Main Menu-->
