@@ -109,7 +109,7 @@
                                             tabindex="-1" aria-hidden="true">
                                         <option selected disabled>Select Category</option>
                                         @foreach ($country as $itemm)
-                                            <option> {{$itemm->name}} </option>
+                                            <option value="{{$itemm->id}}"> {{$itemm->name}} </option>
                                             </option>
                                         @endforeach
                                     </select>
@@ -156,21 +156,20 @@
                                 </div>
                             </div>
                         @endforeach
-                            <div class="form-group row" data-select2-id="select2-data-12-1fss">
-                                <label class="col-lg-3 col-form-label">Add to Category</label>
-                                <div class="col-lg-9" data-select2-id="select2-data-11-lw53">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="">@lang('city')</label>
                                     <select name="country_id" id="country_id"
-                                            class="select select2-hidden-accessible" data-select2-id="select2-data-1-bgy2"
+                                            class="select form-control" data-select2-id="select2-data-1-bgy2"
                                             tabindex="-1" aria-hidden="true">
-                                        <option selected disabled>Select Country</option>
-                                        @foreach ($country as $itemm)
-                                            <option> {{$itemm->name}} </option>
+                                        <option selected disabled>Select Category</option>
+                                            <option value=""></option>
                                             </option>
-                                        @endforeach
                                     </select>
+                                    <div class="invalid-feedback"></div>
                                 </div>
                             </div>
-                        <div class="modal-footer">
+                            <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
                                 data-dismiss="modal">@lang('close')</button>
                             <button class="btn btn-primary">@lang('save changes')</button>
@@ -253,11 +252,14 @@
                 event.preventDefault();
                 var button = $(this)
                 var id = button.data('id')
+                var country_name = button.data('country_name')
                 $('#id').val(id);
-                $('country_id').val('')
+                $('country_name').val(country_name)
                 @foreach (locales() as $key => $value)
                     $('#edit_name_{{ $key }}').val(button.data('name_{{ $key }}'))
                 @endforeach
+                $('#country_id [name="country_id"]').val(country_name)
+                    .selectpicker('refresh');
 
             });
         });
