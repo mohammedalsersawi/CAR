@@ -16,7 +16,10 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->integer('phone')->unique();
+            $table->string('number')->unique();
             $table->string('password');
+            $table->foreignId('city_id')->constrained('cities')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('area_id')->constrained('areas')->cascadeOnDelete()->cascadeOnUpdate();
             $table->rememberToken();
             $table->timestamps();
         });
