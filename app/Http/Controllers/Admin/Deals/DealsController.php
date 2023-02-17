@@ -1,0 +1,107 @@
+<?php
+
+namespace App\Http\Controllers\Admin\Deals;
+
+use App\Http\Controllers\Admin\ResponseTrait;
+use App\Http\Controllers\Controller;
+use App\Models\Brand;
+use App\Models\Deals;
+use App\Models\User;
+use App\Utils\ImageUpload;
+use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
+
+class DealsController extends Controller
+{
+    use ResponseTrait;
+    public function index()
+    {
+        $user=User::select(['phone','id'])->get();
+//$user=Deals::findOrFail('7f7aa1bb-54fb-4273-b66d-bf1ba29bda03');
+//return $user;
+        return view('admin.pages.deal.index',compact('user'));
+    }
+
+
+    public function store(Request $request)
+    {
+        $rules = [];
+        $rules['image'] = 'required|image';
+        foreach (locales() as $key => $language) {
+            $rules['deals_' . $key] = 'required|string|max:255';
+        }
+
+        $this->validate($request, $rules);
+        $data = [];
+        foreach (locales() as $key => $language) {
+            $data['deals'][$key] = $request->get('deals_' . $key);
+        }
+        $data['user_id']=$request->user_id;
+        $this->validate($request, $rules);
+        $deals =  Deals::create($data);
+        ImageUpload::UploadImage($request->image, 'deals', $deals->uuid, null, null);
+        return $this->sendResponse(null, __('item_added'));
+    }
+
+    public function update(Request $request)
+    {
+        $rules = [];
+        foreach (locales() as $key => $language) {
+            $rules['deals_' . $key] = 'required|string|max:255';
+        }
+        $rules['image'] = 'nullable|image';
+        $this->validate($request, $rules);
+        $data = [];
+        foreach (locales() as $key => $language) {
+            $data['deals'][$key] = $request->get('deals_' . $key);
+        }
+
+        $data['user_id']=$request->user_id;
+
+        $deals =Deals::findOrFail($request->uuid);
+
+        $deals->update($data);
+        if ($request->hasFile('image')) {
+            ImageUpload::UploadImage($request->image, 'deals', null, null, $deals->uuid);
+        }
+        return $this->sendResponse(null, __('item_edited'));
+
+    }
+
+    public function destroy($uuid)
+    {
+        $deals =Deals::destroy($uuid);
+        return $this->sendResponse(null, null);
+    }
+
+
+    public function getData(Request $request)
+    {
+        $deals = Deals::query();
+        return Datatables::of($deals)
+            ->addIndexColumn()
+            ->addColumn('action', function ($que) {
+                $data_attr = '';
+                $data_attr .= 'data-uuid="' . $que->uuid . '" ';
+                $data_attr .= 'data-deals="' . $que->deals . '" ';
+                $data_attr .= 'data-user_id="' . $que->user_id . '" ';
+                $data_attr .= 'data-image="' . $que->avatar->full_small_path . '" ';
+                foreach (locales() as $key => $value) {
+                    $data_attr .= 'data-deals_' . $key . '="' . $que->getTranslation('deals', $key) . '" ';
+                }
+                $string = '';
+                $string .= '<button class="edit_btn btn btn-sm btn-outline-primary btn_edit" data-toggle="modal"
+                    data-target="#edit_modal" ' . $data_attr . '>' . __('edit') . '</button>';
+                $string .= ' <button type="button"  class="btn btn-sm btn-outline-danger btn_delete" data-id="' . $que->uuid .
+                    '">' . __('delete') . '  </button>';
+                return $string;
+            })
+            ->addColumn('image', function ($row) {
+                $imageData = $row->avatar->full_small_path;
+                return $imageData;
+            })
+            ->rawColumns(['image'])
+            ->rawColumns(['action'])
+            ->make(true);
+    }
+}

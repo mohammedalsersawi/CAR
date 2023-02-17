@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\Car\Engine\EngineController;
 use App\Http\Controllers\Admin\Car\FulType\FuelTypeController;
 use App\Http\Controllers\Admin\Car\Model\ModelController;
 use App\Http\Controllers\Admin\Car\RoomController;
+use App\Http\Controllers\Admin\Deals\DealsController;
 use Illuminate\Support\Facades\Route;
 
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -88,6 +89,13 @@ Route::group(
             Route::post('/store', 'store')->name('store');
             Route::post('/update', 'update')->name('update');
             Route::delete('/{id?}', 'destroy')->name('delete');
+            Route::get('/getData', 'getData')->name('getData');
+        });
+        Route::controller(DealsController::class)->prefix('deals')->name('deals.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('/store', 'store')->name('store');
+            Route::post('/update', 'update')->name('update');
+            Route::delete('/{uuid}', 'destroy')->name('delete');
             Route::get('/getData', 'getData')->name('getData');
         });
 

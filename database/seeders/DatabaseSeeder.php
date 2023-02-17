@@ -19,11 +19,11 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-//        Admin::factory()->create([
-//             'name' => 'mohamed',
-//             'email' => 'admin@admin',
-//             'password'=>Hash::make('123456789')
-//         ]);
+        Admin::factory()->create([
+             'name' => 'mohamed',
+             'email' => 'admin@admin',
+             'password'=>Hash::make('123456789')
+         ]);
         UserType::create([
                 'name_en'=> 'gest',
                 'name_ar'=>'ضيف'
