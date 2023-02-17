@@ -104,7 +104,7 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <label for="user_id">@lang('users')</label>
-                                    <select class="form-control" id="edit_user_id" name="user_id" required>
+                                    <select class="form-control" id="" name="user_id" required>
                                         <option value="">@lang('select')</option>
                                         @foreach ($user as $itemm)
                                             <option value="{{ $itemm->id }}"> {{ $itemm->phone }} </option>
