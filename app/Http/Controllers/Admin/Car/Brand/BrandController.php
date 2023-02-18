@@ -78,6 +78,12 @@ class BrandController extends Controller
     {
         $brands = Brand::query();
         return Datatables::of($brands)
+            ->filter(function ($query) use ($request) {
+                if ($request->get('search')) {
+                    $locale = app()->getLocale();
+                    $query->where('name->'.locale(), 'like', "%{$request->search['value']}%");
+                }
+            })
             ->addIndexColumn()
             ->addColumn('action', function ($que) {
                 $data_attr = '';

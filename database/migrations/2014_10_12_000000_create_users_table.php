@@ -18,8 +18,10 @@ return new class extends Migration
             $table->integer('phone')->unique();
             $table->string('number')->unique();
             $table->string('password');
-            $table->foreignId('city_id')->constrained('cities')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('area_id')->constrained('areas')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->text('about');
+            $table->foreignId('city_id')->nullable()->constrained('cities')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('area_id')->nullable()->constrained('areas')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('user_type_id')->default(1)->constrained('user_types')->cascadeOnDelete()->cascadeOnUpdate();
             $table->rememberToken();
             $table->timestamps();
         });

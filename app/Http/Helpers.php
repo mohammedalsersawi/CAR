@@ -12,7 +12,10 @@ function rtl_assets()
     }
     return '';
 }
-
+function locale()
+{
+    return Mcamara\LaravelLocalization\Facades\LaravelLocalization::getCurrentLocale();
+}
 function locales()
 {
     $arr = [];

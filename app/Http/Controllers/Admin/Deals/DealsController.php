@@ -78,14 +78,22 @@ class DealsController extends Controller
     public function getData(Request $request)
     {
         $deals = Deals::query();
+
         return Datatables::of($deals)
+
             ->addIndexColumn()
+            ->filter(function ($query) use ($request) {
+                if ($request->get('search')) {
+                    $locale = app()->getLocale();
+                    $query->where('deals->'.locale(), 'like', "%{$request->search['value']}%");
+                }
+            })
             ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-uuid="' . $que->uuid . '" ';
                 $data_attr .= 'data-deals="' . $que->deals . '" ';
                 $data_attr .= 'data-user_id="' . $que->user_id . '" ';
-                $data_attr .= 'data-image="' . $que->avatar->full_small_path . '" ';
+                $data_attr .= 'data-image="' . $que->image . '" ';
                 foreach (locales() as $key => $value) {
                     $data_attr .= 'data-deals_' . $key . '="' . $que->getTranslation('deals', $key) . '" ';
                 }
@@ -97,9 +105,10 @@ class DealsController extends Controller
                 return $string;
             })
             ->addColumn('image', function ($row) {
-                $imageData = $row->avatar->full_small_path;
+                $imageData = $row->image;
                 return $imageData;
             })
+
             ->rawColumns(['image'])
             ->rawColumns(['action'])
             ->make(true);

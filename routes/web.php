@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\Car\FulType\FuelTypeController;
 use App\Http\Controllers\Admin\Car\Model\ModelController;
 use App\Http\Controllers\Admin\Car\RoomController;
 use App\Http\Controllers\Admin\Deals\DealsController;
+use App\Http\Controllers\Admin\UserTyue\UserTypeController;
 use Illuminate\Support\Facades\Route;
 
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -97,6 +98,14 @@ Route::group(
             Route::post('/update', 'update')->name('update');
             Route::delete('/{uuid}', 'destroy')->name('delete');
             Route::get('/getData', 'getData')->name('getData');
+        });
+        Route::controller(UserTypeController::class)->prefix('usertype')->name('usertype.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('/store', 'store')->name('store');
+            Route::post('/update', 'update')->name('update');
+            Route::delete('/{uuid}', 'destroy')->name('delete');
+            Route::get('/getData', 'getData')->name('getData');
+            Route::get('/area/{id}', 'area')->name('area');
         });
 
     }

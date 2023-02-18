@@ -41,14 +41,29 @@
                                 <form id="search_form">
                                     <div class="row">
 
-
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="s_title">@lang('title')</label>
+                                                <input id="s_title" type="text" class="search_input form-control"
+                                                       placeholder="@lang('title')">
+                                            </div>
+                                        </div>
                                         <div class="col-3" style="margin-top: 20px">
                                             <div class="form-group">
+                                                <button id="search_btn" class="btn btn-outline-info" type="submit">
+                                                    <span><i class="fa fa-search"></i> @lang('search')</span>
+                                                </button>
+                                                <button id="clear_btn" class="btn btn-outline-secondary" type="submit">
+                                                    <span><i class="fa fa-undo"></i> @lang('reset')</span>
+                                                </button>
+
                                                 <button class="btn btn-outline-primary button_modal" type="button" data-toggle="modal" id=""
-                                                    data-target="#full-modal-stem"><span><i
+                                                        data-target="#full-modal-stem"><span><i
                                                             class="fa fa-plus"></i>@lang('add')</span>
                                                 </button>
                                             </div>
+
+
                                         </div>
                                     </div>
                                 </form>
@@ -203,6 +218,7 @@
             processing: true,
             serverSide: true,
             responsive: true,
+            searching:true,
             "oLanguage": {
                 @if (app()->isLocale('ar'))
                     "sEmptyTable": "ليست هناك بيانات متاحة في الجدول",
@@ -224,7 +240,7 @@
             ajax: {
                 url: '{{route('deals.getData',app()->getLocale())}}',
                 data: function(d) {
-                    d.name = $('#s_name').val();
+                        d.deals = $('#search').val();
                 }
             },
             columns: [{
@@ -239,18 +255,23 @@
                     render: function(data, type, full, meta) {
                         return `<img src="{{ asset('uploads/${data}') }}" width="100" class="img-fluid img-thumbnail">`;
                     },
+                    orderable: false,
+                    searchable: false
                 },
                 {
                     data: 'name_text',
-                    name: 'deals'
+                    name: 'deals',
+                    searchable: true,
+                    orderable: true,
                 },
 
 
                 {
                     data: 'action',
                     name: 'action',
+                    searchable: false,
                     orderable: false,
-                    searchable: true
+
                 },
             ]
 

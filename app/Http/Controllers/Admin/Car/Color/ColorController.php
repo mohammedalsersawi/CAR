@@ -63,10 +63,16 @@ class ColorController extends Controller
     }
 
 
-    public function getData()
+    public function getData(Request $request)
     {
         $modelCars = ColorCar::query();
         return Datatables::of($modelCars)
+            ->filter(function ($query) use ($request) {
+                if ($request->get('search')) {
+                    $locale = app()->getLocale();
+                    $query->where('name->'.locale(), 'like', "%{$request->search['value']}%");
+                }
+            })
             ->addIndexColumn()
             ->addColumn('action', function ($que) {
                 $data_attr = '';

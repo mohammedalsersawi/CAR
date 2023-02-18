@@ -72,6 +72,12 @@ class CityController extends Controller
     {
         $city = City::query();
         return Datatables::of($city)
+            ->filter(function ($query) use ($request) {
+                if ($request->get('search')) {
+                    $locale = app()->getLocale();
+                    $query->where('name->'.locale(), 'like', "%{$request->search['value']}%");
+                }
+            })
             ->addIndexColumn()
             ->addColumn('action', function ($que) {
                 $data_attr = '';

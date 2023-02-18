@@ -62,6 +62,12 @@ class FuelTypeController extends Controller
     {
         $fuel_type = FuelType::query();
         return Datatables::of($fuel_type)
+            ->filter(function ($query) use ($request) {
+                if ($request->get('search')) {
+                    $locale = app()->getLocale();
+                    $query->where('name->'.locale(), 'like', "%{$request->search['value']}%");
+                }
+            })
             ->addIndexColumn()
             ->addColumn('action', function ($que) {
                 $data_attr = '';

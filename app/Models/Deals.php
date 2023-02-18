@@ -34,6 +34,12 @@ class Deals extends Model
         });
 
     }
+    public function getImageAttribute()
+    {
+        return @$this->avatar->full_small_path;
+    }
+
+
     public function user(){
         return $this->belongsTo(User::class);
     }
@@ -43,5 +49,9 @@ class Deals extends Model
             File::delete(public_path('uploads/' . $deal->avatar->full_small_path));
             $deal->avatar()->delete();
         });
+    }
+    public function getRouteKeyName()
+    {
+        return 'uuid';
     }
 }
