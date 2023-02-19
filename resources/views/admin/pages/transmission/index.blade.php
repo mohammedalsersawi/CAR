@@ -1,6 +1,6 @@
 @extends('admin.part.app')
 @section('title')
-    @lang('Engine Cars')
+    @lang('Transmission Cars')
 @endsection
 @section('styles')
 @endsection
@@ -10,7 +10,7 @@
             <div class="content-header-left col-md-9 col-12 mb-2">
                 <div class="row breadcrumbs-top">
                     <div class="col-12">
-                        <h2 class="content-header-title float-left mb-0">@lang('Engine Cars')</h2>
+                        <h2 class="content-header-title float-left mb-0">@lang('Transmission Cars')</h2>
                         <div class="breadcrumb-wrapper">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ url('/admin') }}">@lang('home')</a>
@@ -45,7 +45,7 @@
                                         <div class="col-3" style="margin-top: 20px">
                                             <div class="form-group">
                                                 <button class="btn btn-outline-primary button_modal" type="button"
-                                                    data-toggle="modal" data-target="#full-modal-stem"><span><i
+                                                        data-toggle="modal" data-target="#full-modal-stem"><span><i
                                                             class="fa fa-plus"></i>@lang('add')</span>
                                                 </button>
 
@@ -57,11 +57,11 @@
                             <div class="table-responsive card-datatable" style="padding: 20px">
                                 <table class="table" id="datatable">
                                     <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>@lang('name')</th>
-                                            <th style="width: 225px;">@lang('actions')</th>
-                                        </tr>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>@lang('name')</th>
+                                        <th style="width: 225px;">@lang('actions')</th>
+                                    </tr>
                                     </thead>
                                     <tbody></tbody>
 
@@ -76,7 +76,7 @@
     </div>
     <!-- Modal -->
     <div class="modal fade" id="full-modal-stem" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true">
+         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -85,15 +85,15 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('engines.store') }}" method="POST" id="add_model_form" class="add-mode-form">
+                <form action="{{ route('transmission.store') }}" method="POST" id="add_model_form" class="add-mode-form">
                     <div class="modal-body">
                         @foreach (locales() as $key => $value)
                             <div class="col-12">
                                 <div class="form-group">
                                     <label for="name_{{ $key }}">@lang('name') @lang($value)</label>
                                     <input type="text" class="form-control"
-                                        placeholder="@lang('name') @lang($value)" name="name_{{ $key }}"
-                                        id="name_{{ $key }}">
+                                           placeholder="@lang('name') @lang($value)" name="name_{{ $key }}"
+                                           id="name_{{ $key }}">
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
@@ -109,7 +109,7 @@
     </div>
     <!-- Modal -->
     <div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true">
+         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -118,8 +118,8 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('engines.update') }}" method="POST" id="form_edit" class=""
-                    enctype="multipart/form-data">
+                <form action="{{ route('transmission.update') }}" method="POST" id="form_edit" class=""
+                      enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="id" id="id" class="form-control" />
                     <div class="modal-body">
@@ -128,8 +128,8 @@
                                 <div class="form-group">
                                     <label for="name_{{ $key }}">@lang('name') @lang($value)</label>
                                     <input type="text" class="form-control"
-                                        placeholder="@lang('name') @lang($value)"
-                                        name="name_{{ $key }}" id="edit_name_{{ $key }}">
+                                           placeholder="@lang('name') @lang($value)"
+                                           name="name_{{ $key }}" id="edit_name_{{ $key }}">
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
@@ -137,7 +137,7 @@
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
-                                data-dismiss="modal">@lang('close')</button>
+                                    data-dismiss="modal">@lang('close')</button>
                             <button class="btn btn-primary">@lang('save changes')</button>
                         </div>
                     </div>
@@ -164,20 +164,20 @@
             serverSide: true,
             "oLanguage": {
                 @if (app()->isLocale('ar'))
-                    "sEmptyTable": "ليست هناك بيانات متاحة في الجدول",
-                    "sLoadingRecords": "جارٍ التحميل...",
-                    "sProcessing": "جارٍ التحميل...",
-                    "sLengthMenu": "أظهر _MENU_ مدخلات",
-                    "sZeroRecords": "لم يعثر على أية سجلات",
-                    "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
-                    "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
-                    "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
-                    "sInfoPostFix": "",
-                    "sSearch": "ابحث:",
-                    "oAria": {
-                        "sSortAscending": ": تفعيل لترتيب العمود تصاعدياً",
-                        "sSortDescending": ": تفعيل لترتيب العمود تنازلياً"
-                    },
+                "sEmptyTable": "ليست هناك بيانات متاحة في الجدول",
+                "sLoadingRecords": "جارٍ التحميل...",
+                "sProcessing": "جارٍ التحميل...",
+                "sLengthMenu": "أظهر _MENU_ مدخلات",
+                "sZeroRecords": "لم يعثر على أية سجلات",
+                "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
+                "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
+                "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
+                "sInfoPostFix": "",
+                "sSearch": "ابحث:",
+                "oAria": {
+                    "sSortAscending": ": تفعيل لترتيب العمود تصاعدياً",
+                    "sSortDescending": ": تفعيل لترتيب العمود تنازلياً"
+                },
                 @endif // "oPaginate": {"sPrevious": '<-', "sNext": '->'},
                 "oPaginate": {
                     // remove previous & next text from pagination
@@ -186,17 +186,17 @@
                 }
             },
             ajax: {
-                url: '{{route('engines.getData',app()->getLocale())}}',
+                url: '{{route('transmission.getData',app()->getLocale())}}',
                 data: function(d) {
                     d.name = $('#s_name').val();
                 }
             },
             columns: [{
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex',
-                    orderable: false,
-                    searchable: false
-                },
+                data: 'DT_RowIndex',
+                name: 'DT_RowIndex',
+                orderable: false,
+                searchable: false
+            },
                 {
                     data: 'name_text',
                     name: 'name'
@@ -223,7 +223,7 @@
                 var id = button.data('id');
                 $('#id').val(id);
                 @foreach (locales() as $key => $value)
-                    $('#edit_name_{{ $key }}').val(button.data('name_{{ $key }}'))
+                $('#edit_name_{{ $key }}').val(button.data('name_{{ $key }}'))
                 @endforeach
 
             });

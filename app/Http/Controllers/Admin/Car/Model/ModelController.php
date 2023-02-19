@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Car\Model;
 
+use App\Models\Brand;
 use Yajra\DataTables\Facades\DataTables;
 use App\Models\ModelCar;
 use Illuminate\Http\Request;
@@ -16,7 +17,8 @@ class ModelController extends Controller
 
     public function index()
     {
-        return view('admin.pages.model.mode-car');
+        $brand=Brand::select(['id','name'])->get();
+        return view('admin.pages.model.mode-car',compact('brand'));
     }
 
     public function store(Request $request)
@@ -25,12 +27,15 @@ class ModelController extends Controller
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
         }
+        $rules['brand_id']='required|exists:brands,id';
         $this->validate($request, $rules);
         $data = [];
         foreach (locales() as $key => $language) {
             $data['name'][$key] = $request->get('name_' . $key);
         }
-        ModelCar::query()->create($data);
+        $data['brand_id']=$request->brand_id;
+
+        ModelCar::create($data);
         return $this->sendResponse(null, __('item_added'));
 
     }
@@ -42,12 +47,13 @@ class ModelController extends Controller
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
         }
+        $rules['brand_id']='required|exists:brands,id';
         $this->validate($request, $rules);
         $data = [];
         foreach (locales() as $key => $language) {
             $data['name'][$key] = $request->get('name_' . $key);
         }
-        $data['color'] = $request->color;
+        $rules['brand_id']='required|exists:brands,id';
         $modelCar =   ModelCar::findOrFail($request->id);
         $modelCar->update($data);
         return $this->sendResponse(null, __('item_edited'));
@@ -77,6 +83,7 @@ class ModelController extends Controller
                 $data_attr = '';
                 $data_attr .= 'data-id="' . $que->id . '" ';
                 $data_attr .= 'data-name="' . $que->name . '" ';
+                $data_attr .= 'data-brand_id="' . $que->brand_id . '" ';
                 foreach (locales() as $key => $value) {
                     $data_attr .= 'data-name_' . $key . '="' . $que->getTranslation('name', $key) . '" ';
                 }
@@ -87,6 +94,10 @@ class ModelController extends Controller
                     '">' . __('delete') . '</button>';
                 return $string;
             })
+            ->addColumn('brand',function ($row){
+                return $row->brand->name;
+            })
+            ->rawColumns(['brand'])
             ->rawColumns(['action'])
             ->make(true);
     }

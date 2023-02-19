@@ -24,7 +24,7 @@ class Deals extends Model
     }
     public function avatar()
     {
-        return $this->belongsTo(Upload::class,'uuid','relation_id')->where('file_type', 'deals');
+        return $this->belongsTo(Upload::class,'id','relation_id')->where('file_type', 'deals');
     }
     public static function boot()
     {

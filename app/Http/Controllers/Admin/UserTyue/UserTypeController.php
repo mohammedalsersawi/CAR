@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Area;
 use App\Models\City;
+use App\Models\Country;
 use App\Models\User;
 use App\Models\UserType;
 use Illuminate\Http\Request;
@@ -19,19 +20,26 @@ class UserTypeController extends Controller
     public function index()
     {
         $cities=City::select(['name','id'])->get();
+        $country=Country::select(['name','id'])->get();
         $user=UserType::all();
-        $area=Area::select(['id','name'])->get();
+//        $area=Area::select(['id','name'])->get();
 
-        return view('admin.pages.usertype.index',compact(['cities','user','area']));
+        return view('admin.pages.usertype.index',compact(['cities','user','country']));
     }
 
 
     public function store(Request $request)
     {
+//        $latlon=$request->latlon;
+//        $num=strpos($latlon, ",");
+//        $lat= substr($latlon, strpos($latlon, "("),$num);
+//        $lon=substr($latlon, $num, strpos($latlon, ")"));
         $rules = [];
         foreach (locales() as $key => $language) {
             $rules['about_' . $key] = 'required|string';
         }
+        $rules['lat'] = 'required';
+        $rules['lon'] = 'required';
         $rules['phone'] = 'required|numeric|digits:10';
         $rules['number'] = 'required';
         $rules['city_id'] = 'required|exists:cities,id';
@@ -43,6 +51,8 @@ class UserTypeController extends Controller
         foreach (locales() as $key => $language) {
             $data['about'][$key] = $request->get('about_' . $key);
         }
+        $data['lat'] = $request->lat;
+        $data['lon'] = $request->lon;
         $data['phone']=$request->phone;
         $data['number']=$request->number;
         $data['city_id']=$request->city_id;
@@ -65,12 +75,15 @@ class UserTypeController extends Controller
         $rules['city_id'] = 'required|exists:cities,id';
         $rules['area_id'] = 'required|exists:areas,id';
         $rules['user_type_id'] = 'required|exists:user_types,id';
-
+        $rules['lat'] = 'required';
+        $rules['lon'] = 'required';
         $this->validate($request, $rules);
         $data=[];
         foreach (locales() as $key => $language) {
             $data['about'][$key] = $request->get('about_' . $key);
         }
+        $data['lat'] = $request->lat;
+        $data['lon'] = $request->lon;
         $data['phone']=$request->phone;
         $data['number']=$request->number;
         $data['city_id']=$request->city_id;
@@ -118,6 +131,10 @@ class UserTypeController extends Controller
                 $data_attr .= 'data-phone="' . $que->phone . '" ';
                 $data_attr .= 'data-city="' . $que->city_id . '" ';
                 $data_attr .= 'data-area="' . $que->area_id . '" ';
+                $data_attr .= 'data-area_name="' . $que->area->name . '" ';
+                $data_attr .= 'data-city_name="' . $que->city->name . '" ';
+                $data_attr .= 'data-lat="' . $que->lat . '" ';
+                $data_attr .= 'data-lon="' . $que->lon . '" ';
                 $data_attr .= 'data-user_type_id="' . $que->user_type_id . '" ';
                 foreach (locales() as $key => $value) {
                     $data_attr .= 'data-about_' . $key . '="' . $que->getTranslation('about', $key) . '" ';
@@ -148,5 +165,11 @@ class UserTypeController extends Controller
         $list_classes = Area::where("city_id", $id)->pluck("name", "id");
 
         return $list_classes;
+    }
+    public function country($id)
+    {
+        $country = City::where("country_id", $id)->pluck("name", "id");
+
+        return $country;
     }
 }

@@ -3,6 +3,15 @@
     @lang('city Cars')
 @endsection
 @section('styles')
+    <style>
+        #map { height: 300px; }
+    </style>
+    <style>
+        #map2 { height: 200px; }
+    </style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+
 @endsection
 @section('content')
     <div class="content-wrapper">
@@ -36,7 +45,7 @@
                                 <div class="text-right">
                                     <div class="form-gruop">
                                         <button class="btn btn-outline-primary button_modal" type="button"
-                                                data-toggle="modal" id=""
+                                                data-toggle="modal" id="addd"
                                                 data-target="#full-modal-stem"><span><i
                                                     class="fa fa-plus"></i>@lang('add')</span>
                                         </button>
@@ -82,10 +91,10 @@
                                                 <label for="area_id">@lang('area')</label>
                                                 <select name="area_id" id="area_id" class="search_input form-control"
                                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                                    @foreach ($area as $item)
-                                                        <option value="{{ $item->id }}"> {{ $item->name }} </option>
-                                                        </option>
-                                                    @endforeach
+{{--                                                    @foreach ($area as $item)--}}
+{{--                                                        <option value="{{ $item->id }}"> {{ $item->name }} </option>--}}
+{{--                                                        </option>--}}
+{{--                                                    @endforeach--}}
                                                 </select>
                                             </div>
                                         </div>
@@ -195,14 +204,28 @@
                         @endforeach
                         <div class="col-12">
                             <div class="form-group">
+                                <label for="">@lang('country')</label>
+                                <select name="country_id" id="" class="select form-control"
+                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                    <option selected disabled>Select @lang('country')</option>
+                                             @foreach ($country as $itemm)
+                                           <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
+                                           </option>
+                                               @endforeach
+                                </select>
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
                                 <label for="">@lang('city')</label>
                                 <select name="city_id" id="" class="select form-control"
                                     data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                    <option selected disabled>Select @lang('area')</option>
-                                    @foreach ($cities as $itemm)
-                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
-                                        </option>
-                                    @endforeach
+                                    <option selected disabled>Select @lang('city')</option>
+{{--                                    @foreach ($cities as $itemm)--}}
+{{--                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>--}}
+{{--                                        </option>--}}
+{{--                                    @endforeach--}}
                                 </select>
                                 <div class="invalid-feedback"></div>
                             </div>
@@ -243,7 +266,9 @@
                             </div>
                         </div>
 
-
+                        <div id="map"></div>
+                        <input type="hidden" name="lat" id="lat">
+                        <input type="hidden" name="lon" id="lon">
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
@@ -255,7 +280,6 @@
             </div>
         </div>
     </div>
-
     <!-- Modal -->
     <div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
         aria-hidden="true">
@@ -305,26 +329,39 @@
                                 </div>
                             </div>
                         @endforeach
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="">@lang('city')</label>
-                                <select name="city_id" id="edit_city" class="select form-control"
-                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                    <option selected disabled>Select @lang('area')</option>
-                                    @foreach ($cities as $itemm)
-                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <div class="invalid-feedback"></div>
-                            </div>
+                        <div class="form-group">
+                            <label for="">@lang('country')</label>
+                            <select name="country_id" id="" class="select form-control"
+                                    data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                <option selected disabled>Select @lang('country')</option>
+                                @foreach ($country as $itemm)
+                                    <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
+                                    </option>
+                                @endforeach
+                            </select>
+                            <div class="invalid-feedback"></div>
                         </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="">@lang('city')</label>
+                            <select name="city_id" id="edit_city" class="select form-control"
+                                    data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                <option selected disabled>Select @lang('city')</option>
+                                {{--                                    @foreach ($cities as $itemm)--}}
+                                {{--                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>--}}
+                                {{--                                        </option>--}}
+                                {{--                                    @endforeach--}}
+                            </select>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                    </div>
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="">@lang('area')</label>
                                 <select name="area_id" id="edit_area" class="select form-control"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                    <option >  </option>
+                                    <option selected disabled>Select @lang('city')</option>
 
                                 </select>
                                 <div class="invalid-feedback"></div>
@@ -347,20 +384,58 @@
                             </div>
                         </div>
 
-
+                        <div id="map2"></div>
+                        <input type="hidden" name="lat" id="edit_lat">
+                        <input type="hidden" name="lon" id="edit_lon">
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
                                     data-dismiss="modal">@lang('close')</button>
                             <button class="btn btn-primary">@lang('save changes')</button>
                         </div>
-                    </div>
+
                 </form>
             </div>
         </div>
     </div>
+
 @endsection
 @section('scripts')
+    <script>
+        var map2 = L.map('map2').setView([51.505, -0.09], 13);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map2);
+
+        var lon;
+        var lat;
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+
+        }
+        function showPosition(position) {
+
+            function onMapClick(e) {
+                $('#edit_lat').val(e.latlng.lat)
+                $('#edit_lon').val(e.latlng.lng)
+                console.log(e);
+                var layar= L.marker([e.latlng.lat, e.latlng.lng]).addTo(map2)
+                    .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+                    .openPopup();
+
+            }
+
+            map2.on('click', onMapClick);
+        }
+
+
+
+
+
+    </script>
     <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/classic/ckeditor.js"></script>
     <script type="text/javascript">
         $.ajaxSetup({
@@ -446,21 +521,38 @@
 
         $(document).ready(function() {
             $(document).on('click', '.btn_edit', function(event) {
+
                 $('input').removeClass('is-invalid');
+                // map2.eachLayer(function (layer) {
+                //     map2.removeLayer(layer);
+                // });
                 $('.invalid-feedback').text('');
                 event.preventDefault();
                 var button = $(this);
                 var id = button.data('id');
                 $('#edit_city').val(button.data('city')).trigger('change');
                 $('#edit_area').val(button.data('area')).trigger('change');
+                $('select[name="city_id"]').append('<option value="' + button.data('city') + '">' + button.data('city_name') + '</option>');
+                $('select[name="area_id"]').append('<option value="' + button.data('area') + '">' + button.data('area_name') + '</option>');
                 $('#edit_type').val(button.data('user_type_id')).trigger('change');
                 $('#edit_phone').val(button.data('phone'));
                 $('#edit_number').val(button.data('number'));
+                $('#edit_lat').val(button.data('lat'))
+                $('#edit_lon').val(button.data('lon'))
                 $('#id').val(id);
                 @foreach (locales() as $key => $value)
                     $('#edit_about_{{ $key }}').val(button.data('about_{{ $key }}'))
                 @endforeach
 
+          L.marker([button.data('lat'), button.data('lon')]).addTo(map2)
+                    .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+                    .openPopup();
+
+            });
+            $(document).on('click','#addd',function (){
+                // map.eachLayer(function (layer) {
+                //     map.removeLayer(layer);
+                // });
             });
         });
 
@@ -486,7 +578,85 @@
                     console.log('AJAX load did not work');
                 }
             });
+            $('select[name="country_id"]').on('change', function () {
+                var city_id = $(this).val();
+                if (city_id) {
+                    $.ajax({
+                        url: "usertype/country" +"/"+ city_id,
+                        type: "GET",
+                        dataType: "json",
+                        success: function (data) {
+                            $('select[name="city_id"]').empty();
+                            $('select[name="city_id"]').append(`
+                                 <option selected disabled>Select @lang('city')</option>                            `)
+                            $.each(data, function (key, value) {
+                                $('select[name="city_id"]').append('<option value="' + key + '">' + value + '</option>');
+                            });
+                        },
+                    });
+                } else {
+                    console.log('AJAX load did not work');
+                }
+            });
         });
 
     </script>
+
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+            integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+            crossorigin=""></script>
+    <script>
+        var map = L.map('map').setView([51.505, -0.09], 13);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        var lon;
+        var lat;
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+
+        }
+        //
+        function showPosition(position) {
+
+
+
+
+
+            function onMapClick(e) {
+                $('#lat').val(e.latlng.lat)
+                $('#lon').val(e.latlng.lng)
+                console.log(e);
+                // map.eachLayer(function (layer) {
+                //     map.removeLayer(layer);
+                // });
+                L.marker([e.latlng.lat, e.latlng.lng]).addTo(map)
+                    .openPopup();
+
+            }
+
+            map.on('click', onMapClick);
+
+
+
+
+        }
+
+
+
+
+
+    </script>
+
+
+
+
+
+
+
+
 @endsection

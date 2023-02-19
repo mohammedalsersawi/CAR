@@ -8,7 +8,7 @@ use App\Http\Controllers\Admin\Car\country\CountryController;
 use App\Http\Controllers\Admin\Car\Engine\EngineController;
 use App\Http\Controllers\Admin\Car\FulType\FuelTypeController;
 use App\Http\Controllers\Admin\Car\Model\ModelController;
-use App\Http\Controllers\Admin\Car\RoomController;
+use App\Http\Controllers\Admin\Car\Transmission\TransmissionController;
 use App\Http\Controllers\Admin\Deals\DealsController;
 use App\Http\Controllers\Admin\UserTyue\UserTypeController;
 use Illuminate\Support\Facades\Route;
@@ -57,14 +57,21 @@ Route::group(
             Route::delete('/{id?}', 'destroy')->name('delete');
             Route::get('/getData', 'getData')->name('getData');
         });
-        Route::controller(RoomController::class)->group(function () {
-            Route::get('/room', 'index')->name('room.index');
-            Route::post('/room/store', 'store')->name('room.store');
-            Route::post('/room/update', 'update')->name('room.update');
-            Route::delete('/room/{id?}', 'destroy')->name('room.delete');
-            Route::get('room/getData', 'getData')->name('room.getData');
-        });
+//        Route::controller(RoomController::class)->group(function () {
+//            Route::get('/room', 'index')->name('room.index');
+//            Route::post('/room/store', 'store')->name('room.store');
+//            Route::post('/room/update', 'update')->name('room.update');
+//            Route::delete('/room/{id?}', 'destroy')->name('room.delete');
+//            Route::get('room/getData', 'getData')->name('room.getData');
+//        });
         Route::controller(ColorController::class)->prefix('color')->name('color.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('/store', 'store')->name('store');
+            Route::post('/update', 'update')->name('update');
+            Route::delete('/{id?}', 'destroy')->name('delete');
+            Route::get('/getData', 'getData')->name('getData');
+        });
+        Route::controller(TransmissionController::class)->prefix('transmission')->name('transmission.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::post('/store', 'store')->name('store');
             Route::post('/update', 'update')->name('update');
@@ -106,6 +113,7 @@ Route::group(
             Route::delete('/{uuid}', 'destroy')->name('delete');
             Route::get('/getData', 'getData')->name('getData');
             Route::get('/area/{id}', 'area')->name('area');
+            Route::get('/country/{id}', 'country')->name('country');
         });
 
     }

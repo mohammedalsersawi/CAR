@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Car\Engine;
+namespace App\Http\Controllers\Admin\Car\Transmission;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\Admin\ResponseTrait;
-use App\Models\Engine;
+use App\Http\Controllers\Controller;
+use App\Models\Transmission;
+use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
-class EngineController extends Controller
+class TransmissionController extends Controller
 {
     use ResponseTrait;
 
     public function index(Request $request)
     {
 
-        return view('admin.pages.engine.index');
+        return view('admin.pages.transmission.index');
     }
 
     public function store(Request $request)
@@ -29,7 +29,7 @@ class EngineController extends Controller
             $data['name'][$key] = $request->get('name_' . $key);
         }
         $this->validate($request, $rules);
-        Engine::query()->create($data);
+        Transmission::query()->create($data);
         return $this->sendResponse(null, __('item_added'));
 
     }
@@ -46,22 +46,22 @@ class EngineController extends Controller
         foreach (locales() as $key => $language) {
             $data['name'][$key] = $request->get('name_' . $key);
         }
-        $engines = Engine::findOrFail($request->id);
-        $engines->update($data);
+        $transmission = Transmission::findOrFail($request->id);
+        $transmission->update($data);
         return $this->sendResponse(null, __('item_edited'));
     }
 
     public function destroy($id)
     {
-        $engines = Engine::find($id);
-        $engines->delete();
+        $transmission = Transmission::find($id);
+        $transmission->delete();
         return $this->sendResponse(null, null);
     }
 
     public function getData(Request $request)
     {
-        $engines = Engine::query();
-        return Datatables::of($engines)
+        $transmission = Transmission::query();
+        return Datatables::of($transmission)
             ->filter(function ($query) use ($request) {
                 if ($request->get('search')) {
                     $locale = app()->getLocale();

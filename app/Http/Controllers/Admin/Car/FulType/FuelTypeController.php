@@ -33,7 +33,6 @@ class FuelTypeController extends Controller
     }
 
 
-
     public function update(Request $request)
     {
         $rules = [];
@@ -46,7 +45,7 @@ class FuelTypeController extends Controller
             $data['name'][$key] = $request->get('name_' . $key);
         }
         $data['color'] = $request->color;
-        $fuelType =   FuelType::findOrFail($request->id);
+        $fuelType = FuelType::findOrFail($request->id);
         $fuelType->update($data);
         return $this->sendResponse(null, __('item_edited'));
     }
@@ -64,8 +63,13 @@ class FuelTypeController extends Controller
         return Datatables::of($fuel_type)
             ->filter(function ($query) use ($request) {
                 if ($request->get('search')) {
-                    $locale = app()->getLocale();
-                    $query->where('name->'.locale(), 'like', "%{$request->search['value']}%");
+//                    $locale = app()->getLocale();
+                    $query->where('name->' . locale(), 'like', "%{$request->search['value']}%");
+                    foreach (locales() as $key => $value) {
+                        if ($key != locale())
+                            $query->orWhere('name->' . $key, 'like', "%{$request->search['value']}%");
+                    }
+
                 }
             })
             ->addIndexColumn()

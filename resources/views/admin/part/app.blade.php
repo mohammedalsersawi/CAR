@@ -157,10 +157,22 @@
                         </svg>
                         <span class="menu-title text-truncate" data-i18n="Charts">@lang('cars')</span></a>
                     <ul class="menu-content">
+                        <li class="nav-item {{request()->routeIs('brand.index')?'active':''}}">
+                            <a class="d-flex align-items-center" href="{{ route('brand.index') }}">
+                                <i data-feather="file-text"></i><span
+                                    class="menu-title text-truncate">@lang('Brand Cars')</span>
+                            </a>
+                        </li>
                         <li class="nav-item {{request()->routeIs('model.index')?'active':''}}">
                             <a class="d-flex align-items-center" href="{{ route('model.index') }}">
                                 <i data-feather="file-text"></i><span
                                     class="menu-title text-truncate">@lang('Model Cars')</span>
+                            </a>
+                        </li>
+                        <li class="nav-item  {{request()->routeIs('color.index')?'active':''}}">
+                            <a class="d-flex align-items-center" href="{{ route('color.index') }}">
+                                <i data-feather="file-text"></i><span
+                                    class="menu-title text-truncate">@lang('Color Cars')</span>
                             </a>
                         </li>
                         <li class="nav-item {{request()->routeIs('engines.index')?'active':''}} ">
@@ -175,24 +187,20 @@
                                     class="menu-title text-truncate">@lang('Fuel Type Cars')</span>
                             </a>
                         </li>
-                        <li class="nav-item {{request()->routeIs('brand.index')?'active':''}}">
-                            <a class="d-flex align-items-center" href="{{ route('brand.index') }}">
+                        <li class="nav-item {{request()->routeIs('transmission.index')?'active':''}}">
+                            <a class="d-flex align-items-center" href="{{ route('transmission.index') }}">
                                 <i data-feather="file-text"></i><span
-                                    class="menu-title text-truncate">@lang('Brand Cars')</span>
+                                    class="menu-title text-truncate">@lang('transmission Cars')</span>
                             </a>
                         </li>
-                        <li class="nav-item {{request()->routeIs('room.index')?'active':''}} ">
-                            <a class="d-flex align-items-center" href="{{ route('room.index') }}">
-                                <i data-feather="file-text"></i><span
-                                    class="menu-title text-truncate">@lang('Room Cars')</span>
-                            </a>
-                        </li>
-                        <li class="nav-item  {{request()->routeIs('color.index')?'active':''}}">
-                            <a class="d-flex align-items-center" href="{{ route('color.index') }}">
-                                <i data-feather="file-text"></i><span
-                                    class="menu-title text-truncate">@lang('Color Cars')</span>
-                            </a>
-                        </li>
+
+{{--                        <li class="nav-item {{request()->routeIs('room.index')?'active':''}} ">--}}
+{{--                            <a class="d-flex align-items-center" href="{{ route('room.index') }}">--}}
+{{--                                <i data-feather="file-text"></i><span--}}
+{{--                                    class="menu-title text-truncate">@lang('Room Cars')</span>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+
 
                     </ul>
 
