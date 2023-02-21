@@ -26,7 +26,7 @@ class AdsCarController extends Controller
         $ModelCar = ModelCar::select(['name', 'id'])->get();
         $FuelType = FuelType::select(['name', 'id'])->get();
         $Transmission = Transmission::select(['name', 'id'])->get();
-        $ColorCar = ColorCar::select(['name', 'id'])->get();
+        $ColorCar = ColorCar::select(['name', 'id','color'])->get();
         return view('admin.pages.adscar.index', compact(['Brand', 'Engine', 'ModelCar', 'FuelType', 'Transmission', 'ColorCar']));
     }
 
@@ -39,6 +39,8 @@ class AdsCarController extends Controller
         $rules['year_from'] = 'required';
         $rules['year_to'] = 'required';
         $rules['phone'] = 'required';
+        $rules['mileage'] = 'required';
+        $rules['image'] = 'required|image';
         $rules['brand_id'] = 'required|exists:brands,id';
         $rules['model_id'] = 'required|exists:model_cars,id';
         $rules['engine_id'] = 'required|exists:engines,id';
@@ -58,12 +60,14 @@ class AdsCarController extends Controller
     {
         $rules = [];
         $rules['lat'] = 'required';
+        $rules['lng'] = 'required';
         $rules['year_from'] = 'required';
         $rules['year_to'] = 'required';
-        $rules['lng'] = 'required';
         $rules['phone'] = 'required';
-        $rules['model_id'] = 'required|exists:model_cars,id';
+        $rules['mileage'] = 'required';
+        $rules['image'] = 'nullable|image';
         $rules['brand_id'] = 'required|exists:brands,id';
+        $rules['model_id'] = 'required|exists:model_cars,id';
         $rules['engine_id'] = 'required|exists:engines,id';
         $rules['fule_type_id'] = 'required|exists:fuel_types,id';
         $rules['color_exterior_id'] = 'required|exists:color_cars,id';
@@ -71,9 +75,10 @@ class AdsCarController extends Controller
         $rules['transmission_id'] = 'required|exists:transmissions,id';
         $this->validate($request, $rules);
         $Car = Car::findOrFail($request->uuid);
-        $Car->update($request->all());
-        ImageUpload::UploadImage($request->image, null, 'App\Models\Car', $Car->id, true);
-
+        $Car->update($request->except('image'));
+        if ($request->hasFile('image')){
+            ImageUpload::UploadImage($request->image, null, 'App\Models\Car', $Car->uuid, true);
+        }
         return $this->sendResponse(null, __('item_edited'));
     }
 
@@ -88,24 +93,41 @@ class AdsCarController extends Controller
     {
         $Car = Car::query();
         return Datatables::of($Car)
-//            ->filter(function ($query) use ($request) {
-//
-//                if ($request->get('city_id')) {
-//                    $query->where('city_id',$request->get('city_id'));
-//                }
-//                if ($request->get('area_id')) {
-//                    $query->where('area_id',$request->get('area_id'));
-//                }
-//                if ($request->get('phone')) {
-//                    $query->where('phone','like', "%{$request->phone}%");
-//                }
-//                if ($request->get('number')) {
-//                    $query->where('number', 'like', "%{$request->get('number')}%");
-//                }
-//                if ($request->get('user_type_id')) {
-//                    $query->where('user_type_id', $request->get('user_type_id'));
-//                }
-//            })
+            ->filter(function ($query) use ($request) {
+                if ($request->get('phone')) {
+                    $query->where('phone',$request->phone);
+                }
+                if ($request->get('mileage')) {
+                    $query->where('mileage',$request->get('mileage'));
+                }
+                if ($request->get('year_to')) {
+                    $query->where('year_to',$request->year_to);
+                }
+                if ($request->get('year_from')) {
+                    $query->where('year_from', $request->get('year_from'));
+                }
+                if ($request->get('brand')) {
+                    $query->where('brand_id', $request->get('brand'));
+                }
+                if ($request->get('model')) {
+                    $query->where('model_id', $request->get('model'));
+                }
+                if ($request->get('engine')) {
+                    $query->where('engine_id', $request->get('engine'));
+                }
+                if ($request->get('transmission')) {
+                    $query->where('transmission_id', $request->get('transmission'));
+                }
+                if ($request->get('color_exterior')) {
+                    $query->where('color_exterior_id',$request->get('color_exterior'));
+                }
+                if ($request->get('fueltype')) {
+                    $query->where('fule_type_id',$request->get('fueltype'));
+                }
+                if ($request->get('color_interior')) {
+                    $query->where('color_interior_id',$request->get('color_interior'));
+                }
+            })
             ->addIndexColumn()
             ->addColumn('action', function ($que) {
                 $data_attr = '';
@@ -113,17 +135,23 @@ class AdsCarController extends Controller
                 $data_attr .= 'data-lat="' . $que->lat . '" ';
                 $data_attr .= 'data-lng="' . $que->lng . '" ';
                 $data_attr .= 'data-phone="' . $que->phone . '" ';
+                $data_attr .= 'data-mileage="' . $que->mileage . '" ';
+                $data_attr .= 'data-year_to="' . $que->year_to . '" ';
+                $data_attr .= 'data-year_from="' . $que->year_from . '" ';
                 $data_attr .= 'data-brand_id="' . $que->brand_id . '" ';
+                $data_attr .= 'data-brand_name="' . $que->brand->name . '" ';
+                $data_attr .= 'data-model_name="' . $que->model->name . '" ';
                 $data_attr .= 'data-model_id="' . $que->model_id . '" ';
                 $data_attr .= 'data-engine_id="' . $que->engine_id . '" ';
-                $data_attr .= 'data-fueltype_id="' . $que->fueltype_id . '" ';
+                $data_attr .= 'data-fueltype_id="' . $que->fule_type_id . '" ';
+                $data_attr .= 'data-fueltype_name="' . $que->fueltype->name . '" ';
                 $data_attr .= 'data-color_exterior_id="' . $que->color_exterior_id . '" ';
                 $data_attr .= 'data-color_interior_id="' . $que->color_interior_id . '" ';
                 $data_attr .= 'data-transmission_id="' . $que->transmission_id . '" ';
                 $string = '';
                 $string .= '<button class="edit_btn btn btn-sm btn-outline-primary btn_edit" data-toggle="modal"
                     data-target="#edit_modal" ' . $data_attr . '>' . __('edit') . '</button>';
-                $string .= ' <button type="button" class="btn btn-sm btn-outline-danger btn_delete" data-id="' . $que->id .
+                $string .= ' <button type="button" class="btn btn-sm btn-outline-danger btn_delete" data-id="' . $que->uuid .
                     '">' . __('delete') . '</button>';
                 return $string;
             })
@@ -140,13 +168,13 @@ class AdsCarController extends Controller
                 return $row->fueltype->name;
             })
             ->addColumn('color_exterior', function ($row) {
-                return $row->color->name;
+                return $row->color_exterior->color;
             })
             ->addColumn('color_interior', function ($row) {
-                return $row->color->name;
+                return $row->color_interior->color;
             })
             ->addColumn('transmission', function ($row) {
-                return $row->transmission->id;
+                return $row->transmission->name;
             })
             ->addColumn('image', function ($row) {
                 $imageData = $row->image->filename;

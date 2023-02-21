@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\Car\Engine\EngineController;
 use App\Http\Controllers\Admin\Car\FulType\FuelTypeController;
 use App\Http\Controllers\Admin\Car\Model\ModelController;
 use App\Http\Controllers\Admin\Car\Transmission\TransmissionController;
+use App\Http\Controllers\Admin\DataController;
 use App\Http\Controllers\Admin\Deals\DealsController;
 use App\Http\Controllers\Admin\UserTyue\UserTypeController;
 use Illuminate\Support\Facades\Route;
@@ -121,6 +122,8 @@ Route::group(
             Route::post('/update', 'update')->name('update');
             Route::delete('/{uuid}', 'destroy')->name('delete');
             Route::get('/getData', 'getData')->name('getData');
+            Route::get('model/{id}', [DataController::class,'model'])->name('model');
+
         });
 
     }

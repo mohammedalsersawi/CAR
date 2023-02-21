@@ -24,8 +24,15 @@ class Car extends Model
         return $this->belongsTo(Engine::class,'engine_id');
     }
     public function fueltype(){
-        return $this->belongsTo(FuelType::class,'fueltype_id');
+        return $this->belongsTo(FuelType::class,'fule_type_id');
     }
+    public function color_interior(){
+        return $this->belongsTo(ColorCar::class,'color_interior_id');
+    }
+    public function color_exterior(){
+        return $this->belongsTo(ColorCar::class,'color_exterior_id');
+    }
+
     public function model(){
         return $this->belongsTo(ModelCar::class,'model_id');
     }

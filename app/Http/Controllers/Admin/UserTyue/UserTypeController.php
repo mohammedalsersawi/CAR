@@ -111,6 +111,8 @@ class UserTypeController extends Controller
 
     public function getData(Request $request)
     {
+
+
         $user = User::query();
         return Datatables::of($user)
             ->filter(function ($query) use ($request) {
