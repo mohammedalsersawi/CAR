@@ -1,6 +1,6 @@
 @extends('admin.part.app')
-@section('title')
-    @lang('city Cars')
+@section('users')
+    @lang('users')
 @endsection
 @section('styles')
     <style>
@@ -268,7 +268,7 @@
 
                         <div id="map"></div>
                         <input type="hidden" name="lat" id="lat">
-                        <input type="hidden" name="lon" id="lon">
+                        <input type="hidden" name="lng" id="lng">
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
@@ -331,11 +331,11 @@
                         @endforeach
                         <div class="form-group">
                             <label for="">@lang('country')</label>
-                            <select name="country_id" id="" class="select form-control"
+                            <select name="country_id" id="edit_country" class="select form-control"
                                     data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                 <option selected disabled>Select @lang('country')</option>
                                 @foreach ($country as $itemm)
-                                    <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
+                                    <option value="{{ $itemm->id }}" > {{ $itemm->name }} </option>
                                     </option>
                                 @endforeach
                             </select>
@@ -347,7 +347,7 @@
                             <label for="">@lang('city')</label>
                             <select name="city_id" id="edit_city" class="select form-control"
                                     data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                <option selected disabled>Select @lang('city')</option>
+                                <option  disabled>Select @lang('city')</option>
                                 {{--                                    @foreach ($cities as $itemm)--}}
                                 {{--                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>--}}
                                 {{--                                        </option>--}}
@@ -386,7 +386,7 @@
 
                         <div id="map2"></div>
                         <input type="hidden" name="lat" id="edit_lat">
-                        <input type="hidden" name="lon" id="edit_lon">
+                        <input type="hidden" name="lng" id="edit_lng">
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
@@ -420,7 +420,7 @@
 
             function onMapClick(e) {
                 $('#edit_lat').val(e.latlng.lat)
-                $('#edit_lon').val(e.latlng.lng)
+                $('#edit_lng').val(e.latlng.lng)
                 console.log(e);
                 var layar= L.marker([e.latlng.lat, e.latlng.lng]).addTo(map2)
                     .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
@@ -532,19 +532,20 @@
                 var id = button.data('id');
                 $('#edit_city').val(button.data('city')).trigger('change');
                 $('#edit_area').val(button.data('area')).trigger('change');
-                $('select[name="city_id"]').append('<option value="' + button.data('city') + '">' + button.data('city_name') + '</option>');
-                $('select[name="area_id"]').append('<option value="' + button.data('area') + '">' + button.data('area_name') + '</option>');
+                $('select[name="city_id"]').append('<option value="' + button.data('city') + '" selected>' + button.data('city_name') + '</option>');
+                $('select[name="area_id"]').append('<option value="' + button.data('area') + '"selected >' + button.data('area_name') + '</option>');
+                $('#edit_country').val(button.data('country')).trigger('change');
                 $('#edit_type').val(button.data('user_type_id')).trigger('change');
                 $('#edit_phone').val(button.data('phone'));
                 $('#edit_number').val(button.data('number'));
                 $('#edit_lat').val(button.data('lat'))
-                $('#edit_lon').val(button.data('lon'))
+                $('#edit_lng').val(button.data('lng'))
                 $('#id').val(id);
                 @foreach (locales() as $key => $value)
                     $('#edit_about_{{ $key }}').val(button.data('about_{{ $key }}'))
                 @endforeach
 
-          L.marker([button.data('lat'), button.data('lon')]).addTo(map2)
+          L.marker([button.data('lat'), button.data('lng')]).addTo(map2)
                     .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
                     .openPopup();
 
@@ -559,6 +560,8 @@
 
     </script>
     <script>
+
+
         $(document).ready(function () {
             $('select[name="city_id"]').on('change', function () {
                 var city_id = $(this).val();
@@ -569,6 +572,9 @@
                         dataType: "json",
                         success: function (data) {
                             $('select[name="area_id"]').empty();
+                            $('select[name="area_id"]').append(`
+                                 <option selected  disabled>Select @lang('area')</option>
+                                 `)
                             $.each(data, function (key, value) {
                                 $('select[name="area_id"]').append('<option value="' + key + '">' + value + '</option>');
                             });
@@ -578,6 +584,8 @@
                     console.log('AJAX load did not work');
                 }
             });
+
+
             $('select[name="country_id"]').on('change', function () {
                 var city_id = $(this).val();
                 if (city_id) {
@@ -588,7 +596,8 @@
                         success: function (data) {
                             $('select[name="city_id"]').empty();
                             $('select[name="city_id"]').append(`
-                                 <option selected disabled>Select @lang('city')</option>                            `)
+                                 <option  disabled>Select @lang('city')</option>
+                                 `)
                             $.each(data, function (key, value) {
                                 $('select[name="city_id"]').append('<option value="' + key + '">' + value + '</option>');
                             });
@@ -629,7 +638,7 @@
 
             function onMapClick(e) {
                 $('#lat').val(e.latlng.lat)
-                $('#lon').val(e.latlng.lng)
+                $('#lng').val(e.latlng.lng)
                 console.log(e);
                 // map.eachLayer(function (layer) {
                 //     map.removeLayer(layer);

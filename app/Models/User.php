@@ -29,7 +29,7 @@ class User extends Authenticatable implements JWTSubject
         'area_id',
         'user_type_id',
         'lat',
-        'lon'
+        'leg'
     ];
     /**
      * The attributes that should be hidden for arrays.

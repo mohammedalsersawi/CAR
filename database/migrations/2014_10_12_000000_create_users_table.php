@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('password');
             $table->text('about');
             $table->double('lat');
-            $table->double('lon');
+            $table->double('leg');
             $table->foreignId('city_id')->nullable()->constrained('cities')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('area_id')->nullable()->constrained('areas')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('user_type_id')->default(1)->constrained('user_types')->cascadeOnDelete()->cascadeOnUpdate();

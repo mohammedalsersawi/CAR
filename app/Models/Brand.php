@@ -21,54 +21,21 @@ class Brand extends Model
 
     protected $appends = ['name_text'];
 
-
-    public function avatar()
+    public function image()
     {
-        return $this->belongsTo(Upload::class, 'id','relation_id')->where('file_type','brands');
+        return $this->morphOne(Image::class, 'imageable');
     }
 
     public function getNameTextAttribute()
     {
         return @$this->name;
     }
-    public static function createWithRooms(Request $request){
-        DB::beginTransaction();
-        try {
-            $brands=Brand::create([
-                'name' => ['en' => $request->name_en, 'ar' => $request->name_ar],
-            ]);
-            ImageUpload::UploadImage($request->image, 'brands', $brands->id , null , null);
-            DB::commit();
-        }catch (\Exception $e) {
-            DB::rollBack();
-            throw $e;
-        }
-
-    }
-    public static function updateWithRooms(Request $request){
-        DB::beginTransaction();
-        try {
-            $brands = Brand::find($request->id);
-            $brands->update([
-                'name' => ['en' => $request->name_en, 'ar' => $request->name_ar],
-            ]);
-            if($request->hasFile('image')){
-                ImageUpload::UploadImage($request->image, 'brands' ,null, null ,$request->id);
-            }
-            DB::commit();
-        }catch (\Exception $e) {
-            DB::rollBack();
-            throw $e;
-        }
-
-    }
-
 
     protected static function booted()
     {
         static::deleted(function ($brand) {
-            File::delete(public_path('uploads/'.$brand->avatar->full_small_path));
-            $brand->avatar()->delete();
+            File::delete(public_path('uploads/'.$brand->image->filename));
+            $brand->image()->delete();
         });
 
     }

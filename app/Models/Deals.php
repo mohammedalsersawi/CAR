@@ -22,9 +22,9 @@ class Deals extends Model
     {
         return @$this->deals;
     }
-    public function avatar()
+    public function image()
     {
-        return $this->belongsTo(Upload::class,'id','relation_id')->where('file_type', 'deals');
+        return $this->morphOne(Image::class, 'imageable');
     }
     public static function boot()
     {
@@ -34,11 +34,6 @@ class Deals extends Model
         });
 
     }
-    public function getImageAttribute()
-    {
-        return @$this->avatar->full_small_path;
-    }
-
 
     public function user(){
         return $this->belongsTo(User::class);
@@ -46,8 +41,8 @@ class Deals extends Model
     protected static function booted()
     {
         static::deleted(function ($deal) {
-            File::delete(public_path('uploads/' . $deal->avatar->full_small_path));
-            $deal->avatar()->delete();
+            File::delete(public_path('uploads/'.$deal->image->filename));
+            $deal->image()->delete();
         });
     }
     public function getRouteKeyName()

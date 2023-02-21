@@ -190,7 +190,7 @@
                         <li class="nav-item {{request()->routeIs('transmission.index')?'active':''}}">
                             <a class="d-flex align-items-center" href="{{ route('transmission.index') }}">
                                 <i data-feather="file-text"></i><span
-                                    class="menu-title text-truncate">@lang('transmission Cars')</span>
+                                    class="menu-title text-truncate">@lang('Transmission')</span>
                             </a>
                         </li>
 

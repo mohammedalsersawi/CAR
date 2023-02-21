@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Car\Brand;
 
+use App\Models\Image;
 use Throwable;
 use App\Models\Brand;
 use App\Models\Upload;
@@ -37,9 +38,9 @@ class BrandController extends Controller
             $data['name'][$key] = $request->get('name_' . $key);
         }
         $this->validate($request, $rules);
-        $brands =  Brand::query()->create($data);
+        $brands =  Brand::create($data);
         if ($request->hasFile('image')) {
-            ImageUpload::UploadImage($request->image, 'brands', $brands->id, null, null);
+            ImageUpload::UploadImage($request->image, null, 'App\Models\Brand', $brands->id, false);
         }
         return $this->sendResponse(null, __('item_added'));
     }
@@ -60,7 +61,7 @@ class BrandController extends Controller
         $brands =   Brand::findOrFail($request->id);
         $brands->update($data);
         if ($request->hasFile('image')) {
-            ImageUpload::UploadImage($request->image, 'brands', null, null, $brands->id);
+            ImageUpload::UploadImage($request->image, null, 'App\Models\Brand', $brands->id, true);
         }
         return $this->sendResponse(null, __('item_edited'));
 
@@ -89,7 +90,7 @@ class BrandController extends Controller
                 $data_attr = '';
                 $data_attr .= 'data-id="' . $que->id . '" ';
                 $data_attr .= 'data-name="' . $que->name . '" ';
-                $data_attr .= 'data-image="' . $que->avatar->full_small_path . '" ';
+                $data_attr .= 'data-image="' . $que->image . '" ';
                 foreach (locales() as $key => $value) {
                     $data_attr .= 'data-name_' . $key . '="' . $que->getTranslation('name', $key) . '" ';
                 }
@@ -102,7 +103,7 @@ class BrandController extends Controller
                 return $string;
             })
             ->addColumn('image', function ($row) {
-                $imageData = $row->avatar->full_small_path;
+                $imageData = $row->image->filename;
                 return $imageData;
             })
             ->rawColumns(['image'])

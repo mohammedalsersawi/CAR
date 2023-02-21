@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin\Deals;
 
 use App\Http\Controllers\Admin\ResponseTrait;
 use App\Http\Controllers\Controller;
-use App\Models\Brand;
 use App\Models\Deals;
 use App\Models\User;
 use App\Utils\ImageUpload;
@@ -17,8 +16,6 @@ class DealsController extends Controller
     public function index()
     {
         $user=User::select(['phone','id'])->get();
-//$user=Deals::findOrFail('7f7aa1bb-54fb-4273-b66d-bf1ba29bda03');
-//return $user;
         return view('admin.pages.deal.index',compact('user'));
     }
 
@@ -39,7 +36,7 @@ class DealsController extends Controller
         $data['user_id']=$request->user_id;
         $this->validate($request, $rules);
         $deals =  Deals::create($data);
-        ImageUpload::UploadImage($request->image, 'deals', $deals->uuid, null, null);
+        ImageUpload::UploadImage($request->image, null, 'App\Models\Deals', $deals->uuid, false);
         return $this->sendResponse(null, __('item_added'));
     }
 
@@ -62,7 +59,7 @@ class DealsController extends Controller
 
         $deals->update($data);
         if ($request->hasFile('image')) {
-            ImageUpload::UploadImage($request->image, 'deals', null, null, $deals->uuid);
+            ImageUpload::UploadImage($request->image, null, 'App\Models\Deals', $deals->uuid, true);
         }
         return $this->sendResponse(null, __('item_edited'));
 
@@ -93,7 +90,7 @@ class DealsController extends Controller
                 $data_attr .= 'data-uuid="' . $que->uuid . '" ';
                 $data_attr .= 'data-deals="' . $que->deals . '" ';
                 $data_attr .= 'data-user_id="' . $que->user_id . '" ';
-                $data_attr .= 'data-image="' . $que->image . '" ';
+                $data_attr .= 'data-image="' . $que->image->filename . '" ';
                 foreach (locales() as $key => $value) {
                     $data_attr .= 'data-deals_' . $key . '="' . $que->getTranslation('deals', $key) . '" ';
                 }
@@ -105,7 +102,7 @@ class DealsController extends Controller
                 return $string;
             })
             ->addColumn('image', function ($row) {
-                $imageData = $row->image;
+                $imageData = $row->image->filename;
                 return $imageData;
             })
 
