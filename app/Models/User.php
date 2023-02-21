@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\File;
 use Spatie\Translatable\HasTranslations;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
@@ -74,6 +75,15 @@ class User extends Authenticatable implements JWTSubject
      *
      * @return mixed
      */
+    protected static function booted()
+    {
+        self::deleted(function ($user) {
+            File::delete(public_path('uploads/'.$user->image->filename));
+            $user->image()->delete();
+        });
+
+    }
+
     public function getJWTIdentifier()
     {
         return $this->getKey();

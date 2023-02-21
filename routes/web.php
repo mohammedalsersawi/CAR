@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Ads\AdsCarController;
 use App\Http\Controllers\Admin\Car\area\AreaControllerr;
 use App\Http\Controllers\Admin\Car\Brand\BrandController;
 use App\Http\Controllers\Admin\Car\City\CityController;
@@ -12,7 +13,6 @@ use App\Http\Controllers\Admin\Car\Transmission\TransmissionController;
 use App\Http\Controllers\Admin\Deals\DealsController;
 use App\Http\Controllers\Admin\UserTyue\UserTypeController;
 use Illuminate\Support\Facades\Route;
-
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 
@@ -114,6 +114,13 @@ Route::group(
             Route::get('/getData', 'getData')->name('getData');
             Route::get('/area/{id}', 'area')->name('area');
             Route::get('/country/{id}', 'country')->name('country');
+        });
+        Route::controller(AdsCarController::class)->prefix('ads/car')->name('ads.car.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('/store', 'store')->name('store');
+            Route::post('/update', 'update')->name('update');
+            Route::delete('/{uuid}', 'destroy')->name('delete');
+            Route::get('/getData', 'getData')->name('getData');
         });
 
     }

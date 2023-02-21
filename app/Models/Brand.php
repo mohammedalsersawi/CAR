@@ -33,7 +33,7 @@ class Brand extends Model
 
     protected static function booted()
     {
-        static::deleted(function ($brand) {
+        self::deleted(function ($brand) {
             File::delete(public_path('uploads/'.$brand->image->filename));
             $brand->image()->delete();
         });

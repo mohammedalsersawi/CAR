@@ -165,7 +165,6 @@ class UserTypeController extends Controller
                 $imageData = $row->image->filename;
                 return $imageData;
             })
-
             ->rawColumns(['image'])
             ->rawColumns(['Type'])
             ->rawColumns(['action'])

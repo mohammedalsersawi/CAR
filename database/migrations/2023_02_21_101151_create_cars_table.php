@@ -28,7 +28,7 @@ return new class extends Migration
             $table->integer('year_to');
             $table->string('phone');
             $table->double('lat');
-            $table->double('leg');
+            $table->double('lng');
             $table->timestamps();
         });
     }
