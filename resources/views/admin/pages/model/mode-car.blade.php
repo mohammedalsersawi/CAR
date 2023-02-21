@@ -27,7 +27,12 @@
                                     <h4 class="card-title">@lang('pages')</h4>
                                 </div>
                                 <div class="text-right">
-
+                                    <div class="form-group">
+                                        <button class="btn btn-outline-primary button_modal" type="button" data-toggle="modal"
+                                            data-target="#full-modal-stem"><span><i
+                                                    class="fa fa-plus"></i>@lang('add')</span>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -35,12 +40,7 @@
                                     <div class="row">
 
                                         <div class="col-3" style="margin-top: 20px">
-                                            <div class="form-group">
-                                                <button class="btn btn-outline-primary button_modal" type="button" data-toggle="modal"
-                                                    data-target="#full-modal-stem"><span><i
-                                                            class="fa fa-plus"></i>@lang('add')</span>
-                                                </button>
-                                            </div>
+
                                         </div>
                                     </div>
                                 </form>

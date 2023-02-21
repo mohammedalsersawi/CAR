@@ -34,7 +34,12 @@
                                     <h4 class="card-title">@lang('pages')</h4>
                                 </div>
                                 <div class="text-right">
-
+                                    <div class="form-gruop">
+                                        <button class="btn btn-outline-primary button_modal" type="button"
+                                            data-toggle="modal" id="" data-target="#full-modal-stem"><span><i
+                                                    class="fa fa-plus"></i>@lang('add')</span>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -44,11 +49,7 @@
 
                                         <div class="col-3" style="margin-top: 20px">
                                             <div class="form-group">
-                                                <button class="btn btn-outline-primary button_modal" type="button"
-                                                    data-toggle="modal" id=""
-                                                    data-target="#full-modal-stem"><span><i
-                                                            class="fa fa-plus"></i>@lang('add')</span>
-                                                </button>
+
                                             </div>
                                         </div>
                                     </div>
@@ -87,7 +88,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route("area.store") }}" method="POST" id="add-mode-form" class="add-mode-form"
+                <form action="{{ route('area.store') }}" method="POST" id="add-mode-form" class="add-mode-form"
                     enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
@@ -211,7 +212,7 @@
                 @endif // "oPaginate": {"sPrevious": '<-', "sNext": '->'},
             },
             ajax: {
-                url: '{{route('area.getData',app()->getLocale())}}',
+                url: '{{ route('area.getData', app()->getLocale()) }}',
                 data: function(d) {
                     d.name = $('#s_name').val();
                 }

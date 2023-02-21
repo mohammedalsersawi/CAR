@@ -34,7 +34,12 @@
                                     <h4 class="card-title">@lang('pages')</h4>
                                 </div>
                                 <div class="text-right">
-
+                                    <div class="form-gruop">
+                                        <button class="btn btn-outline-primary button_modal" type="button"
+                                            data-toggle="modal" id="" data-target="#full-modal-stem"><span><i
+                                                    class="fa fa-plus"></i>@lang('add')</span>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -45,7 +50,7 @@
                                             <div class="form-group">
                                                 <label for="s_title">@lang('title')</label>
                                                 <input id="s_title" type="text" class="search_input form-control"
-                                                       placeholder="@lang('title')">
+                                                    placeholder="@lang('title')">
                                             </div>
                                         </div>
                                         <div class="col-3" style="margin-top: 20px">
@@ -57,10 +62,7 @@
                                                     <span><i class="fa fa-undo"></i> @lang('reset')</span>
                                                 </button>
 
-                                                <button class="btn btn-outline-primary button_modal" type="button" data-toggle="modal" id=""
-                                                        data-target="#full-modal-stem"><span><i
-                                                            class="fa fa-plus"></i>@lang('add')</span>
-                                                </button>
+
                                             </div>
 
 
@@ -116,23 +118,23 @@
                                 </div>
                             </div>
                         @endforeach
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label for="user_id">@lang('users')</label>
-                                    <select class="form-control" id="" name="user_id" required>
-                                        <option value="">@lang('select')</option>
-                                        @foreach ($user as $itemm)
-                                            <option value="{{ $itemm->id }}"> {{ $itemm->phone }} </option>
-                                        @endforeach
-                                    </select>
-                                    <div class="invalid-feedback"></div>
-                                </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="user_id">@lang('users')</label>
+                                <select class="form-control" id="" name="user_id" required>
+                                    <option value="">@lang('select')</option>
+                                    @foreach ($user as $itemm)
+                                        <option value="{{ $itemm->id }}"> {{ $itemm->phone }} </option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback"></div>
                             </div>
+                        </div>
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="image">@lang('image')</label>
-                                <input type="file" accept="image/*" class="form-control" placeholder="@lang('image')"
-                                    name="image" id="image">
+                                <input type="file" accept="image/*" class="form-control"
+                                    placeholder="@lang('image')" name="image" id="image">
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
@@ -174,18 +176,18 @@
                                 </div>
                             </div>
                         @endforeach
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label for="user_id">@lang('users')</label>
-                                    <select class="form-control" id="edit_user_id" name="user_id" required>
-                                        <option value="">@lang('select')</option>
-                                        @foreach ($user as $itemm)
-                                            <option value="{{ $itemm->id }}"> {{ $itemm->phone }} </option>
-                                        @endforeach
-                                    </select>
-                                    <div class="invalid-feedback"></div>
-                                </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="user_id">@lang('users')</label>
+                                <select class="form-control" id="edit_user_id" name="user_id" required>
+                                    <option value="">@lang('select')</option>
+                                    @foreach ($user as $itemm)
+                                        <option value="{{ $itemm->id }}"> {{ $itemm->phone }} </option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback"></div>
                             </div>
+                        </div>
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="image">@lang('image')</label>
@@ -218,7 +220,7 @@
             processing: true,
             serverSide: true,
             responsive: true,
-            searching:true,
+            searching: true,
             "oLanguage": {
                 @if (app()->isLocale('ar'))
                     "sEmptyTable": "ليست هناك بيانات متاحة في الجدول",
@@ -238,9 +240,9 @@
                 @endif // "oPaginate": {"sPrevious": '<-', "sNext": '->'},
             },
             ajax: {
-                url: '{{route('deals.getData',app()->getLocale())}}',
+                url: '{{ route('deals.getData', app()->getLocale()) }}',
                 data: function(d) {
-                        d.deals = $('#search').val();
+                    d.deals = $('#search').val();
                 }
             },
             columns: [{
