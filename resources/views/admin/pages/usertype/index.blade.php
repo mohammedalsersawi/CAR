@@ -80,7 +80,7 @@
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="city_id">@lang('city')</label>
-                                                <select name="city_id" id="city_id" class="search_input form-control"
+                                                <select name="" id="" class="search_input form-control"
                                                     data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                                     <option selected disabled>Select @lang('city')</option>
                                                     @foreach ($cities as $itemm)
@@ -93,7 +93,7 @@
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="area_id">@lang('area')</label>
-                                                <select name="area_id" id="area_id" class="search_input form-control"
+                                                <select name="" id="" class="search_input form-control"
                                                     data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                                     {{--                                                    @foreach ($area as $item) --}}
                                                     {{--                                                        <option value="{{ $item->id }}"> {{ $item->name }} </option> --}}
@@ -105,7 +105,7 @@
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="s_user_type_id">@lang('type')</label>
-                                                <select name="s_user_type_id" id="type_id"
+                                                <select name="" id=""
                                                     class="search_input form-control" data-select2-id="select2-data-1-bgy2"
                                                     tabindex="-1" aria-hidden="true">
                                                     <option selected disabled>Select @lang('type')</option>
