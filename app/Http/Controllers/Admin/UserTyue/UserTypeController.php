@@ -10,6 +10,7 @@ use App\Models\City;
 use App\Models\Country;
 use App\Models\User;
 use App\Models\UserType;
+use App\Utils\ImageUpload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
@@ -59,7 +60,8 @@ class UserTypeController extends Controller
         $data['area_id']=$request->area_id;
         $data['password']=Hash::make($request->password);
         $data['user_type_id']=$request->user_type_id;
-        User::create($data);
+        $user= User::create($data);
+        ImageUpload::UploadImage($request->image, null, 'App\Models\User', $user->id, false);
         return $this->sendResponse(null, __('item_added'));
     }
 
@@ -91,6 +93,8 @@ class UserTypeController extends Controller
        $data['user_type_id']=$request->user_type_id;
         $user=User::findOrFail($request->id);
         $user->update($data);
+        ImageUpload::UploadImage($request->image, null, 'App\Models\User', $user->id, true);
+
         return $this->sendResponse(null, __('item_edited'));
     }
 
@@ -157,6 +161,12 @@ class UserTypeController extends Controller
             ->addColumn('area',function ($row){
                 return $row->area->name;
             })
+            ->addColumn('image', function ($row) {
+                $imageData = $row->image->filename;
+                return $imageData;
+            })
+
+            ->rawColumns(['image'])
             ->rawColumns(['Type'])
             ->rawColumns(['action'])
             ->make(true);

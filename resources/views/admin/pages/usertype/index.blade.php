@@ -127,6 +127,7 @@
 
                                             </div>
                                         </div>
+
                                     </div>
                                 </form>
                             </div>
@@ -138,6 +139,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>@lang('phone')</th>
+                                            <th>@lang('image')</th>
                                             <th>@lang('code')</th>
                                             <th>@lang('about')</th>
                                             <th>@lang('city')</th>
@@ -273,7 +275,6 @@
                                 </div>
                             </div>
                         </div>
-
 
 
                         <div id="map"></div>
@@ -500,6 +501,13 @@
                 {
                     data: 'phone',
                     name: 'phone'
+                },
+                {
+                    "data": 'image',
+                    "name": 'image',
+                    render: function(data, type, full, meta) {
+                        return `<img src="{{ asset('uploads/${data}') }}" width="100" class="img-fluid img-thumbnail">`;
+                    },
                 },
                 {
                     data: 'number',
