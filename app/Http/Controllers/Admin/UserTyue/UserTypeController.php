@@ -93,7 +93,11 @@ class UserTypeController extends Controller
        $data['user_type_id']=$request->user_type_id;
         $user=User::findOrFail($request->id);
         $user->update($data);
-        ImageUpload::UploadImage($request->image, null, 'App\Models\User', $user->id, true);
+        if(isset($request->image))
+        {
+            ImageUpload::UploadImage($request->image, null, 'App\Models\User', $user->id, true);
+        }
+
 
         return $this->sendResponse(null, __('item_edited'));
     }

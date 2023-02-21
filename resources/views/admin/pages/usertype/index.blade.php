@@ -266,7 +266,7 @@
 
                         <div class="row">
 
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="phone">@lang('password')</label>
                                     <input type="password" class="form-control" placeholder="@lang('password')"
@@ -274,40 +274,18 @@
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="image">@lang('image')</label>
+                                    <input type="file" accept="image/*" class="form-control"
+                                        placeholder="@lang('image')" name="image" id="image">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
                         </div>
 
 
-
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="">@lang('type')</label>
-                                <select name="user_type_id" id="" class="select form-control"
-                                    data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                    <option selected disabled>Select @lang('type')</option>
-                                    @foreach ($user as $itemm)
-                                        <option value="{{ $itemm->id }}"> {{ $itemm->Name }} </option>
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="phone">@lang('password')</label>
-                                <input type="password" class="form-control" placeholder="@lang('password')"
-                                    name="password" id="phone">
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="image">@lang('image')</label>
-                                <input type="file" accept="image/*" class="form-control"
-                                    placeholder="@lang('image')" name="image" id="image">
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
                         <div id="map"></div>
                         <input type="hidden" name="lat" id="lat">
                         <input type="hidden" name="lng" id="lng">
@@ -426,32 +404,20 @@
                                 </div>
                             </div>
                         </div>
-
-
-
-
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="">@lang('type')</label>
-                                <select name="user_type_id" id="edit_type" class="select form-control"
-                                    data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                    <option selected disabled>Select @lang('type')</option>
-                                    @foreach ($user as $itemm)
-                                        <option value="{{ $itemm->id }}"> {{ $itemm->Name }} </option>
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <div class="invalid-feedback"></div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="image">@lang('image')</label>
+                                    <input type="file" accept="image/*" class="form-control"
+                                        placeholder="@lang('image')" name="image" id="image">
+                                    <div class="invalid-feedback"></div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="image">@lang('image')</label>
-                                <input type="file" accept="image/*" class="form-control"
-                                    placeholder="@lang('image')" name="image" id="image">
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
+
+
+
+
                         <div id="map2"></div>
                         <input type="hidden" name="lat" id="edit_lat">
                         <input type="hidden" name="lng" id="edit_lng">
