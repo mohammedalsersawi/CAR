@@ -122,6 +122,7 @@
 
                                             </div>
                                         </div>
+                                       
                                     </div>
                                 </form>
                             </div>
@@ -133,6 +134,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>@lang('phone')</th>
+                                            <th>@lang('image')</th>
                                             <th>@lang('code')</th>
                                             <th>@lang('about')</th>
                                             <th>@lang('city')</th>
@@ -265,7 +267,14 @@
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
-
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="image">@lang('image')</label>
+                                <input type="file" accept="image/*" class="form-control" placeholder="@lang('image')"
+                                       name="image" id="image">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
                         <div id="map"></div>
                         <input type="hidden" name="lat" id="lat">
                         <input type="hidden" name="lng" id="lng">
@@ -383,7 +392,14 @@
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
-
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="image">@lang('image')</label>
+                            <input type="file" accept="image/*" class="form-control" placeholder="@lang('image')"
+                                   name="image" id="image">
+                            <div class="invalid-feedback"></div>
+                        </div>
+                    </div>
                         <div id="map2"></div>
                         <input type="hidden" name="lat" id="edit_lat">
                         <input type="hidden" name="lng" id="edit_lng">
@@ -486,6 +502,13 @@
                 {
                     data: 'phone',
                     name: 'phone'
+                },
+                {
+                    "data": 'image',
+                    "name": 'image',
+                    render: function(data, type, full, meta) {
+                        return `<img src="{{ asset('uploads/${data}') }}" width="100" class="img-fluid img-thumbnail">`;
+                    },
                 },
                 {
                     data: 'number',

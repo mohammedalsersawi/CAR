@@ -29,7 +29,7 @@ class User extends Authenticatable implements JWTSubject
         'area_id',
         'user_type_id',
         'lat',
-        'leg'
+        'lng'
     ];
     /**
      * The attributes that should be hidden for arrays.
@@ -56,6 +56,10 @@ class User extends Authenticatable implements JWTSubject
     }
     public function area(){
         return $this->belongsTo(Area::class);
+    }
+    public function image()
+    {
+        return $this->morphOne(Image::class, 'imageable');
     }
 //    public function getAboutAttribute()
 //    {
