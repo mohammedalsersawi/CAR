@@ -94,10 +94,6 @@ class CityController extends Controller
                     '">' . __('delete') . '  </button>';
                 return $string;
             })
-            ->addColumn('country',function ($que){
-                return $que->country->name;
-            })
-            ->rawColumns(['country'])
             ->rawColumns(['action'])
             ->make(true);
     }

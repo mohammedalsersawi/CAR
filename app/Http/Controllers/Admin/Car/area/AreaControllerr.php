@@ -79,8 +79,8 @@ class AreaControllerr extends Controller
 
             ->addColumn('action', function ($que) {
                 $data_attr = '';
-                $data_attr .= 'data-id="' . $que->id . '" ';
-                $data_attr .= 'data-city_id="' . $que->cites->id . '" ';
+                $data_attr .= 'data-id="' .@$que->id . '" ';
+                $data_attr .= 'data-city_id="' .@$que->cites->id . '" ';
                 foreach (locales() as $key => $value) {
                     $data_attr .= 'data-name_' . $key . '="' . $que->getTranslation('name', $key) . '" ';
                 }
@@ -91,10 +91,7 @@ class AreaControllerr extends Controller
                     '">' . __('delete') . '  </button>';
                 return $string;
             })
-            ->addColumn('cites',function ($que){
-                return $que->cites->name;
-            })
-            ->rawColumns(['cites'])
+
             ->rawColumns(['action'])
             ->make(true);
     }

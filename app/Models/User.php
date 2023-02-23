@@ -7,12 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\File;
+use Laravel\Sanctum\HasApiTokens;
 use Spatie\Translatable\HasTranslations;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable
 {
-    use HasFactory, Notifiable,HasTranslations;
+    use HasFactory, Notifiable,HasTranslations,HasApiTokens;
     /**
      * The attributes that are mass assignable.
      *
@@ -20,7 +21,7 @@ class User extends Authenticatable implements JWTSubject
      */
 
     protected $translatable = ['about'];
-//    protected $appends = ['About','Type'];
+    protected $appends = ['name_about','name_area','name_city','name_type'];
     protected $fillable = [
         'phone',
         'password',
@@ -40,6 +41,13 @@ class User extends Authenticatable implements JWTSubject
     protected $hidden = [
         'password',
         'remember_token',
+        'about',
+        'city_id',
+        'area_id',
+        'user_type_id',
+        'city',
+        'area',
+        'type'
     ];
     /**
      * The attributes that should be cast to native types.
@@ -50,22 +58,43 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
     public function type(){
-        return $this->belongsTo(UserType::class,'user_type_id');
+        return @$this->belongsTo(UserType::class,'user_type_id');
     }
     public function city(){
-        return $this->belongsTo(City::class);
+        return @$this->belongsTo(City::class);
     }
     public function area(){
-        return $this->belongsTo(Area::class);
+        return @$this->belongsTo(Area::class);
     }
     public function image()
     {
-        return $this->morphOne(Image::class, 'imageable');
+        return @$this->morphOne(Image::class, 'imageable');
+    }
+    public function getNameAboutAttribute()
+    {
+        return @$this->about;
+    }
+    public function getNameCityAttribute()
+    {
+        return @$this->city->name;
+    }
+    public function getNameAreaAttribute()
+    {
+        return @$this->area->name;
+    }
+    public function getNameTextAttribute()
+    {
+        return @$this->name;
+    }
+    public function getNameTypeAttribute()
+    {
+        return @$this->type->Name;
     }
 //    public function getAboutAttribute()
-//    {
-//        return @$this->about;
-//    }
+//{
+//    return @$this->about;
+//}
+
 //    public function getTypeAttribute()
 //    {
 //        return @$this->type->name_en;
@@ -84,17 +113,5 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
-    public function getJWTIdentifier()
-    {
-        return $this->getKey();
-    }
-    /**
-     * Return a key value array, containing any custom claims to be added to the JWT.
-     *
-     * @return array
-     */
-    public function getJWTCustomClaims()
-    {
-        return [];
-    }
+
 }

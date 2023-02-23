@@ -12,7 +12,7 @@ class Area extends Model
 
     protected $translatable = ['name'];
     protected $guarded = [];
-    protected $appends = ['name_text'];
+    protected $appends = ['name_text','name_city'];
 
     public function getNameTextAttribute()
     {
@@ -20,6 +20,11 @@ class Area extends Model
     }
 
     public function cites(){
-        return $this->belongsTo(City::class,'city_id');
+        return @$this->belongsTo(City::class,'city_id');
+    }
+
+    public function getNameCityAttribute()
+    {
+        return @$this->cites->name;
     }
 }

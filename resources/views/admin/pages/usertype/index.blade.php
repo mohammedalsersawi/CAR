@@ -511,7 +511,8 @@
                     d.user_type_id = $('#type_id').val();
                 }
             },
-            columns: [{
+            columns: [
+                {
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex',
                     orderable: false,
@@ -525,7 +526,7 @@
                     "data": 'image',
                     "name": 'image',
                     render: function(data, type, full, meta) {
-                        return `<img src="{{ asset('uploads/${data}') }}" width="100" class="img-fluid img-thumbnail">`;
+                        return (data)?`<img src="{{ asset('uploads/${data}') }}" width="100" class="img-fluid img-thumbnail">`:' no image';
                     },
                 },
                 {
@@ -533,19 +534,19 @@
                     name: 'number'
                 },
                 {
-                    data: 'about.{{ app()->currentLocale() }}',
-                    name: 'About'
+                    data: 'name_about',
+                    name: 'about'
                 },
                 {
-                    data: 'city',
+                    data: 'name_city',
                     name: 'city'
                 },
                 {
-                    data: 'area',
+                    data: 'name_area',
                     name: 'area'
                 },
                 {
-                    data: 'Type',
+                    data: 'name_type',
                     name: 'Type'
                 },
 

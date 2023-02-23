@@ -20,6 +20,7 @@ class UserTypeController extends Controller
     use ResponseTrait;
     public function index()
     {
+
         $cities=City::select(['name','id'])->get();
         $country=Country::select(['name','id'])->get();
         $user=UserType::all();
@@ -136,17 +137,17 @@ class UserTypeController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function ($que) {
                 $data_attr = '';
-                $data_attr .= 'data-id="' . $que->id . '" ';
-                $data_attr .= 'data-number="' . $que->number . '" ';
-                $data_attr .= 'data-phone="' . $que->phone . '" ';
-                $data_attr .= 'data-city="' . $que->city_id . '" ';
-                $data_attr .= 'data-area="' . $que->area_id . '" ';
-                $data_attr .= 'data-area_name="' . $que->area->name . '" ';
-                $data_attr .= 'data-city_name="' . $que->city->name . '" ';
-                $data_attr .= 'data-country="' . $que->city->country_id . '" ';
-                $data_attr .= 'data-lat="' . $que->lat . '" ';
-                $data_attr .= 'data-lng="' . $que->lng . '" ';
-                $data_attr .= 'data-user_type_id="' . $que->user_type_id . '" ';
+                $data_attr .= 'data-id="' . @$que->id . '" ';
+                $data_attr .= 'data-number="' . @$que->number . '" ';
+                $data_attr .= 'data-phone="' .@ $que->phone . '" ';
+                $data_attr .= 'data-city="' .@ $que->city_id . '" ';
+                $data_attr .= 'data-area="' .@ $que->area_id . '" ';
+                $data_attr .= 'data-area_name="' .@ $que->name_area . '" ';
+                $data_attr .= 'data-city_name="' . @$que->name_city . '" ';
+                $data_attr .= 'data-country="' .@ $que->city->country_id . '" ';
+                $data_attr .= 'data-lat="' . @$que->lat . '" ';
+                $data_attr .= 'data-lng="' . @$que->lng . '" ';
+                $data_attr .= 'data-user_type_id="' .@ $que->user_type_id . '" ';
                 foreach (locales() as $key => $value) {
                     $data_attr .= 'data-about_' . $key . '="' . $que->getTranslation('about', $key) . '" ';
                 }
@@ -157,19 +158,9 @@ class UserTypeController extends Controller
                     '">' . __('delete') . '</button>';
                 return $string;
             })
-            ->addColumn('Type',function ($row){
-                return $row->Type->Name;
-//                    (app()->currentLocale()=='ar')?$row->Type->name_ar:$row->Type->name_en;
-            })
-            ->addColumn('city',function ($row){
-                return $row->city->name;
-            })
-            ->addColumn('area',function ($row){
-                return $row->area->name;
-            })
             ->addColumn('image', function ($row) {
-                $imageData = $row->image->filename;
-                return $imageData;
+                $imageData = @$row->image->filename;
+                return @$imageData;
             })
             ->rawColumns(['image'])
             ->rawColumns(['Type'])

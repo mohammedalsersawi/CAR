@@ -15,15 +15,15 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->integer('phone')->unique();
+            $table->string('phone')->unique();
             $table->string('number')->unique();
             $table->string('password');
-            $table->text('about');
-            $table->double('lat');
-            $table->double('leg');
+            $table->text('about')->nullable();
+            $table->double('lat')->nullable();
+            $table->double('leg')->nullable();
             $table->foreignId('city_id')->nullable()->constrained('cities')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('area_id')->nullable()->constrained('areas')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('user_type_id')->default(1)->constrained('user_types')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('user_type_id')->default(5)->constrained('user_types')->cascadeOnDelete()->cascadeOnUpdate();
             $table->rememberToken();
             $table->timestamps();
         });

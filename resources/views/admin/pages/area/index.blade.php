@@ -60,8 +60,8 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>@lang('name')</th>
                                             <th>@lang('area')</th>
+                                            <th>@lang('cities')</th>
                                             <th style="width: 225px;">@lang('actions')</th>
                                         </tr>
                                     </thead>
@@ -228,8 +228,8 @@
                     name: 'name'
                 },
                 {
-                    data: 'cites',
-                    name: 'cites'
+                    data: 'name_city',
+                    name: 'cities'
                 },
 
                 {
