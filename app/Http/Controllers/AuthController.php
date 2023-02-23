@@ -3,7 +3,6 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -28,7 +27,7 @@ class AuthController extends Controller
         $vaild = $request->all();
         $validator = Validator::make($vaild, $rules);
         if ($validator->fails()) {
-            return mainResponse(false, $validator->errors()->first(), [], $validator->errors()->messages(), 101);
+            return mainResponse(false, __('auth.failed'), [], $validator->errors()->messages(), 101);
         }
         $user=User::where('phone',$request->phone)->first();
         if($user && Hash::check($request->password,$user->password)) {
@@ -55,7 +54,9 @@ class AuthController extends Controller
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
         ]);
-        return mainResponse(true, 'User created successfully', $user, [], 101);
+        $data=[$user->phone,$user->createToken('api')->plainTextToken];
+
+        return mainResponse(true, 'User created successfully', $data, [], 101);
 
     }
 
@@ -63,6 +64,12 @@ class AuthController extends Controller
     {
         $request->user()->currentAccessToken()->delete();
         return mainResponse(true, __('ok'), [], [], 200);
+    }
+    public function verification_code(Request $request){
+
+    }
+    public function resend_code(Request $request){
+
     }
 
 

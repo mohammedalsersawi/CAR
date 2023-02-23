@@ -62,13 +62,13 @@
                             <div class="card-body">
                                 <form id="search_form">
                                     <div class="row">
-                                        <div class="col-3">
-                                            <div class="form-group">
-                                                <label for="s_name">@lang('code')</label>
-                                                <input id="s_number" type="text" class="search_input form-control"
-                                                    placeholder="@lang('code')">
-                                            </div>
-                                        </div>
+{{--                                        <div class="col-3">--}}
+{{--                                            <div class="form-group">--}}
+{{--                                                <label for="s_name">@lang('code')</label>--}}
+{{--                                                <input id="s_number" type="text" class="search_input form-control"--}}
+{{--                                                    placeholder="@lang('code')">--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="s_mobile">@lang('phone')</label>
@@ -138,9 +138,10 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
+                                            <th>@lang('name')</th>
                                             <th>@lang('phone')</th>
                                             <th>@lang('image')</th>
-                                            <th>@lang('code')</th>
+{{--                                            <th>@lang('code')</th>--}}
                                             <th>@lang('about')</th>
                                             <th>@lang('city')</th>
                                             <th>@lang('area')</th>
@@ -176,6 +177,18 @@
                     @csrf
                     <div class="modal-body">
                         <div class="row">
+                            @foreach (locales() as $key => $value)
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="name_{{ $key }}">@lang('name')
+                                            @lang($value)</label>
+                                        <input type="text" class="form-control"
+                                               placeholder="@lang('about') @lang($value)"
+                                               name="name_{{ $key }}" id="">
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+                                </div>
+                            @endforeach
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="phone">@lang('phone')</label>
@@ -184,14 +197,14 @@
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="number">@lang('code')</label>
-                                    <input type="text" class="form-control" placeholder="@lang('code')"
-                                        name="number" id="number">
-                                    <div class="invalid-feedback"></div>
-                                </div>
-                            </div>
+{{--                            <div class="col-md-6">--}}
+{{--                                <div class="form-group">--}}
+{{--                                    <label for="number">@lang('code')</label>--}}
+{{--                                    <input type="text" class="form-control" placeholder="@lang('code')"--}}
+{{--                                        name="number" id="number">--}}
+{{--                                    <div class="invalid-feedback"></div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
 
                         </div>
                         <div class="row">
@@ -318,7 +331,20 @@
 
                     <input type="hidden" id="id" name="id">
                     <div class="modal-body">
-
+                            <div class="row">
+                                @foreach (locales() as $key => $value)
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="name_{{ $key }}">@lang('name')
+                                                @lang($value)</label>
+                                            <input type="text" class="form-control"
+                                                   placeholder="@lang('about') @lang($value)"
+                                                   name="name_{{ $key }}" id="edit_name_{{ $key }}">
+                                            <div class="invalid-feedback"></div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -328,14 +354,14 @@
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="number">@lang('code')</label>
-                                    <input type="text" class="form-control" placeholder="@lang('code')"
-                                        name="number" id="edit_number">
-                                    <div class="invalid-feedback"></div>
-                                </div>
-                            </div>
+{{--                            <div class="col-md-6">--}}
+{{--                                <div class="form-group">--}}
+{{--                                    <label for="number">@lang('code')</label>--}}
+{{--                                    <input type="text" class="form-control" placeholder="@lang('code')"--}}
+{{--                                        name="number" id="edit_number">--}}
+{{--                                    <div class="invalid-feedback"></div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
                         </div>
                         <div class="row">
                             @foreach (locales() as $key => $value)
@@ -427,7 +453,7 @@
                                 data-dismiss="modal">@lang('close')</button>
                             <button class="btn btn-primary">@lang('save changes')</button>
                         </div>
-
+                    </div>
                 </form>
             </div>
         </div>
@@ -519,6 +545,10 @@
                     searchable: false
                 },
                 {
+                    data: 'text_name',
+                    name: 'name'
+                },
+                {
                     data: 'phone',
                     name: 'phone'
                 },
@@ -529,24 +559,24 @@
                         return (data)?`<img src="{{ asset('uploads/${data}') }}" width="100" class="img-fluid img-thumbnail">`:' no image';
                     },
                 },
+                // {
+                //     data: 'number',
+                //     name: 'number'
+                // },
                 {
-                    data: 'number',
-                    name: 'number'
-                },
-                {
-                    data: 'name_about',
+                    data: 'about_name',
                     name: 'about'
                 },
                 {
-                    data: 'name_city',
+                    data: 'city_name',
                     name: 'city'
                 },
                 {
-                    data: 'name_area',
+                    data: 'area_name',
                     name: 'area'
                 },
                 {
-                    data: 'name_type',
+                    data: 'type_name',
                     name: 'Type'
                 },
 
@@ -584,11 +614,14 @@
                 $('#edit_number').val(button.data('number'));
                 $('#edit_lat').val(button.data('lat'))
                 $('#edit_lng').val(button.data('lng'))
+                $('#edit_name').val(button.data('name'))
                 $('#id').val(id);
                 @foreach (locales() as $key => $value)
                     $('#edit_about_{{ $key }}').val(button.data('about_{{ $key }}'))
                 @endforeach
-
+                @foreach (locales() as $key => $value)
+                $('#edit_name_{{ $key }}').val(button.data('name_{{ $key }}'))
+                @endforeach
                 L.marker([button.data('lat'), button.data('lng')]).addTo(map2)
                     .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
                     .openPopup();

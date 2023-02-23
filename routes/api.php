@@ -26,4 +26,7 @@ Route::middleware(['guest:sanctum'])->prefix('auth')->group(function () {
 });
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('verification code',[AuthController::class, 'verification_code']);
+    Route::post('resend code',[AuthController::class, 'resend_code']);
+
 });

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('phone')->unique();
             $table->string('number')->unique();
             $table->string('password');
+            $table->string('name')->nullable();
             $table->text('about')->nullable();
             $table->double('lat')->nullable();
             $table->double('leg')->nullable();

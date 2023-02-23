@@ -20,18 +20,19 @@ class User extends Authenticatable
      * @var array
      */
 
-    protected $translatable = ['about'];
-    protected $appends = ['name_about','name_area','name_city','name_type'];
+    protected $translatable = ['name','about'];
+    protected $appends = ['about_name','area_name','city_name','type_name','text_name'];
     protected $fillable = [
         'phone',
         'password',
-        'number',
+//        'number',
         'about',
         'city_id',
         'area_id',
         'user_type_id',
         'lat',
-        'lng'
+        'lng',
+        'name'
     ];
     /**
      * The attributes that should be hidden for arrays.
@@ -41,13 +42,14 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'about',
         'city_id',
         'area_id',
         'user_type_id',
         'city',
         'area',
-        'type'
+        'type',
+        'created_at',
+        'updated_at'
     ];
     /**
      * The attributes that should be cast to native types.
@@ -70,35 +72,27 @@ class User extends Authenticatable
     {
         return @$this->morphOne(Image::class, 'imageable');
     }
-    public function getNameAboutAttribute()
+    public function getAboutNameAttribute()
     {
         return @$this->about;
     }
-    public function getNameCityAttribute()
+    public function getCityNameAttribute()
     {
         return @$this->city->name;
     }
-    public function getNameAreaAttribute()
+    public function getAreaNameAttribute()
     {
         return @$this->area->name;
     }
-    public function getNameTextAttribute()
+    public function getTextNameAttribute()
     {
         return @$this->name;
     }
-    public function getNameTypeAttribute()
+    public function getTypeNameAttribute()
     {
         return @$this->type->Name;
     }
-//    public function getAboutAttribute()
-//{
-//    return @$this->about;
-//}
 
-//    public function getTypeAttribute()
-//    {
-//        return @$this->type->name_en;
-//    }
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
