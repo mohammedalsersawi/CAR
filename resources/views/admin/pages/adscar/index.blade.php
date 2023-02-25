@@ -24,7 +24,7 @@
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ url('/admin') }}">@lang('home')</a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="{{ url('/admin/pages') }}">@lang('pages')</a>
+                                <li class="breadcrumb-item"><a href="{{ route('ads.car.index') }}">@lang('Car ads')</a>
                                 </li>
                             </ol>
                         </div>
@@ -40,7 +40,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="head-label">
-                                    <h4 class="card-title">@lang('pages')</h4>
+                                    <h4 class="card-title">@lang('Car ads')</h4>
                                 </div>
                                 <div class="text-right">
                                     <div class="form-gruop">
@@ -491,10 +491,10 @@
                                 <select name="model_id" id="edit_model" class="select form-control"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                     <option selected disabled>Select @lang('Model')</option>
-                                    @foreach ($ModelCar as $itemm)
-                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
-                                        </option>
-                                    @endforeach
+{{--                                    @foreach ($ModelCar as $itemm)--}}
+{{--                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>--}}
+{{--                                        </option>--}}
+{{--                                    @endforeach--}}
                                 </select>
                                 <div class="invalid-feedback"></div>
                             </div>
@@ -765,11 +765,12 @@
                 var uuid = button.data('uuid');
                 $('#edit_model').val(button.data('model_id')).trigger('change');
                 $('#edit_transmission').val(button.data('transmission_id')).trigger('change');
-                $('#edit_brand').append('<option value="' + button.data('brand_id') + '" selected>' + button.data('brand_name') + '</option>');
+                $('#edit_brand').val( button.data('brand_id'));
                 $('#edit_model').append('<option value="' + button.data('model_id') + '" selected>' + button.data('model_name') + '</option>');
+                // $('#edit_model').val( button.data('model_id'));
                 $('#edit_engine').val(button.data('engine_id')).trigger('change');
                 $('#edit_fuel').val(button.data('fueltype_id'));
-                $('select[name="fule_type_id"]').append('<option value="' + button.data('fueltype_id') + '" selected>' + button.data('fueltype_name') + '</option>');
+                $('#edit_fuel').append('<option value="' + button.data('fueltype_id') + '" selected>' + button.data('fueltype_name') + '</option>');
                 $('#edit_color_exterior').val(button.data('color_exterior_id'));
                 $('#edit_color_interior').val(button.data('color_interior_id'));
                 $('#edit_lat').val(button.data('lat'))
@@ -791,7 +792,11 @@
                 // });
             });
         });
+        $('#edit_modal').on('hidden.bs.modal',function () {
+            $('select[name="model_id"]').empty();
+            // $('.search_input').val("").trigger("change")
 
+        })
 
     </script>
     <script>
@@ -807,9 +812,9 @@
                         dataType: "json",
                         success: function (data) {
                             $('select[name="model_id"]').empty();
-                            $('select[name="model_id"]').append(`
-                                 <option selected  disabled>Select @lang('Model')</option>
-                                 `)
+                            {{--$('select[name="model_id"]').append(`--}}
+                            {{--     <option selected  disabled>Select @lang('Model')</option>--}}
+                            {{--     `)--}}
                             $.each(data, function (key, value) {
                                 $('select[name="model_id"]').append('<option value="' + key + '">' + value + '</option>');
                             });

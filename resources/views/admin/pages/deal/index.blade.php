@@ -1,6 +1,6 @@
 @extends('admin.part.app')
 @section('title')
-    @lang('Brand Cars')
+    @lang('deals')
 @endsection
 @section('styles')
 @endsection
@@ -15,7 +15,7 @@
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ url('/admin') }}">@lang('home')</a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="{{ url('/admin/pages') }}">@lang('pages')</a>
+                                <li class="breadcrumb-item"><a href="{{ route('deals.index') }}">@lang('deals')</a>
                                 </li>
                             </ol>
                         </div>
@@ -31,7 +31,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="head-label">
-                                    <h4 class="card-title">@lang('pages')</h4>
+                                    <h4 class="card-title">@lang('deals')</h4>
                                 </div>
                                 <div class="text-right">
                                     <div class="form-gruop">
@@ -48,9 +48,16 @@
 
                                         <div class="col-3">
                                             <div class="form-group">
-                                                <label for="s_title">@lang('title')</label>
+                                                <label for="s_title">@lang('deals')</label>
                                                 <input id="s_title" type="text" class="search_input form-control"
-                                                    placeholder="@lang('title')">
+                                                    placeholder="@lang('deals')">
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="s_name">@lang('users')</label>
+                                                <input id="s_name" type="text" class="search_input form-control"
+                                                       placeholder="@lang('users')">
                                             </div>
                                         </div>
                                         <div class="col-3" style="margin-top: 20px">
@@ -76,6 +83,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>@lang('image')</th>
+                                            <th>@lang('users')</th>
                                             <th>@lang('deals')</th>
                                             <th style="width: 225px;">@lang('actions')</th>
                                         </tr>
@@ -124,7 +132,7 @@
                                 <select class="form-control" id="" name="user_id" required>
                                     <option value="">@lang('select')</option>
                                     @foreach ($user as $itemm)
-                                        <option value="{{ $itemm->id }}"> {{ $itemm->phone }} </option>
+                                        <option value="{{ $itemm->id }}"> {{ $itemm->phone }} {{ $itemm->name }} </option>
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback"></div>
@@ -182,7 +190,7 @@
                                 <select class="form-control" id="edit_user_id" name="user_id" required>
                                     <option value="">@lang('select')</option>
                                     @foreach ($user as $itemm)
-                                        <option value="{{ $itemm->id }}"> {{ $itemm->phone }} </option>
+                                        <option value="{{ $itemm->id }}"> {{ $itemm->phone }} {{ $itemm->name }} </option>
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback"></div>
@@ -220,7 +228,7 @@
             processing: true,
             serverSide: true,
             responsive: true,
-            searching: true,
+            searching: false,
             "oLanguage": {
                 @if (app()->isLocale('ar'))
                     "sEmptyTable": "ليست هناك بيانات متاحة في الجدول",
@@ -242,10 +250,12 @@
             ajax: {
                 url: '{{ route('deals.getData', app()->getLocale()) }}',
                 data: function(d) {
-                    d.deals = $('#search').val();
+                    d.deals = $('#s_title').val();
+                    d.user_id = $('#s_name').val();
                 }
             },
-            columns: [{
+            columns: [
+                {
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex',
                     orderable: false,
@@ -259,6 +269,12 @@
                     },
                     orderable: false,
                     searchable: false
+                },
+                {
+                    data: 'user_name',
+                    name: 'user_name',
+                    searchable: true,
+                    orderable: true,
                 },
                 {
                     data: 'name_text',

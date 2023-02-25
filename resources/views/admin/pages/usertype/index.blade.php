@@ -29,7 +29,7 @@
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ url('/admin') }}">@lang('home')</a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="{{ url('/admin/pages') }}">@lang('pages')</a>
+                                <li class="breadcrumb-item"><a href="{{ route('usertype.index') }}">@lang('users')</a>
                                 </li>
                             </ol>
                         </div>
@@ -45,7 +45,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="head-label">
-                                    <h4 class="card-title">@lang('pages')</h4>
+                                    <h4 class="card-title">@lang('users')</h4>
                                 </div>
                                 <div class="text-right">
                                     <div class="form-gruop">
@@ -80,7 +80,7 @@
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="city_id">@lang('city')</label>
-                                                <select name="" id="" class="search_input form-control"
+                                                <select name="city_id" id="s_city" class="search_input form-control"
                                                     data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                                     <option selected disabled>Select @lang('city')</option>
                                                     @foreach ($cities as $itemm)
@@ -93,7 +93,7 @@
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="area_id">@lang('area')</label>
-                                                <select name="" id="" class="search_input form-control"
+                                                <select name="area_id" id="s_area" class="search_input form-control"
                                                     data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                                     {{--                                                    @foreach ($area as $item) --}}
                                                     {{--                                                        <option value="{{ $item->id }}"> {{ $item->name }} </option> --}}
@@ -532,8 +532,8 @@
                 data: function(d) {
                     d.phone = $('#s_phone').val();
                     d.number = $('#s_number').val();
-                    d.city_id = $('#city_id').val();
-                    d.area_id = $('#area_id').val();
+                    d.city_id = $('#s_city').val();
+                    d.area_id = $('#s_area').val();
                     d.user_type_id = $('#type_id').val();
                 }
             },
@@ -602,13 +602,29 @@
                 event.preventDefault();
                 var button = $(this);
                 var id = button.data('id');
-                $('#edit_city').val(button.data('city')).trigger('change');
-                $('#edit_area').val(button.data('area')).trigger('change');
-                $('select[name="city_id"]').append('<option value="' + button.data('city') + '" selected>' +
+                $('#edit_city').append('<option value="' + button.data('city') + '" selected>' +
                     button.data('city_name') + '</option>');
-                $('select[name="area_id"]').append('<option value="' + button.data('area') + '"selected >' +
+
+                // $('#edit_country').append('<option value="' + button.data('country') + '" selected>' +
+                //     button.data('country_name') + '</option>');
+                $('#edit_area').append('<option value="' + button.data('area') + '" selected>' +
                     button.data('area_name') + '</option>');
-                $('#edit_country').val(button.data('country')).trigger('change');
+                $('#edit_country').val(button.data('country'));
+                $('#edit_city').val(button.data('city'));
+                $('#edit_area').val(button.data('area'));
+                // $('#edit_city').val(button.data('city'));
+
+                //
+                //
+                //
+                //
+                // $('#edit_area').val(button.data('area')).trigger('change');
+                //
+                // $('#edit_area').append('<option value="' + button.data('area') + '" selected>' +
+                //     button.data('area_name') + '</option>');
+
+
+
                 $('#edit_type').val(button.data('user_type_id')).trigger('change');
                 $('#edit_phone').val(button.data('phone'));
                 $('#edit_number').val(button.data('number'));
@@ -637,7 +653,9 @@
     <script>
         $(document).ready(function() {
             $('select[name="city_id"]').on('change', function() {
+
                 var city_id = $(this).val();
+                console.log(city_id)
                 if (city_id) {
                     $.ajax({
                         url: "usertype/area" + "/" + city_id,
@@ -645,6 +663,7 @@
                         dataType: "json",
                         success: function(data) {
                             $('select[name="area_id"]').empty();
+
                             $('select[name="area_id"]').append(`
                                  <option selected  disabled>Select @lang('area')</option>
                                  `)
@@ -661,17 +680,20 @@
 
 
             $('select[name="country_id"]').on('change', function() {
-                var city_id = $(this).val();
-                if (city_id) {
+                var country_id = $(this).val();
+                console.log(country_id);
+                if (country_id) {
                     $.ajax({
-                        url: "usertype/country" + "/" + city_id,
+                        url: "usertype/country" + "/" + country_id,
                         type: "GET",
                         dataType: "json",
                         success: function(data) {
+                            console.log('ccc')
                             $('select[name="city_id"]').empty();
                             $('select[name="city_id"]').append(`
-                                 <option  disabled>Select @lang('city')</option>
+                                 <option selected  disabled>Select @lang('area')</option>
                                  `)
+                            $('select[name="area_id"]').empty();
                             $.each(data, function(key, value) {
                                 $('select[name="city_id"]').append('<option value="' +
                                     key + '">' + value + '</option>');
@@ -683,6 +705,11 @@
                 }
             });
         });
+        $('#edit_modal').on('hidden.bs.modal',function () {
+            $('select[name="area_id"]').empty();
+            $('select[name="city_id"]').empty();
+            console.log('ddd');
+        })
     </script>
 
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"

@@ -15,7 +15,7 @@ class DealsController extends Controller
     use ResponseTrait;
     public function index()
     {
-        $user=User::select(['phone','id'])->get();
+        $user=User::select(['phone','id','name'])->get();
         return view('admin.pages.deal.index',compact('user'));
     }
 
@@ -36,7 +36,7 @@ class DealsController extends Controller
         $data['user_id']=$request->user_id;
         $this->validate($request, $rules);
         $deals =  Deals::create($data);
-        ImageUpload::UploadImage($request->image, null, 'App\Models\Deals', $deals->uuid, false);
+        UploadImage($request->image, null, 'App\Models\Deals', $deals->uuid, false);
         return $this->sendResponse(null, __('item_added'));
     }
 
@@ -59,7 +59,7 @@ class DealsController extends Controller
 
         $deals->update($data);
         if ($request->hasFile('image')) {
-            ImageUpload::UploadImage($request->image, null, 'App\Models\Deals', $deals->uuid, true);
+            UploadImage($request->image, null, 'App\Models\Deals', $deals->uuid, true);
         }
         return $this->sendResponse(null, __('item_edited'));
 
@@ -80,17 +80,24 @@ class DealsController extends Controller
 
             ->addIndexColumn()
             ->filter(function ($query) use ($request) {
-                if ($request->get('search')) {
-                    $locale = app()->getLocale();
-                    $query->where('deals->'.locale(), 'like', "%{$request->search['value']}%");
+                if ($request->get('user_id')) {
+                    $user=User::where('name->'.locale(),'like', "%{$request->get('user_id')}%")->pluck('id');
+                    $query->whereIn('user_id', $user);
                 }
+                if ($request->get('deals')) {
+                    $query->where('deals->'.locale(),'like', "%{$request->get('deals')}%");
+                }
+//                if ($request->get('search')) {
+//                    $locale = app()->getLocale();
+//                    $query->where('deals->'.locale(), 'like', "%{$request->search['value']}%");
+//                }
             })
             ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-uuid="' . $que->uuid . '" ';
                 $data_attr .= 'data-deals="' . $que->deals . '" ';
                 $data_attr .= 'data-user_id="' . $que->user_id . '" ';
-                $data_attr .= 'data-image="' . $que->image->filename . '" ';
+                $data_attr .= 'data-image="' . @$que->image->filename . '" ';
                 foreach (locales() as $key => $value) {
                     $data_attr .= 'data-deals_' . $key . '="' . $que->getTranslation('deals', $key) . '" ';
                 }
@@ -102,8 +109,8 @@ class DealsController extends Controller
                 return $string;
             })
             ->addColumn('image', function ($row) {
-                $imageData = $row->image->filename;
-                return $imageData;
+                $imageData = @$row->image->filename;
+                return @$imageData;
             })
 
             ->rawColumns(['image'])

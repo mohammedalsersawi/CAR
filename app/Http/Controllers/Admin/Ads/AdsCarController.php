@@ -50,7 +50,7 @@ class AdsCarController extends Controller
         $rules['transmission_id'] = 'required|exists:transmissions,id';
         $this->validate($request, $rules);
         $Car = Car::create($request->except('image'));
-        ImageUpload::UploadImage($request->image, null, 'App\Models\Car', $Car->uuid, false);
+        UploadImage($request->image, null, 'App\Models\Car', $Car->uuid, false);
 
         return $this->sendResponse(null, __('item_added'));
     }
@@ -77,7 +77,7 @@ class AdsCarController extends Controller
         $Car = Car::findOrFail($request->uuid);
         $Car->update($request->except('image'));
         if ($request->hasFile('image')){
-            ImageUpload::UploadImage($request->image, null, 'App\Models\Car', $Car->uuid, true);
+            UploadImage($request->image, null, 'App\Models\Car', $Car->uuid, true);
         }
         return $this->sendResponse(null, __('item_edited'));
     }
@@ -131,23 +131,23 @@ class AdsCarController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function ($que) {
                 $data_attr = '';
-                $data_attr .= 'data-uuid="' . $que->uuid . '" ';
-                $data_attr .= 'data-lat="' . $que->lat . '" ';
-                $data_attr .= 'data-lng="' . $que->lng . '" ';
-                $data_attr .= 'data-phone="' . $que->phone . '" ';
-                $data_attr .= 'data-mileage="' . $que->mileage . '" ';
-                $data_attr .= 'data-year_to="' . $que->year_to . '" ';
-                $data_attr .= 'data-year_from="' . $que->year_from . '" ';
-                $data_attr .= 'data-brand_id="' . $que->brand_id . '" ';
-                $data_attr .= 'data-brand_name="' . $que->brand->name . '" ';
-                $data_attr .= 'data-model_name="' . $que->model->name . '" ';
-                $data_attr .= 'data-model_id="' . $que->model_id . '" ';
-                $data_attr .= 'data-engine_id="' . $que->engine_id . '" ';
-                $data_attr .= 'data-fueltype_id="' . $que->fule_type_id . '" ';
-                $data_attr .= 'data-fueltype_name="' . $que->fueltype->name . '" ';
-                $data_attr .= 'data-color_exterior_id="' . $que->color_exterior_id . '" ';
-                $data_attr .= 'data-color_interior_id="' . $que->color_interior_id . '" ';
-                $data_attr .= 'data-transmission_id="' . $que->transmission_id . '" ';
+                $data_attr .= 'data-uuid="' . @$que->uuid . '" ';
+                $data_attr .= 'data-lat="' . @$que->lat . '" ';
+                $data_attr .= 'data-lng="' . @$que->lng . '" ';
+                $data_attr .= 'data-phone="' . @$que->phone . '" ';
+                $data_attr .= 'data-mileage="' .@ $que->mileage . '" ';
+                $data_attr .= 'data-year_to="' . @$que->year_to . '" ';
+                $data_attr .= 'data-year_from="' .@ $que->year_from . '" ';
+                $data_attr .= 'data-brand_id="' .@ $que->brand_id . '" ';
+                $data_attr .= 'data-brand_name="' .@ $que->brand->name . '" ';
+                $data_attr .= 'data-model_name="' .@ $que->model->name . '" ';
+                $data_attr .= 'data-model_id="' .@ $que->model_id . '" ';
+                $data_attr .= 'data-engine_id="' .@ $que->engine_id . '" ';
+                $data_attr .= 'data-fueltype_id="' . @$que->fule_type_id . '" ';
+                $data_attr .= 'data-fueltype_name="' .@ $que->fueltype->name . '" ';
+                $data_attr .= 'data-color_exterior_id="' . @$que->color_exterior_id . '" ';
+                $data_attr .= 'data-color_interior_id="' . @$que->color_interior_id . '" ';
+                $data_attr .= 'data-transmission_id="' .@ $que->transmission_id . '" ';
                 $string = '';
                 $string .= '<button class="edit_btn btn btn-sm btn-outline-primary btn_edit" data-toggle="modal"
                     data-target="#edit_modal" ' . $data_attr . '>' . __('edit') . '</button>';
@@ -177,7 +177,7 @@ class AdsCarController extends Controller
                 return $row->transmission->name;
             })
             ->addColumn('image', function ($row) {
-                $imageData = $row->image->filename;
+                $imageData = @$row->image->filename;
                 return $imageData;
             })
             ->rawColumns(['image'])

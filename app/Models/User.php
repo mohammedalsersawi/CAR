@@ -44,7 +44,7 @@ class User extends Authenticatable
         'remember_token',
         'city_id',
         'area_id',
-        'user_type_id',
+
         'city',
         'area',
         'type',
@@ -101,7 +101,7 @@ class User extends Authenticatable
     protected static function booted()
     {
         self::deleted(function ($user) {
-            File::delete(public_path('uploads/'.$user->image->filename));
+            File::delete(public_path('uploads/'.@$user->image->filename));
             $user->image()->delete();
         });
 

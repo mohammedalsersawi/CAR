@@ -1,6 +1,6 @@
 @extends('admin.part.app')
 @section('title')
-    @lang('city Cars')
+    @lang('area')
 @endsection
 @section('styles')
 @endsection
@@ -10,12 +10,12 @@
             <div class="content-header-left col-md-9 col-12 mb-2">
                 <div class="row breadcrumbs-top">
                     <div class="col-12">
-                        <h2 class="content-header-title float-left mb-0">@lang('city')</h2>
+                        <h2 class="content-header-title float-left mb-0">@lang('area')</h2>
                         <div class="breadcrumb-wrapper">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ url('/admin') }}">@lang('home')</a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="{{ url('/admin/pages') }}">@lang('pages')</a>
+                                <li class="breadcrumb-item"><a href="{{ route('area.index') }}">@lang('area')</a>
                                 </li>
                             </ol>
                         </div>
@@ -31,7 +31,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="head-label">
-                                    <h4 class="card-title">@lang('pages')</h4>
+                                    <h4 class="card-title">@lang('area')</h4>
                                 </div>
                                 <div class="text-right">
                                     <div class="form-gruop">

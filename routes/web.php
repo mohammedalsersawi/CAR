@@ -58,13 +58,6 @@ Route::group(
             Route::delete('/{id?}', 'destroy')->name('delete');
             Route::get('/getData', 'getData')->name('getData');
         });
-//        Route::controller(RoomController::class)->group(function () {
-//            Route::get('/room', 'index')->name('room.index');
-//            Route::post('/room/store', 'store')->name('room.store');
-//            Route::post('/room/update', 'update')->name('room.update');
-//            Route::delete('/room/{id?}', 'destroy')->name('room.delete');
-//            Route::get('room/getData', 'getData')->name('room.getData');
-//        });
         Route::controller(ColorController::class)->prefix('color')->name('color.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::post('/store', 'store')->name('store');

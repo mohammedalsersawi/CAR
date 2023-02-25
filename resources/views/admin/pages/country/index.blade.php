@@ -1,6 +1,6 @@
 @extends('admin.part.app')
 @section('title')
-    @lang('Engine Cars')
+    @lang('Countrys')
 @endsection
 @section('styles')
 @endsection
@@ -15,7 +15,7 @@
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ url('/admin') }}">@lang('home')</a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="{{ url('/admin/pages') }}">@lang('pages')</a>
+                                <li class="breadcrumb-item"><a href="{{ route('country.index') }}">@lang('Countrys')</a>
                                 </li>
                             </ol>
                         </div>
@@ -31,7 +31,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="head-label">
-                                    <h4 class="card-title">@lang('pages')</h4>
+                                    <h4 class="card-title">@lang('Countrys')</h4>
                                 </div>
                                 <div class="text-right">
                                     <div class="form-group">

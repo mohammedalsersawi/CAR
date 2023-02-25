@@ -386,6 +386,7 @@
 
 
         $('.add-mode-form').on('submit', function(event) {
+            $('.search_input').val("").trigger("change")
             event.preventDefault();
             var data = new FormData(this);
             let url = $(this).attr('action');
@@ -479,6 +480,7 @@
 
 
         $('#form_edit').on('submit', function(event) {
+            $('.search_input').val("").trigger("change")
             event.preventDefault();
             var data = new FormData(this);
             let url = $(this).attr('action');

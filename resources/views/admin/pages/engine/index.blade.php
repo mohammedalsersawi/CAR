@@ -15,7 +15,7 @@
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ url('/admin') }}">@lang('home')</a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="{{ url('/admin/pages') }}">@lang('pages')</a>
+                                <li class="breadcrumb-item"><a href="{{ route('engines.index') }}">@lang('Engine Cars')</a>
                                 </li>
                             </ol>
                         </div>
@@ -31,7 +31,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="head-label">
-                                    <h4 class="card-title">@lang('pages')</h4>
+                                    <h4 class="card-title">@lang('Engine Cars')</h4>
                                 </div>
                                 <div class="text-right">
                                     <div class="form-group">

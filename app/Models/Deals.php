@@ -17,10 +17,14 @@ class Deals extends Model
     protected $primaryKey = 'uuid';
     public $incrementing = false;
     protected $guarded = [];
-    protected $appends = ['name_text'];
+    protected $appends = ['name_text','user_name'];
     public function getNameTextAttribute()
     {
         return @$this->deals;
+    }
+    public function getUserNameAttribute()
+    {
+        return @$this->user->name;
     }
     public function image()
     {

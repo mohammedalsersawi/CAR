@@ -1,6 +1,8 @@
 <?php
 use App\Models\Category;
+use App\Models\Image;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -109,5 +111,35 @@ function mainResponse($status, $msg, $items, $validator, $code = 200, $pages = n
     $newData = ['status' => $status, 'message' => __($msg), 'data' => $items, 'pages' => $pages, 'errors' => $aryErrors];
 
     return response()->json($newData);
+}
+function UploadImage($file,$path=null,$model,$id,$update=false)
+{
+    $imagename = uniqid() . '.' . $file->getClientOriginalExtension();
+    $file->move(public_path('uploads/'.$path), $imagename);
+    if (!$update) {
+        Image::create([
+            'filename'=>  $imagename,
+            'imageable_id'=>$id,
+            'imageable_type'=>$model,
+        ]);
+    }else {
+        $image= Image::where('imageable_id',$id)->first();
+        if ($image) {
+            File::delete(public_path('uploads/' . @$path . @$image->filename));
+            $image->update(
+
+                [
+                    'filename' => $imagename,
+                    'imageable_id' => $id,
+                    'imageable_type' => $model,
+                ]);
+        }else{
+            Image::create([
+                'filename'=>  $imagename,
+                'imageable_id'=>$id,
+                'imageable_type'=>$model,
+            ]);
+        }
+    }
 }
 

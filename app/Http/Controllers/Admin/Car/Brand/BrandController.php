@@ -5,11 +5,9 @@ namespace App\Http\Controllers\Admin\Car\Brand;
 use App\Models\Image;
 use Throwable;
 use App\Models\Brand;
-use App\Models\Upload;
 use App\Utils\ImageUpload;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\File;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Controllers\Admin\ResponseTrait;
 
@@ -61,7 +59,7 @@ class BrandController extends Controller
         $brands =   Brand::findOrFail($request->id);
         $brands->update($data);
         if ($request->hasFile('image')) {
-            ImageUpload::UploadImage($request->image, null, 'App\Models\Brand', $brands->id, true);
+            UploadImage($request->image, null, 'App\Models\Brand', $brands->id, true);
         }
         return $this->sendResponse(null, __('item_edited'));
 
@@ -88,9 +86,9 @@ class BrandController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function ($que) {
                 $data_attr = '';
-                $data_attr .= 'data-id="' . $que->id . '" ';
-                $data_attr .= 'data-name="' . $que->name . '" ';
-                $data_attr .= 'data-image="' . $que->image . '" ';
+                $data_attr .= 'data-id="' . @$que->id . '" ';
+                $data_attr .= 'data-name="' .@ $que->name . '" ';
+                $data_attr .= 'data-image="' . @$que->image . '" ';
                 foreach (locales() as $key => $value) {
                     $data_attr .= 'data-name_' . $key . '="' . $que->getTranslation('name', $key) . '" ';
                 }
@@ -103,8 +101,8 @@ class BrandController extends Controller
                 return $string;
             })
             ->addColumn('image', function ($row) {
-                $imageData = $row->image->filename;
-                return $imageData;
+                $imageData = @$row->image->filename;
+                return @$imageData;
             })
             ->rawColumns(['image'])
             ->rawColumns(['action'])

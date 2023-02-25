@@ -11,7 +11,14 @@
                 <div class="row breadcrumbs-top">
                     <div class="col-12">
                         <h2 class="content-header-title float-left mb-0">@lang('Model Cars')</h2>
-
+                        <div class="breadcrumb-wrapper">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{{ url('/admin') }}">@lang('home')</a>
+                                </li>
+                                <li class="breadcrumb-item"><a href="{{ route('model.index') }}">@lang('Model Cars')</a>
+                                </li>
+                            </ol>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -24,7 +31,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="head-label">
-                                    <h4 class="card-title">@lang('pages')</h4>
+                                    <h4 class="card-title">@lang('Model Cars')</h4>
                                 </div>
                                 <div class="text-right">
                                     <div class="form-group">

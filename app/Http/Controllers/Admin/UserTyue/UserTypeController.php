@@ -65,7 +65,7 @@ class UserTypeController extends Controller
         $data['password']=Hash::make($request->password);
         $data['user_type_id']=$request->user_type_id;
         $user= User::create($data);
-        ImageUpload::UploadImage($request->image, null, 'App\Models\User', $user->id, false);
+        UploadImage($request->image, null, 'App\Models\User', $user->id, false);
         return $this->sendResponse(null, __('item_added'));
     }
 
@@ -92,6 +92,7 @@ class UserTypeController extends Controller
             $data['name'][$key] = $request->get('name_' . $key);
 
         }
+
         $data['lat'] = $request->lat;
         $data['lng'] = $request->lng;
         $data['phone']=$request->phone;
@@ -100,9 +101,9 @@ class UserTypeController extends Controller
        $data['user_type_id']=$request->user_type_id;
         $user=User::findOrFail($request->id);
         $user->update($data);
-        if(isset($request->image))
+        if($request->image)
         {
-            ImageUpload::UploadImage($request->image, null, 'App\Models\User', $user->id, true);
+            UploadImage($request->image, null, 'App\Models\User', $user->id, true);
         }
 
 
@@ -148,9 +149,10 @@ class UserTypeController extends Controller
                 $data_attr .= 'data-phone="' .@ $que->phone . '" ';
                 $data_attr .= 'data-city="' .@ $que->city_id . '" ';
                 $data_attr .= 'data-area="' .@ $que->area_id . '" ';
-                $data_attr .= 'data-area_name="' .@ $que->name_area . '" ';
-                $data_attr .= 'data-city_name="' . @$que->name_city . '" ';
+                $data_attr .= 'data-area_name="' .@ $que->area_name . '" ';
+                $data_attr .= 'data-city_name="' . @$que->city_name . '" ';
                 $data_attr .= 'data-country="' .@ $que->city->country_id . '" ';
+                $data_attr .= 'data-country_name="' .@ $que->city->country->name . '" ';
                 $data_attr .= 'data-lat="' . @$que->lat . '" ';
                 $data_attr .= 'data-lng="' . @$que->lng . '" ';
                 $data_attr .= 'data-user_type_id="' .@ $que->user_type_id . '" ';
