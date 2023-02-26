@@ -197,15 +197,6 @@
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
-{{--                            <div class="col-md-6">--}}
-{{--                                <div class="form-group">--}}
-{{--                                    <label for="number">@lang('code')</label>--}}
-{{--                                    <input type="text" class="form-control" placeholder="@lang('code')"--}}
-{{--                                        name="number" id="number">--}}
-{{--                                    <div class="invalid-feedback"></div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-
                         </div>
                         <div class="row">
                             @foreach (locales() as $key => $value)
