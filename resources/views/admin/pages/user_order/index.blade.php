@@ -116,11 +116,14 @@
                 }
             },
             ajax: {
-                url: '{{route('fuelType.getData',app()->getLocale())}}',
+                url: '{{route('orders.getData',app()->getLocale())}}',
             },
-            columns: [{
-                    data: 'id',
-                    name: 'id',
+            columns: [
+                {
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    orderable: false,
+                    searchable: false
                 },
                 {
                     data: 'name',
