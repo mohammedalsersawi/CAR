@@ -10,7 +10,7 @@ class UserOrder extends Model
 {
     use HasFactory;
     protected $guarded = [];
-    protected $appends = ['area_name','city_name'];
+    protected $appends = ['area_name','city_name','user_name','status_type'];
     protected $primaryKey = 'uuid';
 
     public static function boot()
@@ -20,7 +20,15 @@ class UserOrder extends Model
             $rpw->uuid = Str::uuid();
         });
     }
-
+       public function user(){
+        return $this->belongsTo(User::class,'user_id');
+          }
+    public function city(){
+        return @$this->belongsTo(City::class);
+    }
+    public function area(){
+        return @$this->belongsTo(Area::class);
+    }
     public function getCityNameAttribute()
     {
         return @$this->city->name;
@@ -29,5 +37,19 @@ class UserOrder extends Model
     {
         return @$this->area->name;
     }
+    public function getUserNameAttribute()
+    {
+        return @$this->user->name;
+    }
+    public function getStatusTypeAttribute()
+    {
+        if ($this->status==0){
+            return (app()->currentLocale()=='ar')?'معلق':'pending' ;
+        }elseif ($this->status==1){
+            return (app()->currentLocale()=='ar')?'تم القبول':'accepted';
+        }else{
+            return (app()->currentLocale()=='ar')?'تم الرفض':'rejected';
+        }
 
+    }
 }

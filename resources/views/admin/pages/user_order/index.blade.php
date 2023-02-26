@@ -1,6 +1,6 @@
 @extends('admin.part.app')
 @section('title')
-    @lang('Fuel Type Cars')
+    @lang('user_order')
 @endsection
 @section('styles')
 @endsection
@@ -10,12 +10,12 @@
             <div class="content-header-left col-md-9 col-12 mb-2">
                 <div class="row breadcrumbs-top">
                     <div class="col-12">
-                        <h2 class="content-header-title float-left mb-0"> @lang('Fuel Type Cars')</h2>
+                        <h2 class="content-header-title float-left mb-0"> @lang('user_order')</h2>
                         <div class="breadcrumb-wrapper">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ url('/admin') }}">@lang('home')</a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="{{ route('fuelType.index') }}">@lang('Fuel Type Cars')</a>
+                                <li class="breadcrumb-item"><a href="{{ route('fuelType.index') }}">@lang('user_order')</a>
                                 </li>
                             </ol>
                         </div>
@@ -31,23 +31,80 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="head-label">
-                                    <h4 class="card-title">@lang('Fuel Type Cars')</h4>
+                                    <h4 class="card-title">@lang('user_order')</h4>
                                 </div>
-                                <div class="text-right">
-                                    <div class="form-group">
-                                        <button class="btn btn-outline-primary button_modal" type="button" data-toggle="modal"
-                                            data-target="#full-modal-stem"><span><i
-                                                    class="fa fa-plus"></i>@lang('add')</span>
-                                        </button>
-                                    </div>
-                                </div>
+
                             </div>
                             <div class="card-body">
                                 <form id="search_form">
                                     <div class="row">
-                                        <div class="col-3" style="margin-top: 20px">
-
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="s_mobile">@lang('phone')</label>
+                                                <input id="s_phone" type="text" class="search_input form-control"
+                                                       placeholder="@lang('phone')">
+                                            </div>
                                         </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="s_name">@lang('name')</label>
+                                                <input id="s_name" type="text" class="search_input form-control"
+                                                       placeholder="@lang('name')">
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="city_id">@lang('city')</label>
+                                                <select name="city_id" id="s_city" class="search_input form-control"
+                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                                    <option selected disabled>Select @lang('city')</option>
+                                                    @foreach ($cities as $itemm)
+                                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="status">@lang('status')</label>
+                                                <select name="status" id="s_status" class="search_input form-control"
+                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                                    <option selected disabled>Select @lang('status')</option>
+
+                                                    <option value="0"> @lang('pending') </option>
+                                                     <option value="1"> @lang('accepted') </option>
+                                                    <option value="2"> @lang('rejected') </option>
+                                                        </option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="area_id">@lang('area')</label>
+                                                <select name="area_id" id="s_area" class="search_input form-control"
+                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                                    @foreach ($area as $item)
+                                                        <option value="{{ $item->id }}"> {{ $item->name }} </option>
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-3" style="margin-top: 20px">
+                                            <div class="form-group">
+                                                <button id="search_btn" class="btn btn-outline-info" type="submit">
+                                                    <span><i class="fa fa-search"></i> @lang('search')</span>
+                                                </button>
+                                                <button id="clear_btn" class="btn btn-outline-secondary" type="submit">
+                                                    <span><i class="fa fa-undo"></i> @lang('reset')</span>
+                                                </button>
+
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </form>
                             </div>
@@ -57,6 +114,10 @@
                                         <tr>
                                             <th>#</th>
                                             <th>@lang('name')</th>
+                                            <th>@lang('phone')</th>
+                                            <th>@lang('city')</th>
+                                            <th>@lang('area')</th>
+                                            <th>@lang('status')</th>
                                             <th style="width: 225px;">@lang('actions')</th>
                                         </tr>
                                     </thead>
@@ -117,6 +178,14 @@
             },
             ajax: {
                 url: '{{route('orders.getData',app()->getLocale())}}',
+                data: function(d) {
+                    d.phone = $('#s_phone').val();
+                    d.name = $('#s_name').val();
+                    d.city_id = $('#s_city').val();
+                    d.area_id = $('#s_area').val();
+                    d.status = $('#s_status').val();
+
+                }
             },
             columns: [
                 {
@@ -129,7 +198,22 @@
                     data: 'name',
                     name: 'name'
                 },
-
+                {
+                    data: 'phone',
+                    name: 'phone'
+                },
+                {
+                    data: 'city_name',
+                    name: 'city_name'
+                },
+                {
+                    data: 'area_name',
+                    name: 'area_name'
+                },
+                {
+                    data: 'status_type',
+                    name: 'status_type'
+                },
 
                 {
                     data: 'action',

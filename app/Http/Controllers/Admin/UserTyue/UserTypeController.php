@@ -10,7 +10,6 @@ use App\Models\City;
 use App\Models\Country;
 use App\Models\User;
 use App\Models\UserType;
-use App\Utils\ImageUpload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;

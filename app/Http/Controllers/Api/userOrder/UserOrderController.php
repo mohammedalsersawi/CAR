@@ -20,7 +20,7 @@ class UserOrderController extends Controller
     {
         $rules = [
             'name' => 'required',
-            'phone' => 'required|unique:users,phone|between:8,14',
+            'phone' => 'required|between:8,14',
             'city_id' => 'required|exists:cities,id',
             'area_id' => 'required|exists:areas,id',
         ];
@@ -40,30 +40,5 @@ class UserOrderController extends Controller
     }
 
 
-    public function getData(Request $request)
-    {
-        $userOrder = UserOrder::query();
-        return Datatables::of($userOrder)
-            // ->filter(function ($query) use ($request) {
-            //     if ($request->get('search')) {
-            //         $locale = app()->getLocale();
-            //         $query->where('name->'.locale(), 'like', "%{$request->search['value']}%");
-            //     }
-            // })
-            ->addIndexColumn()
-            ->addColumn('action', function ($que) {
-                $data_attr = '';
-                $data_attr .= 'data-uuid="' . @$que->uuid . '" ';
-                $data_attr .= 'data-name="' .@ $que->name . '" ';
 
-                $string = '';
-                $string .= '<button class="edit_btn btn btn-sm btn-outline-primary btn_edit" data-toggle="modal"
-                    data-target="#edit_modal" ' . $data_attr . '>' . __('edit') . '</button>';
-                $string .= ' <button type="button"  class="btn btn-sm btn-outline-danger btn_delete" data-id="' . @$que->uuid .
-                    '">' . __('delete') . '  </button>';
-                return $string;
-            })
-            ->rawColumns(['action'])
-            ->make(true);
-    }
 }
