@@ -12,6 +12,7 @@ class Car extends Model
     use HasFactory;
     protected $primaryKey = 'uuid';
     public $incrementing = false;
+    protected $appends=['year_to','year_from'];
     protected $guarded = [];
     public function image()
     {
@@ -32,7 +33,9 @@ class Car extends Model
     public function color_exterior(){
         return $this->belongsTo(ColorCar::class,'color_exterior_id');
     }
-
+    public function year(){
+        return $this->belongsTo(Year::class,'year_id');
+    }
     public function model(){
         return $this->belongsTo(ModelCar::class,'model_id');
     }
@@ -41,6 +44,14 @@ class Car extends Model
     }
     public function specification(){
         return $this->hasMany(Specification::class,'car_id');
+    }
+    public function getYearToAttribute()
+    {
+        return @$this->year->to;
+    }
+    public function getYearFromAttribute()
+    {
+        return @$this->year->from;
     }
     public static function boot()
     {

@@ -32,7 +32,8 @@ class User extends Authenticatable
         'user_type_id',
         'lat',
         'lng',
-        'name'
+        'name',
+        'verification'
     ];
     /**
      * The attributes that should be hidden for arrays.
@@ -92,6 +93,7 @@ class User extends Authenticatable
     {
         return @$this->type->Name;
     }
+
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.

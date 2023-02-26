@@ -730,7 +730,7 @@
             function onMapClick(e) {
                 $('#lat').val(e.latlng.lat)
                 $('#lng').val(e.latlng.lng)
-                console.log(e);
+                console.log(e.latlng.lng);
                 // map.eachLayer(function (layer) {
                 //     map.removeLayer(layer);
                 // });
