@@ -177,7 +177,8 @@
             processing: true,
             serverSide: true,
             ajax: "{{ route('color.getData') }}",
-            columns: [{
+            columns: [
+                {
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex',
                     orderable: false,
