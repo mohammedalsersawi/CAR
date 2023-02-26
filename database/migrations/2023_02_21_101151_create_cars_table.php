@@ -23,8 +23,7 @@ return new class extends Migration
             $table->foreignId('color_exterior_id')->constrained('color_cars')->cascadeOnUpdate();
             $table->foreignId('color_interior_id')->constrained('color_cars')->cascadeOnUpdate();
             $table->integer('mileage');
-            $table->integer('year_from');
-            $table->integer('year_to');
+            $table->foreignId('year_id')->constrained('years')->cascadeOnUpdate();
             $table->string('phone');
             $table->double('lat');
             $table->double('lng');

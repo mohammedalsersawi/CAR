@@ -12,7 +12,7 @@ class AuthController extends Controller
     {
 
         $rules = [
-            'phone' => 'required|exists:users,phone',
+            'phone' => 'required',
             'password' => 'required|min:6',
         ];
         $vaild = $request->all();
@@ -43,7 +43,6 @@ class AuthController extends Controller
             return mainResponse(false, $validator->errors()->first(), [], $validator->errors()->messages(), 101);
         }
 
-
         $user = User::create([
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
@@ -61,6 +60,17 @@ class AuthController extends Controller
     }
 
     public function verification_code(Request $request){
+        $user=User::where('phone',$request->phone)->first();
+
+        if ($request->verification==111){
+            $user->update([
+                'verification'=>1
+            ]);
+            $user['token']=$request->token;
+
+            return mainResponse(true, __('ok'), $user, [], 200);
+        }
+        return mainResponse(true, __('nooooo'),[], [], 200);
 
     }
 

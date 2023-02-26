@@ -16,12 +16,12 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('phone')->unique();
-            $table->string('number')->unique();
             $table->string('password');
             $table->string('name')->nullable();
             $table->text('about')->nullable();
             $table->double('lat')->nullable();
-            $table->double('leg')->nullable();
+            $table->double('lng')->nullable();
+            $table->boolean('verification')->default(0);
             $table->foreignId('city_id')->nullable()->constrained('cities')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('area_id')->nullable()->constrained('areas')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('user_type_id')->default(5)->constrained('user_types')->cascadeOnDelete()->cascadeOnUpdate();

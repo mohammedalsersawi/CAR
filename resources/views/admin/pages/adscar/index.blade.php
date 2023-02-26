@@ -76,19 +76,15 @@
                                         </div>
                                         <div class="col-3">
                                             <div class="form-group">
-                                                <label for="year_to">@lang('from')</label>
-                                                <input type="month" class="search_input form-control"
-                                                       placeholder="@lang('year')" name="year_to"
-                                                       id="s_year_from" >
-                                                <div class="invalid-feedback"></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-3">
-                                            <div class="form-group">
-                                                <label for="year_from">@lang('')</label>
-                                                <input type="month" class="search_input form-control"
-                                                       placeholder="@lang('year')" name="year_from"
-                                                       id="s_year_to" >
+                                                <label for="year_to">@lang('year')</label>
+                                                <select name="year_id" id="s_year" class="search_input form-control"
+                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                                    <option selected disabled>Select @lang('year')</option>
+                                                    @foreach ($year as $itemm)
+                                                        <option value="{{ $itemm->id }}"> {{ $itemm->from }} {{ $itemm->to }} </option>
+                                                        </option>
+                                                    @endforeach
+                                                </select>
                                                 <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
@@ -278,22 +274,19 @@
                         </div>
                         <div class="col-12">
                             <div class="form-group">
-                                <label for="year_to">@lang('from')</label>
-                                <input type="month" class="form-control"
-                                       placeholder="@lang('year')" name="year_to"
-                                       id="year_to" >
+                                <label for="year_to">@lang('year')</label>
+                                <select name="year_id" id="" class="select form-control"
+                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                    <option selected disabled>Select @lang('year')</option>
+                                    @foreach ($year as $itemm)
+                                        <option value="{{ $itemm->id }}"> {{ $itemm->from }} {{ $itemm->to }} </option>
+                                        </option>
+                                    @endforeach
+                                </select>
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="year_from">@lang('to')</label>
-                                <input type="month" class="form-control"
-                                       placeholder="@lang('year')" name="year_from"
-                                       id="year_from" >
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
+
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="">@lang('brand')</label>
@@ -455,19 +448,15 @@
                         </div>
                         <div class="col-12">
                             <div class="form-group">
-                                <label for="year_to">@lang('from')</label>
-                                <input type="month" class="form-control"
-                                       placeholder="@lang('year')" name="year_to"
-                                       id="edit_year_to" >
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="year_from">@lang('to')</label>
-                                <input type="month" class="form-control"
-                                       placeholder="@lang('year')" name="year_from"
-                                       id="edit_year_from" >
+                                <label for="year_to">@lang('year')</label>
+                                <select name="year_id" id="edit_year" class="select form-control"
+                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                    <option selected disabled>Select @lang('year')</option>
+                                    @foreach ($year as $itemm)
+                                        <option value="{{ $itemm->id }}"> {{ $itemm->from }} {{ $itemm->to }} </option>
+                                        </option>
+                                    @endforeach
+                                </select>
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
@@ -670,8 +659,7 @@
                 data: function(d) {
                     d.phone = $('#s_phone').val();
                     d.mileage = $('#s_mileage').val();
-                    d.year_to = $('#s_year_to').val();
-                    d.year_from = $('#s_year_from').val();
+                    d.year_id = $('#s_year').val();
                     d.brand = $('#s_brand').val();
                     d.model = $('#s_model').val();
                     d.engine = $('#s_engine').val();
@@ -701,11 +689,11 @@
                 },
                 {
                     data: 'year_from',
-                    name: 'year_from'
+                    name: 'year'
                 },
                 {
                     data: 'year_to',
-                    name: 'year_to'
+                    name: 'year'
                 },
                 {
                     data: 'mileage',
@@ -774,6 +762,7 @@
                 $('#edit_color_exterior').val(button.data('color_exterior_id'));
                 $('#edit_color_interior').val(button.data('color_interior_id'));
                 $('#edit_lat').val(button.data('lat'))
+                $('#edit_year').val(button.data('year')).trigger('change')
                 $('#edit_lng').val(button.data('lng'))
                 $('#edit_year_from').val(button.data('year_from'))
                 $('#edit_year_to').val(button.data('year_to'))

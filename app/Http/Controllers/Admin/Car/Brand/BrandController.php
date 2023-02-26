@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin\Car\Brand;
 use App\Models\Image;
 use Throwable;
 use App\Models\Brand;
-use App\Utils\ImageUpload;
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
@@ -38,7 +38,7 @@ class BrandController extends Controller
         $this->validate($request, $rules);
         $brands =  Brand::create($data);
         if ($request->hasFile('image')) {
-            ImageUpload::UploadImage($request->image, null, 'App\Models\Brand', $brands->id, false);
+            UploadImage($request->image, null, 'App\Models\Brand', $brands->id, false);
         }
         return $this->sendResponse(null, __('item_added'));
     }
