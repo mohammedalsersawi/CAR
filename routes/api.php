@@ -35,7 +35,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 
 Route::controller(UserOrderController::class)->prefix('orders')->name('orders.')->group(function () {
-    Route::get('/', 'index')->name('index');
     Route::post('/store', 'store')->name('store');
-    Route::post('/update', 'update')->name('update');
 });

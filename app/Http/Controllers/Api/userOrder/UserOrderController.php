@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Validator;
 
 class UserOrderController extends Controller
 {
+
+    public function index()
+    {
+        return view('admin.pages.user_order.index');
+    }
     public function store(Request $request)
     {
         $rules = [
