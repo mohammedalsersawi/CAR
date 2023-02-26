@@ -21,13 +21,14 @@ class AdsCarController extends Controller
 
     public function index()
     {
+
         $Brand = Brand::select(['name', 'id'])->get();
         $Engine = Engine::select(['name', 'id'])->get();
         $ModelCar = ModelCar::select(['name', 'id'])->get();
         $FuelType = FuelType::select(['name', 'id'])->get();
         $Transmission = Transmission::select(['name', 'id'])->get();
         $ColorCar = ColorCar::select(['name', 'id','color'])->get();
-        $year = year::select(['id', 'to','form'])->get();
+        $year = year::select(['id', 'to','from'])->get();
         return view('admin.pages.adscar.index', compact(['Brand', 'Engine', 'ModelCar', 'FuelType', 'Transmission', 'ColorCar','year']));
     }
 
