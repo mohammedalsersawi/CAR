@@ -11,7 +11,8 @@ use App\Models\Engine;
 use App\Models\FuelType;
 use App\Models\ModelCar;
 use App\Models\Transmission;
-
+use App\Models\year;
+use App\Utils\ImageUpload;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -27,7 +28,8 @@ class AdsCarController extends Controller
         $FuelType = FuelType::select(['name', 'id'])->get();
         $Transmission = Transmission::select(['name', 'id'])->get();
         $ColorCar = ColorCar::select(['name', 'id','color'])->get();
-        return view('admin.pages.adscar.index', compact(['Brand', 'Engine', 'ModelCar', 'FuelType', 'Transmission', 'ColorCar']));
+        $year = year::select(['id', 'to','form'])->get();
+        return view('admin.pages.adscar.index', compact(['Brand', 'Engine', 'ModelCar', 'FuelType', 'Transmission', 'ColorCar','year']));
     }
 
 
@@ -49,7 +51,19 @@ class AdsCarController extends Controller
         $rules['color_interior_id'] = 'required|exists:color_cars,id';
         $rules['transmission_id'] = 'required|exists:transmissions,id';
         $this->validate($request, $rules);
-        $Car = Car::create($request->except('image'));
+        $Car = Car::create($request->only(
+            'transmission_id',
+            'lat',
+            'lng',
+            'phone',
+            'mileage',
+            'brand_id',
+            'model_id',
+            'engine_id',
+            'fule_type_id',
+            'color_exterior_id',
+            'color_interior_id',
+        ));
         UploadImage($request->image, null, 'App\Models\Car', $Car->uuid, false);
 
         return $this->sendResponse(null, __('item_added'));
@@ -75,7 +89,19 @@ class AdsCarController extends Controller
         $rules['transmission_id'] = 'required|exists:transmissions,id';
         $this->validate($request, $rules);
         $Car = Car::findOrFail($request->uuid);
-        $Car->update($request->except('image'));
+        $Car->update($request->only(
+            'transmission_id',
+            'lat',
+            'lng',
+            'phone',
+            'mileage',
+            'brand_id',
+            'model_id',
+            'engine_id',
+            'fule_type_id',
+            'color_exterior_id',
+            'color_interior_id',
+        ));
         if ($request->hasFile('image')){
             UploadImage($request->image, null, 'App\Models\Car', $Car->uuid, true);
         }
