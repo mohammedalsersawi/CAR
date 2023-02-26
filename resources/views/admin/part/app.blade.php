@@ -345,6 +345,7 @@
     <script src="{{ asset('dashboard/app-assets/js/scripts/extensions/ext-component-toastr.min.js') }}"></script>
     <!-- END: Page JS-->
 
+
     <script>
         $(window).on('load', function() {
             if (feather) {
