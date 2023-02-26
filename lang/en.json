@@ -343,7 +343,9 @@
   "download-c": "Download the application now to enjoy the 360-degree image viewing service ",
   "edit_main_ad": "Edit main ad",
   "main_image": "Main image",
-  "Countrys": "Countrys"
-
+  "Countrys": "Countrys",
+  "user_order" : "user order",
+  "order_successfully" : "Application submitted successfully",
+  "order_failed" : "Application submitted failed"
 
 }
