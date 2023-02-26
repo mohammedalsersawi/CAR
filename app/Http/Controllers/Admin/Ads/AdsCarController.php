@@ -38,8 +38,7 @@ class AdsCarController extends Controller
         $rules = [];
         $rules['lat'] = 'required';
         $rules['lng'] = 'required';
-        $rules['year_from'] = 'required';
-        $rules['year_to'] = 'required';
+        $rules['year_id'] = 'required|exists:year,id';
         $rules['phone'] = 'required';
         $rules['mileage'] = 'required';
         $rules['image'] = 'required|image';
@@ -55,6 +54,7 @@ class AdsCarController extends Controller
             'transmission_id',
             'lat',
             'lng',
+            'year_id',
             'phone',
             'mileage',
             'brand_id',

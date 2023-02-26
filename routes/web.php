@@ -119,8 +119,9 @@ Route::group(
             Route::get('model/{id}', [DataController::class,'model'])->name('model');
 
         });
-        Route::controller(SettingController::class)->prefix('setting')->name('setting')->group(function (){
-            Route::get('/year', 'year')->name('year');
+        Route::controller(SettingController::class)->prefix('setting')->name('setting.')->group(function (){
+            Route::get('/year', 'getyear')->name('getyear');
+            Route::post('/year', 'year')->name('year');
 
 
 

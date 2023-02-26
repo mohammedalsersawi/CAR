@@ -300,12 +300,12 @@
                             <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
                             <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
                         </svg>
-                        <span class="menu-title text-truncate" data-i18n="Charts">@lang('orders')</span></a>
+                        <span class="menu-title text-truncate" data-i18n="Charts">@lang('settings')</span></a>
                     <ul class="menu-content">
-                        <li class="nav-item {{request()->routeIs('ads.car.index')?'active':''}} ">
-                            <a class="d-flex align-items-center" href="{{ route('ads.car.index') }}">
+                        <li class="nav-item {{request()->routeIs('setting.getyear')?'active':''}} ">
+                            <a class="d-flex align-items-center" href="{{ route('setting.getyear') }}">
                                 <i data-feather="file-text"></i><span
-                                    class="menu-title text-truncate">@lang('ads')</span>
+                                    class="menu-title text-truncate">@lang('year')</span>
                             </a>
                         </li>
 
