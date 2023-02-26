@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\userOrder\UserOrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -32,3 +33,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 Route::post('verification code',[AuthController::class, 'verification_code']);
 Route::post('resend code',[AuthController::class, 'resend_code']);
+
+
+Route::controller(UserOrderController::class)->prefix('orders')->name('orders.')->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::post('/store', 'store')->name('store');
+    Route::post('/update', 'update')->name('update');
+});

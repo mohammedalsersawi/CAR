@@ -122,9 +122,6 @@ Route::group(
         Route::controller(SettingController::class)->prefix('setting')->name('setting.')->group(function (){
             Route::get('/year', 'getyear')->name('getyear');
             Route::post('/year', 'year')->name('year');
-
-
-
         });
 
     }

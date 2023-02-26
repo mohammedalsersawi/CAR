@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Admin;
+use App\Models\User;
 use App\Models\UserType;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -24,6 +25,8 @@ class DatabaseSeeder extends Seeder
              'email' => 'admin@admin',
              'password'=>Hash::make('123456789')
          ]);
+
+
         UserType::create([
                 'name_en'=> 'gest',
                 'name_ar'=>'ضيف'

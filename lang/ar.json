@@ -427,5 +427,8 @@
     "to": "الى",
     "mileage": "عدد الأميال",
     "Login successfully":"تم تسجيل الدخول بنجاح",
-    "year":"السنة"
+    "year":"السنة",
+    "user_order" : "طلبات المستخدمين",
+    "order_successfully" : "تم تقديم الطلب بنجاح",
+    "order_failed" : "فشل تقديم الطلب بنجاح"
 }
