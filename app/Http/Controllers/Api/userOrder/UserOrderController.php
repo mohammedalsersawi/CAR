@@ -14,9 +14,9 @@ class UserOrderController extends Controller
     {
         $rules = [
             'name' => 'required',
-            'phone' => 'required|unique:users,phone|between:12,14',
-            'city_id' => 'required',
-            'area_id' => 'required',
+            'phone' => 'required|unique:users,phone|between:8,14',
+            'city_id' => 'required|exists:cities,id',
+            'area_id' => 'required|exists:areas,id',
         ];
         $vaild = $request->all();
         $validator = Validator::make($vaild, $rules);
