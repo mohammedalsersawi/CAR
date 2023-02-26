@@ -15,14 +15,14 @@ return new class extends Migration
     {
         Schema::create('cars', function (Blueprint $table) {
             $table->id();
-            $table->uuid()->primary();
+            $table->uuid();
             $table->foreignId('brand_id')->constrained('brands')->cascadeOnUpdate();
             $table->foreignId('model_id')->constrained('model_cars')->cascadeOnUpdate();
             $table->foreignId('engine_id')->constrained('engines')->cascadeOnUpdate();
             $table->foreignId('transmission_id')->constrained('transmissions')->cascadeOnUpdate();
-            $table->foreignId('fule_type_id')->constrained('fule_types')->cascadeOnUpdate();
-            $table->foreignId('color_exterior_id')->constrained('colors')->cascadeOnUpdate();
-            $table->foreignId('color_interior_id')->constrained('colors')->cascadeOnUpdate();
+            $table->foreignId('fule_type_id')->constrained('fuel_types')->cascadeOnDelete();
+            $table->foreignId('color_exterior_id')->constrained('color_cars')->cascadeOnUpdate();
+            $table->foreignId('color_interior_id')->constrained('color_cars')->cascadeOnUpdate();
             $table->integer('mileage');
             $table->integer('year_from');
             $table->integer('year_to');
