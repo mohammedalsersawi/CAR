@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\Car\Model\ModelController;
 use App\Http\Controllers\Admin\Car\Transmission\TransmissionController;
 use App\Http\Controllers\Admin\DataController;
 use App\Http\Controllers\Admin\Deals\DealsController;
+use App\Http\Controllers\Admin\Setting\SettingController;
 use App\Http\Controllers\Admin\UserTyue\UserTypeController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -116,6 +117,12 @@ Route::group(
             Route::delete('/{uuid}', 'destroy')->name('delete');
             Route::get('/getData', 'getData')->name('getData');
             Route::get('model/{id}', [DataController::class,'model'])->name('model');
+
+        });
+        Route::controller(SettingController::class)->prefix('setting')->name('setting')->group(function (){
+            Route::get('/year', 'year')->name('year');
+
+
 
         });
 

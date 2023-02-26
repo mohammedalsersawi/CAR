@@ -12,7 +12,6 @@ use App\Models\FuelType;
 use App\Models\ModelCar;
 use App\Models\Transmission;
 use App\Models\year;
-use App\Utils\ImageUpload;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
