@@ -11,7 +11,7 @@ use App\Models\Engine;
 use App\Models\FuelType;
 use App\Models\ModelCar;
 use App\Models\Transmission;
-use App\Utils\ImageUpload;
+
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
