@@ -127,7 +127,6 @@ function UploadImage($file,$path=null,$model,$id,$update=false)
         if ($image) {
             File::delete(public_path('uploads/' . @$path . @$image->filename));
             $image->update(
-
                 [
                     'filename' => $imagename,
                     'imageable_id' => $id,
@@ -141,5 +140,6 @@ function UploadImage($file,$path=null,$model,$id,$update=false)
             ]);
         }
     }
+    return $imagename;
 }
 

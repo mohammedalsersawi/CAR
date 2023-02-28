@@ -2,11 +2,11 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\User;
+use App\Models\UserOrder;
 use Closure;
 use Illuminate\Http\Request;
 
-class Verification
+class read
 {
     /**
      * Handle an incoming request.
@@ -17,11 +17,9 @@ class Verification
      */
     public function handle(Request $request, Closure $next)
     {
-        $user=User::where('phone',$request->phone)->first();
-        if($user->verification==1){
-            return $next($request);
-        }
-        return mainResponse(false, __('verification_code'), [], [], 101);
-
+        UserOrder::where('read',false)->update([
+            'read'=>true
+        ]);
+        return $next($request);
     }
 }

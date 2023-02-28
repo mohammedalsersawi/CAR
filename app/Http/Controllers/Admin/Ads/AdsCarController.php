@@ -41,7 +41,7 @@ class AdsCarController extends Controller
         $rules['year_id'] = 'required|exists:years,id';
         $rules['phone'] = 'required';
         $rules['mileage'] = 'required';
-        $rules['image'] = 'required|image';
+        $rules['image'] = 'required';
         $rules['brand_id'] = 'required|exists:brands,id';
         $rules['model_id'] = 'required|exists:model_cars,id';
         $rules['engine_id'] = 'required|exists:engines,id';
@@ -64,7 +64,9 @@ class AdsCarController extends Controller
             'color_exterior_id',
             'color_interior_id',
         ));
-        UploadImage($request->image, null, 'App\Models\Car', $Car->uuid, false);
+        foreach($request->File('image') as $file){
+            UploadImage($file, null, 'App\Models\Car', $Car->uuid, false);
+        }
 
         return $this->sendResponse(null, __('item_added'));
     }
@@ -200,11 +202,11 @@ class AdsCarController extends Controller
             ->addColumn('transmission', function ($row) {
                 return $row->transmission->name;
             })
-            ->addColumn('image', function ($row) {
-                $imageData = @$row->image->filename;
-                return $imageData;
-            })
-            ->rawColumns(['image'])
+//            ->addColumn('image', function ($row) {
+//                $imageData = @$row->image->filename;
+//                return $imageData;
+//            })
+//            ->rawColumns(['image'])
             ->rawColumns(['action'])
             ->make(true);
     }

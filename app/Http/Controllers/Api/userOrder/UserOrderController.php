@@ -12,10 +12,7 @@ use Yajra\DataTables\Facades\DataTables;
 class UserOrderController extends Controller
 {
 
-    public function index()
-    {
-        return view('admin.pages.user_order.index');
-    }
+
     public function store(Request $request)
     {
         $rules = [
@@ -36,7 +33,7 @@ class UserOrderController extends Controller
             'area_id' => $request->area_id,
             'user_id' => Auth::guard('sanctum')->id(),
         ]);
-        return mainResponse(true, __('order_successfully'), $data, [], 101);
+        return mainResponse(true, __('order_successfully'), [], [], 101);
     }
 
 

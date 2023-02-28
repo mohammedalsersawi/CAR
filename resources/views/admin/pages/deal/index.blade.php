@@ -60,6 +60,19 @@
                                                        placeholder="@lang('users')">
                                             </div>
                                         </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="s_type">@lang('type')</label>
+                                                <select id="s_type" class="search_input form-control"
+                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                                    <option selected disabled>Select @lang('type')</option>
+                                                    @foreach ($type as $itemm)
+                                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
                                         <div class="col-3" style="margin-top: 20px">
                                             <div class="form-group">
                                                 <button id="search_btn" class="btn btn-outline-info" type="submit">
@@ -83,6 +96,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>@lang('image')</th>
+                                            <th>@lang('type')</th>
                                             <th>@lang('users')</th>
                                             <th>@lang('deals')</th>
                                             <th style="width: 225px;">@lang('actions')</th>
@@ -138,6 +152,18 @@
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="type_id">@lang('type')</label>
+                                    <select class="form-control" id="" name="type_id" required>
+                                        <option value="">@lang('select')</option>
+                                        @foreach ($type as $itemm)
+                                            <option value="{{ $itemm->id }}">{{ $itemm->name }} </option>
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="image">@lang('image')</label>
@@ -196,6 +222,18 @@
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="type_id">@lang('type')</label>
+                                    <select class="form-control" id="edit_type_id" name="type_id" required>
+                                        <option value="">@lang('select')</option>
+                                        @foreach ($type as $itemm)
+                                            <option value="{{ $itemm->id }}">{{ $itemm->name }} </option>
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="image">@lang('image')</label>
@@ -252,6 +290,7 @@
                 data: function(d) {
                     d.deals = $('#s_title').val();
                     d.user_id = $('#s_name').val();
+                    d.type_id = $('#s_type').val();
                 }
             },
             columns: [
@@ -271,13 +310,19 @@
                     searchable: false
                 },
                 {
+                    data: 'type_name',
+                    name: 'type_name',
+                    searchable: true,
+                    orderable: true,
+                },
+                {
                     data: 'user_name',
                     name: 'user_name',
                     searchable: true,
                     orderable: true,
                 },
                 {
-                    data: 'name_text',
+                    data: 'text_name',
                     name: 'deals',
                     searchable: true,
                     orderable: true,
@@ -305,6 +350,8 @@
                 var uuid = button.data('uuid')
                 $('#uuid').val(uuid);
                 $('#edit_user_id').val(button.data('user_id')).trigger('change');
+                $('#edit_type_id').val(button.data('type_id')).trigger('change');
+
                 @foreach (locales() as $key => $value)
                     $('#edit_name_{{ $key }}').val(button.data('deals_{{ $key }}'))
                 @endforeach

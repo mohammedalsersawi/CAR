@@ -1,6 +1,6 @@
 @extends('admin.part.app')
 @section('title')
-    @lang('Model Cars')
+    @lang('type')
 @endsection
 @section('styles')
 @endsection
@@ -10,12 +10,14 @@
             <div class="content-header-left col-md-9 col-12 mb-2">
                 <div class="row breadcrumbs-top">
                     <div class="col-12">
-                        <h2 class="content-header-title float-left mb-0">@lang('Model Cars')</h2>
+                        <h2 class="content-header-title float-left mb-0"> @lang('type')</h2>
                         <div class="breadcrumb-wrapper">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ url('/admin') }}">@lang('home')</a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="{{ route('model.index') }}">@lang('Model Cars')</a>
+                                <li class="breadcrumb-item"><a href="{{ route('deals.index') }}">@lang('deals')</a>
+                                </li>
+                                <li class="breadcrumb-item"><a href="{{ route('deals.type.index') }}">@lang('type')</a>
                                 </li>
                             </ol>
                         </div>
@@ -31,7 +33,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="head-label">
-                                    <h4 class="card-title">@lang('Model Cars')</h4>
+                                    <h4 class="card-title">@lang('type')</h4>
                                 </div>
                                 <div class="text-right">
                                     <div class="form-group">
@@ -45,7 +47,6 @@
                             <div class="card-body">
                                 <form id="search_form">
                                     <div class="row">
-
                                         <div class="col-3" style="margin-top: 20px">
 
                                         </div>
@@ -58,7 +59,6 @@
                                         <tr>
                                             <th>#</th>
                                             <th>@lang('name')</th>
-                                            <th>@lang('Brand')</th>
                                             <th style="width: 225px;">@lang('actions')</th>
                                         </tr>
                                     </thead>
@@ -75,6 +75,7 @@
     </div>
 
     <!-- Modal -->
+    <!-- Modal -->
     <div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -85,7 +86,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('model.update') }}" method="POST" id="form_edit" class=""
+                <form action="{{ route('deals.type.update') }}" method="POST" id="form_edit" class=""
                     enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="id" id="id" class="form-control" />
@@ -101,18 +102,7 @@
                                 </div>
                             </div>
                         @endforeach
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label for="edit_brand_id">@lang('brand')</label>
-                                    <select class="form-control" id="edit_brand_id" name="brand_id" required>
-                                        <option value="">@lang('select')</option>
-                                        @foreach ($brand as $itemm)
-                                            <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
-                                        @endforeach
-                                    </select>
-                                    <div class="invalid-feedback"></div>
-                                </div>
-                            </div>
+
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
                                 data-dismiss="modal">@lang('close')</button>
@@ -126,6 +116,8 @@
 
 
 
+
+    <!-- Modal -->
     <div class="modal fade" id="full-modal-stem" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -136,9 +128,8 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('model.store') }}" method="POST" id="add_model_form" class="add-mode-form"
-                    class="add_model_form">
-                    @csrf
+                <form action="{{ route('deals.type.store') }}" method="POST" id="add_model_form" class="add-mode-form">
+
                     <input type="hidden" name="id" id="id" class="form-control" />
                     <div class="modal-body">
                         @foreach (locales() as $key => $value)
@@ -152,22 +143,10 @@
                                 </div>
                             </div>
                         @endforeach
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label for="brand_id">@lang('brand')</label>
-                                    <select class="form-control" id="brand_id" name="brand_id" >
-                                        <option value="">@lang('select')</option>
-                                        @foreach ($brand as $itemm)
-                                            <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
-                                        @endforeach
-                                    </select>
-                                    <div class="invalid-feedback"></div>
-                                </div>
-                            </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('close')</button>
-                        <button class="btn btn-primary">@lang('add')</button>
+                        <button type="submit" class="btn btn-primary">@lang('add')</button>
                     </div>
                 </form>
             </div>
@@ -178,13 +157,13 @@
 @endsection
 @section('scripts')
     <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/classic/ckeditor.js"></script>
-
     <script>
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
         var table = $('#datatable').DataTable({
             processing: true,
             serverSide: true,
@@ -212,26 +191,19 @@
                 }
             },
             ajax: {
-                url: '{{route('model.getData',app()->getLocale())}}',
-                data: function(d) {
-                    d.name = $('#s_name').val();
-                }
+                url: '{{route('deals.type.getData',app()->getLocale())}}',
             },
-            columns: [{
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex',
-                    orderable: false,
-                    searchable: false
+            columns: [
+                {
+                    data: 'id',
+                    name: 'id',
                 },
                 {
-                    data: 'name_text',
-                    name: 'name'
+                    data: 'text_name',
+                    name: 'text_name'
                 },
 
-                {
-                    data: 'brand',
-                    name: 'brand'
-                },
+
                 {
                     data: 'action',
                     name: 'action',
@@ -242,21 +214,17 @@
 
         });
 
-
         $(document).ready(function() {
-            $(document).on('click', '.btn_edit', function(event) {
+            $(document).on('click', '.edit_btn', function(event) {
                 event.preventDefault();
                 $('input').removeClass('is-invalid');
                 $('.invalid-feedback').text('');
                 var button = $(this)
-                var id = button.data('id')
-                $('#edit_brand_id').val(button.data('brand_id')).trigger('change');
-
+                var id = button.data('id');
                 $('#id').val(id);
                 @foreach (locales() as $key => $value)
                     $('#edit_name_{{ $key }}').val(button.data('name_{{ $key }}'))
                 @endforeach
-
 
             });
         });

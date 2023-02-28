@@ -2,21 +2,58 @@
 
 namespace App\Http\Controllers\Admin\order;
 
+use App\Http\Controllers\Admin\ResponseTrait;
 use App\Http\Controllers\Controller;
 use App\Models\Area;
 use App\Models\City;
+use App\Models\User;
 use App\Models\UserOrder;
+use App\Models\UserType;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
 class UserOrderController extends Controller
 {
+    use ResponseTrait;
+
     public function index()
     {
         $cities=City::select(['name','id'])->get();
-        $area=Area::select(['id','name'])->get();
-        return view('admin.pages.user_order.index',compact('cities','area'));
+
+//        return UserOrder::select('uuid')->get();
+        return view('admin.pages.user_order.index',compact('cities'));
     }
+    public function destroy($uuid){
+        UserOrder::where('uuid',$uuid)->delete();
+        return $this->sendResponse(null, null);
+    }
+    public function accepted($uuid){
+       $useroreder= UserOrder::findOrFail($uuid);
+
+       User::where('id',$useroreder->user_id)->update([
+           'phone'=>$useroreder->phone,
+            'name'=>$useroreder->name,
+           'city_id'=>$useroreder->city_id,
+               'area_id'=>$useroreder->area_id,
+       ]);
+        $useroreder->update([
+            'status'=>1
+        ]);
+       //sms
+        return $this->sendResponse(null, __('item_added'));
+
+    }
+
+    public function rejected($uuid){
+        $useroreder= UserOrder::findOrFail($uuid);
+        $useroreder->update([
+            'status'=>2
+        ]);
+        //sms
+        return $this->sendResponse(null, __('item_added'));
+
+    }
+
     public function getData(Request $request)
     {
         $userOrder = UserOrder::query();
@@ -40,17 +77,18 @@ class UserOrderController extends Controller
              })
             ->addIndexColumn()
             ->addColumn('action', function ($que) {
-                $data_attr = '';
-                $data_attr .= 'data-uuid="' . @$que->uuid . '" ';
-                $data_attr .= 'data-name="' .@$que->name . '" ';
-                $data_attr .= 'data-user="' .@$que->user . '" ';
-                $data_attr .= 'data-phone="' .@$que->phone . '" ';
-                $data_attr .= 'data-area="' .@$que->area . '" ';
-                $data_attr .= 'data-city="' .@$que->city . '" ';
-                $data_attr .= 'data-status="' .@$que->status . '" ';
+                $disabled='';
+                if ($que->status!=0){
+                    $disabled .="disabled";
+                }
                 $string = '';
-                $string .= ' <button type="button"  class="btn btn-sm btn-outline-danger btn_delete" data-id="' . @$que->uuid .
+                $string .= ' <button type="button" ' . $disabled . '  class="btn btn-sm btn-outline-danger btn-success" data-id="' . $que->uuid .
+                    '">' . __('accepted') . '  </button>';
+                $string .= ' <button type="button" ' . $disabled . '    class="btn btn-sm btn-outline-danger  btn-warning" data-id="' . $que->uuid .
+                    '">' . __('rejected') . '  </button>';
+                $string .= ' <button type="button"    class="btn btn-sm btn-outline-danger btn_delete" data-id="' . $que->uuid .
                     '">' . __('delete') . '  </button>';
+
                 return $string;
             })
             ->rawColumns(['action'])

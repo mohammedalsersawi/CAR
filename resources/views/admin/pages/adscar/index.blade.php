@@ -231,7 +231,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>@lang('phone')</th>
-                                            <th>@lang('image')</th>
+{{--                                            <th>@lang('image')</th>--}}
                                             <th>@lang('from')</th>
                                             <th>@lang('to')</th>
                                             <th>@lang('mileage')</th>
@@ -421,7 +421,7 @@
                             <div class="form-group">
                                 <label for="image">@lang('image')</label>
                                 <input type="file" accept="image/*" class="form-control"
-                                    placeholder="@lang('image')" name="image" id="image">
+                                    placeholder="@lang('image')" name="image[]" multiple id="image">
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
@@ -474,7 +474,7 @@
                                 </div>
                             </div>
                         </div>
-                        <<<<<<< HEAD <div class="col-12">
+                        <div class="col-12">
                             <div class="form-group">
                                 <label for="year_to">@lang('year')</label>
                                 <select name="year_id" id="edit_year" class="select form-control"
@@ -483,32 +483,9 @@
                                     @foreach ($year as $itemm)
                                         <option value="{{ $itemm->id }}"> {{ $itemm->from }} {{ $itemm->to }}
                                         </option>
-                                        </option>
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback"></div>
-                                =======
-
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="year_to">@lang('from')</label>
-                                            <input type="month" class="form-control" placeholder="@lang('year')"
-                                                name="year_to" id="edit_year_to">
-                                            <div class="invalid-feedback"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="year_from">@lang('to')</label>
-                                            <input type="month" class="form-control" placeholder="@lang('year')"
-                                                name="year_from" id="edit_year_from">
-                                            <div class="invalid-feedback"></div>
-                                        </div>
-                                        >>>>>>> 9e0be3c9c25250df933bd0c5b798512704d43aac
-                                    </div>
-                                </div>
-
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -740,13 +717,13 @@
                     data: 'phone',
                     name: 'phone'
                 },
-                {
-                    "data": 'image',
-                    "name": 'image',
-                    render: function(data, type, full, meta) {
-                        return `<img src="{{ asset('uploads/${data}') }}" width="100" class="img-fluid img-thumbnail">`;
-                    },
-                },
+                {{--{--}}
+                {{--    "data": 'image',--}}
+                {{--    "name": 'image',--}}
+                {{--    render: function(data, type, full, meta) {--}}
+                {{--        return `<img src="{{ asset('uploads/${data}') }}" width="100" class="img-fluid img-thumbnail">`;--}}
+                {{--    },--}}
+                {{--},--}}
                 {
                     data: 'year_from',
                     name: 'year'
@@ -860,9 +837,9 @@
                         dataType: "json",
                         success: function(data) {
                             $('select[name="model_id"]').empty();
-                            {{-- $('select[name="model_id"]').append(` --}}
-                            {{--     <option selected  disabled>Select @lang('Model')</option> --}}
-                            {{--     `) --}}
+                             $('select[name="model_id"]').append(`
+                                 <option selected  disabled>Select @lang('Model')</option>
+                                 `)
                             $.each(data, function(key, value) {
                                 $('select[name="model_id"]').append('<option value="' +
                                     key + '">' + value + '</option>');

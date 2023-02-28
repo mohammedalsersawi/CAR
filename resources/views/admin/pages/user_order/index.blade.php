@@ -15,7 +15,7 @@
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ url('/admin') }}">@lang('home')</a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="{{ route('fuelType.index') }}">@lang('user_order')</a>
+                                <li class="breadcrumb-item"><a href="{{ route('orders.index') }}">@lang('user_order')</a>
                                 </li>
                             </ol>
                         </div>
@@ -67,6 +67,14 @@
                                         </div>
                                         <div class="col-3">
                                             <div class="form-group">
+                                                <label for="area_id">@lang('area')</label>
+                                                <select name="area_id" id="s_area" class="search_input form-control"
+                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
                                                 <label for="status">@lang('status')</label>
                                                 <select name="status" id="s_status" class="search_input form-control"
                                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
@@ -80,18 +88,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-3">
-                                            <div class="form-group">
-                                                <label for="area_id">@lang('area')</label>
-                                                <select name="area_id" id="s_area" class="search_input form-control"
-                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                                    @foreach ($area as $item)
-                                                        <option value="{{ $item->id }}"> {{ $item->name }} </option>
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
+
 
                                         <div class="col-3" style="margin-top: 20px">
                                             <div class="form-group">
@@ -224,6 +221,118 @@
             ]
 
         });
+        $(document).ready(function() {
+            $('select[name="city_id"]').on('change', function () {
 
+                var city_id = $(this).val();
+                console.log(city_id)
+                if (city_id) {
+                    $.ajax({
+                        url: "usertype/area" + "/" + city_id,
+                        type: "GET",
+                        dataType: "json",
+                        success: function (data) {
+                            $('select[name="area_id"]').empty();
+
+                            $('select[name="area_id"]').append(`
+                                 <option selected  disabled>Select @lang('area')</option>
+                                 `)
+                            $.each(data, function (key, value) {
+                                $('select[name="area_id"]').append('<option value="' +
+                                    key + '">' + value + '</option>');
+                            });
+                        },
+                    });
+                } else {
+                    console.log('AJAX load did not work');
+                }
+            });
+        });
+        $(document).on("click", ".btn-success", function(e) {
+            var button = $(this)
+            e.preventDefault();
+            Swal.fire({
+                title: '@lang('accept_confirmation')',
+                text: '@lang('confirm_accept')',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '@lang('yes')',
+                cancelButtonText: '@lang('cancel')',
+                customClass: {
+                    confirmButton: 'btn btn-primary',
+                    cancelButton: 'btn btn-outline-success'
+                },
+                buttonsStyling: true
+            }).then(function(result) {
+                if (result.value) {
+                    var id = button.data('id')
+                    var url = window.location.href + '/' +'accepted'+'/'+id;
+                    $.ajax({
+                        url: url,
+                        method: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}'
+                        },
+                    }).done(function() {
+                        toastr.success('@lang('accepted')', '', {
+                            rtl: isRtl
+                        });
+                        table.draw()
+
+                    }).fail(function() {
+                        toastr.error('@lang('something_wrong')', '', {
+                            rtl: isRtl
+                        });
+                    });
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    toastr.info('@lang('accept_canceled')', '', {
+                        rtl: isRtl
+                    })
+                }
+            });
+        });
+        $(document).on("click", ".btn-warning", function(e) {
+            var button = $(this)
+            e.preventDefault();
+            Swal.fire({
+                title: '@lang('rejected_confirmation')',
+                text: '@lang('confirm_rejected')',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '@lang('yes')',
+                cancelButtonText: '@lang('cancel')',
+                customClass: {
+                    confirmButton: 'btn btn-primary',
+                    cancelButton: 'btn btn-outline-success'
+                },
+                buttonsStyling: true
+            }).then(function(result) {
+                if (result.value) {
+                    var id = button.data('id')
+                    var url = window.location.href + '/' +'rejected'+'/'+id;
+                    $.ajax({
+                        url: url,
+                        method: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}'
+                        },
+                    }).done(function() {
+                        toastr.success('@lang('rejected')', '', {
+                            rtl: isRtl
+                        });
+                        table.draw()
+
+                    }).fail(function() {
+                        toastr.error('@lang('something_wrong')', '', {
+                            rtl: isRtl
+                        });
+                    });
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    toastr.info('@lang('rejected_canceled')', '', {
+                        rtl: isRtl
+                    })
+                }
+            });
+        });
     </script>
 @endsection

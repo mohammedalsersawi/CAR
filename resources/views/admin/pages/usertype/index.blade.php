@@ -105,7 +105,7 @@
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="s_user_type_id">@lang('type')</label>
-                                                <select name="" id=""
+                                                <select id="s_user_type_id"
                                                     class="search_input form-control" data-select2-id="select2-data-1-bgy2"
                                                     tabindex="-1" aria-hidden="true">
                                                     <option selected disabled>Select @lang('type')</option>
@@ -176,29 +176,28 @@
                     enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
-                        <div class="row">
-                            @foreach (locales() as $key => $value)
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="name_{{ $key }}">@lang('name')
-                                            @lang($value)</label>
-                                        <input type="text" class="form-control"
-                                               placeholder="@lang('about') @lang($value)"
-                                               name="name_{{ $key }}" id="">
-                                        <div class="invalid-feedback"></div>
-                                    </div>
-                                </div>
-                            @endforeach
-                            <div class="col-md-6">
+
+                            <div class="row">
+                              <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="phone">@lang('phone')</label>
                                     <input type="number" class="form-control" placeholder="@lang('phone')"
                                         name="phone" id="phone">
                                     <div class="invalid-feedback"></div>
                                 </div>
+                              </div>
+                            </div>
+                             <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="">@lang('name')</label>
+                                    <input type="text" class="form-control" placeholder="@lang('name')"
+                                           name="name" id="">
+                                    <div class="invalid-feedback"></div>
+                                </div>
                             </div>
                         </div>
-                        <div class="row">
+                             <div class="row">
                             @foreach (locales() as $key => $value)
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -322,20 +321,17 @@
 
                     <input type="hidden" id="id" name="id">
                     <div class="modal-body">
-                            <div class="row">
-                                @foreach (locales() as $key => $value)
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="name_{{ $key }}">@lang('name')
-                                                @lang($value)</label>
-                                            <input type="text" class="form-control"
-                                                   placeholder="@lang('about') @lang($value)"
-                                                   name="name_{{ $key }}" id="edit_name_{{ $key }}">
-                                            <div class="invalid-feedback"></div>
-                                        </div>
-                                    </div>
-                                @endforeach
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="">@lang('name')</label>
+                                    <input type="text" class="form-control" placeholder="@lang('name')"
+                                           name="name" id="edit_name">
+                                    <div class="invalid-feedback"></div>
+                                </div>
                             </div>
+                        </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -525,7 +521,7 @@
                     d.number = $('#s_number').val();
                     d.city_id = $('#s_city').val();
                     d.area_id = $('#s_area').val();
-                    d.user_type_id = $('#type_id').val();
+                    d.user_type_id = $('#s_user_type_id').val();
                 }
             },
             columns: [
@@ -536,7 +532,7 @@
                     searchable: false
                 },
                 {
-                    data: 'text_name',
+                    data: 'name',
                     name: 'name'
                 },
                 {
@@ -550,10 +546,7 @@
                         return (data)?`<img src="{{ asset('uploads/${data}') }}" width="100" class="img-fluid img-thumbnail">`:' no image';
                     },
                 },
-                // {
-                //     data: 'number',
-                //     name: 'number'
-                // },
+
                 {
                     data: 'about_name',
                     name: 'about'
@@ -626,9 +619,6 @@
                 @foreach (locales() as $key => $value)
                     $('#edit_about_{{ $key }}').val(button.data('about_{{ $key }}'))
                 @endforeach
-                @foreach (locales() as $key => $value)
-                $('#edit_name_{{ $key }}').val(button.data('name_{{ $key }}'))
-                @endforeach
                 L.marker([button.data('lat'), button.data('lng')]).addTo(map2)
                     .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
                     .openPopup();
@@ -698,7 +688,7 @@
         });
         $('#edit_modal').on('hidden.bs.modal',function () {
             $('select[name="area_id"]').empty();
-            $('select[name="city_id"]').empty();
+
             console.log('ddd');
         })
     </script>

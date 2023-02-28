@@ -10,8 +10,15 @@ class UserOrder extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    public $incrementing = false;
     protected $appends = ['area_name','city_name','user_name','status_type'];
     protected $primaryKey = 'uuid';
+    protected $hidden=[
+      'city_id',
+      'area_id',
+
+
+    ];
 
     public static function boot()
     {
