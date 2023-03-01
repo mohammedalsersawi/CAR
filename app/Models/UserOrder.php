@@ -50,7 +50,7 @@ class UserOrder extends Model
     }
     public function getStatusTypeAttribute()
     {
-        if ($this->status==0){
+        if ($this->status==3){
             return (app()->currentLocale()=='ar')?'معلق':'pending' ;
         }elseif ($this->status==1){
             return (app()->currentLocale()=='ar')?'تم القبول':'accepted';

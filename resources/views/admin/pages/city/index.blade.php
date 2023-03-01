@@ -230,7 +230,9 @@
                 },
                 {
                     data: 'name_Country',
-                    name: 'country'
+                    name: 'country',
+                    orderable: false,
+                    searchable: false,
                 },
 
 
@@ -238,7 +240,7 @@
                     data: 'action',
                     name: 'action',
                     orderable: false,
-                    searchable: true
+                    searchable: false
                 },
             ]
 

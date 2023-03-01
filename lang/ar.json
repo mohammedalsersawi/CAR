@@ -437,5 +437,6 @@
     "user_order" : "طلبات المستخدمين",
     "order_successfully" : "تم تقديم الطلب بنجاح",
     "order_failed" : "فشل تقديم الطلب بنجاح",
-    "video": "فيديو"
+    "video": "فيديو",
+    "The number you entered": "الرقم الذي ادخلته ليس صحيح"
 }

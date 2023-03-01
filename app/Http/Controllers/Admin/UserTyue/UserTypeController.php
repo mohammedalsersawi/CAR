@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\UserType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Yajra\DataTables\Facades\DataTables;
 
 class UserTypeController extends Controller
@@ -45,7 +46,13 @@ class UserTypeController extends Controller
         $rules['phone'] = 'required|between:8,14';
 //        $rules['number'] = 'required';
         $rules['city_id'] = 'required|exists:cities,id';
-        $rules['area_id'] = 'required|exists:areas,id';
+//        $rules['area_id'] = 'required|exists:areas,id';
+        $rules ['area_id']=
+            ['required',
+                Rule::exists(Area::class, 'id')->where(function ($query) use ($request) {
+                    $query->where('city_id',$request->city_id);
+                }),
+            ];
         $rules['user_type_id'] = 'required|exists:user_types,id';
         $rules['password'] = 'required';
         $this->validate($request, $rules);
@@ -80,7 +87,12 @@ class UserTypeController extends Controller
         $rules['phone'] = 'required|between:8,14';
 //        $rules['number'] = 'required';
         $rules['city_id'] = 'required|exists:cities,id';
-        $rules['area_id'] = 'required|exists:areas,id';
+        $rules ['area_id']=
+            ['required',
+                Rule::exists(Area::class, 'id')->where(function ($query) use ($request) {
+                    $query->where('city_id',$request->city_id);
+                }),
+            ];
         $rules['user_type_id'] = 'required|exists:user_types,id';
         $rules['lat'] = 'required';
         $rules['lng'] = 'required';

@@ -13,6 +13,7 @@ use App\Models\ModelCar;
 use App\Models\Transmission;
 use App\Models\year;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Yajra\DataTables\Facades\DataTables;
 
 class AdsCarController extends Controller
@@ -43,7 +44,12 @@ class AdsCarController extends Controller
         $rules['mileage'] = 'required';
         $rules['image'] = 'required';
         $rules['brand_id'] = 'required|exists:brands,id';
-        $rules['model_id'] = 'required|exists:model_cars,id';
+        $rules ['model_id']=
+            ['required',
+                Rule::exists(ModelCar::class, 'id')->where(function ($query) use ($request) {
+                    $query->where('brand_id',$request->brand_id);
+                }),
+            ];
         $rules['engine_id'] = 'required|exists:engines,id';
         $rules['fule_type_id'] = 'required|exists:fuel_types,id';
         $rules['color_exterior_id'] = 'required|exists:color_cars,id';
@@ -82,7 +88,12 @@ class AdsCarController extends Controller
         $rules['mileage'] = 'required';
         $rules['image'] = 'nullable|image';
         $rules['brand_id'] = 'required|exists:brands,id';
-        $rules['model_id'] = 'required|exists:model_cars,id';
+        $rules ['model_id']=
+            ['required',
+                Rule::exists(ModelCar::class, 'id')->where(function ($query) use ($request) {
+                    $query->where('brand_id',$request->brand_id);
+                }),
+            ];
         $rules['engine_id'] = 'required|exists:engines,id';
         $rules['fule_type_id'] = 'required|exists:fuel_types,id';
         $rules['color_exterior_id'] = 'required|exists:color_cars,id';

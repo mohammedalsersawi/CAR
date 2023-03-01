@@ -31,10 +31,9 @@ class UserOrderController extends Controller
        $useroreder= UserOrder::findOrFail($uuid);
 
        User::where('id',$useroreder->user_id)->update([
-           'phone'=>$useroreder->phone,
-            'name'=>$useroreder->name,
+           'name'=>$useroreder->name,
            'city_id'=>$useroreder->city_id,
-               'area_id'=>$useroreder->area_id,
+           'area_id'=>$useroreder->area_id,
        ]);
         $useroreder->update([
             'status'=>1
@@ -43,7 +42,6 @@ class UserOrderController extends Controller
         return $this->sendResponse(null, __('item_added'));
 
     }
-
     public function rejected($uuid){
         $useroreder= UserOrder::findOrFail($uuid);
         $useroreder->update([
@@ -53,6 +51,7 @@ class UserOrderController extends Controller
         return $this->sendResponse(null, __('item_added'));
 
     }
+
 
     public function getData(Request $request)
     {
@@ -78,7 +77,7 @@ class UserOrderController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function ($que) {
                 $disabled='';
-                if ($que->status!=0){
+                if ($que->status!=3){
                     $disabled .="disabled";
                 }
                 $string = '';

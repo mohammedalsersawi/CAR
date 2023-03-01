@@ -75,8 +75,12 @@ class ModelController extends Controller
         return Datatables::of($modelCars)
             ->filter(function ($query) use ($request) {
                 if ($request->get('search')) {
-                    $locale = app()->getLocale();
-                    $query->where('name->'.locale(), 'like', "%{$request->search['value']}%");
+                    $query->where('name->' . locale(), 'like', "%{$request->search['value']}%");
+                    foreach (locales() as $key => $value) {
+                        if ($key != locale())
+                            $query->orWhere('name->' . $key, 'like', "%{$request->search['value']}%");
+                    }
+
                 }
             })
             ->addIndexColumn()

@@ -80,10 +80,9 @@
                                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                                     <option selected disabled>Select @lang('status')</option>
 
-                                                    <option value="0"> @lang('pending') </option>
+                                                    <option value="3"> @lang('pending') </option>
                                                      <option value="1"> @lang('accepted') </option>
                                                     <option value="2"> @lang('rejected') </option>
-                                                        </option>
 
                                                 </select>
                                             </div>

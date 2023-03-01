@@ -42,12 +42,16 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return mainResponse(false, $validator->errors()->first(), [], $validator->errors()->messages(), 101);
         }
-
+        $number=rand(1000,9999);
+        $code=Hash::make($number);
         $user = User::create([
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
+            'code'=>$code
         ]);
-        $data=[$user->phone,$user->createToken('api')->plainTextToken];
+        $data=[$user->phone,$user->createToken('api')->plainTextToken,$number];
+
+
 
         return mainResponse(true, 'User created successfully', $data, [], 101);
 
@@ -62,19 +66,24 @@ class AuthController extends Controller
     public function verification_code(Request $request){
         $user=User::where('phone',$request->phone)->first();
 
-        if ($request->verification==111){
+        if (Hash::check($request->verification,$user->code)){
             $user->update([
                 'verification'=>1
             ]);
             $user['token']=$request->token;
-
             return mainResponse(true, __('ok'), $user, [], 200);
         }
-        return mainResponse(true, __('nooooo'),[], [], 200);
+        return mainResponse(true, __('The number you entered'),[], [], 200);
 
     }
 
     public function resend_code(Request $request){
+        $user=User::where('phone',$request->phone)->first();
+        $code=Hash::make(rand(1000,9999));
+        $user->update([
+           'code'=>$code
+        ]);
+        return mainResponse(true, __('ok'), $user, [], 200);
 
     }
 

@@ -141,6 +141,7 @@ Route::group(
             Route::delete('/{uuid}', 'destroy')->name('delete');
             Route::post('/accepted/{uuid}', 'accepted')->name('accepted');
             Route::post('/rejected/{uuid}', 'rejected')->name('rejected');
+            Route::delete('{uuid}','destroy')->name('delete');
 
         });
 
