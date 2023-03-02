@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin\order;
 
+use App\Events\CountUserOrderEvent;
+use App\Http\Controllers\Admin\Car\country\CountryController;
 use App\Http\Controllers\Admin\ResponseTrait;
 use App\Http\Controllers\Controller;
 use App\Models\Area;
@@ -24,7 +26,13 @@ class UserOrderController extends Controller
         return view('admin.pages.user_order.index',compact('cities'));
     }
     public function destroy($uuid){
-        UserOrder::where('uuid',$uuid)->delete();
+       $userorder= UserOrder::where('uuid',$uuid)->first();
+        if ($userorder->status==UserOrder::pending){
+            event(new CountUserOrderEvent());
+        }
+
+        $userorder->delete();
+
         return $this->sendResponse(null, null);
     }
     public function accepted($uuid){
@@ -39,6 +47,7 @@ class UserOrderController extends Controller
             'status'=>1
         ]);
        //sms
+        event(new CountUserOrderEvent());
         return $this->sendResponse(null, __('item_added'));
 
     }
@@ -48,6 +57,7 @@ class UserOrderController extends Controller
             'status'=>2
         ]);
         //sms
+        event(new CountUserOrderEvent());
         return $this->sendResponse(null, __('item_added'));
 
     }

@@ -18,7 +18,7 @@ class UserOrderController extends Controller
     {
         $rules = [
             'name' => 'required',
-            'phone' => 'required|between:8,14',
+            'phone' => 'required|between:8,14|unique:user_orders,phone',
             'city_id' => 'required|exists:cities,id',
             'area_id' => 'required|exists:areas,id',
         ];

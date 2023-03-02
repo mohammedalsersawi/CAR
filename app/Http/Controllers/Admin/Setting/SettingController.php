@@ -15,7 +15,8 @@ class SettingController extends Controller
 
     public function getyear()
     {
-        return view('admin.pages.setting.year.index');
+        $year = Year::query()->firstOrFail();
+        return view('admin.pages.setting.year.index',compact('year'));
     }
 
     public function year(Request $request)

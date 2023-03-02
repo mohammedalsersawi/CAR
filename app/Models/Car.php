@@ -76,7 +76,9 @@ class Car extends Model
             $car->uuid = Str::uuid();
         });
         self::deleted(function ($car) {
-            File::delete(public_path('uploads/'.$car->image->filename));
+            foreach ($car->image as $item) {
+                File::delete(public_path('uploads/'.$item->filename));
+            }
             $car->image()->delete();
         });
 

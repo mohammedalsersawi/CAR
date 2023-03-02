@@ -19,7 +19,9 @@ class UserOrder extends Model
 
 
     ];
-
+    const rejected=2;
+    const accepted=1;
+    const pending=3;
     public static function boot()
     {
         parent::boot();

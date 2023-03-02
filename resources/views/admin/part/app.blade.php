@@ -326,10 +326,10 @@
                             <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
                         </svg>
                         @php
-                            $count=\App\Models\UserOrder::where('read',false)->count();
+                            $count=\App\Models\UserOrder::where('status',\App\Models\UserOrder::pending)->count();
                         @endphp
                         <span class="menu-title text-truncate" data-i18n="Charts">@lang('user_order')</span> <h5 class="text-danger">
-                        {{$count}}</h5></a>
+                        <span id="count">{{$count}}</span></h5></a>
                     <ul class="menu-content">
                         <li class="nav-item {{ request()->routeIs('orders.index') ? 'active' : '' }} ">
                             <a class="d-flex align-items-center" href="{{ route('orders.index') }}">
