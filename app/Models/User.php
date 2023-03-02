@@ -32,6 +32,7 @@ class User extends Authenticatable
         'user_type_id',
         'lat',
         'lng',
+        'type_id',
         'name',
         'verification'
     ];
@@ -45,6 +46,7 @@ class User extends Authenticatable
         'remember_token',
         'city_id',
         'area_id',
+        'type_id',
         'code',
         'image',
         'city',
@@ -78,6 +80,10 @@ class User extends Authenticatable
     public function image()
     {
         return $this->morphOne(Image::class, 'imageable');
+    }
+    public function typeUser(){
+        return @$this->belongsTo(Type::class,'type_id');
+
     }
     public function getAboutNameAttribute()
     {

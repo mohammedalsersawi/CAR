@@ -265,6 +265,20 @@
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">@lang('type')</label>
+                                    <select name="type_id" id="" class="select form-control"
+                                            data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                        <option selected disabled>Select @lang('type')</option>
+                                        @foreach ($type as $itemm)
+                                            <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="row">
@@ -411,6 +425,20 @@
                                         @foreach ($user as $itemm)
                                             <option value="{{ $itemm->id }}"> {{ $itemm->Name }} </option>
                                             </option>
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">@lang('type')</label>
+                                    <select name="type_id" id="type_id" class="select form-control"
+                                            >
+                                        <option selected disabled>Select @lang('type')</option>
+                                        @foreach ($type as $itemm)
+                                            <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
                                         @endforeach
                                     </select>
                                     <div class="invalid-feedback"></div>

@@ -152,18 +152,6 @@
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label for="type_id">@lang('type')</label>
-                                    <select class="form-control" id="" name="type_id" required>
-                                        <option value="">@lang('select')</option>
-                                        @foreach ($type as $itemm)
-                                            <option value="{{ $itemm->id }}">{{ $itemm->name }} </option>
-                                        @endforeach
-                                    </select>
-                                    <div class="invalid-feedback"></div>
-                                </div>
-                            </div>
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="image">@lang('image')</label>
@@ -222,18 +210,7 @@
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label for="type_id">@lang('type')</label>
-                                    <select class="form-control" id="edit_type_id" name="type_id" required>
-                                        <option value="">@lang('select')</option>
-                                        @foreach ($type as $itemm)
-                                            <option value="{{ $itemm->id }}">{{ $itemm->name }} </option>
-                                        @endforeach
-                                    </select>
-                                    <div class="invalid-feedback"></div>
-                                </div>
-                            </div>
+
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="image">@lang('image')</label>
@@ -310,8 +287,8 @@
                     searchable: false
                 },
                 {
-                    data: 'type_name',
-                    name: 'type_name',
+                    data: 'user_type_name',
+                    name: 'user_type_name',
                     searchable: true,
                     orderable: true,
                 },

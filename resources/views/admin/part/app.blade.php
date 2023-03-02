@@ -246,12 +246,7 @@
                                     class="menu-title text-truncate">@lang('deals')</span>
                             </a>
                         </li>
-                        <li class="nav-item {{ request()->routeIs('deals.type.index') ? 'active' : '' }} ">
-                            <a class="d-flex align-items-center" href="{{ route('deals.type.index') }}">
-                                <i data-feather="file-text"></i><span
-                                    class="menu-title text-truncate">@lang('type')</span>
-                            </a>
-                        </li>
+
 
 
                     </ul>
@@ -273,7 +268,12 @@
                                     class="menu-title text-truncate">@lang('users')</span>
                             </a>
                         </li>
-
+                        <li class="nav-item {{ request()->routeIs('usertype.type.index') ? 'active' : '' }} ">
+                            <a class="d-flex align-items-center" href="{{ route('usertype.type.index') }}">
+                                <i data-feather="file-text"></i><span
+                                    class="menu-title text-truncate">@lang('type')</span>
+                            </a>
+                        </li>
 
                     </ul>
 

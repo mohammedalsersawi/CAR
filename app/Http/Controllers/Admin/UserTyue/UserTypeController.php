@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Area;
 use App\Models\City;
 use App\Models\Country;
+use App\Models\Type;
 use App\Models\User;
 use App\Models\UserType;
 use Illuminate\Http\Request;
@@ -23,15 +24,17 @@ class UserTypeController extends Controller
 
         $cities=City::select(['name','id'])->get();
         $country=Country::select(['name','id'])->get();
+        $type=Type::select(['name','id'])->get();
         $user=UserType::all();
 //        $area=Area::select(['id','name'])->get();
 
-        return view('admin.pages.usertype.index',compact(['cities','user','country']));
+        return view('admin.pages.usertype.index',compact(['cities','user','country','type']));
     }
 
 
     public function store(Request $request)
     {
+
 //        $latlng=$request->latlng;
 //        $num=strpos($latlng, ",");
 //        $lat= substr($latlng, strpos($latlng, "("),$num);
@@ -44,9 +47,8 @@ class UserTypeController extends Controller
         $rules['lng'] = 'required';
         $rules['name'] = 'required';
         $rules['phone'] = 'required|between:8,14';
-//        $rules['number'] = 'required';
         $rules['city_id'] = 'required|exists:cities,id';
-//        $rules['area_id'] = 'required|exists:areas,id';
+        $rules['type_id'] = 'required|exists:types,id';
         $rules ['area_id']=
             ['required',
                 Rule::exists(Area::class, 'id')->where(function ($query) use ($request) {
@@ -64,7 +66,7 @@ class UserTypeController extends Controller
         $data['lng'] = $request->lng;
         $data['name'] = $request->name;
         $data['phone']=$request->phone;
-//        $data['number']=$request->number;
+        $data['type_id']=$request->type_id;
         $data['city_id']=$request->city_id;
         $data['area_id']=$request->area_id;
         $data['password']=Hash::make($request->password);
@@ -77,6 +79,7 @@ class UserTypeController extends Controller
 
     public function update(Request $request)
     {
+
         $rules = [];
         foreach (locales() as $key => $language) {
             $rules['about_' . $key] = 'required|string';
@@ -85,7 +88,7 @@ class UserTypeController extends Controller
         $rules['name'] = 'required';
 
         $rules['phone'] = 'required|between:8,14';
-//        $rules['number'] = 'required';
+        $rules['type_id'] = 'required|exists:types,id';
         $rules['city_id'] = 'required|exists:cities,id';
         $rules ['area_id']=
             ['required',
@@ -105,6 +108,7 @@ class UserTypeController extends Controller
         $data['name'] = $request->name;
         $data['lat'] = $request->lat;
         $data['lng'] = $request->lng;
+        $data['type_id']=$request->type_id;
         $data['phone']=$request->phone;
         $data['city_id']=$request->city_id;
         $data['area_id']=$request->area_id;

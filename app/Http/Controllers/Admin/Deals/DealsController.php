@@ -24,7 +24,6 @@ class DealsController extends Controller
     {
         $rules = [];
         $rules['image'] = 'required|image';
-        $rules['type_id'] = 'required|exists:types,id';
         foreach (locales() as $key => $language) {
             $rules['deals_' . $key] = 'required|string|max:255';
         }
@@ -35,7 +34,6 @@ class DealsController extends Controller
             $data['deals'][$key] = $request->get('deals_' . $key);
         }
         $data['user_id']=$request->user_id;
-        $data['type_id']=$request->type_id;
         $deals =  Deals::create($data);
         UploadImage($request->image, null, 'App\Models\Deals', $deals->uuid, false);
         return $this->sendResponse(null, __('item_added'));
@@ -43,7 +41,6 @@ class DealsController extends Controller
     public function update(Request $request)
     {
         $rules = [];
-        $rules['type_id'] = 'required|exists:types,id';
 
         foreach (locales() as $key => $language) {
             $rules['deals_' . $key] = 'required|string|max:255';
@@ -51,7 +48,6 @@ class DealsController extends Controller
         $rules['image'] = 'nullable|image';
         $this->validate($request, $rules);
         $data = [];
-        $data['type_id']=$request->type_id;
 
         foreach (locales() as $key => $language) {
             $data['deals'][$key] = $request->get('deals_' . $key);
@@ -89,7 +85,8 @@ class DealsController extends Controller
                     $query->where('deals->'.locale(),'like', "%{$request->get('deals')}%");
                 }
                 if ($request->get('type_id')) {
-                    $query->where('type_id',$request->get('type_id'));
+                    $user=User::where('type_id',$request->get('type_id'))->pluck('id');
+                    $query->whereIn('user_id',$user);
                 }
 //                if ($request->get('search')) {
 //                    $locale = app()->getLocale();
