@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Deals;
+namespace App\Http\Controllers\Admin\UserTyue;
 
 use App\Http\Controllers\Admin\ResponseTrait;
 use App\Http\Controllers\Controller;
@@ -13,7 +13,7 @@ class TypeController extends Controller
     use ResponseTrait;
     public function index()
     {
-        return view('admin.pages.deal.type');
+        return view('admin.pages.usertype.Type');
     }
     public function store(Request $request)
     {

@@ -89,7 +89,8 @@ class DealsController extends Controller
                     $query->where('deals->'.locale(),'like', "%{$request->get('deals')}%");
                 }
                 if ($request->get('type_id')) {
-                    $query->where('type_id',$request->get('type_id'));
+                    $user=User::where('type_id',$request->get('type_id'))->pluck('id');
+                    $query->whereIn('user_id',$user);
                 }
 //                if ($request->get('search')) {
 //                    $locale = app()->getLocale();

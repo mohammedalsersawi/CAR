@@ -15,9 +15,9 @@
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ url('/admin') }}">@lang('home')</a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="{{ route('deals.index') }}">@lang('deals')</a>
+                                <li class="breadcrumb-item"><a href="{{ route('usertype.index') }}">@lang('user')</a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="{{ route('deals.type.index') }}">@lang('type')</a>
+                                <li class="breadcrumb-item"><a href="{{ route('usertype.type.index') }}">@lang('type')</a>
                                 </li>
                             </ol>
                         </div>
@@ -86,7 +86,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('deals.type.update') }}" method="POST" id="form_edit" class=""
+                <form action="{{ route('usertype.type.update') }}" method="POST" id="form_edit" class=""
                     enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="id" id="id" class="form-control" />
@@ -128,7 +128,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('deals.type.store') }}" method="POST" id="add_model_form" class="add-mode-form">
+                <form action="{{ route('usertype.type.store') }}" method="POST" id="add_model_form" class="add-mode-form">
 
                     <input type="hidden" name="id" id="id" class="form-control" />
                     <div class="modal-body">
@@ -191,7 +191,7 @@
                 }
             },
             ajax: {
-                url: '{{route('deals.type.getData',app()->getLocale())}}',
+                url: '{{route('usertype.type.getData',app()->getLocale())}}',
             },
             columns: [
                 {
