@@ -16,7 +16,7 @@ class carresourse extends JsonResource
     {
         return [
             "id" => $this->uuid,
-            "image" => $this->images,
+            "images" => $this->images,
             "display_name" => $this->year . ' ' . $this->brand_name . ' ' . $this->model_name,
 
         ];

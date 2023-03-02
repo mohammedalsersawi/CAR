@@ -12,9 +12,9 @@ class Car extends Model
     use HasFactory;
     protected $primaryKey = 'uuid';
     public $incrementing = false;
-    protected $appends=['year_to','year_from','images','brand_name','model_name'];
+    protected $appends=['year_to','year_from','images','brand_name','model_name','images'];
     protected $guarded = [];
-    public function image()
+    public function images()
     {
         return $this->morphMany(Image::class, 'imageable');
     }
@@ -63,11 +63,11 @@ class Car extends Model
     }
     public function getImagesAttribute()
     {
-        $image=[];
-        foreach ($this->image as $item) {
-            array_push($image,'uploads/'.$item->filename);
+        $images=[];
+        foreach ($this->images() as $item) {
+            array_push($images,'uploads/'.$item->filename);
         }
-        return $image;
+        return $images;
     }
     public static function boot()
     {
@@ -76,10 +76,10 @@ class Car extends Model
             $car->uuid = Str::uuid();
         });
         self::deleted(function ($car) {
-            foreach ($car->image as $item) {
+            foreach ($car->images as $item) {
                 File::delete(public_path('uploads/'.$item->filename));
             }
-            $car->image()->delete();
+            $car->images()->delete();
         });
 
     }

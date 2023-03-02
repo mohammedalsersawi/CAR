@@ -104,7 +104,7 @@ class BrandController extends Controller
                 return $string;
             })
             ->addColumn('image', function ($row) {
-                $imageData = @$row->image->filename;
+                $imageData = @$row->imageBrand->filename;
                 return @$imageData;
             })
             ->rawColumns(['image'])
