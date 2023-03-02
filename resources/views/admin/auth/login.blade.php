@@ -188,6 +188,7 @@
     <script src="{{ asset('dashboard/app-assets/js/scripts/customizer.min.js') }}"></script>
     <!-- END: Theme JS-->
 
+
     <!-- BEGIN: Page JS-->
     <script src="{{ asset('dashboard/app-assets/js/scripts/pages/page-auth-login.js') }}"></script>
     <!-- END: Page JS-->
