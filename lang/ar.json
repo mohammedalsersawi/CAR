@@ -438,5 +438,6 @@
     "order_successfully" : "تم تقديم الطلب بنجاح",
     "order_failed" : "فشل تقديم الطلب بنجاح",
     "video": "فيديو",
-    "The number you entered": "الرقم الذي ادخلته ليس صحيح"
+    "The number you entered": "الرقم الذي ادخلته ليس صحيح",
+    "details" : "تفاصيل"
 }
