@@ -242,7 +242,7 @@ class AdsCarController extends Controller
     }
     public function showCard(Request $request)
     {
-        $data = Car::where('uuid', $request->uuid)->get()->pluck('image')->flatten();
+        $data = Car::where('uuid', $request->uuid)->get()->pluck('Images')->flatten();
         return view('admin.pages.adscar.card-image', compact('data'))->render();
     }
 

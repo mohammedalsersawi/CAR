@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Route;
 use Spatie\Translatable\HasTranslations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -32,7 +33,7 @@ protected $hidden=[
 
     public function getImageAttribute()
     {
-        return 'uploads/'.@$this->imageBrand->filename;
+        return url()->previous().'/uploads/'.@$this->imageBrand->filename;
     }
     public function getNameTextAttribute()
     {

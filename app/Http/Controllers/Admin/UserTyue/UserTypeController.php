@@ -154,6 +154,9 @@ class UserTypeController extends Controller
                 if ($request->get('user_type_id')) {
                     $query->where('user_type_id', $request->get('user_type_id'));
                 }
+                if ($request->get('type_id')) {
+                    $query->where('type_id', $request->get('type_id'));
+                }
             })
             ->addIndexColumn()
             ->addColumn('action', function ($que) {

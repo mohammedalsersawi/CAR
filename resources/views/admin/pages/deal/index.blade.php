@@ -62,10 +62,10 @@
                                         </div>
                                         <div class="col-3">
                                             <div class="form-group">
-                                                <label for="s_type">@lang('type')</label>
+                                                <label for="s_type">@lang('Discount Store Type')</label>
                                                 <select id="s_type" class="search_input form-control"
                                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                                    <option selected disabled>Select @lang('type')</option>
+                                                    <option selected disabled>@lang('select') @lang('Discount Store Type')</option>
                                                     @foreach ($type as $itemm)
                                                         <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
                                                         </option>
@@ -96,7 +96,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>@lang('image')</th>
-                                            <th>@lang('type')</th>
+                                            <th>@lang('Discount Store Type')</th>
                                             <th>@lang('users')</th>
                                             <th>@lang('deals')</th>
                                             <th style="width: 225px;">@lang('actions')</th>

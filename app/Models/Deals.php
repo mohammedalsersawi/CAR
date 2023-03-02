@@ -23,7 +23,6 @@ class Deals extends Model
         'deals',
         'imageDeal',
         'type',
-        'type_id',
         'user_id'
     ];
     public function getTextNameAttribute()
@@ -36,12 +35,8 @@ class Deals extends Model
     }
     public function getUserTypeNameAttribute()
     {
-        return @$this->user->typeUser->name;
+        return @$this->user->Discount_Type->name;
     }
-    public function type(){
-        return $this->belongsTo(Type::class,'type_id');
-    }
-
     public function getTypeNameAttribute()
     {
         return @$this->type->name;
@@ -52,7 +47,7 @@ class Deals extends Model
     }
     public function getImageAttribute()
     {
-        return  'uploads/'.@$this->imageDeal->filename;
+        return url()->previous(). '/uploads/'.@$this->imageDeal->filename;
     }
     public static function boot()
     {

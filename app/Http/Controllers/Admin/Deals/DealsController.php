@@ -41,14 +41,12 @@ class DealsController extends Controller
     public function update(Request $request)
     {
         $rules = [];
-
         foreach (locales() as $key => $language) {
             $rules['deals_' . $key] = 'required|string|max:255';
         }
         $rules['image'] = 'nullable|image';
         $this->validate($request, $rules);
         $data = [];
-
         foreach (locales() as $key => $language) {
             $data['deals'][$key] = $request->get('deals_' . $key);
         }

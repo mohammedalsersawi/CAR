@@ -20,7 +20,7 @@ class User extends Authenticatable
      */
 
     protected $translatable = ['about'];
-    protected $appends = ['about_name','area_name','city_name','type_name','image_user'];
+    protected $appends = ['about_name','area_name','city_name','type_name','image_user','DiscountStoreType'];
     protected $fillable = [
         'phone',
         'password',
@@ -81,9 +81,13 @@ class User extends Authenticatable
     {
         return $this->morphOne(Image::class, 'imageable');
     }
-    public function typeUser(){
+    public function Discount_Type(){
         return @$this->belongsTo(Type::class,'type_id');
 
+    }
+    public function getDiscountStoreTypeAttribute()
+    {
+        return @$this->Discount_Type->name;
     }
     public function getAboutNameAttribute()
     {
@@ -103,7 +107,7 @@ class User extends Authenticatable
     }
     public function getImageUserAttribute()
     {
-        return @$this->image->filename;
+        return url()->previous(). '/uploads/'. @$this->image->filename;
     }
 
 

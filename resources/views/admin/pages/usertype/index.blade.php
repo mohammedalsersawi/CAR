@@ -111,9 +111,21 @@
                                                     <option selected disabled>Select @lang('type')</option>
                                                     @foreach ($user as $item)
                                                         <option value="{{ $item->id }}"> {{ $item->Name }} </option>
-                                                        </option>
                                                     @endforeach
                                                 </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="">@lang('Discount Store Type')</label>
+                                                <select id="s_type_id" class="search_input form-control"
+                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                                    <option selected disabled>@lang('select') @lang('Discount Store Type')</option>
+                                                    @foreach ($type as $itemm)
+                                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
+                                                    @endforeach
+                                                </select>
+                                                <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
                                         <div class="col-3" style="margin-top: 20px">
@@ -141,11 +153,11 @@
                                             <th>@lang('name')</th>
                                             <th>@lang('phone')</th>
                                             <th>@lang('image')</th>
-{{--                                            <th>@lang('code')</th>--}}
                                             <th>@lang('about')</th>
                                             <th>@lang('city')</th>
                                             <th>@lang('area')</th>
                                             <th>@lang('type')</th>
+                                            <th>@lang('Discount Store Type')</th>
                                             <th style="width: 225px;">@lang('actions')</th>
                                         </tr>
                                     </thead>
@@ -268,10 +280,10 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="">@lang('type')</label>
+                                    <label for="">@lang('Discount Store Type')</label>
                                     <select name="type_id" id="" class="select form-control"
                                             data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                        <option selected disabled>Select @lang('type')</option>
+                                        <option selected disabled>@lang('select') @lang('Discount Store Type')</option>
                                         @foreach ($type as $itemm)
                                             <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
                                         @endforeach
@@ -433,10 +445,10 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="">@lang('type')</label>
+                                    <label for="">@lang('Discount Store Type')</label>
                                     <select name="type_id" id="type_id" class="select form-control"
                                             >
-                                        <option selected disabled>Select @lang('type')</option>
+                                        <option selected disabled>Select @lang('Discount Store Type')</option>
                                         @foreach ($type as $itemm)
                                             <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
                                         @endforeach
@@ -550,6 +562,7 @@
                     d.city_id = $('#s_city').val();
                     d.area_id = $('#s_area').val();
                     d.user_type_id = $('#s_user_type_id').val();
+                    d.type_id = $('#s_type_id').val();
                 }
             },
             columns: [
@@ -590,6 +603,10 @@
                 {
                     data: 'type_name',
                     name: 'Type'
+                },
+                {
+                    data: 'DiscountStoreType',
+                    name: 'DiscountStoreType'
                 },
 
                 {
