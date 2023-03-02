@@ -127,6 +127,10 @@ Route::group(
             Route::delete('/{uuid}', 'destroy')->name('delete');
             Route::get('/getData', 'getData')->name('getData');
             Route::get('/images/{id}', 'showImages')->name('showImages');
+            Route::delete('/images/{id}/{idd}', 'deleteimages')->name('deletemages');
+            Route::post('update/images', 'updateImages')->name('updateImages');
+
+            Route::get('/show/card/', 'showCard')->name('showCard');
             Route::get('model/{id}', [DataController::class,'model'])->name('model');
 
         });
