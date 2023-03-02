@@ -21,18 +21,18 @@ class Brand extends Model
     protected $guarded=[];
 protected $hidden=[
     'name',
-    'image'
+    'imageBrand'
 ];
-    protected $appends = ['name_text','images'];
+    protected $appends = ['name_text','image'];
 
-    public function image()
+    public function imageBrand()
     {
         return $this->morphOne(Image::class, 'imageable');
     }
 
-    public function getImagesAttribute()
+    public function getImageAttribute()
     {
-        return @$this->image->filename;
+        return 'uploads/'.@$this->imageBrand->filename;
     }
     public function getNameTextAttribute()
     {

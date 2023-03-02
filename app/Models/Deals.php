@@ -17,11 +17,11 @@ class Deals extends Model
     protected $primaryKey = 'uuid';
     public $incrementing = false;
     protected $guarded = [];
-    protected $appends = ['text_name','user_name','type_name','Images'];
+    protected $appends = ['text_name','user_name','type_name','image'];
     protected $hidden=[
         'user',
-        'image',
         'deals',
+        'imageDeal',
         'type',
         'type_id',
         'user_id'
@@ -41,13 +41,13 @@ class Deals extends Model
     {
         return @$this->type->name;
     }
-    public function image()
+    public function imageDeal()
     {
         return $this->morphOne(Image::class, 'imageable');
     }
-    public function getImagesAttribute()
+    public function getImageAttribute()
     {
-        return @$this->image->filename;
+        return  'uploads/'.@$this->imageDeal->filename;
     }
     public static function boot()
     {

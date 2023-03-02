@@ -114,7 +114,7 @@ class DealsController extends Controller
                 return $string;
             })
             ->addColumn('image', function ($row) {
-                $imageData = @$row->image->filename;
+                $imageData = @$row->imageDeal->filename;
                 return @$imageData;
             })
 
