@@ -237,12 +237,13 @@ class AdsCarController extends Controller
     public function showImages($uuid)
     {
 
+
         $uuid = $uuid;
         return view('admin.pages.adscar.details', compact('uuid'));
     }
     public function showCard(Request $request)
     {
-        $data = Car::where('uuid', $request->uuid)->get()->pluck('image')->flatten();
+        $data = Image::where('imageable_id', $request->uuid)->get();
         return view('admin.pages.adscar.card-image', compact('data'))->render();
     }
 
@@ -262,7 +263,7 @@ class AdsCarController extends Controller
         $this->validate($request, $rules);
         $Car = Image::findOrFail($request->uuid);
         if ($Car) {
-            UploadImage($request->car_image, null, 'App\Models\Car', $Car->imageable_id, true);
+            UploadImage($request->car_image, null, 'App\Models\Car', $Car->imageable_id, true, $Car->id);
             return $this->sendResponse(null, __('item_edited'));
         }
     }
