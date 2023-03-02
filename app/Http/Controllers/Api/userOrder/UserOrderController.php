@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\userOrder;
 
+use App\Events\UserOrderEvent;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\UserOrder;
@@ -33,6 +34,8 @@ class UserOrderController extends Controller
             'area_id' => $request->area_id,
             'user_id' => Auth::guard('sanctum')->id(),
         ]);
+        event(new UserOrderEvent());
+
         return mainResponse(true, __('order_successfully'), [], [], 101);
     }
 

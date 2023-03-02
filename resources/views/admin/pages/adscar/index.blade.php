@@ -14,9 +14,9 @@
         }
     </style>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
-        integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+          integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
-        integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+            integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
 @endsection
 @section('content')
     <div class="content-wrapper">
@@ -50,7 +50,7 @@
                                 <div class="text-right">
                                     <div class="form-gruop">
                                         <button class="btn btn-outline-primary button_modal" type="button"
-                                            data-toggle="modal" id="addd" data-target="#full-modal-stem"><span><i
+                                                data-toggle="modal" id="addd" data-target="#full-modal-stem"><span><i
                                                     class="fa fa-plus"></i>@lang('add')</span>
                                         </button>
 
@@ -66,28 +66,27 @@
                                             <div class="form-group">
                                                 <label for="s_mobile">@lang('phone')</label>
                                                 <input id="s_phone" type="text" class="search_input form-control"
-                                                    placeholder="@lang('phone')">
+                                                       placeholder="@lang('phone')">
                                             </div>
                                         </div>
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="mileage">@lang('mileage')</label>
                                                 <input type="text" class="search_input form-control"
-                                                    placeholder="@lang('mileage')" name="mileage" id="s_mileage">
+                                                       placeholder="@lang('mileage')" name="mileage" id="s_mileage">
                                                 <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="year_to">@lang('year')</label>
-                                                <select name="year_id" id="s_year" class="search_input form-control"
-                                                    data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                                <select name="year" id="s_year" class="search_input form-control"
+                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1"
+                                                        aria-hidden="true">
                                                     <option selected disabled>Select @lang('year')</option>
-                                                    @foreach ($year as $itemm)
-                                                        <option value="{{ $itemm->id }}"> {{ $itemm->from }}
-                                                            {{ $itemm->to }} </option>
-                                                        </option>
-                                                    @endforeach
+                                                    @for ($i = $year->from; $i <= $year->to ;$i++)
+                                                        <option value="{{ $i }}">{{ $i }}</option>
+                                                    @endfor
                                                 </select>
                                                 <div class="invalid-feedback"></div>
                                             </div>
@@ -96,7 +95,8 @@
                                             <div class="form-group">
                                                 <label for="">@lang('brand')</label>
                                                 <select name="brand_id" id="s_brand" class="search_input form-control"
-                                                    data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1"
+                                                        aria-hidden="true">
                                                     <option selected disabled>Select @lang('brand')</option>
                                                     @foreach ($Brand as $itemm)
                                                         <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
@@ -110,7 +110,8 @@
                                             <div class="form-group">
                                                 <label for="">@lang('Model')</label>
                                                 <select name="model_id" id="s_model" class="search_input form-control"
-                                                    data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1"
+                                                        aria-hidden="true">
                                                     <option selected disabled>Select @lang('Model')</option>
                                                     @foreach ($ModelCar as $itemm)
                                                         <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
@@ -124,7 +125,8 @@
                                             <div class="form-group">
                                                 <label for="">@lang('Engine')</label>
                                                 <select name="engine_id" id="s_engine" class="search_input form-control"
-                                                    data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1"
+                                                        aria-hidden="true">
                                                     <option selected disabled>Select @lang('Engine')</option>
                                                     @foreach ($Engine as $itemm)
                                                         <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
@@ -140,9 +142,9 @@
                                             <div class="form-group">
                                                 <label for="">@lang('Transmission')</label>
                                                 <select name="transmission_id" id="s_transmission"
-                                                    class="search_input form-control"
-                                                    data-select2-id="select2-data-1-bgy2" tabindex="-1"
-                                                    aria-hidden="true">
+                                                        class="search_input form-control"
+                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1"
+                                                        aria-hidden="true">
                                                     <option selected disabled>Select @lang('Transmission')</option>
                                                     @foreach ($Transmission as $itemm)
                                                         <option value="{{ $itemm->id }}"> {{ $itemm->name }}
@@ -157,12 +159,13 @@
                                             <div class="form-group">
                                                 <label for="">@lang('color_interior')</label>
                                                 <select name="color_interior_id" id="s_color_interior"
-                                                    class="search_input form-control"
-                                                    data-select2-id="select2-data-1-bgy2" tabindex="-1"
-                                                    aria-hidden="true">
+                                                        class="search_input form-control"
+                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1"
+                                                        aria-hidden="true">
                                                     <option selected disabled>Select @lang('color_interior')</option>
                                                     @foreach ($ColorCar as $itemm)
-                                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }} <div
+                                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }}
+                                                            <div
                                                                 style="height:50px;width:50px;background-color:{{ $itemm->color }}">
                                                             </div>
                                                         </option>
@@ -176,9 +179,9 @@
                                             <div class="form-group">
                                                 <label for="">@lang('color_exterior')</label>
                                                 <select name="color_exterior_id" id="s_color_exterior"
-                                                    class="search_input form-control"
-                                                    data-select2-id="select2-data-1-bgy2" tabindex="-1"
-                                                    aria-hidden="true">
+                                                        class="search_input form-control"
+                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1"
+                                                        aria-hidden="true">
                                                     <option selected disabled>Select @lang('color_exterior')</option>
                                                     @foreach ($ColorCar as $itemm)
                                                         <option value="{{ $itemm->id }}">
@@ -195,9 +198,9 @@
                                             <div class="form-group">
                                                 <label for="">@lang('fueltype')</label>
                                                 <select name="fule_type_id" id="s_fuel"
-                                                    class="search_input form-control"
-                                                    data-select2-id="select2-data-1-bgy2" tabindex="-1"
-                                                    aria-hidden="true">
+                                                        class="search_input form-control"
+                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1"
+                                                        aria-hidden="true">
                                                     <option selected disabled>Select @lang('fueltype')</option>
                                                     @foreach ($FuelType as $itemm)
                                                         <option value="{{ $itemm->id }}"> {{ $itemm->name }}
@@ -228,23 +231,23 @@
                             <div class="table-responsive card-datatable" style="padding: 20px">
                                 <table class="table" id="datatable">
                                     <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>@lang('phone')</th>
-{{--                                            <th>@lang('image')</th>--}}
-                                            <th>@lang('from')</th>
-                                            <th>@lang('to')</th>
-                                            <th>@lang('mileage')</th>
-                                            <th>@lang('Brand')</th>
-                                            <th>@lang('Model')</th>
-                                            <th>@lang('Engine')</th>
-                                            <th>@lang('fueltype')</th>
-                                            <th>@lang('color_exterior')</th>
-                                            <th>@lang('color_interior')</th>
-                                            <th>@lang('Transmission')</th>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>@lang('phone')</th>
+                                        {{--                                            <th>@lang('image')</th>--}}
+                                        <th>@lang('year')</th>
 
-                                            <th style="width: 225px;">@lang('actions')</th>
-                                        </tr>
+                                        <th>@lang('mileage')</th>
+                                        <th>@lang('Brand')</th>
+                                        <th>@lang('Model')</th>
+                                        <th>@lang('Engine')</th>
+                                        <th>@lang('fueltype')</th>
+                                        <th>@lang('color_exterior')</th>
+                                        <th>@lang('color_interior')</th>
+                                        <th>@lang('Transmission')</th>
+
+                                        <th style="width: 225px;">@lang('actions')</th>
+                                    </tr>
                                     </thead>
                                     <tbody></tbody>
 
@@ -260,7 +263,7 @@
 
     <!-- Modal -->
     <div class="modal fade" class="full-modal-stem" id="full-modal-stem" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -270,7 +273,7 @@
                     </button>
                 </div>
                 <form action="{{ route('ads.car.store') }}" method="POST" id="add-mode-form" class="add-mode-form"
-                    enctype="multipart/form-data">
+                      enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
                         <div class="row">
@@ -278,7 +281,7 @@
                                 <div class="form-group">
                                     <label for="phone">@lang('phone')</label>
                                     <input type="text" class="form-control" placeholder="@lang('phone')"
-                                        name="phone" id="phone">
+                                           name="phone" id="phone">
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
@@ -286,7 +289,7 @@
                                 <div class="form-group">
                                     <label for="mileage">@lang('mileage')</label>
                                     <input type="text" class="form-control" placeholder="@lang('mileage')"
-                                        name="mileage" id="mileage">
+                                           name="mileage" id="mileage">
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
@@ -294,14 +297,12 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="year_to">@lang('year')</label>
-                                <select name="year_id" id="" class="select form-control"
-                                    data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                    <option selected disabled>Select @lang('year')</option>
-                                    @foreach ($year as $itemm)
-                                        <option value="{{ $itemm->id }}"> {{ $itemm->from }} {{ $itemm->to }}
-                                        </option>
-                                        </option>
-                                    @endforeach
+                                <select name="year" id="" class="select form-control"
+                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                    <option selected disabled>Select @lang('select')</option>
+                                    @for ($i = $year->from; $i <= $year->to ;$i++)
+                                        <option value="{{ $i }}">{{ $i }}</option>
+                                    @endfor
                                 </select>
                                 <div class="invalid-feedback"></div>
                             </div>
@@ -311,7 +312,7 @@
                             <div class="form-group">
                                 <label for="">@lang('brand')</label>
                                 <select name="brand_id" id="" class="select form-control"
-                                    data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                     <option selected disabled>Select @lang('brand')</option>
                                     @foreach ($Brand as $itemm)
                                         <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
@@ -325,7 +326,7 @@
                             <div class="form-group">
                                 <label for="">@lang('Model')</label>
                                 <select name="model_id" id="" class="select form-control"
-                                    data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                     <option selected disabled>Select @lang('Model')</option>
                                     @foreach ($ModelCar as $itemm)
                                         <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
@@ -341,7 +342,7 @@
                             <div class="form-group">
                                 <label for="">@lang('Engine')</label>
                                 <select name="engine_id" id="" class="select form-control"
-                                    data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                     <option selected disabled>Select @lang('Engine')</option>
                                     @foreach ($Engine as $itemm)
                                         <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
@@ -355,7 +356,7 @@
                             <div class="form-group">
                                 <label for="">@lang('Transmission')</label>
                                 <select name="transmission_id" id="" class="select form-control"
-                                    data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                     <option selected disabled>Select @lang('Transmission')</option>
                                     @foreach ($Transmission as $itemm)
                                         <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
@@ -372,10 +373,11 @@
                             <div class="form-group">
                                 <label for="">@lang('color_interior')</label>
                                 <select name="color_interior_id" id="" class="select form-control"
-                                    data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                     <option selected disabled>Select @lang('color_interior')</option>
                                     @foreach ($ColorCar as $itemm)
-                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }} <div
+                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }}
+                                            <div
                                                 style="height:50px;width:50px;background-color:{{ $itemm->color }}">
                                             </div>
                                         </option>
@@ -389,7 +391,7 @@
                             <div class="form-group">
                                 <label for="">@lang('color_exterior')</label>
                                 <select name="color_exterior_id" id="" class="select form-control"
-                                    data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                     <option selected disabled>Select @lang('color_exterior')</option>
                                     @foreach ($ColorCar as $itemm)
                                         <option value="{{ $itemm->id }}">
@@ -407,7 +409,7 @@
                             <div class="form-group">
                                 <label for="">@lang('fueltype')</label>
                                 <select name="fule_type_id" id="" class="select form-control"
-                                    data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                     <option selected disabled>Select @lang('fueltype')</option>
                                     @foreach ($FuelType as $itemm)
                                         <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
@@ -421,7 +423,7 @@
                             <div class="form-group">
                                 <label for="image">@lang('image')</label>
                                 <input type="file" accept="image/*" class="form-control"
-                                    placeholder="@lang('image')" name="image[]" multiple id="image">
+                                       placeholder="@lang('image')" name="image[]" multiple id="image">
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
@@ -435,14 +437,13 @@
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('close')</button>
                         <button class="btn btn-primary">@lang('add')</button>
                     </div>
-            </div>
             </form>
         </div>
     </div>
     </div>
     <!-- Modal -->
     <div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true">
+         aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -452,7 +453,7 @@
                     </button>
                 </div>
                 <form action="{{ route('ads.car.update') }}" method="POST" id="form_edit" class="form_edit"
-                    enctype="multipart/form-data">
+                      enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" id="uuid" name="uuid">
                     <div class="modal-body">
@@ -461,7 +462,7 @@
                                 <div class="form-group">
                                     <label for="phone">@lang('phone')</label>
                                     <input type="text" class="form-control" placeholder="@lang('phone')"
-                                        name="phone" id="edit_phone">
+                                           name="phone" id="edit_phone">
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
@@ -469,7 +470,7 @@
                                 <div class="form-group">
                                     <label for="mileage">@lang('mileage')</label>
                                     <input type="text" class="form-control" placeholder="@lang('mileage')"
-                                        name="mileage" id="edit_mileage">
+                                           name="mileage" id="edit_mileage">
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
@@ -477,13 +478,12 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="year_to">@lang('year')</label>
-                                <select name="year_id" id="edit_year" class="select form-control"
-                                    data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                <select name="year" id="edit_year" class="select form-control"
+                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                     <option selected disabled>Select @lang('year')</option>
-                                    @foreach ($year as $itemm)
-                                        <option value="{{ $itemm->id }}"> {{ $itemm->from }} {{ $itemm->to }}
-                                        </option>
-                                    @endforeach
+                                    @for ($i = $year->from; $i <= $year->to ;$i++)
+                                        <option value="{{ $i }}">{{ $i }}</option>
+                                    @endfor
                                 </select>
                                 <div class="invalid-feedback"></div>
                                 <div class="row">
@@ -491,7 +491,8 @@
                                         <div class="form-group">
                                             <label for="">@lang('brand')</label>
                                             <select name="brand_id" id="edit_brand" class="select form-control"
-                                                data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                                    data-select2-id="select2-data-1-bgy2" tabindex="-1"
+                                                    aria-hidden="true">
                                                 <option selected disabled>Select @lang('brand')</option>
                                                 @foreach ($Brand as $itemm)
                                                     <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
@@ -505,7 +506,8 @@
                                         <div class="form-group">
                                             <label for="">@lang('Model')</label>
                                             <select name="model_id" id="edit_model" class="select form-control"
-                                                data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                                    data-select2-id="select2-data-1-bgy2" tabindex="-1"
+                                                    aria-hidden="true">
                                                 <option selected disabled>Select @lang('Model')</option>
                                                 {{--                                    @foreach ($ModelCar as $itemm) --}}
                                                 {{--                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option> --}}
@@ -522,7 +524,8 @@
                                         <div class="form-group">
                                             <label for="">@lang('Engine')</label>
                                             <select name="engine_id" id="edit_engine" class="select form-control"
-                                                data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                                    data-select2-id="select2-data-1-bgy2" tabindex="-1"
+                                                    aria-hidden="true">
                                                 <option selected disabled>Select @lang('Engine')</option>
                                                 @foreach ($Engine as $itemm)
                                                     <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
@@ -536,8 +539,8 @@
                                         <div class="form-group">
                                             <label for="">@lang('Transmission')</label>
                                             <select name="transmission_id" id="edit_transmission"
-                                                class="select form-control" data-select2-id="select2-data-1-bgy2"
-                                                tabindex="-1" aria-hidden="true">
+                                                    class="select form-control" data-select2-id="select2-data-1-bgy2"
+                                                    tabindex="-1" aria-hidden="true">
                                                 <option selected disabled>Select @lang('Transmission')</option>
                                                 @foreach ($Transmission as $itemm)
                                                     <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
@@ -554,11 +557,12 @@
                                         <div class="form-group">
                                             <label for="">@lang('color_interior')</label>
                                             <select name="color_interior_id" id="edit_color_exterior"
-                                                class="select form-control" data-select2-id="select2-data-1-bgy2"
-                                                tabindex="-1" aria-hidden="true">
+                                                    class="select form-control" data-select2-id="select2-data-1-bgy2"
+                                                    tabindex="-1" aria-hidden="true">
                                                 <option selected disabled>Select @lang('color_interior')</option>
                                                 @foreach ($ColorCar as $itemm)
-                                                    <option value="{{ $itemm->id }}"> {{ $itemm->name }} <div
+                                                    <option value="{{ $itemm->id }}"> {{ $itemm->name }}
+                                                        <div
                                                             style="height:50px;width:50px;background-color:{{ $itemm->color }}">
                                                         </div>
                                                     </option>
@@ -572,8 +576,8 @@
                                         <div class="form-group">
                                             <label for="">@lang('color_exterior')</label>
                                             <select name="color_exterior_id" id="edit_color_interior"
-                                                class="select form-control" data-select2-id="select2-data-1-bgy2"
-                                                tabindex="-1" aria-hidden="true">
+                                                    class="select form-control" data-select2-id="select2-data-1-bgy2"
+                                                    tabindex="-1" aria-hidden="true">
                                                 <option selected disabled>Select @lang('color_exterior')</option>
                                                 @foreach ($ColorCar as $itemm)
                                                     <option value="{{ $itemm->id }}">
@@ -592,7 +596,8 @@
                                         <div class="form-group">
                                             <label for="">@lang('fueltype')</label>
                                             <select name="fule_type_id" id="edit_fuel" class="select form-control"
-                                                data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                                    data-select2-id="select2-data-1-bgy2" tabindex="-1"
+                                                    aria-hidden="true">
                                                 <option selected disabled>Select @lang('fueltype')</option>
                                                 @foreach ($FuelType as $itemm)
                                                     <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
@@ -608,7 +613,7 @@
                                         <div class="form-group">
                                             <label for="image">@lang('image')</label>
                                             <input type="file" accept="image/*" class="form-control"
-                                                placeholder="@lang('image')" name="image" id="image">
+                                                   placeholder="@lang('image')" name="image" id="image">
                                             <div class="invalid-feedback"></div>
                                         </div>
                                     </div>
@@ -619,10 +624,12 @@
 
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
-                                        data-dismiss="modal">@lang('close')</button>
+                                            data-dismiss="modal">@lang('close')</button>
                                     <button class="btn btn-primary">@lang('save changes')</button>
                                 </div>
                             </div>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -675,28 +682,28 @@
             searching: false,
             "oLanguage": {
                 @if (app()->isLocale('ar'))
-                    "sEmptyTable": "ليست هناك بيانات متاحة في الجدول",
-                    "sLoadingRecords": "جارٍ التحميل...",
-                    "sProcessing": "جارٍ التحميل...",
-                    "sLengthMenu": "أظهر _MENU_ مدخلات",
-                    "sZeroRecords": "لم يعثر على أية سجلات",
-                    "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
-                    "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
-                    "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
-                    "sInfoPostFix": "",
-                    "sSearch": "ابحث:",
-                    "oAria": {
-                        "sSortAscending": ": تفعيل لترتيب العمود تصاعدياً",
-                        "sSortDescending": ": تفعيل لترتيب العمود تنازلياً"
-                    },
+                "sEmptyTable": "ليست هناك بيانات متاحة في الجدول",
+                "sLoadingRecords": "جارٍ التحميل...",
+                "sProcessing": "جارٍ التحميل...",
+                "sLengthMenu": "أظهر _MENU_ مدخلات",
+                "sZeroRecords": "لم يعثر على أية سجلات",
+                "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
+                "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
+                "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
+                "sInfoPostFix": "",
+                "sSearch": "ابحث:",
+                "oAria": {
+                    "sSortAscending": ": تفعيل لترتيب العمود تصاعدياً",
+                    "sSortDescending": ": تفعيل لترتيب العمود تنازلياً"
+                },
                 @endif // "oPaginate": {"sPrevious": '<-', "sNext": '->'},
             },
             ajax: {
                 url: '{{ route('ads.car.getData', app()->getLocale()) }}',
-                data: function(d) {
+                data: function (d) {
                     d.phone = $('#s_phone').val();
                     d.mileage = $('#s_mileage').val();
-                    d.year_id = $('#s_year').val();
+                    d.year = $('#s_year').val();
                     d.brand = $('#s_brand').val();
                     d.model = $('#s_model').val();
                     d.engine = $('#s_engine').val();
@@ -708,28 +715,25 @@
                 }
             },
             columns: [{
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex',
-                    orderable: false,
-                    searchable: false
-                },
+                data: 'DT_RowIndex',
+                name: 'DT_RowIndex',
+                orderable: false,
+                searchable: false
+            },
                 {
                     data: 'phone',
                     name: 'phone'
                 },
-                {{--{--}}
-                {{--    "data": 'image',--}}
-                {{--    "name": 'image',--}}
-                {{--    render: function(data, type, full, meta) {--}}
-                {{--        return `<img src="{{ asset('uploads/${data}') }}" width="100" class="img-fluid img-thumbnail">`;--}}
-                {{--    },--}}
-                {{--},--}}
+                    {{--{--}}
+                    {{--    "data": 'image',--}}
+                    {{--    "name": 'image',--}}
+                    {{--    render: function(data, type, full, meta) {--}}
+                    {{--        return `<img src="{{ asset('uploads/${data}') }}" width="100" class="img-fluid img-thumbnail">`;--}}
+                    {{--    },--}}
+                    {{--},--}}
+
                 {
-                    data: 'year_from',
-                    name: 'year'
-                },
-                {
-                    data: 'year_to',
+                    data: 'year',
                     name: 'year'
                 },
                 {
@@ -755,13 +759,13 @@
                 },
                 {
                     data: 'color_exterior',
-                    "render": function(data, type, full, meta) {
+                    "render": function (data, type, full, meta) {
                         return "<div style='background-color:" + data + ";width: 20px;height: 20px'></div>";
                     },
                 },
                 {
                     data: 'color_interior',
-                    "render": function(data, type, full, meta) {
+                    "render": function (data, type, full, meta) {
                         return "<div style='background-color:" + data + ";width: 20px;height: 20px'></div>";
                     },
                 },
@@ -780,8 +784,8 @@
         });
 
 
-        $(document).ready(function() {
-            $(document).on('click', '.btn_edit', function(event) {
+        $(document).ready(function () {
+            $(document).on('click', '.btn_edit', function (event) {
 
                 $('input').removeClass('is-invalid');
                 $('.invalid-feedback').text('');
@@ -814,33 +818,33 @@
                     .openPopup();
 
             });
-            $(document).on('click', '#addd', function() {
+            $(document).on('click', '#addd', function () {
                 // map.eachLayer(function (layer) {
                 //     map.removeLayer(layer);
                 // });
             });
         });
-        $('#edit_modal').on('hidden.bs.modal', function() {
+        $('#edit_modal').on('hidden.bs.modal', function () {
             $('select[name="model_id"]').empty();
             // $('.search_input').val("").trigger("change")
 
         })
     </script>
     <script>
-        $(document).ready(function() {
-            $('select[name="brand_id"]').on('change', function() {
+        $(document).ready(function () {
+            $('select[name="brand_id"]').on('change', function () {
                 var brand_id = $(this).val();
                 if (brand_id) {
                     $.ajax({
                         url: "car/model" + "/" + brand_id,
                         type: "GET",
                         dataType: "json",
-                        success: function(data) {
+                        success: function (data) {
                             $('select[name="model_id"]').empty();
-                             $('select[name="model_id"]').append(`
+                            $('select[name="model_id"]').append(`
                                  <option selected  disabled>Select @lang('Model')</option>
                                  `)
-                            $.each(data, function(key, value) {
+                            $.each(data, function (key, value) {
                                 $('select[name="model_id"]').append('<option value="' +
                                     key + '">' + value + '</option>');
                             });
@@ -854,7 +858,7 @@
     </script>
 
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
-        integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+            integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
     <script>
         var map = L.map('map').setView([51.505, -0.09], 13);
 
@@ -870,11 +874,9 @@
             x.innerHTML = "Geolocation is not supported by this browser.";
 
         }
+
         //
         function showPosition(position) {
-
-
-
 
 
             function onMapClick(e) {
@@ -890,8 +892,6 @@
             }
 
             map.on('click', onMapClick);
-
-
 
 
         }

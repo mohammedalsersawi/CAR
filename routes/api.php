@@ -28,6 +28,7 @@ Route::middleware(['guest:sanctum'])->prefix('auth')->group(function () {
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('profile',[\App\Http\Controllers\Api\home\HomeController::class,'profile'])->name('profile');
 
 
 });

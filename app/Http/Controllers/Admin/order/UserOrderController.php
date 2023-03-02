@@ -77,7 +77,7 @@ class UserOrderController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function ($que) {
                 $disabled='';
-                if ($que->status!=3){
+                if ($que->status != 3){
                     $disabled .="disabled";
                 }
                 $string = '';

@@ -29,7 +29,7 @@ class AdsCarController extends Controller
         $FuelType = FuelType::select(['name', 'id'])->get();
         $Transmission = Transmission::select(['name', 'id'])->get();
         $ColorCar = ColorCar::select(['name', 'id','color'])->get();
-        $year = Year::select(['id', 'to','from'])->get();
+        $year = Year::query()->firstOrFail();
         return view('admin.pages.adscar.index', compact(['Brand', 'Engine', 'ModelCar', 'FuelType', 'Transmission', 'ColorCar','year']));
     }
 
@@ -39,7 +39,7 @@ class AdsCarController extends Controller
         $rules = [];
         $rules['lat'] = 'required';
         $rules['lng'] = 'required';
-        $rules['year_id'] = 'required|exists:years,id';
+        $rules['year'] = 'required';
         $rules['phone'] = 'required';
         $rules['mileage'] = 'required';
         $rules['image'] = 'required';
@@ -60,7 +60,7 @@ class AdsCarController extends Controller
             'transmission_id',
             'lat',
             'lng',
-            'year_id',
+            'year',
             'phone',
             'mileage',
             'brand_id',
@@ -83,7 +83,7 @@ class AdsCarController extends Controller
         $rules = [];
         $rules['lat'] = 'required';
         $rules['lng'] = 'required';
-        $rules['year_id'] = 'required|exists:years,id';
+        $rules['year'] = 'required';
         $rules['phone'] = 'required';
         $rules['mileage'] = 'required';
         $rules['image'] = 'nullable|image';
@@ -106,7 +106,7 @@ class AdsCarController extends Controller
             'lat',
             'lng',
             'phone',
-            'year_id',
+            'year',
             'mileage',
             'brand_id',
             'model_id',
@@ -139,8 +139,8 @@ class AdsCarController extends Controller
                 if ($request->get('mileage')) {
                     $query->where('mileage',$request->get('mileage'));
                 }
-                if ($request->get('year_id')) {
-                    $query->where('year_id',$request->get('year_id'));
+                if ($request->get('year')) {
+                    $query->where('year',$request->get('year'));
                 }
 
                 if ($request->get('brand')) {
@@ -174,7 +174,7 @@ class AdsCarController extends Controller
                 $data_attr .= 'data-phone="' . @$que->phone . '" ';
                 $data_attr .= 'data-mileage="' .@ $que->mileage . '" ';
                 $data_attr .= 'data-year_to="' . @$que->year_to . '" ';
-                $data_attr .= 'data-year="' .@$que->year_id . '" ';
+                $data_attr .= 'data-year="' .@$que->year . '" ';
                 $data_attr .= 'data-brand_id="' .@ $que->brand_id . '" ';
                 $data_attr .= 'data-brand_name="' .@ $que->brand->name . '" ';
                 $data_attr .= 'data-model_name="' .@ $que->model->name . '" ';

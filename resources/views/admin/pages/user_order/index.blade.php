@@ -5,6 +5,7 @@
 @section('styles')
 @endsection
 @section('content')
+    @vite('resources/js/app.js')
     <div class="content-wrapper">
         <div class="content-header row">
             <div class="content-header-left col-md-9 col-12 mb-2">

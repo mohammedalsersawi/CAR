@@ -50,9 +50,14 @@ class User extends Authenticatable
         'city',
         'area',
         'type',
+        'user_type_id',
         'created_at',
         'updated_at'
     ];
+    const USER = 1;
+    const SHOWROOM = 2;
+    const DISCOUNT_STORE = 3;
+    const PHOTOGRAPHER = 4;
     /**
      * The attributes that should be cast to native types.
      *
@@ -72,7 +77,7 @@ class User extends Authenticatable
     }
     public function image()
     {
-        return @$this->morphOne(Image::class, 'imageable');
+        return $this->morphOne(Image::class, 'imageable');
     }
     public function getAboutNameAttribute()
     {
