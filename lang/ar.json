@@ -439,5 +439,6 @@
     "order_failed" : "فشل تقديم الطلب بنجاح",
     "video": "فيديو",
     "The number you entered": "الرقم الذي ادخلته ليس صحيح",
-    "details" : "تفاصيل"
+    "details" : "تفاصيل",
+    "images_car" : "صور السيارة"
 }

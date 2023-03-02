@@ -2,20 +2,22 @@
 
 namespace App\Http\Controllers\Admin\Ads;
 
-use App\Http\Controllers\Admin\ResponseTrait;
-use App\Http\Controllers\Controller;
-use App\Models\Brand;
 use App\Models\Car;
-use App\Models\ColorCar;
+use App\Models\year;
+use App\Models\Brand;
+use App\Models\Image;
 use App\Models\Engine;
+use App\Models\ColorCar;
 use App\Models\FuelType;
 use App\Models\ModelCar;
 use App\Models\Transmission;
-use App\Models\year;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Contracts\View\View;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
 use Yajra\DataTables\Facades\DataTables;
+use App\Http\Controllers\Admin\ResponseTrait;
 
 class AdsCarController extends Controller
 {
@@ -119,7 +121,10 @@ class AdsCarController extends Controller
             'color_interior_id',
         ));
         if ($request->hasFile('image')) {
-            UploadImage($request->image, null, 'App\Models\Car', $Car->uuid, true);
+            foreach ($request->File('image') as $file) {
+                UploadImage($file, null, 'App\Models\Car', $Car->uuid, false);
+            }
+
         }
         return $this->sendResponse(null, __('item_edited'));
     }
@@ -231,7 +236,34 @@ class AdsCarController extends Controller
 
     public function showImages($uuid)
     {
-       return $data = Car::where('uuid', $uuid)->get();
-        return view('admin.pages.user_order.order-details');
+
+        $uuid = $uuid;
+        return view('admin.pages.adscar.details', compact('uuid'));
+    }
+    public function showCard(Request $request)
+    {
+        $data = Car::where('uuid', $request->uuid)->get()->pluck('image')->flatten();
+        return view('admin.pages.adscar.card-image', compact('data'))->render();
+    }
+
+
+    public function deleteimages($id, $idd)
+    {
+        $data = Image::findOrFail($idd);
+        File::delete(public_path('uploads/' . $data->filename));
+        $data->delete();
+        return $this->sendResponse(null, null);
+    }
+    public function updateImages(Request $request)
+    {
+
+        $rules = [];
+        $rules['car_image'] = 'required|image';
+        $this->validate($request, $rules);
+        $Car = Image::findOrFail($request->uuid);
+        if ($Car) {
+            UploadImage($request->car_image, null, 'App\Models\Car', $Car->imageable_id, true);
+            return $this->sendResponse(null, __('item_edited'));
+        }
     }
 }
