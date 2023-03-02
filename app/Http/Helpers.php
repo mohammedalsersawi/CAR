@@ -1,4 +1,5 @@
 <?php
+
 use App\Models\Category;
 use App\Models\Image;
 use Illuminate\Http\Request;
@@ -33,7 +34,6 @@ function languages()
         return ['ar' => 'arabic', 'en' => 'english'];
     } else {
         return ['ar' => 'العربية', 'en' => 'النجليزية'];
-
     }
 }
 function mainResponse($status, $msg, $items, $validator, $code = 200, $pages = null)
@@ -98,7 +98,7 @@ function mainResponse($status, $msg, $items, $validator, $code = 200, $pages = n
         }
     }
 
-//    $items = $new_items;
+    //    $items = $new_items;
 
     $aryErrors = [];
     foreach ($validator as $key => $value) {
@@ -112,34 +112,37 @@ function mainResponse($status, $msg, $items, $validator, $code = 200, $pages = n
 
     return response()->json($newData);
 }
-function UploadImage($file,$path=null,$model,$id,$update=false)
+function UploadImage($file, $path = null, $model, $imageable_id, $update = false, $id = null)
 {
     $imagename = uniqid() . '.' . $file->getClientOriginalExtension();
-    $file->move(public_path('uploads/'.$path), $imagename);
+    $file->move(public_path('uploads/' . $path), $imagename);
     if (!$update) {
         Image::create([
-            'filename'=>  $imagename,
-            'imageable_id'=>$id,
-            'imageable_type'=>$model,
+            'filename' =>  $imagename,
+            'imageable_id' => $imageable_id,
+            'imageable_type' => $model,
         ]);
-    }else {
-        $image= Image::where('imageable_id',$id)->first();
+    } else {
+        $image = Image::where('imageable_id', $imageable_id)->first();
+        if ($id) {
+            $image = Image::where('id', $id)->first();
+        }
         if ($image) {
             File::delete(public_path('uploads/' . @$path . @$image->filename));
             $image->update(
                 [
                     'filename' => $imagename,
-                    'imageable_id' => $id,
+                    'imageable_id' => $imageable_id,
                     'imageable_type' => $model,
-                ]);
-        }else{
+                ]
+            );
+        } else {
             Image::create([
-                'filename'=>  $imagename,
-                'imageable_id'=>$id,
-                'imageable_type'=>$model,
+                'filename' =>  $imagename,
+                'imageable_id' => $imageable_id,
+                'imageable_type' => $model,
             ]);
         }
     }
     return $imagename;
 }
-

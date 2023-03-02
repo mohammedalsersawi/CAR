@@ -1,3 +1,4 @@
+
 @foreach ($data as $itam)
     <div class="col">
         <div class="card">
