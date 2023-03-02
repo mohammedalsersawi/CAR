@@ -90,7 +90,6 @@ class AdsCarController extends Controller
         $rules['year'] = 'required';
         $rules['phone'] = 'required';
         $rules['mileage'] = 'required';
-        $rules['image'] = 'nullable|image';
         $rules['brand_id'] = 'required|exists:brands,id';
         $rules['model_id'] =
             [
@@ -236,14 +235,12 @@ class AdsCarController extends Controller
 
     public function showImages($uuid)
     {
-
-
         $uuid = $uuid;
         return view('admin.pages.adscar.details', compact('uuid'));
     }
     public function showCard(Request $request)
     {
-        $data = Car::where('uuid', $request->uuid)->get()->pluck('Images')->flatten();
+        $data = Car::where('uuid', $request->uuid)->get()->pluck('ImagesCar')->flatten();
         return view('admin.pages.adscar.card-image', compact('data'))->render();
     }
 

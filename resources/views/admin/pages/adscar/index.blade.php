@@ -613,7 +613,7 @@
                                         <div class="form-group">
                                             <label for="image">@lang('image')</label>
                                             <input type="file" multiple accept="image/*" class="form-control"
-                                                   placeholder="@lang('image')" name="image" id="image">
+                                                   placeholder="@lang('image')" name="image[]" id="image">
                                             <div class="invalid-feedback"></div>
                                         </div>
                                     </div>

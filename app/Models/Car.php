@@ -12,9 +12,9 @@ class Car extends Model
     use HasFactory;
     protected $primaryKey = 'uuid';
     public $incrementing = false;
-    protected $appends=['images','brand_name','model_name','images'];
+    protected $appends=['images','brand_name','model_name'];
     protected $guarded = [];
-    public function images()
+    public function ImagesCar()
     {
         return $this->morphMany(Image::class, 'imageable');
     }
@@ -56,7 +56,7 @@ class Car extends Model
     public function getImagesAttribute()
     {
         $images=[];
-        foreach ($this->images() as $item) {
+        foreach ($this->ImagesCar() as $item) {
             array_push($images,'uploads/'.$item->filename);
         }
         return $images;

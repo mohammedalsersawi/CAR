@@ -114,6 +114,7 @@ function mainResponse($status, $msg, $items, $validator, $code = 200, $pages = n
 }
 function UploadImage($file, $path = null, $model, $imageable_id, $update = false, $id = null)
 {
+
     $imagename = uniqid() . '.' . $file->getClientOriginalExtension();
     $file->move(public_path('uploads/' . $path), $imagename);
     if (!$update) {
@@ -123,7 +124,8 @@ function UploadImage($file, $path = null, $model, $imageable_id, $update = false
             'imageable_type' => $model,
         ]);
     } else {
-        $image = Image::where('imageable_id', $imageable_id)->first();
+
+        $image = Image::where('imageable_id',$imageable_id)->where('imageable_type',$model)->first();
         if ($id) {
             $image = Image::where('id', $id)->first();
         }
@@ -144,5 +146,5 @@ function UploadImage($file, $path = null, $model, $imageable_id, $update = false
             ]);
         }
     }
-    return $imagename;
+
 }
