@@ -47,15 +47,15 @@
                                     <div class="row">
                                         <div class="col-3">
                                             <div class="form-group">
-                                                <label for="from">@lang('from')</label>
-                                                <input  type="text" name="from" class="form-control"
+                                                <label  for="from">@lang('from')</label>
+                                                <input value="{{$year->from}}" type="text" name="from" class="form-control"
                                                        placeholder="@lang('year')">
                                             </div>
                                         </div>
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="to">@lang('to')</label>
-                                                <input type="text" name="to" class=" form-control"
+                                                <input value="{{$year->to}}"  type="text" name="to" class=" form-control"
                                                        placeholder="@lang('year')" >
                                             </div>
                                         </div>

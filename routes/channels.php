@@ -21,3 +21,6 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 Broadcast::channel('orderUser', function () {
     return true;
 });
+Broadcast::channel('countuserorder', function () {
+    return true;
+});

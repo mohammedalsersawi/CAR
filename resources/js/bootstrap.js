@@ -39,6 +39,19 @@ window.Echo = new Echo({
 window.Echo.private(`orderUser`)
     .listen('UserOrderEvent', (e) => {
             console.log('fdddddds');
+            var count=$('#count').text();
+        console.log(count);
             table.draw();
+        $('#count').text();
+        $('#count').html(parseInt(count)+1)
         }
-    )
+    );
+window.Echo.private(`countuserorder`)
+    .listen('CountUserOrderEvent', (e) => {
+            console.log('count');
+            var count=$('#count').text();
+            console.log(count);
+            $('#count').text();
+            $('#count').html(parseInt(count)-1)
+        }
+    );
