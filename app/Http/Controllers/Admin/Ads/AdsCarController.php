@@ -13,6 +13,7 @@ use App\Models\ModelCar;
 use App\Models\Transmission;
 use App\Models\year;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Yajra\DataTables\Facades\DataTables;
 
 class AdsCarController extends Controller
@@ -41,9 +42,14 @@ class AdsCarController extends Controller
         $rules['year_id'] = 'required|exists:years,id';
         $rules['phone'] = 'required';
         $rules['mileage'] = 'required';
-        $rules['image'] = 'required|image';
+        $rules['image'] = 'required';
         $rules['brand_id'] = 'required|exists:brands,id';
-        $rules['model_id'] = 'required|exists:model_cars,id';
+        $rules ['model_id']=
+            ['required',
+                Rule::exists(ModelCar::class, 'id')->where(function ($query) use ($request) {
+                    $query->where('brand_id',$request->brand_id);
+                }),
+            ];
         $rules['engine_id'] = 'required|exists:engines,id';
         $rules['fule_type_id'] = 'required|exists:fuel_types,id';
         $rules['color_exterior_id'] = 'required|exists:color_cars,id';
@@ -64,7 +70,9 @@ class AdsCarController extends Controller
             'color_exterior_id',
             'color_interior_id',
         ));
-        UploadImage($request->image, null, 'App\Models\Car', $Car->uuid, false);
+        foreach($request->File('image') as $file){
+            UploadImage($file, null, 'App\Models\Car', $Car->uuid, false);
+        }
 
         return $this->sendResponse(null, __('item_added'));
     }
@@ -80,7 +88,12 @@ class AdsCarController extends Controller
         $rules['mileage'] = 'required';
         $rules['image'] = 'nullable|image';
         $rules['brand_id'] = 'required|exists:brands,id';
-        $rules['model_id'] = 'required|exists:model_cars,id';
+        $rules ['model_id']=
+            ['required',
+                Rule::exists(ModelCar::class, 'id')->where(function ($query) use ($request) {
+                    $query->where('brand_id',$request->brand_id);
+                }),
+            ];
         $rules['engine_id'] = 'required|exists:engines,id';
         $rules['fule_type_id'] = 'required|exists:fuel_types,id';
         $rules['color_exterior_id'] = 'required|exists:color_cars,id';
@@ -200,11 +213,11 @@ class AdsCarController extends Controller
             ->addColumn('transmission', function ($row) {
                 return $row->transmission->name;
             })
-            ->addColumn('image', function ($row) {
-                $imageData = @$row->image->filename;
-                return $imageData;
-            })
-            ->rawColumns(['image'])
+//            ->addColumn('image', function ($row) {
+//                $imageData = @$row->image->filename;
+//                return $imageData;
+//            })
+//            ->rawColumns(['image'])
             ->rawColumns(['action'])
             ->make(true);
     }

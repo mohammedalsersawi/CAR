@@ -9,7 +9,6 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\File;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Translatable\HasTranslations;
-use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable
 {
@@ -20,13 +19,14 @@ class User extends Authenticatable
      * @var array
      */
 
-    protected $translatable = ['name','about'];
-    protected $appends = ['about_name','area_name','city_name','type_name','text_name'];
+    protected $translatable = ['about'];
+    protected $appends = ['about_name','area_name','city_name','type_name','image_user'];
     protected $fillable = [
         'phone',
         'password',
 //        'number',
         'about',
+        'code',
         'city_id',
         'area_id',
         'user_type_id',
@@ -45,7 +45,8 @@ class User extends Authenticatable
         'remember_token',
         'city_id',
         'area_id',
-
+        'code',
+        'image',
         'city',
         'area',
         'type',
@@ -85,13 +86,13 @@ class User extends Authenticatable
     {
         return @$this->area->name;
     }
-    public function getTextNameAttribute()
-    {
-        return @$this->name;
-    }
     public function getTypeNameAttribute()
     {
         return @$this->type->Name;
+    }
+    public function getImageUserAttribute()
+    {
+        return @$this->image->filename;
     }
 
 

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\Deals\TypeController;
+use App\Http\Controllers\Admin\order\UserOrderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DataController;
 use App\Http\Controllers\Admin\Ads\AdsCarController;
@@ -12,7 +14,6 @@ use App\Http\Controllers\Admin\Car\Model\ModelController;
 use App\Http\Controllers\Admin\Setting\SettingController;
 use App\Http\Controllers\Admin\Car\Engine\EngineController;
 use App\Http\Controllers\Admin\UserTyue\UserTypeController;
-use App\Http\Controllers\Api\userOrder\UserOrderController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use App\Http\Controllers\Admin\Car\country\CountryController;
 use App\Http\Controllers\Admin\Car\FulType\FuelTypeController;
@@ -102,6 +103,14 @@ Route::group(
             Route::delete('/{uuid}', 'destroy')->name('delete');
             Route::get('/getData', 'getData')->name('getData');
         });
+        Route::controller(TypeController::class)->prefix('deals/type')->name('deals.type.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('/store', 'store')->name('store');
+            Route::post('/update', 'update')->name('update');
+            Route::delete('/{id}', 'destroy')->name('delete');
+            Route::get('/getData', 'getData')->name('getData');
+        });
+
         Route::controller(UserTypeController::class)->prefix('usertype')->name('usertype.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::post('/store', 'store')->name('store');
@@ -123,11 +132,17 @@ Route::group(
         Route::controller(SettingController::class)->prefix('setting')->name('setting.')->group(function (){
             Route::get('/year', 'getyear')->name('getyear');
             Route::post('/year', 'year')->name('year');
+            Route::post('/video', 'video')->name('video');
         });
 
         Route::controller(UserOrderController::class)->prefix('orders')->name('orders.')->group(function () {
-            Route::get('/', 'index')->name('index');
+            Route::get('/', 'index')->name('index')->middleware('read');
             Route::get('/getData', 'getData')->name('getData');
+            Route::delete('/{uuid}', 'destroy')->name('delete');
+            Route::post('/accepted/{uuid}', 'accepted')->name('accepted');
+            Route::post('/rejected/{uuid}', 'rejected')->name('rejected');
+            Route::delete('{uuid}','destroy')->name('delete');
+
         });
 
 

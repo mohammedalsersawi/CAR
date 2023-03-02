@@ -18,10 +18,10 @@ class Verification
     public function handle(Request $request, Closure $next)
     {
         $user=User::where('phone',$request->phone)->first();
-        if(@$user->verification==1){
+        if($user->verification==1){
             return $next($request);
         }
-        return "noo";
+        return mainResponse(false, __('verification_code'), [], [], 101);
 
     }
 }

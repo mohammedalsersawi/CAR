@@ -10,9 +10,9 @@ use App\Models\City;
 use App\Models\Country;
 use App\Models\User;
 use App\Models\UserType;
-use App\Utils\ImageUpload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Yajra\DataTables\Facades\DataTables;
 
 class UserTypeController extends Controller
@@ -39,25 +39,30 @@ class UserTypeController extends Controller
         $rules = [];
         foreach (locales() as $key => $language) {
             $rules['about_' . $key] = 'required|string';
-            $rules['name_' . $key] = 'required|string';
-
         }
         $rules['lat'] = 'required';
         $rules['lng'] = 'required';
-        $rules['phone'] = 'required|numeric|digits:10';
+        $rules['name'] = 'required';
+        $rules['phone'] = 'required|between:8,14';
 //        $rules['number'] = 'required';
         $rules['city_id'] = 'required|exists:cities,id';
-        $rules['area_id'] = 'required|exists:areas,id';
+//        $rules['area_id'] = 'required|exists:areas,id';
+        $rules ['area_id']=
+            ['required',
+                Rule::exists(Area::class, 'id')->where(function ($query) use ($request) {
+                    $query->where('city_id',$request->city_id);
+                }),
+            ];
         $rules['user_type_id'] = 'required|exists:user_types,id';
         $rules['password'] = 'required';
         $this->validate($request, $rules);
         $data=[];
         foreach (locales() as $key => $language) {
             $data['about'][$key] = $request->get('about_' . $key);
-            $data['name'][$key] = $request->get('name_' . $key);
         }
         $data['lat'] = $request->lat;
         $data['lng'] = $request->lng;
+        $data['name'] = $request->name;
         $data['phone']=$request->phone;
 //        $data['number']=$request->number;
         $data['city_id']=$request->city_id;
@@ -75,13 +80,19 @@ class UserTypeController extends Controller
         $rules = [];
         foreach (locales() as $key => $language) {
             $rules['about_' . $key] = 'required|string';
-            $rules['name_' . $key] = 'required|string';
 
         }
-        $rules['phone'] = 'required|numeric|digits:10';
+        $rules['name'] = 'required';
+
+        $rules['phone'] = 'required|between:8,14';
 //        $rules['number'] = 'required';
         $rules['city_id'] = 'required|exists:cities,id';
-        $rules['area_id'] = 'required|exists:areas,id';
+        $rules ['area_id']=
+            ['required',
+                Rule::exists(Area::class, 'id')->where(function ($query) use ($request) {
+                    $query->where('city_id',$request->city_id);
+                }),
+            ];
         $rules['user_type_id'] = 'required|exists:user_types,id';
         $rules['lat'] = 'required';
         $rules['lng'] = 'required';
@@ -89,10 +100,9 @@ class UserTypeController extends Controller
         $data=[];
         foreach (locales() as $key => $language) {
             $data['about'][$key] = $request->get('about_' . $key);
-            $data['name'][$key] = $request->get('name_' . $key);
 
         }
-
+        $data['name'] = $request->name;
         $data['lat'] = $request->lat;
         $data['lng'] = $request->lng;
         $data['phone']=$request->phone;
@@ -149,6 +159,7 @@ class UserTypeController extends Controller
                 $data_attr .= 'data-phone="' .@ $que->phone . '" ';
                 $data_attr .= 'data-city="' .@ $que->city_id . '" ';
                 $data_attr .= 'data-area="' .@ $que->area_id . '" ';
+                $data_attr .= 'data-name="' .@ $que->name . '" ';
                 $data_attr .= 'data-area_name="' .@ $que->area_name . '" ';
                 $data_attr .= 'data-city_name="' . @$que->city_name . '" ';
                 $data_attr .= 'data-country="' .@ $que->city->country_id . '" ';
@@ -158,7 +169,6 @@ class UserTypeController extends Controller
                 $data_attr .= 'data-user_type_id="' .@ $que->user_type_id . '" ';
                 foreach (locales() as $key => $value) {
                     $data_attr .= 'data-about_' . $key . '="' . $que->getTranslation('about', $key) . '" ';
-                    $data_attr .= 'data-name_' . $key . '="' . $que->getTranslation('name', $key) . '" ';
                 }
                 $string = '';
                 $string .= '<button class="edit_btn btn btn-sm btn-outline-primary btn_edit" data-toggle="modal"

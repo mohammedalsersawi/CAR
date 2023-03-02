@@ -12,11 +12,11 @@ class Car extends Model
     use HasFactory;
     protected $primaryKey = 'uuid';
     public $incrementing = false;
-    protected $appends=['year_to','year_from'];
+    protected $appends=['year_to','year_from','images','brand_name','model_name'];
     protected $guarded = [];
     public function image()
     {
-        return $this->morphOne(Image::class, 'imageable');
+        return $this->morphMany(Image::class, 'imageable');
     }
     public function brand(){
         return $this->belongsTo(Brand::class,'brand_id');
@@ -52,6 +52,22 @@ class Car extends Model
     public function getYearFromAttribute()
     {
         return @$this->year->from;
+    }
+    public function getBrandNameAttribute()
+    {
+        return @$this->brand->name;
+    }
+    public function getmodelNameAttribute()
+    {
+        return @$this->model->name;
+    }
+    public function getImagesAttribute()
+    {
+        $image=[];
+        foreach ($this->image as $item) {
+            array_push($image,'uploads/'.$item->filename);
+        }
+        return $image;
     }
     public static function boot()
     {

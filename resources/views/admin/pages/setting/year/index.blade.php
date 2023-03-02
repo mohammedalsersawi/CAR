@@ -68,6 +68,25 @@
                                         </div>
                                     </div>
                                 </form>
+                                <form action="{{ route('setting.video') }}" method="POST"  id="add_model_form" class="add-mode-form" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="from">@lang('video')</label>
+                                                <input  type="file" name="video" class="form-control"
+                                                        placeholder="@lang('video')">
+                                            </div>
+                                        </div>
+                                        <div class="col-3" style="margin-top: 20px">
+                                            <button class="btn btn-outline-primary button_modal" type="submit" ><span><i
+                                                        class="fa fa-plus"></i>@lang('add')</span>
+                                            </button>
+
+                                        </div>
+                                    </div>
+                                </form>
+
                             </div>
                         </div>
                     </div>

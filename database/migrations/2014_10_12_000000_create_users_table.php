@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text('about')->nullable();
             $table->double('lat')->nullable();
             $table->double('lng')->nullable();
+            $table->text('code')->nullable();
             $table->boolean('verification')->default(0);
             $table->foreignId('city_id')->nullable()->constrained('cities')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('area_id')->nullable()->constrained('areas')->cascadeOnDelete()->cascadeOnUpdate();

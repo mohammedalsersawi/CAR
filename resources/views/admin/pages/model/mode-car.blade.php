@@ -58,7 +58,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>@lang('name')</th>
-                                            <th>@lang('brand')</th>
+                                            <th>@lang('Brand')</th>
                                             <th style="width: 225px;">@lang('actions')</th>
                                         </tr>
                                     </thead>
@@ -103,8 +103,8 @@
                         @endforeach
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label for="brand_id">@lang('brand')</label>
-                                    <select class="form-control" id="edit_country_id" name="brand_id" required>
+                                    <label for="edit_brand_id">@lang('brand')</label>
+                                    <select class="form-control" id="edit_brand_id" name="brand_id" required>
                                         <option value="">@lang('select')</option>
                                         @foreach ($brand as $itemm)
                                             <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>

@@ -167,10 +167,16 @@
     "item_not_edited": "لم يتم تعديل العنصر",
     "personal_info": "البيانات الشخصية",
     "delete_confirmation": "تأكيد الحذف",
+    "accept_confirmation": "تأكيد القبول",
+    "rejected_confirmation": "تأكيد الرفض",
     "confirm_delete": "هل انت متاكد من حذف هذا العنصر",
+    "confirm_accept": "هل انت متاكد من قبول هذا المستخدم",
+    "confirm_rejected": "هل انت متاكد من رفض هذا المستخدم",
     "deleted": "تم حذف العنصر",
     "not_deleted": "لم يتم حذف العنصر",
     "delete_canceled": "تم الغاء عملية الحذف",
+    "accept_canceled": "تم الغاء عملية القبول",
+    "rejected_canceled": "تم الغاء عملية الرفض",
     "undo_confirmation": "تأكيد التراجع",
     "confirm_undo": "هل انت متاكد من التراجع",
     "not_undo": "لم يتم التراجع",
@@ -430,5 +436,7 @@
     "year":"السنة",
     "user_order" : "طلبات المستخدمين",
     "order_successfully" : "تم تقديم الطلب بنجاح",
-    "order_failed" : "فشل تقديم الطلب بنجاح"
+    "order_failed" : "فشل تقديم الطلب بنجاح",
+    "video": "فيديو",
+    "The number you entered": "الرقم الذي ادخلته ليس صحيح"
 }

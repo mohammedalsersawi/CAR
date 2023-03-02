@@ -17,8 +17,16 @@ class Deals extends Model
     protected $primaryKey = 'uuid';
     public $incrementing = false;
     protected $guarded = [];
-    protected $appends = ['name_text','user_name'];
-    public function getNameTextAttribute()
+    protected $appends = ['text_name','user_name','type_name','Images'];
+    protected $hidden=[
+        'user',
+        'image',
+        'deals',
+        'type',
+        'type_id',
+        'user_id'
+    ];
+    public function getTextNameAttribute()
     {
         return @$this->deals;
     }
@@ -26,9 +34,20 @@ class Deals extends Model
     {
         return @$this->user->name;
     }
+    public function type(){
+        return $this->belongsTo(Type::class,'type_id');
+    }
+    public function getTypeNameAttribute()
+    {
+        return @$this->type->name;
+    }
     public function image()
     {
         return $this->morphOne(Image::class, 'imageable');
+    }
+    public function getImagesAttribute()
+    {
+        return @$this->image->filename;
     }
     public static function boot()
     {

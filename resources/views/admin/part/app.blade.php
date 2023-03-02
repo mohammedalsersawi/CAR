@@ -246,6 +246,12 @@
                                     class="menu-title text-truncate">@lang('deals')</span>
                             </a>
                         </li>
+                        <li class="nav-item {{ request()->routeIs('deals.type.index') ? 'active' : '' }} ">
+                            <a class="d-flex align-items-center" href="{{ route('deals.type.index') }}">
+                                <i data-feather="file-text"></i><span
+                                    class="menu-title text-truncate">@lang('type')</span>
+                            </a>
+                        </li>
 
 
                     </ul>
@@ -311,7 +317,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item has-sub  " style="">
+                <li class="nav-item has-sub " style="">
                     <a class="d-flex align-items-center" href="#">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -319,7 +325,11 @@
                             <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
                             <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
                         </svg>
-                        <span class="menu-title text-truncate" data-i18n="Charts">@lang('user_order')</span></a>
+                        @php
+                            $count=\App\Models\UserOrder::where('read',false)->count();
+                        @endphp
+                        <span class="menu-title text-truncate" data-i18n="Charts">@lang('user_order')</span> <h5 class="text-danger">
+                        {{$count}}</h5></a>
                     <ul class="menu-content">
                         <li class="nav-item {{ request()->routeIs('orders.index') ? 'active' : '' }} ">
                             <a class="d-flex align-items-center" href="{{ route('orders.index') }}">

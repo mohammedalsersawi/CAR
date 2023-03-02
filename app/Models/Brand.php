@@ -17,20 +17,27 @@ class Brand extends Model
     use HasTranslations;
 
     protected $translatable = ['name'];
-    protected $guarded=[];
 
-    protected $appends = ['name_text'];
+    protected $guarded=[];
+protected $hidden=[
+    'name',
+    'image'
+];
+    protected $appends = ['name_text','images'];
 
     public function image()
     {
         return $this->morphOne(Image::class, 'imageable');
     }
 
+    public function getImagesAttribute()
+    {
+        return @$this->image->filename;
+    }
     public function getNameTextAttribute()
     {
         return @$this->name;
     }
-
     protected static function booted()
     {
         self::deleted(function ($brand) {
