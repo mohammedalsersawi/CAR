@@ -346,6 +346,7 @@
   "Countrys": "Countrys",
   "user_order" : "user order",
   "order_successfully" : "Application submitted successfully",
-  "order_failed" : "Application submitted failed"
+  "order_failed" : "Application submitted failed",
+  "details" : "Details"
 
 }

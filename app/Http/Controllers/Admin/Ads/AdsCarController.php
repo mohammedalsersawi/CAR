@@ -12,6 +12,7 @@ use App\Models\FuelType;
 use App\Models\ModelCar;
 use App\Models\Transmission;
 use App\Models\year;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Yajra\DataTables\Facades\DataTables;
@@ -28,9 +29,9 @@ class AdsCarController extends Controller
         $ModelCar = ModelCar::select(['name', 'id'])->get();
         $FuelType = FuelType::select(['name', 'id'])->get();
         $Transmission = Transmission::select(['name', 'id'])->get();
-        $ColorCar = ColorCar::select(['name', 'id','color'])->get();
+        $ColorCar = ColorCar::select(['name', 'id', 'color'])->get();
         $year = Year::query()->firstOrFail();
-        return view('admin.pages.adscar.index', compact(['Brand', 'Engine', 'ModelCar', 'FuelType', 'Transmission', 'ColorCar','year']));
+        return view('admin.pages.adscar.index', compact(['Brand', 'Engine', 'ModelCar', 'FuelType', 'Transmission', 'ColorCar', 'year']));
     }
 
 
@@ -44,10 +45,11 @@ class AdsCarController extends Controller
         $rules['mileage'] = 'required';
         $rules['image'] = 'required';
         $rules['brand_id'] = 'required|exists:brands,id';
-        $rules ['model_id']=
-            ['required',
+        $rules['model_id'] =
+            [
+                'required',
                 Rule::exists(ModelCar::class, 'id')->where(function ($query) use ($request) {
-                    $query->where('brand_id',$request->brand_id);
+                    $query->where('brand_id', $request->brand_id);
                 }),
             ];
         $rules['engine_id'] = 'required|exists:engines,id';
@@ -70,7 +72,7 @@ class AdsCarController extends Controller
             'color_exterior_id',
             'color_interior_id',
         ));
-        foreach($request->File('image') as $file){
+        foreach ($request->File('image') as $file) {
             UploadImage($file, null, 'App\Models\Car', $Car->uuid, false);
         }
 
@@ -88,10 +90,11 @@ class AdsCarController extends Controller
         $rules['mileage'] = 'required';
         $rules['image'] = 'nullable|image';
         $rules['brand_id'] = 'required|exists:brands,id';
-        $rules ['model_id']=
-            ['required',
+        $rules['model_id'] =
+            [
+                'required',
                 Rule::exists(ModelCar::class, 'id')->where(function ($query) use ($request) {
-                    $query->where('brand_id',$request->brand_id);
+                    $query->where('brand_id', $request->brand_id);
                 }),
             ];
         $rules['engine_id'] = 'required|exists:engines,id';
@@ -115,7 +118,7 @@ class AdsCarController extends Controller
             'color_exterior_id',
             'color_interior_id',
         ));
-        if ($request->hasFile('image')){
+        if ($request->hasFile('image')) {
             UploadImage($request->image, null, 'App\Models\Car', $Car->uuid, true);
         }
         return $this->sendResponse(null, __('item_edited'));
@@ -134,13 +137,13 @@ class AdsCarController extends Controller
         return Datatables::of($Car)
             ->filter(function ($query) use ($request) {
                 if ($request->get('phone')) {
-                    $query->where('phone',$request->phone);
+                    $query->where('phone', $request->phone);
                 }
                 if ($request->get('mileage')) {
-                    $query->where('mileage',$request->get('mileage'));
+                    $query->where('mileage', $request->get('mileage'));
                 }
                 if ($request->get('year')) {
-                    $query->where('year',$request->get('year'));
+                    $query->where('year', $request->get('year'));
                 }
 
                 if ($request->get('brand')) {
@@ -156,13 +159,13 @@ class AdsCarController extends Controller
                     $query->where('transmission_id', $request->get('transmission'));
                 }
                 if ($request->get('color_exterior')) {
-                    $query->where('color_exterior_id',$request->get('color_exterior'));
+                    $query->where('color_exterior_id', $request->get('color_exterior'));
                 }
                 if ($request->get('fueltype')) {
-                    $query->where('fule_type_id',$request->get('fueltype'));
+                    $query->where('fule_type_id', $request->get('fueltype'));
                 }
                 if ($request->get('color_interior')) {
-                    $query->where('color_interior_id',$request->get('color_interior'));
+                    $query->where('color_interior_id', $request->get('color_interior'));
                 }
             })
             ->addIndexColumn()
@@ -172,24 +175,27 @@ class AdsCarController extends Controller
                 $data_attr .= 'data-lat="' . @$que->lat . '" ';
                 $data_attr .= 'data-lng="' . @$que->lng . '" ';
                 $data_attr .= 'data-phone="' . @$que->phone . '" ';
-                $data_attr .= 'data-mileage="' .@ $que->mileage . '" ';
+                $data_attr .= 'data-mileage="' . @$que->mileage . '" ';
                 $data_attr .= 'data-year_to="' . @$que->year_to . '" ';
-                $data_attr .= 'data-year="' .@$que->year . '" ';
-                $data_attr .= 'data-brand_id="' .@ $que->brand_id . '" ';
-                $data_attr .= 'data-brand_name="' .@ $que->brand->name . '" ';
-                $data_attr .= 'data-model_name="' .@ $que->model->name . '" ';
-                $data_attr .= 'data-model_id="' .@ $que->model_id . '" ';
-                $data_attr .= 'data-engine_id="' .@ $que->engine_id . '" ';
+                $data_attr .= 'data-year="' . @$que->year . '" ';
+                $data_attr .= 'data-brand_id="' . @$que->brand_id . '" ';
+                $data_attr .= 'data-brand_name="' . @$que->brand->name . '" ';
+                $data_attr .= 'data-model_name="' . @$que->model->name . '" ';
+                $data_attr .= 'data-model_id="' . @$que->model_id . '" ';
+                $data_attr .= 'data-engine_id="' . @$que->engine_id . '" ';
                 $data_attr .= 'data-fueltype_id="' . @$que->fule_type_id . '" ';
-                $data_attr .= 'data-fueltype_name="' .@ $que->fueltype->name . '" ';
+                $data_attr .= 'data-fueltype_name="' . @$que->fueltype->name . '" ';
                 $data_attr .= 'data-color_exterior_id="' . @$que->color_exterior_id . '" ';
                 $data_attr .= 'data-color_interior_id="' . @$que->color_interior_id . '" ';
-                $data_attr .= 'data-transmission_id="' .@ $que->transmission_id . '" ';
+                $data_attr .= 'data-transmission_id="' . @$que->transmission_id . '" ';
                 $string = '';
                 $string .= '<button class="edit_btn btn btn-sm btn-outline-primary btn_edit" data-toggle="modal"
                     data-target="#edit_modal" ' . $data_attr . '>' . __('edit') . '</button>';
                 $string .= ' <button type="button" class="btn btn-sm btn-outline-danger btn_delete" data-id="' . $que->uuid .
                     '">' . __('delete') . '</button>';
+                $string .= ' <a href="' . url('ads/car/images') . '/' . $que->uuid . '" class="btn btn-sm btn-outline-danger"
+                >' . __('details') . '</a>';
+
                 return $string;
             })
             ->addColumn('brand', function ($row) {
@@ -213,12 +219,19 @@ class AdsCarController extends Controller
             ->addColumn('transmission', function ($row) {
                 return $row->transmission->name;
             })
-//            ->addColumn('image', function ($row) {
-//                $imageData = @$row->image->filename;
-//                return $imageData;
-//            })
-//            ->rawColumns(['image'])
+            //            ->addColumn('image', function ($row) {
+            //                $imageData = @$row->image->filename;
+            //                return $imageData;
+            //            })
+            //            ->rawColumns(['image'])
             ->rawColumns(['action'])
             ->make(true);
+    }
+
+
+    public function showImages($uuid)
+    {
+       return $data = Car::where('uuid', $uuid)->get();
+        return view('admin.pages.user_order.order-details');
     }
 }
