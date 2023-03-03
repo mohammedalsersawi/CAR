@@ -12,8 +12,11 @@ class Car extends Model
     use HasFactory;
     protected $primaryKey = 'uuid';
     public $incrementing = false;
-    protected $appends=['images','brand_name','model_name'];
+    protected $appends=['images','brand_name','model_name','user_name'];
     protected $guarded = [];
+    public function user(){
+        return $this->belongsTo(User::class,'user_id');
+    }
     public function ImagesCar()
     {
         return $this->morphMany(Image::class, 'imageable');
@@ -49,6 +52,10 @@ class Car extends Model
     {
         return @$this->brand->name;
     }
+    public function getUserNameAttribute()
+    {
+        return @$this->user->name;
+    }
     public function getmodelNameAttribute()
     {
         return @$this->model->name;
@@ -71,7 +78,7 @@ class Car extends Model
             foreach ($car->images as $item) {
                 File::delete(public_path('uploads/'.$item->filename));
             }
-            $car->images()->delete();
+            $car->ImagesCar()->delete();
         });
 
     }

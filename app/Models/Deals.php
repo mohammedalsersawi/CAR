@@ -17,12 +17,11 @@ class Deals extends Model
     protected $primaryKey = 'uuid';
     public $incrementing = false;
     protected $guarded = [];
-    protected $appends = ['text_name','user_name','type_name','image','user_type_name'];
+    protected $appends = ['text_name','user_name','image','discount_store_type'];
     protected $hidden=[
         'user',
         'deals',
         'imageDeal',
-        'type',
         'user_id'
     ];
     public function getTextNameAttribute()
@@ -33,13 +32,9 @@ class Deals extends Model
     {
         return @$this->user->name;
     }
-    public function getUserTypeNameAttribute()
+    public function getDiscountStoreTypeAttribute()
     {
         return @$this->user->Discount_Type->name;
-    }
-    public function getTypeNameAttribute()
-    {
-        return @$this->type->name;
     }
     public function imageDeal()
     {

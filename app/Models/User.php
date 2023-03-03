@@ -8,19 +8,18 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\File;
 use Laravel\Sanctum\HasApiTokens;
-use Spatie\Translatable\HasTranslations;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable,HasTranslations,HasApiTokens;
+    use HasFactory, Notifiable,HasApiTokens;
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
 
-    protected $translatable = ['about'];
-    protected $appends = ['about_name','area_name','city_name','type_name','image_user','DiscountStoreType'];
+
+    protected $appends = ['area_name','city_name','type_name','image_user','DiscountStoreType'];
     protected $fillable = [
         'phone',
         'password',
@@ -88,10 +87,6 @@ class User extends Authenticatable
     public function getDiscountStoreTypeAttribute()
     {
         return @$this->Discount_Type->name;
-    }
-    public function getAboutNameAttribute()
-    {
-        return @$this->about;
     }
     public function getCityNameAttribute()
     {

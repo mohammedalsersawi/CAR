@@ -210,18 +210,17 @@
                             </div>
                         </div>
                              <div class="row">
-                            @foreach (locales() as $key => $value)
+
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="about_{{ $key }}">@lang('about')
-                                            @lang($value)</label>
+                                        <label for="about">@lang('about')
+                                           </label>
                                         <input type="text" class="form-control"
-                                            placeholder="@lang('about') @lang($value)"
-                                            name="about_{{ $key }}" id="about_{{ $key }}">
+                                            placeholder="@lang('about')"
+                                            name="about" id="about">
                                         <div class="invalid-feedback"></div>
                                     </div>
                                 </div>
-                            @endforeach
                         </div>
                         <div class="row">
                             <div class="col-md-6">
@@ -377,18 +376,17 @@
 {{--                            </div>--}}
                         </div>
                         <div class="row">
-                            @foreach (locales() as $key => $value)
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="about_{{ $key }}">@lang('about')
-                                            @lang($value)</label>
+                                        <label for="about">@lang('about')
+                                           </label>
                                         <input type="text" class="form-control"
-                                            placeholder="@lang('about') @lang($value)"
-                                            name="about_{{ $key }}" id="edit_about_{{ $key }}">
+                                            placeholder="@lang('about') "
+                                            name="about" id="edit_about">
                                         <div class="invalid-feedback"></div>
                                     </div>
                                 </div>
-                            @endforeach
+
                         </div>
                         <div class="row">
                             <div class="col-md-6">
@@ -589,7 +587,7 @@
                 },
 
                 {
-                    data: 'about_name',
+                    data: 'about',
                     name: 'about'
                 },
                 {
@@ -661,9 +659,8 @@
                 $('#edit_lng').val(button.data('lng'))
                 $('#edit_name').val(button.data('name'))
                 $('#id').val(id);
-                @foreach (locales() as $key => $value)
-                    $('#edit_about_{{ $key }}').val(button.data('about_{{ $key }}'))
-                @endforeach
+                    $('#edit_about').val(button.data('about'))
+
                 L.marker([button.data('lat'), button.data('lng')]).addTo(map2)
                     .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
                     .openPopup();

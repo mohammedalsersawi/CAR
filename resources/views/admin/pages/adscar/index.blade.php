@@ -24,7 +24,7 @@
             <div class="content-header-left col-md-9 col-12 mb-2">
                 <div class="row breadcrumbs-top">
                     <div class="col-12">
-                        <h2 class="content-header-title float-left mb-0">@lang('city')</h2>
+                        <h2 class="content-header-title float-left mb-0">@lang('Car ads')</h2>
                         <div class="breadcrumb-wrapper">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ url('/admin') }}">@lang('home')</a>
@@ -67,6 +67,20 @@
                                                 <label for="s_mobile">@lang('phone')</label>
                                                 <input id="s_phone" type="text" class="search_input form-control"
                                                        placeholder="@lang('phone')">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="s_user_id">@lang('users')</label>
+                                                <select  id="s_user_id" class="search_input form-control"
+                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                                    <option selected disabled>Select @lang('users')</option>
+                                                    @foreach ($User as $itemm)
+                                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
                                         <div class="col-3">
@@ -149,7 +163,7 @@
                                                     @foreach ($Transmission as $itemm)
                                                         <option value="{{ $itemm->id }}"> {{ $itemm->name }}
                                                         </option>
-                                                        </option>
+
                                                     @endforeach
                                                 </select>
                                                 <div class="invalid-feedback"></div>
@@ -168,7 +182,6 @@
                                                             <div
                                                                 style="height:50px;width:50px;background-color:{{ $itemm->color }}">
                                                             </div>
-                                                        </option>
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -205,7 +218,6 @@
                                                     @foreach ($FuelType as $itemm)
                                                         <option value="{{ $itemm->id }}"> {{ $itemm->name }}
                                                         </option>
-                                                        </option>
                                                     @endforeach
                                                 </select>
                                                 <div class="invalid-feedback"></div>
@@ -234,9 +246,8 @@
                                     <tr>
                                         <th>#</th>
                                         <th>@lang('phone')</th>
-                                        {{--                                            <th>@lang('image')</th>--}}
+                                        <th>@lang('users')</th>
                                         <th>@lang('year')</th>
-
                                         <th>@lang('mileage')</th>
                                         <th>@lang('Brand')</th>
                                         <th>@lang('Model')</th>
@@ -277,6 +288,19 @@
                     @csrf
                     <div class="modal-body">
                         <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">@lang('users')</label>
+                                <select name="user_id" id="" class="select form-control"
+                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                    <option selected disabled>Select @lang('users')</option>
+                                    @foreach ($User as $itemm)
+                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }} {{ $itemm->phone }} </option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback"></div>
+                            </div>
+                          </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="phone">@lang('phone')</label>
@@ -316,7 +340,6 @@
                                     <option selected disabled>Select @lang('brand')</option>
                                     @foreach ($Brand as $itemm)
                                         <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
-                                        </option>
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback"></div>
@@ -330,7 +353,6 @@
                                     <option selected disabled>Select @lang('Model')</option>
                                     @foreach ($ModelCar as $itemm)
                                         <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
-                                        </option>
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback"></div>
@@ -346,7 +368,7 @@
                                     <option selected disabled>Select @lang('Engine')</option>
                                     @foreach ($Engine as $itemm)
                                         <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
-                                        </option>
+
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback"></div>
@@ -360,7 +382,6 @@
                                     <option selected disabled>Select @lang('Transmission')</option>
                                     @foreach ($Transmission as $itemm)
                                         <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
-                                        </option>
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback"></div>
@@ -381,7 +402,7 @@
                                                 style="height:50px;width:50px;background-color:{{ $itemm->color }}">
                                             </div>
                                         </option>
-                                        </option>
+
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback"></div>
@@ -397,7 +418,7 @@
                                         <option value="{{ $itemm->id }}">
                                             <h1>{{ $itemm->name }} </h1>
                                         </option>
-                                        </option>
+
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback"></div>
@@ -413,7 +434,7 @@
                                     <option selected disabled>Select @lang('fueltype')</option>
                                     @foreach ($FuelType as $itemm)
                                         <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
-                                        </option>
+
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback"></div>
@@ -460,6 +481,20 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    <label for="">@lang('users')</label>
+                                    <select name="user_id" id="edit_user" class="select form-control"
+                                            data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                        <option selected disabled>Select @lang('users')</option>
+                                        @foreach ($User as $itemm)
+                                            <option value="{{ $itemm->id }}"> {{ $itemm->name }} {{ $itemm->phone }}</option>
+
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
                                     <label for="phone">@lang('phone')</label>
                                     <input type="text" class="form-control" placeholder="@lang('phone')"
                                            name="phone" id="edit_phone">
@@ -496,7 +531,7 @@
                                                 <option selected disabled>Select @lang('brand')</option>
                                                 @foreach ($Brand as $itemm)
                                                     <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
-                                                    </option>
+
                                                 @endforeach
                                             </select>
                                             <div class="invalid-feedback"></div>
@@ -529,7 +564,7 @@
                                                 <option selected disabled>Select @lang('Engine')</option>
                                                 @foreach ($Engine as $itemm)
                                                     <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
-                                                    </option>
+
                                                 @endforeach
                                             </select>
                                             <div class="invalid-feedback"></div>
@@ -544,7 +579,7 @@
                                                 <option selected disabled>Select @lang('Transmission')</option>
                                                 @foreach ($Transmission as $itemm)
                                                     <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
-                                                    </option>
+
                                                 @endforeach
                                             </select>
                                             <div class="invalid-feedback"></div>
@@ -566,7 +601,7 @@
                                                             style="height:50px;width:50px;background-color:{{ $itemm->color }}">
                                                         </div>
                                                     </option>
-                                                    </option>
+
                                                 @endforeach
                                             </select>
                                             <div class="invalid-feedback"></div>
@@ -583,7 +618,7 @@
                                                     <option value="{{ $itemm->id }}">
                                                         <h1>{{ $itemm->name }} </h1>
                                                     </option>
-                                                    </option>
+
                                                 @endforeach
                                             </select>
                                             <div class="invalid-feedback"></div>
@@ -601,7 +636,7 @@
                                                 <option selected disabled>Select @lang('fueltype')</option>
                                                 @foreach ($FuelType as $itemm)
                                                     <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
-                                                    </option>
+
                                                 @endforeach
                                             </select>
                                             <div class="invalid-feedback"></div>
@@ -704,6 +739,7 @@
                     d.phone = $('#s_phone').val();
                     d.mileage = $('#s_mileage').val();
                     d.year = $('#s_year').val();
+                    d.user_id = $('#s_user_id').val();
                     d.brand = $('#s_brand').val();
                     d.model = $('#s_model').val();
                     d.engine = $('#s_engine').val();
@@ -720,17 +756,15 @@
                 orderable: false,
                 searchable: false
             },
+
                 {
                     data: 'phone',
                     name: 'phone'
                 },
-                    {{--{--}}
-                    {{--    "data": 'image',--}}
-                    {{--    "name": 'image',--}}
-                    {{--    render: function(data, type, full, meta) {--}}
-                    {{--        return `<img src="{{ asset('uploads/${data}') }}" width="100" class="img-fluid img-thumbnail">`;--}}
-                    {{--    },--}}
-                    {{--},--}}
+                {
+                    data: 'user_name',
+                    name: 'user_name'
+                },
 
                 {
                     data: 'year',

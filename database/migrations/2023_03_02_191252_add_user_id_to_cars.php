@@ -13,8 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('type_id')->nullable()->constrained('types')->cascadeOnDelete();
+        Schema::table('cars', function (Blueprint $table) {
+            $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate()->after('uuid');
+
         });
     }
 
@@ -25,7 +26,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('cars', function (Blueprint $table) {
             //
         });
     }

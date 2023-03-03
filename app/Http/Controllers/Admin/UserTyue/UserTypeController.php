@@ -40,15 +40,13 @@ class UserTypeController extends Controller
 //        $lat= substr($latlng, strpos($latlng, "("),$num);
 //        $lng=substr($latlng, $num, strpos($latlng, ")"));
         $rules = [];
-        foreach (locales() as $key => $language) {
-            $rules['about_' . $key] = 'required|string';
-        }
+        $rules['about'] = 'required';
         $rules['lat'] = 'required';
         $rules['lng'] = 'required';
         $rules['name'] = 'required';
         $rules['phone'] = 'required|between:8,14';
         $rules['city_id'] = 'required|exists:cities,id';
-        $rules['type_id'] = 'required|exists:types,id';
+        $rules['type_id'] = 'nullable|exists:types,id';
         $rules ['area_id']=
             ['required',
                 Rule::exists(Area::class, 'id')->where(function ($query) use ($request) {
@@ -59,9 +57,7 @@ class UserTypeController extends Controller
         $rules['password'] = 'required';
         $this->validate($request, $rules);
         $data=[];
-        foreach (locales() as $key => $language) {
-            $data['about'][$key] = $request->get('about_' . $key);
-        }
+        $data['about'] = $request->about;
         $data['lat'] = $request->lat;
         $data['lng'] = $request->lng;
         $data['name'] = $request->name;
@@ -81,14 +77,11 @@ class UserTypeController extends Controller
     {
 
         $rules = [];
-        foreach (locales() as $key => $language) {
-            $rules['about_' . $key] = 'required|string';
 
-        }
         $rules['name'] = 'required';
-
+        $rules['about'] = 'required';
         $rules['phone'] = 'required|between:8,14';
-        $rules['type_id'] = 'required|exists:types,id';
+        $rules['type_id'] = 'nullable|exists:types,id';
         $rules['city_id'] = 'required|exists:cities,id';
         $rules ['area_id']=
             ['required',
@@ -100,21 +93,17 @@ class UserTypeController extends Controller
         $rules['lat'] = 'required';
         $rules['lng'] = 'required';
         $this->validate($request, $rules);
-        $data=[];
-        foreach (locales() as $key => $language) {
-            $data['about'][$key] = $request->get('about_' . $key);
-
-        }
-        $data['name'] = $request->name;
-        $data['lat'] = $request->lat;
-        $data['lng'] = $request->lng;
-        $data['type_id']=$request->type_id;
-        $data['phone']=$request->phone;
-        $data['city_id']=$request->city_id;
-        $data['area_id']=$request->area_id;
-       $data['user_type_id']=$request->user_type_id;
         $user=User::findOrFail($request->id);
-        $user->update($data);
+        $user->update($request->only(['about',
+            'name',
+            'lat',
+            'lng',
+            'type_id',
+            'phone',
+            'city_id',
+            'area_id',
+            'user_type_id',
+            ]));
         if($request->image)
         {
             UploadImage($request->image, null, 'App\Models\User', $user->id, true);
@@ -174,9 +163,7 @@ class UserTypeController extends Controller
                 $data_attr .= 'data-lat="' . @$que->lat . '" ';
                 $data_attr .= 'data-lng="' . @$que->lng . '" ';
                 $data_attr .= 'data-user_type_id="' .@ $que->user_type_id . '" ';
-                foreach (locales() as $key => $value) {
-                    $data_attr .= 'data-about_' . $key . '="' . $que->getTranslation('about', $key) . '" ';
-                }
+                $data_attr .= 'data-about="' .@ $que->about . '" ';
                 $string = '';
                 $string .= '<button class="edit_btn btn btn-sm btn-outline-primary btn_edit" data-toggle="modal"
                     data-target="#edit_modal" ' . $data_attr . '>' . __('edit') . '</button>';

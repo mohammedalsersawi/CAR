@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Ads;
 
 use App\Models\Car;
+use App\Models\User;
 use App\Models\year;
 use App\Models\Brand;
 use App\Models\Image;
@@ -32,8 +33,9 @@ class AdsCarController extends Controller
         $FuelType = FuelType::select(['name', 'id'])->get();
         $Transmission = Transmission::select(['name', 'id'])->get();
         $ColorCar = ColorCar::select(['name', 'id', 'color'])->get();
+        $User = User::select(['name', 'id','phone'])->get();
         $year = Year::query()->firstOrFail();
-        return view('admin.pages.adscar.index', compact(['Brand', 'Engine', 'ModelCar', 'FuelType', 'Transmission', 'ColorCar', 'year']));
+        return view('admin.pages.adscar.index', compact(['User','Brand', 'Engine', 'ModelCar', 'FuelType', 'Transmission', 'ColorCar', 'year']));
     }
 
 
@@ -46,6 +48,8 @@ class AdsCarController extends Controller
         $rules['phone'] = 'required';
         $rules['mileage'] = 'required';
         $rules['image'] = 'required';
+        $rules['user_id'] = 'required|exists:users,id';
+
         $rules['brand_id'] = 'required|exists:brands,id';
         $rules['model_id'] =
             [
@@ -65,6 +69,7 @@ class AdsCarController extends Controller
             'lat',
             'lng',
             'year',
+            'user_id',
             'phone',
             'mileage',
             'brand_id',
@@ -90,6 +95,8 @@ class AdsCarController extends Controller
         $rules['year'] = 'required';
         $rules['phone'] = 'required';
         $rules['mileage'] = 'required';
+        $rules['user_id'] = 'required|exists:users,id';
+
         $rules['brand_id'] = 'required|exists:brands,id';
         $rules['model_id'] =
             [
@@ -108,6 +115,7 @@ class AdsCarController extends Controller
         $Car->update($request->only(
             'transmission_id',
             'lat',
+            'user_id',
             'lng',
             'phone',
             'year',
@@ -142,6 +150,9 @@ class AdsCarController extends Controller
             ->filter(function ($query) use ($request) {
                 if ($request->get('phone')) {
                     $query->where('phone', $request->phone);
+                }
+                if ($request->get('user_id')) {
+                    $query->where('user_id', $request->user_id);
                 }
                 if ($request->get('mileage')) {
                     $query->where('mileage', $request->get('mileage'));
