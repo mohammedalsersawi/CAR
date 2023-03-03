@@ -46,7 +46,7 @@ class UserTypeController extends Controller
         $rules['name'] = 'required';
         $rules['phone'] = 'required|between:8,14';
         $rules['city_id'] = 'required|exists:cities,id';
-        $rules['type_id'] = 'nullable|exists:types,id';
+        $rules['discount_type_id'] = 'nullable|exists:types,id';
         $rules ['area_id']=
             ['required',
                 Rule::exists(Area::class, 'id')->where(function ($query) use ($request) {
@@ -62,7 +62,7 @@ class UserTypeController extends Controller
         $data['lng'] = $request->lng;
         $data['name'] = $request->name;
         $data['phone']=$request->phone;
-        $data['type_id']=$request->type_id;
+        $data['discount_type_id']=$request->discount_type_id;
         $data['city_id']=$request->city_id;
         $data['area_id']=$request->area_id;
         $data['password']=Hash::make($request->password);
@@ -78,27 +78,27 @@ class UserTypeController extends Controller
 
         $rules = [];
 
-        $rules['name'] = 'required';
-        $rules['about'] = 'required';
+        $rules['name'] = 'nullable';
+        $rules['about'] = 'nullable';
         $rules['phone'] = 'required|between:8,14';
-        $rules['type_id'] = 'nullable|exists:types,id';
-        $rules['city_id'] = 'required|exists:cities,id';
+        $rules['discount_type_id'] = 'nullable|exists:types,id';
+        $rules['city_id'] = 'nullable|exists:cities,id';
         $rules ['area_id']=
-            ['required',
+            ['nullable',
                 Rule::exists(Area::class, 'id')->where(function ($query) use ($request) {
                     $query->where('city_id',$request->city_id);
                 }),
             ];
-        $rules['user_type_id'] = 'required|exists:user_types,id';
-        $rules['lat'] = 'required';
-        $rules['lng'] = 'required';
+        $rules['user_type_id'] = 'nullable|exists:user_types,id';
+        $rules['lat'] = 'nullable';
+        $rules['lng'] = 'nullable';
         $this->validate($request, $rules);
         $user=User::findOrFail($request->id);
         $user->update($request->only(['about',
             'name',
             'lat',
             'lng',
-            'type_id',
+            'discount_type_id',
             'phone',
             'city_id',
             'area_id',
@@ -143,8 +143,8 @@ class UserTypeController extends Controller
                 if ($request->get('user_type_id')) {
                     $query->where('user_type_id', $request->get('user_type_id'));
                 }
-                if ($request->get('type_id')) {
-                    $query->where('type_id', $request->get('type_id'));
+                if ($request->get('discount_type_id')) {
+                    $query->where('discount_type_id', $request->get('discount_type_id'));
                 }
             })
             ->addIndexColumn()

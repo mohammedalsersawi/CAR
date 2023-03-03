@@ -60,8 +60,8 @@ class Deals extends Model
     protected static function booted()
     {
         static::deleted(function ($deal) {
-            File::delete(public_path('uploads/'.$deal->image->filename));
-            $deal->image()->delete();
+            File::delete(public_path('uploads/'.$deal->imageDeal->filename));
+            $deal->imageDeal()->delete();
         });
     }
     public function getRouteKeyName()

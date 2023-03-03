@@ -15,15 +15,16 @@ return new class extends Migration
     {
         Schema::create('cars', function (Blueprint $table) {
             $table->uuid()->primary();
-            $table->foreignId('brand_id')->constrained('brands')->cascadeOnUpdate();
-            $table->foreignId('model_id')->constrained('model_cars')->cascadeOnUpdate();
-            $table->foreignId('engine_id')->constrained('engines')->cascadeOnUpdate();
-            $table->foreignId('transmission_id')->constrained('transmissions')->cascadeOnUpdate();
-            $table->foreignId('fule_type_id')->references('id')->on('fuel_types')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('color_exterior_id')->constrained('color_cars')->cascadeOnUpdate();
-            $table->foreignId('color_interior_id')->constrained('color_cars')->cascadeOnUpdate();
+            $table->foreignId('brand_id')->nullable()->constrained('brands')->cascadeOnUpdate()->nullOnDelete();
+            $table->foreignId('model_id')->nullable()->constrained('model_cars')->cascadeOnUpdate()->nullOnDelete();
+            $table->foreignId('engine_id')->nullable()->constrained('engines')->cascadeOnUpdate()->nullOnDelete();
+            $table->foreignId('transmission_id')->nullable()->constrained('transmissions')->cascadeOnUpdate()->nullOnDelete();
+            $table->foreignId('fule_type_id')->nullable()->references('id')->on('fuel_types')->nullOnDelete()->cascadeOnUpdate();
+            $table->foreignId('color_exterior_id')->nullable()->constrained('color_cars')->cascadeOnUpdate()->nullOnDelete();
+            $table->foreignId('color_interior_id')->nullable()->constrained('color_cars')->cascadeOnUpdate()->nullOnDelete();
             $table->integer('mileage');
-            $table->foreignId('year_id')->constrained('years')->cascadeOnUpdate();
+            $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('year');
             $table->string('phone');
             $table->double('lat');
             $table->double('lng');

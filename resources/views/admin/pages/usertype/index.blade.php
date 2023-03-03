@@ -118,7 +118,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="">@lang('Discount Store Type')</label>
-                                                <select id="s_type_id" class="search_input form-control"
+                                                <select id="s_discount_type_id" class="search_input form-control"
                                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                                     <option selected disabled>@lang('select') @lang('Discount Store Type')</option>
                                                     @foreach ($type as $itemm)
@@ -280,7 +280,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('Discount Store Type')</label>
-                                    <select name="type_id" id="" class="select form-control"
+                                    <select name="discount_type_id" id="" class="select form-control"
                                             data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                         <option selected disabled>@lang('select') @lang('Discount Store Type')</option>
                                         @foreach ($type as $itemm)
@@ -444,7 +444,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('Discount Store Type')</label>
-                                    <select name="type_id" id="type_id" class="select form-control"
+                                    <select name="discount_type_id" id="discount_type_id" class="select form-control"
                                             >
                                         <option selected disabled>Select @lang('Discount Store Type')</option>
                                         @foreach ($type as $itemm)
@@ -560,7 +560,7 @@
                     d.city_id = $('#s_city').val();
                     d.area_id = $('#s_area').val();
                     d.user_type_id = $('#s_user_type_id').val();
-                    d.type_id = $('#s_type_id').val();
+                    d.discount_type_id = $('#s_discount_type_id').val();
                 }
             },
             columns: [

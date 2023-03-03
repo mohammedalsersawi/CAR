@@ -31,7 +31,7 @@ class User extends Authenticatable
         'user_type_id',
         'lat',
         'lng',
-        'type_id',
+        'discount_type_id',
         'name',
         'verification'
     ];
@@ -45,7 +45,7 @@ class User extends Authenticatable
         'remember_token',
         'city_id',
         'area_id',
-        'type_id',
+        'discount_type_id',
         'code',
         'image',
         'city',
@@ -81,7 +81,7 @@ class User extends Authenticatable
         return $this->morphOne(Image::class, 'imageable');
     }
     public function Discount_Type(){
-        return @$this->belongsTo(Type::class,'type_id');
+        return @$this->belongsTo(Type::class,'discount_type_id');
 
     }
     public function getDiscountStoreTypeAttribute()

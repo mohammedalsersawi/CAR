@@ -18,9 +18,9 @@ return new class extends Migration
             $table->text('name');
             $table->tinyInteger('status')->default(3);
             $table->string('phone')->unique();
-            $table->foreignId('user_id')->nullable()->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('city_id')->references('id')->on('cities')->cascadeOnDelete()->cascadeOnUpdate()->nullable();
-            $table->foreignId('area_id')->references('id')->on('areas')->cascadeOnDelete()->cascadeOnUpdate()->nullable();
+            $table->foreignId('user_id')->nullable()->references('id')->on('users')->nullOnDelete()->cascadeOnUpdate();
+            $table->foreignId('city_id')->nullable()->references('id')->on('cities')->nullOnDelete()->cascadeOnUpdate()->nullable();
+            $table->foreignId('area_id')->nullable()->references('id')->on('areas')->nullOnDelete()->cascadeOnUpdate()->nullable();
             $table->timestamps();
         });
     }

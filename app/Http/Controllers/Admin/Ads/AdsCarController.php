@@ -35,6 +35,7 @@ class AdsCarController extends Controller
         $ColorCar = ColorCar::select(['name', 'id', 'color'])->get();
         $User = User::select(['name', 'id','phone'])->get();
         $year = Year::query()->firstOrFail();
+
         return view('admin.pages.adscar.index', compact(['User','Brand', 'Engine', 'ModelCar', 'FuelType', 'Transmission', 'ColorCar', 'year']));
     }
 

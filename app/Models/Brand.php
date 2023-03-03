@@ -42,8 +42,8 @@ protected $hidden=[
     protected static function booted()
     {
         self::deleted(function ($brand) {
-            File::delete(public_path('uploads/'.$brand->image->filename));
-            $brand->image()->delete();
+            File::delete(public_path('uploads/'.$brand->imageBrand->filename));
+            $brand->imageBrand()->delete();
         });
 
     }

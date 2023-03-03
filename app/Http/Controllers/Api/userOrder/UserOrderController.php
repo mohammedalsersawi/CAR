@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use App\Models\UserOrder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use Yajra\DataTables\Facades\DataTables;
 
 class UserOrderController extends Controller
 {

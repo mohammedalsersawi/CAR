@@ -22,7 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware(['guest:sanctum'])->prefix('auth')->group(function () {
-    Route::post('/login',[AuthController::class,'login']);
+    Route::post('/login',[AuthController::class,'login'])->middleware('verification');
     Route::post('/register',[AuthController::class,'register']);
 });
 
