@@ -31,16 +31,23 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="head-label">
-                                    <h4 class="card-title">@lang('images_car')</h4>
+                                    <h4 class="card-title">@lang('Car ads')</h4>
                                 </div>
+                                <div class="text-right">
+                                    <div class="form-gruop">
+                                        <button class="btn btn-outline-primary button_modal" type="button"
+                                            data-toggle="modal" id="addd" data-target="#full-modal-stem"><span><i
+                                                    class="fa fa-plus"></i>@lang('add')</span>
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-cols-1 row-cols-md-3 g-4" id="images-crad" style="margin-right: 120px">
+
+
 
                             </div>
-
-                                <div class="row row-cols-1 row-cols-md-3 g-4" id="images-crad" style="margin-right: 120px">
-
-
-
-                                </div>
                         </div>
                     </div>
                 </div>

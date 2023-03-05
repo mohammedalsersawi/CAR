@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\home\HomeController;
 use App\Http\Controllers\Api\userOrder\UserOrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -35,6 +36,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::get('home',[\App\Http\Controllers\Api\home\HomeController::class,'home']);
 Route::post('verification code',[AuthController::class, 'verification_code']);
 Route::post('resend code',[AuthController::class, 'resend_code']);
+
+Route::get('show/cars', [HomeController::class,'lodemor'])->name('cars.lodemor');
 
 
 Route::controller(UserOrderController::class)->prefix('orders')->name('orders.')->group(function () {
