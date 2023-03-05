@@ -72,9 +72,7 @@ class DealsController extends Controller
     public function getData(Request $request)
     {
         $deals = Deals::query();
-
         return Datatables::of($deals)
-
             ->addIndexColumn()
             ->filter(function ($query) use ($request) {
                 if ($request->get('user_id')) {
@@ -88,10 +86,6 @@ class DealsController extends Controller
                     $user=User::where('type_id',$request->get('type_id'))->pluck('id');
                     $query->whereIn('user_id',$user);
                 }
-//                if ($request->get('search')) {
-//                    $locale = app()->getLocale();
-//                    $query->where('deals->'.locale(), 'like', "%{$request->search['value']}%");
-//                }
             })
             ->addColumn('action', function ($que) {
                 $data_attr = '';

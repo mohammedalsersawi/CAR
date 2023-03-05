@@ -124,7 +124,6 @@ class AdsCarController extends Controller
             foreach ($request->File('image') as $file) {
                 UploadImage($file, null, 'App\Models\Car', $Car->uuid, false);
             }
-
         }
         return $this->sendResponse(null, __('item_edited'));
     }

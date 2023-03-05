@@ -63,7 +63,7 @@
                 <form action="{{ route('ads.car.updateImages') }}" method="POST" id="form_edit_image" class="form_edit"
                     enctype="multipart/form-data">
                     @csrf
-                    <input type="text" id="uuid" name="uuid">
+                    <input type="hidden" id="uuid" name="uuid">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-12">
