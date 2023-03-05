@@ -145,6 +145,8 @@
         var table = $('#datatable').DataTable({
             processing: true,
             serverSide: true,
+            responsive: true,
+            searching: false,
             "oLanguage": {
                 @if (app()->isLocale('ar'))
                     "sEmptyTable": "ليست هناك بيانات متاحة في الجدول",
@@ -188,23 +190,32 @@
                 },
                 {
                     data: 'name',
-                    name: 'name'
+                    name: 'name',
+                    orderable: false,
+                    searchable: false
                 },
                 {
                     data: 'phone',
-                    name: 'phone'
+                    name: 'phone',
+                    orderable: false,
+                    searchable: false
                 },
                 {
                     data: 'city_name',
-                    name: 'city_name'
+                    name: 'city_id',
+
                 },
                 {
                     data: 'area_name',
-                    name: 'area_name'
+                    name: 'area_name',
+                    orderable: false,
+                    searchable: false
                 },
                 {
                     data: 'status_type',
-                    name: 'status_type'
+                    name: 'status_type',
+                    orderable: false,
+                    searchable: false
                 },
 
                 {

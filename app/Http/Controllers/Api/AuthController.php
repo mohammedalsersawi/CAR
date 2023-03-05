@@ -79,11 +79,12 @@ class AuthController extends Controller
 
     public function resend_code(Request $request){
         $user=User::where('phone',$request->phone)->first();
-        $code=Hash::make(rand(1000,9999));
+        $number=rand(1000,9999);
+        $code=Hash::make($number);
         $user->update([
            'code'=>$code
         ]);
-        return mainResponse(true, __('ok'), $user, [], 200);
+        return mainResponse(true, __('ok'), $number, [], 200);
 
     }
 

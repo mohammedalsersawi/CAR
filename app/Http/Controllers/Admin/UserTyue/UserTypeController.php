@@ -40,20 +40,20 @@ class UserTypeController extends Controller
 //        $lat= substr($latlng, strpos($latlng, "("),$num);
 //        $lng=substr($latlng, $num, strpos($latlng, ")"));
         $rules = [];
-        $rules['about'] = 'required';
-        $rules['lat'] = 'required';
-        $rules['lng'] = 'required';
-        $rules['name'] = 'required';
+        $rules['about'] = 'nullable';
+        $rules['lat'] = 'nullable';
+        $rules['lng'] = 'nullable';
+        $rules['name'] = 'nullable';
         $rules['phone'] = 'required|between:8,14';
-        $rules['city_id'] = 'required|exists:cities,id';
+        $rules['city_id'] = 'nullable|exists:cities,id';
         $rules['discount_type_id'] = 'nullable|exists:types,id';
         $rules ['area_id']=
-            ['required',
+            ['nullable',
                 Rule::exists(Area::class, 'id')->where(function ($query) use ($request) {
                     $query->where('city_id',$request->city_id);
                 }),
             ];
-        $rules['user_type_id'] = 'required|exists:user_types,id';
+        $rules['user_type_id'] = 'nullable|exists:user_types,id';
         $rules['password'] = 'required';
         $this->validate($request, $rules);
         $data=[];
@@ -68,7 +68,11 @@ class UserTypeController extends Controller
         $data['password']=Hash::make($request->password);
         $data['user_type_id']=$request->user_type_id;
         $user= User::create($data);
-        UploadImage($request->image, null, 'App\Models\User', $user->id, false);
+
+        if($request->image)
+        {
+            UploadImage($request->image, null, 'App\Models\User', $user->id, false);
+        }
         return $this->sendResponse(null, __('item_added'));
     }
 

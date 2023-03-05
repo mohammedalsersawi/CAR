@@ -289,14 +289,14 @@
                 {
                     data: 'discount_store_type',
                     name: 'discount_store_type',
-                    searchable: true,
-                    orderable: true,
+                    searchable: false,
+                    orderable: false,
                 },
                 {
                     data: 'user_name',
                     name: 'user_name',
-                    searchable: true,
-                    orderable: true,
+                    searchable: false,
+                    orderable: false,
                 },
                 {
                     data: 'text_name',

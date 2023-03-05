@@ -16,11 +16,12 @@ class profileResource extends JsonResource
     {
         return [
             "id"=> $this->id,
+            "name"=> $this->name,
             "phone"=> $this->phone,
             "lat"=> $this->lat,
             "lng"=> $this->lng,
             "type"=> $this->type_name,
-            "image"=> 'uploads/'.$this->image_user
+            "image"=> $this->image_user
 
         ];
     }

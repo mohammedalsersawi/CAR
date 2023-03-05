@@ -55,10 +55,11 @@ class User extends Authenticatable
         'created_at',
         'updated_at'
     ];
-    const USER = 1;
+
     const SHOWROOM = 2;
     const DISCOUNT_STORE = 3;
     const PHOTOGRAPHER = 4;
+    const USER = 5;
     /**
      * The attributes that should be cast to native types.
      *
@@ -75,6 +76,16 @@ class User extends Authenticatable
     }
     public function area(){
         return @$this->belongsTo(Area::class);
+    }
+    public function cars(){
+        return @$this->hasMany(Car::class);
+    }
+    public function deals(){
+        if ($this->user_type_id==User::DISCOUNT_STORE){
+            return @$this->hasMany(Deals::class);
+        }else{
+            return 'sorry';
+        }
     }
     public function image()
     {

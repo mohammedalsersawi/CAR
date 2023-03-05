@@ -145,6 +145,7 @@ class AdsCarController extends Controller
 
     public function getData(Request $request)
     {
+
         $Car = Car::query();
         return Datatables::of($Car)
             ->filter(function ($query) use ($request) {
@@ -191,15 +192,14 @@ class AdsCarController extends Controller
                 $data_attr .= 'data-lng="' . @$que->lng . '" ';
                 $data_attr .= 'data-phone="' . @$que->phone . '" ';
                 $data_attr .= 'data-mileage="' . @$que->mileage . '" ';
-                $data_attr .= 'data-year_to="' . @$que->year_to . '" ';
                 $data_attr .= 'data-year="' . @$que->year . '" ';
                 $data_attr .= 'data-brand_id="' . @$que->brand_id . '" ';
+                $data_attr .= 'data-user="' . @$que->user_id . '" ';
                 $data_attr .= 'data-brand_name="' . @$que->brand->name . '" ';
                 $data_attr .= 'data-model_name="' . @$que->model->name . '" ';
                 $data_attr .= 'data-model_id="' . @$que->model_id . '" ';
                 $data_attr .= 'data-engine_id="' . @$que->engine_id . '" ';
                 $data_attr .= 'data-fueltype_id="' . @$que->fule_type_id . '" ';
-                $data_attr .= 'data-fueltype_name="' . @$que->fueltype->name . '" ';
                 $data_attr .= 'data-color_exterior_id="' . @$que->color_exterior_id . '" ';
                 $data_attr .= 'data-color_interior_id="' . @$que->color_interior_id . '" ';
                 $data_attr .= 'data-transmission_id="' . @$que->transmission_id . '" ';
@@ -214,25 +214,25 @@ class AdsCarController extends Controller
                 return $string;
             })
             ->addColumn('brand', function ($row) {
-                return $row->brand->name;
+                return @$row->brand->name;
             })
             ->addColumn('model', function ($row) {
-                return $row->model->name;
+                return @$row->model->name;
             })
             ->addColumn('engine', function ($row) {
-                return $row->engine->name;
+                return @$row->engine->name;
             })
             ->addColumn('fueltype', function ($row) {
-                return $row->fueltype->name;
+                return @$row->fueltype->name;
             })
             ->addColumn('color_exterior', function ($row) {
-                return $row->color_exterior->color;
+                return @$row->color_exterior->color;
             })
             ->addColumn('color_interior', function ($row) {
-                return $row->color_interior->color;
+                return @$row->color_interior->color;
             })
             ->addColumn('transmission', function ($row) {
-                return $row->transmission->name;
+                return @$row->transmission->name;
             })
             //            ->addColumn('image', function ($row) {
             //                $imageData = @$row->image->filename;

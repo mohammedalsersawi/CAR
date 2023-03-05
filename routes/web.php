@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\Car\Transmission\TransmissionController;
 use App\Http\Controllers\Admin\DataController;
 use App\Http\Controllers\Admin\Deals\DealsController;
 use App\Http\Controllers\Admin\order\UserOrderController;
+use App\Http\Controllers\Admin\Photographer\PhotographerController;
 use App\Http\Controllers\Admin\Setting\SettingController;
 use App\Http\Controllers\Admin\UserTyue\TypeController;
 use App\Http\Controllers\Admin\UserTyue\UserTypeController;
@@ -31,7 +32,7 @@ Route::group(
     ],
     function () {
         Route::prefix('admin')->middleware('auth')->group(function () {
-            Route::view('/', 'admin.part.app');
+            Route::view('/index', 'admin.part.app');
         });
         Route::controller(ModelController::class)->name('model.')->prefix('model')->group(function () {
             Route::get('/', 'index')->name('index');
@@ -146,6 +147,13 @@ Route::group(
             Route::post('/accepted/{uuid}', 'accepted')->name('accepted');
             Route::post('/rejected/{uuid}', 'rejected')->name('rejected');
             Route::delete('{uuid}','destroy')->name('delete');
+        });
+        Route::controller(PhotographerController::class)->name('photographer.')->prefix('photographer')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('/store', 'store')->name('store');
+            Route::post('/update', 'update')->name('update');
+            Route::delete('/{id?}', 'destroy')->name('delete');
+            Route::get('/getData', 'getData')->name('getData');
         });
 
 
