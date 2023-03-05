@@ -12,9 +12,12 @@ class Car extends Model
     use HasFactory;
     protected $primaryKey = 'uuid';
     public $incrementing = false;
-    protected $appends=['year_to','year_from','images','brand_name','model_name','images'];
+    protected $appends=['images','brand_name','model_name','user_name'];
     protected $guarded = [];
-    public function images()
+    public function user(){
+        return $this->belongsTo(User::class,'user_id');
+    }
+    public function ImagesCar()
     {
         return $this->morphMany(Image::class, 'imageable');
     }
@@ -45,17 +48,13 @@ class Car extends Model
     public function specification(){
         return $this->hasMany(Specification::class,'car_id');
     }
-    public function getYearToAttribute()
-    {
-        return @$this->year->to;
-    }
-    public function getYearFromAttribute()
-    {
-        return @$this->year->from;
-    }
     public function getBrandNameAttribute()
     {
         return @$this->brand->name;
+    }
+    public function getUserNameAttribute()
+    {
+        return @$this->user->name;
     }
     public function getmodelNameAttribute()
     {
@@ -64,7 +63,7 @@ class Car extends Model
     public function getImagesAttribute()
     {
         $images=[];
-        foreach ($this->images() as $item) {
+        foreach ($this->ImagesCar() as $item) {
             array_push($images,'uploads/'.$item->filename);
         }
         return $images;
@@ -79,7 +78,7 @@ class Car extends Model
             foreach ($car->images as $item) {
                 File::delete(public_path('uploads/'.$item->filename));
             }
-            $car->images()->delete();
+            $car->ImagesCar()->delete();
         });
 
     }

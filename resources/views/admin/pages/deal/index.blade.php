@@ -62,10 +62,10 @@
                                         </div>
                                         <div class="col-3">
                                             <div class="form-group">
-                                                <label for="s_type">@lang('type')</label>
-                                                <select id="s_type" class="search_input form-control"
+                                                <label for="s_discount_type_id">@lang('Discount Store Type')</label>
+                                                <select id="s_discount_type_id" class="search_input form-control"
                                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                                    <option selected disabled>Select @lang('type')</option>
+                                                    <option selected disabled>@lang('select') @lang('Discount Store Type')</option>
                                                     @foreach ($type as $itemm)
                                                         <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
                                                         </option>
@@ -96,7 +96,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>@lang('image')</th>
-                                            <th>@lang('type')</th>
+                                            <th>@lang('Discount Store Type')</th>
                                             <th>@lang('users')</th>
                                             <th>@lang('deals')</th>
                                             <th style="width: 225px;">@lang('actions')</th>
@@ -267,7 +267,7 @@
                 data: function(d) {
                     d.deals = $('#s_title').val();
                     d.user_id = $('#s_name').val();
-                    d.type_id = $('#s_type').val();
+                    d.discount_type_id = $('#s_discount_type_id').val();
                 }
             },
             columns: [
@@ -287,8 +287,8 @@
                     searchable: false
                 },
                 {
-                    data: 'user_type_name',
-                    name: 'user_type_name',
+                    data: 'discount_store_type',
+                    name: 'discount_store_type',
                     searchable: true,
                     orderable: true,
                 },
@@ -327,7 +327,7 @@
                 var uuid = button.data('uuid')
                 $('#uuid').val(uuid);
                 $('#edit_user_id').val(button.data('user_id')).trigger('change');
-                $('#edit_type_id').val(button.data('type_id')).trigger('change');
+                $('#edit_discount_type_id').val(button.data('discount_type_id')).trigger('change');
 
                 @foreach (locales() as $key => $value)
                     $('#edit_name_{{ $key }}').val(button.data('deals_{{ $key }}'))

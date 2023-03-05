@@ -20,11 +20,11 @@ class HomeController extends Controller
     {
        $videoo= video::query()->take(1)->value('video');
         $video = [
-            'link' =>'uploads/'.$videoo
+            'link' =>url()->previous(). '/uploads/'.$videoo
         ];
         $room = User::where('user_type_id', User::SHOWROOM)->select(['name', 'id'])->limit(10)->get();
         $showrooms = roomresourse::collection($room);
-        $deals = Deals::select(['uuid', 'user_id', 'deals', 'type_id'])->get();
+        $deals = Deals::select(['uuid', 'user_id', 'deals'])->get();
         $brands = Brand::select('name', 'id')->get();
         $ads = Car::query()->select(['uuid','brand_id','model_id','year'])->take(3)->get();
         $cars = carresourse::collection($ads);

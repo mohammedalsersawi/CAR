@@ -15,7 +15,7 @@ class SettingController extends Controller
 
     public function getyear()
     {
-        $year = Year::query()->firstOrFail();
+        $year = Year::query()->first();
         return view('admin.pages.setting.year.index',compact('year'));
     }
 
@@ -26,8 +26,12 @@ class SettingController extends Controller
             'to' => 'required',
         ];
         $this->validate($request, $rules);
-        $year = Year::query()->firstOrFail();
-        $year?->update($request->only('from', 'to'));
+        Year::query()->updateOrCreate(
+            ['id'=>1],
+            [
+            'from'=>$request->from,
+            'to'=>$request->to
+        ]);
         return $this->sendResponse(null, __('item_added'));
     }
 

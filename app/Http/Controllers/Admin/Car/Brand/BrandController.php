@@ -67,8 +67,7 @@ class BrandController extends Controller
 
     public function destroy($id)
     {
-        $brands = Brand::find($id);
-        $brands->delete();
+       Brand::destroy($id);
         return $this->sendResponse(null, null);
     }
 

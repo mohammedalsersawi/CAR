@@ -16,7 +16,7 @@ class DealsController extends Controller
     use ResponseTrait;
     public function index()
     {
-        $user=User::select(['phone','id','name'])->get();
+        $user=User::select(['phone','id','name'])->where('user_type_id',User::DISCOUNT_STORE)->get();
         $type=Type::select(['id','name'])->get();
         return view('admin.pages.deal.index',compact('user','type'));
     }
@@ -41,14 +41,12 @@ class DealsController extends Controller
     public function update(Request $request)
     {
         $rules = [];
-
         foreach (locales() as $key => $language) {
             $rules['deals_' . $key] = 'required|string|max:255';
         }
-        $rules['image'] = 'nullable|image';
+        $rules['image'] = 'c|image';
         $this->validate($request, $rules);
         $data = [];
-
         foreach (locales() as $key => $language) {
             $data['deals'][$key] = $request->get('deals_' . $key);
         }
@@ -82,8 +80,8 @@ class DealsController extends Controller
                 if ($request->get('deals')) {
                     $query->where('deals->'.locale(),'like', "%{$request->get('deals')}%");
                 }
-                if ($request->get('type_id')) {
-                    $user=User::where('type_id',$request->get('type_id'))->pluck('id');
+                if ($request->get('discount_type_id')) {
+                    $user=User::where('discount_type_id',$request->get('discount_type_id'))->pluck('id');
                     $query->whereIn('user_id',$user);
                 }
             })
@@ -92,7 +90,7 @@ class DealsController extends Controller
                 $data_attr .= 'data-uuid="' . $que->uuid . '" ';
                 $data_attr .= 'data-deals="' . $que->deals . '" ';
                 $data_attr .= 'data-user_id="' . $que->user_id . '" ';
-                $data_attr .= 'data-type_id="' . $que->type_id . '" ';
+                $data_attr .= 'data-discount_store_type="' . $que->discount_store_type . '" ';
                 $data_attr .= 'data-image="' . @$que->image->filename . '" ';
                 foreach (locales() as $key => $value) {
                     $data_attr .= 'data-deals_' . $key . '="' . $que->getTranslation('deals', $key) . '" ';

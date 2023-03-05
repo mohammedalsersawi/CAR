@@ -8,19 +8,18 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\File;
 use Laravel\Sanctum\HasApiTokens;
-use Spatie\Translatable\HasTranslations;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable,HasTranslations,HasApiTokens;
+    use HasFactory, Notifiable,HasApiTokens;
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
 
-    protected $translatable = ['about'];
-    protected $appends = ['about_name','area_name','city_name','type_name','image_user'];
+
+    protected $appends = ['area_name','city_name','type_name','image_user','DiscountStoreType'];
     protected $fillable = [
         'phone',
         'password',
@@ -32,7 +31,7 @@ class User extends Authenticatable
         'user_type_id',
         'lat',
         'lng',
-        'type_id',
+        'discount_type_id',
         'name',
         'verification'
     ];
@@ -46,7 +45,7 @@ class User extends Authenticatable
         'remember_token',
         'city_id',
         'area_id',
-        'type_id',
+        'discount_type_id',
         'code',
         'image',
         'city',
@@ -81,13 +80,13 @@ class User extends Authenticatable
     {
         return $this->morphOne(Image::class, 'imageable');
     }
-    public function typeUser(){
-        return @$this->belongsTo(Type::class,'type_id');
+    public function Discount_Type(){
+        return @$this->belongsTo(Type::class,'discount_type_id');
 
     }
-    public function getAboutNameAttribute()
+    public function getDiscountStoreTypeAttribute()
     {
-        return @$this->about;
+        return @$this->Discount_Type->name;
     }
     public function getCityNameAttribute()
     {
@@ -103,7 +102,7 @@ class User extends Authenticatable
     }
     public function getImageUserAttribute()
     {
-        return @$this->image->filename;
+        return url()->previous(). '/uploads/'. @$this->image->filename;
     }
 
 

@@ -141,7 +141,7 @@ Route::group(
         });
 
         Route::controller(UserOrderController::class)->prefix('orders')->name('orders.')->group(function () {
-            Route::get('/', 'index')->name('index')->middleware('read');
+            Route::get('/', 'index')->name('index');
             Route::get('/getData', 'getData')->name('getData');
             Route::delete('/{uuid}', 'destroy')->name('delete');
             Route::post('/accepted/{uuid}', 'accepted')->name('accepted');

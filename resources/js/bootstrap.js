@@ -42,7 +42,6 @@ window.Echo.private(`orderUser`)
             var count=$('#count').text();
         console.log(count);
             table.draw();
-        $('#count').text();
         $('#count').html(parseInt(count)+1)
         }
     );
@@ -51,7 +50,6 @@ window.Echo.private(`countuserorder`)
             console.log('count');
             var count=$('#count').text();
             console.log(count);
-            $('#count').text();
             $('#count').html(parseInt(count)-1)
         }
     );
