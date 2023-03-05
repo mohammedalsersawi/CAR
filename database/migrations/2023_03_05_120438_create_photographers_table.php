@@ -14,11 +14,12 @@ return new class extends Migration
     public function up()
     {
         Schema::create('photographers', function (Blueprint $table) {
-            $table->id();
+            $table->uuid()->primary();
             $table->foreignId('city_id')->nullable()->constrained('cities')->nullOnDelete()->cascadeOnUpdate();
             $table->foreignId('area_id')->nullable()->constrained('areas')->nullOnDelete()->cascadeOnUpdate();
             $table->string('phone',15);
             $table->date('date');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->time('time');
 
         });

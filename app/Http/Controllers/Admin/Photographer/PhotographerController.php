@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Area;
 use App\Models\City;
 use App\Models\Country;
+use App\Models\Photographer;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -24,6 +25,7 @@ class PhotographerController extends Controller
         $rules = [];
         $rules['image'] = 'required|image';
         $rules['city_id'] = 'nullable|exists:cities,id';
+        $rules['user_id'] = 'required|exists:users,id';
         $rules ['area_id']=
             ['nullable',
                 Rule::exists(Area::class, 'id')->where(function ($query) use ($request) {
@@ -34,13 +36,9 @@ class PhotographerController extends Controller
         $rules['date'] = 'required';
 
         $this->validate($request, $rules);
-        $data = [];
-        foreach (locales() as $key => $language) {
-            $data['deals'][$key] = $request->get('deals_' . $key);
-        }
-        $data['user_id']=$request->user_id;
-        $deals =  Deals::create($data);
-        UploadImage($request->image, null, 'App\Models\Deals', $deals->uuid, false);
+
+        $photographer =  Photographer::create($request->only(['user_id','city_id','area_id','time','date']));
+        UploadImage($request->image, null, Photographer::class, $photographer->uuid, false);
         return $this->sendResponse(null, __('item_added'));
     }
     public function update(Request $request)
