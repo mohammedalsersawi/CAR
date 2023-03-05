@@ -2,39 +2,73 @@
 
 namespace App\Http\Controllers\Api\home;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\carresourse;
-use App\Http\Resources\profileResource;
-use App\Http\Resources\roomresourse;
-use App\Models\Brand;
 use App\Models\Car;
-use App\Models\Deals;
 use App\Models\User;
+use App\Models\Brand;
+use App\Models\Deals;
 use App\Models\video;
+use App\Http\Resources\carresourse;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\roomresourse;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\profileResource;
+use Illuminate\Http\Request;
 
 
 class HomeController extends Controller
 {
     public function home()
     {
-       $videoo= video::query()->take(1)->value('video');
+        $videoo = video::query()->take(1)->value('video');
         $video = [
-            'link' =>url()->previous(). '/uploads/'.$videoo
+            'link' => url()->previous() . '/uploads/' . $videoo
         ];
         $room = User::where('user_type_id', User::SHOWROOM)->select(['name', 'id'])->limit(10)->get();
         $showrooms = roomresourse::collection($room);
         $deals = Deals::select(['uuid', 'user_id', 'deals'])->get();
         $brands = Brand::select('name', 'id')->get();
-        $ads = Car::query()->select(['uuid','brand_id','model_id','year'])->take(3)->get();
+        $ads = Car::query()->select(['uuid', 'brand_id', 'model_id', 'year'])->take(3)->get();
         $cars = carresourse::collection($ads);
         return mainResponse(true, __('ok'), compact('video', 'showrooms', 'deals', 'brands', 'cars'), [], 200);
-
     }
-    public function profile(){
-//        $user=User::where('id',Auth::guard('sanctum')->id())->get();
-        $user=Auth::guard('sanctum')->user();
+    public function profile()
+    {
+        //        $user=User::where('id',Auth::guard('sanctum')->id())->get();
+        $user = Auth::guard('sanctum')->user();
         $profile = new profileResource($user);
         return mainResponse(true, __('ok'), $profile, [], 200);
+    }
+
+
+    public function lodemor(Request $request)
+    {
+        $query = Car::query();
+        $query->when($request->get('search'), function ($query, $search) {
+            $query->where(function ($query) use ($search) {
+                $query->where('year', $search)
+                    ->orWhere(function ($query) use ($search) {
+                        $query->whereHas('brand', function ($query) use ($search) {
+                            $query->where('name->' . locale(), 'like', "%{$search}%");
+                            foreach (locales() as $key => $value) {
+                                if ($key != locale())
+                                    $query->orWhere('name->' . $key, 'like', "%{$search}%");
+                            }
+                        });
+                    })
+                    ->orWhere(function ($query) use ($search) {
+                        $query->whereHas('model', function ($query) use ($search) {
+                            $query->where('name->' . locale(), 'like', "%{$search}%");
+                            foreach (locales() as $key => $value) {
+                                if ($key != locale())
+                                    $query->orWhere('name->' . $key, 'like', "%{$search}%");
+                            }
+                        });
+                    });
+            });
+        });
+        $ads = $query->select(['uuid', 'brand_id', 'model_id', 'year'])->paginate(6);
+        $cars = carresourse::collection($ads);
+
+        return mainResponse(true, __('ok'), $cars, [], 200);
     }
 }
