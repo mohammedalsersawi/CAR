@@ -833,16 +833,15 @@
                     .data('model_name') + '</option>');
                 // $('#edit_model').val( button.data('model_id'));
                 $('#edit_engine').val(button.data('engine_id')).trigger('change');
-                $('#edit_fuel').val(button.data('fueltype_id'));
-                $('#edit_fuel').append('<option value="' + button.data('fueltype_id') + '" selected>' +
-                    button.data('fueltype_name') + '</option>');
+                $('#edit_fuel').val(button.data('fueltype_id')).trigger('change');
+
                 $('#edit_color_exterior').val(button.data('color_exterior_id'));
                 $('#edit_color_interior').val(button.data('color_interior_id'));
                 $('#edit_lat').val(button.data('lat'))
                 $('#edit_year').val(button.data('year')).trigger('change')
                 $('#edit_lng').val(button.data('lng'))
-                $('#edit_year_from').val(button.data('year_from'))
-                $('#edit_year_to').val(button.data('year_to'))
+                $('#edit_user').val(button.data('user')).trigger('change')
+
                 $('#edit_mileage').val(button.data('mileage'))
                 $('#edit_phone').val(button.data('phone'))
                 $('#uuid').val(uuid);

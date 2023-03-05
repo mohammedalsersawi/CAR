@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <title>Aqar</title>
+    <title>@yield('title')</title>
     <link rel="apple-touch-icon" href="{{ asset('dashboard/app-assets/images/ico/apple-icon-120.png') }}">
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('dashboard/app-assets/images/ico/favicon.ico') }}">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600"
@@ -118,7 +118,7 @@
                         <a class="dropdown-item"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             <i class="mr-50" data-feather="power"></i>Logout</a>
-                        <form id="logout-form" action="#" method="POST" style="display: none;">
+                        <form id="logout-form" action="{{route('logout')}}" method="POST" style="display: none;">
                             {{ csrf_field() }}
                         </form>
                     </div>

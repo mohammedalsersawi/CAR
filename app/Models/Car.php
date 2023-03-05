@@ -63,8 +63,8 @@ class Car extends Model
     public function getImagesAttribute()
     {
         $images=[];
-        foreach ($this->ImagesCar() as $item) {
-            array_push($images,'uploads/'.$item->filename);
+        foreach ($this->ImagesCar as $item) {
+            array_push($images,url()->previous().'uploads/'.$item->filename);
         }
         return $images;
     }

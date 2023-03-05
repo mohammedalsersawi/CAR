@@ -215,6 +215,8 @@
                     render: function(data, type, full, meta) {
                         return `<img src="{{ asset('uploads/${data}') }}" width="100" class="img-fluid img-thumbnail">`;
                     },
+                    orderable: false,
+                    searchable: false
                 },
                 {
                     data: 'name_text',
@@ -226,7 +228,7 @@
                     data: 'action',
                     name: 'action',
                     orderable: false,
-                    searchable: true
+                    searchable: false
                 },
             ]
 

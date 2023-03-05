@@ -32,9 +32,24 @@ class HomeController extends Controller
 
     }
     public function profile(){
-//        $user=User::where('id',Auth::guard('sanctum')->id())->get();
         $user=Auth::guard('sanctum')->user();
         $profile = new profileResource($user);
-        return mainResponse(true, __('ok'), $profile, [], 200);
+        $data=[];
+        if ($user->user_type_id==User::SHOWROOM){
+            $ads= $user->cars;
+            $data= carresourse::collection($ads);
+        }elseif ($user->user_type_id==User::DISCOUNT_STORE){
+            $data= $user->deals;
+        }elseif ($user->user_type_id==User::USER){
+        $profile=[
+            'id'=>$user->id,
+            'phone'=>$user->phone,
+        ];
+            $ads= $user->cars;
+            $data= carresourse::collection($ads);
+        }
+
+
+        return mainResponse(true, __('ok'), compact('profile','data'), [], 200);
     }
 }
