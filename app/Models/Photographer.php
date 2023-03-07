@@ -16,7 +16,6 @@ class Photographer extends Model
     use HasFactory;
     protected $guarded = [];
     protected $primaryKey = 'uuid';
-    protected $appends = ['area_name', 'city_name', 'user_name'];
     protected $hidden=[
         'city_id',
         'area_id',
@@ -24,28 +23,37 @@ class Photographer extends Model
         'area'
     ];
     public $incrementing = false;
+    protected $appends = ['area_name', 'city_name', 'user_name'];
 
     public function uploudphotographer()
     {
         return $this->morphOne(Image::class, 'imageable');
     }
-
+    public function city(){
+        return @$this->belongsTo(City::class);
+    }
+    public function area(){
+        return @$this->belongsTo(Area::class);
+    }
+    public function getCityNameAttribute()
+    {
+        return @$this->city->name;
+    }
+    public function getAreaNameAttribute()
+    {
+        return @$this->area->name;
+    }
     public static function boot()
     {
         parent::boot();
         self::creating(function ($photographer) {
             $photographer->uuid = Str::uuid();
         });
-    }
-
-    protected static function booted()
-    {
-        static::deleted(function ($photographer) {
+        self::deleteddeleted(function ($photographer) {
             File::delete(public_path('uploads/' . $photographer->uploudphotographer->filename));
             $photographer->uploudphotographer()->delete();
         });
     }
-
     public const TYPES = [
         1 => 'image',
         2 => 'imageVideo',
