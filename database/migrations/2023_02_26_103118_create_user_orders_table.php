@@ -14,13 +14,13 @@ return new class extends Migration
     public function up()
     {
         Schema::create('user_orders', function (Blueprint $table) {
-            $table->uuid();
+            $table->uuid()->primary();
             $table->text('name');
             $table->tinyInteger('status')->default(3);
-            $table->string('phone')->unique();
-            $table->foreignId('user_id')->nullable()->references('id')->on('users')->nullOnDelete()->cascadeOnUpdate();
-            $table->foreignId('city_id')->nullable()->references('id')->on('cities')->nullOnDelete()->cascadeOnUpdate()->nullable();
-            $table->foreignId('area_id')->nullable()->references('id')->on('areas')->nullOnDelete()->cascadeOnUpdate()->nullable();
+            $table->string('phone');
+            $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('city_id')->nullable()->references('id')->on('cities')->nullOnDelete()->cascadeOnUpdate();
+            $table->foreignId('area_id')->nullable()->references('id')->on('areas')->nullOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }

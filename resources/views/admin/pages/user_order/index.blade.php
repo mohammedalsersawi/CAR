@@ -191,8 +191,8 @@
                 {
                     data: 'name',
                     name: 'name',
-                    orderable: false,
-                    searchable: false
+                    orderable: true,
+                    searchable: true
                 },
                 {
                     data: 'phone',
@@ -203,7 +203,8 @@
                 {
                     data: 'city_name',
                     name: 'city_id',
-
+                    orderable: false,
+                    searchable: false
                 },
                 {
                     data: 'area_name',
@@ -212,15 +213,15 @@
                     searchable: false
                 },
                 {
-                    data: 'status_type',
-                    name: 'status_type',
+                    data: 'action',
+                    name: 'action',
                     orderable: false,
                     searchable: false
                 },
 
                 {
-                    data: 'action',
-                    name: 'action',
+                    data: 'delete',
+                    name: 'delete',
                     orderable: false,
                     searchable: false
                 },

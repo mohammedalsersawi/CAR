@@ -37,11 +37,12 @@ class UserOrderController extends Controller
     }
     public function accepted($uuid){
        $useroreder= UserOrder::findOrFail($uuid);
-
        User::where('id',$useroreder->user_id)->update([
            'name'=>$useroreder->name,
            'city_id'=>$useroreder->city_id,
            'area_id'=>$useroreder->area_id,
+           'user_type_id'=>User::PHOTOGRAPHER,
+           'phone'=>$useroreder->phone
        ]);
         $useroreder->update([
             'status'=>1
@@ -86,21 +87,29 @@ class UserOrderController extends Controller
              })
             ->addIndexColumn()
             ->addColumn('action', function ($que) {
-                $disabled='';
-                if ($que->status != 3){
-                    $disabled .="disabled";
-                }
                 $string = '';
-                $string .= ' <button type="button" ' . $disabled . '  class="btn btn-sm btn-outline-danger btn-success" data-id="' . $que->uuid .
-                    '">' . __('accepted') . '  </button>';
-                $string .= ' <button type="button" ' . $disabled . '    class="btn btn-sm btn-outline-danger  btn-warning" data-id="' . $que->uuid .
-                    '">' . __('rejected') . '  </button>';
-                $string .= ' <button type="button"    class="btn btn-sm btn-outline-danger btn_delete" data-id="' . $que->uuid .
-                    '">' . __('delete') . '  </button>';
+                if ($que->status == UserOrder::pending){
+
+                    $string .= ' <button type="button"  class="btn btn-sm btn-outline-danger btn-success" data-id="' . $que->uuid .
+                        '">' . __('accepted') . '  </button> <span>  </span>';
+
+                    $string .= ' <button type="button"     class="btn btn-sm btn-outline-danger  btn-warning" data-id="' . $que->uuid .
+                        '">' . __('rejected') . '  </button>';
+                }else{
+                   $string .=($que->status==UserOrder::rejected)?__('rejected'):__('accepted');
+                }
+
+
 
                 return $string;
             })
-            ->rawColumns(['action'])
+            ->addColumn('delete',function ($que){
+                $string = '';
+                $string .= ' <button type="button"    class="btn btn-sm btn-outline-danger btn_delete" data-id="' . $que->uuid .
+                    '">' . __('delete') . '  </button>';
+                return $string;
+            })
+            ->rawColumns(['action','delete'])
             ->make(true);
     }
 }

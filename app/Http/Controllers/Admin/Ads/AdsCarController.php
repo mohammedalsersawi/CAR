@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Ads;
 
 use App\Models\Car;
+use App\Models\Specification;
 use App\Models\User;
 use App\Models\year;
 use App\Models\Brand;
@@ -42,6 +43,7 @@ class AdsCarController extends Controller
 
     public function store(Request $request)
     {
+
         $rules = [];
         $rules['lat'] = 'required';
         $rules['lng'] = 'required';
@@ -83,7 +85,14 @@ class AdsCarController extends Controller
         foreach ($request->File('image') as $file) {
             UploadImage($file, null, 'App\Models\Car', $Car->uuid, false);
         }
-
+        $i=0;
+        foreach ($request->specification as $item){
+            Specification::create([
+                'name'=>$request->specification[$i],
+                'car_id'=>$Car->uuid,
+            ]);
+            $i++;
+        }
         return $this->sendResponse(null, __('item_added'));
     }
 
