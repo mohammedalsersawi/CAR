@@ -115,6 +115,7 @@
                                             <th>@lang('area')</th>
                                             <th>@lang('cities')</th>
                                             <th>@lang('date')</th>
+                                            <th>@lang('time')</th>
                                             <th style="width: 225px;">@lang('actions')</th>
                                         </tr>
                                     </thead>
@@ -353,7 +354,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('type_content')</label>
                                     <select class="form-control type_content" name="typeContent" id=""
@@ -365,14 +366,10 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-12" style="display: none">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for=""></label>
-                                    <select class="form-control" name="typeContent" id="type_content"
-                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                        <option selected disabled>Select @lang('select')</option>
-
-                                    </select>
+                                    <label for="">@lang('type_content')</label>
+                                    <input type="time" class="form-control" name="time" id="">
                                 </div>
                             </div>
                         </div>
@@ -490,6 +487,12 @@
                 {
                     data: 'date',
                     name: 'date',
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: 'time',
+                    name: 'time',
                     orderable: false,
                     searchable: false
                 },
