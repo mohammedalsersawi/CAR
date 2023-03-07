@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('phone',15);
             $table->date('date');
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->time('time');
+            $table->timestamps();
 
         });
     }
