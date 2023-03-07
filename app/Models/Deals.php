@@ -19,7 +19,7 @@ class Deals extends Model
     protected $hidden=[
         'user',
         'updated_at',
-        'updated_at',
+        'created_at',
         'imageDeal',
         'user_id'
     ];

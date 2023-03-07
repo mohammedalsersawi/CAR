@@ -60,8 +60,6 @@ class HomeController extends Controller
 
         return mainResponse(true, __('ok'), compact('profile','data'), [], 200);
     }
-
-
     public function lodemor(Request $request)
     {
         $query = Car::query();
@@ -95,4 +93,8 @@ class HomeController extends Controller
 
         return mainResponse(true, __('ok'), $cars, [], 200);
     }
+    public function deals(){
+   return Deals::all();
+    }
+
 }

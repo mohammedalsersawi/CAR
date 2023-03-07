@@ -12,8 +12,7 @@ use Illuminate\Support\Facades\Validator;
 class DealsController extends Controller
 {
 
-
-    public function deals(Request $request){
+    public function deal(Request $request){
         $rules=[
             'deals'=>'required|between:3,255',
             'image'=>'required|image',

@@ -44,8 +44,9 @@ Route::controller(UserOrderController::class)->prefix('orders')->name('orders.')
 });
 Route::post('plates',[PlatesController::class, 'plates']);
 Route::get('plates',[PlatesController::class, 'getplates']);
-Route::post('deals',[DealsController::class, 'deals']);
+Route::post('deal',[DealsController::class, 'deal']);
 Route::post('deal_code',[DealsController::class, 'deal_code']);
+Route::get('deals',[HomeController::class, 'deals']);
 
 
 
