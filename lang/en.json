@@ -356,7 +356,9 @@
   "numberone" : "numberone",
   "numbertow" : "numbertow",
   "stringone" : "stringone",
-  "stringtow" : "stringtow"
+  "stringtow" : "stringtow",
+  "Sold" : "Sold",
+  "Nat_Sold" : "Not Sold"
 
 
 }

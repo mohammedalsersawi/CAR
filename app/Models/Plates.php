@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\File;
+use App\Models\User;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Plates extends Model
 {
@@ -13,7 +14,7 @@ class Plates extends Model
     protected $primaryKey = 'uuid';
     public $incrementing = false;
     protected $guarded=[];
-    protected $appends = ['city_name'];
+    protected $appends = ['city_name' ,'user_name'];
 
     public function city(){
         return @$this->belongsTo(City::class);
@@ -29,5 +30,13 @@ class Plates extends Model
         self::creating(function ($photographer) {
             $photographer->uuid = Str::uuid();
         });
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+    public function getUserNameAttribute()
+    {
+        return @$this->user->name;
     }
 }

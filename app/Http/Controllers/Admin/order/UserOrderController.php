@@ -98,9 +98,6 @@ class UserOrderController extends Controller
                 }else{
                    $string .=($que->status==UserOrder::rejected)?__('rejected'):__('accepted');
                 }
-
-
-
                 return $string;
             })
             ->addColumn('delete',function ($que){

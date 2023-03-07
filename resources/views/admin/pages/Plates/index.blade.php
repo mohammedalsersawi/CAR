@@ -135,19 +135,29 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="user_id">@lang('user_name')</label>
-                                    <select name="user_id" id="" class="search_input form-control"
+                                    <select name="user_id" id="" class="form-control"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                        <option selected disabled>Select @lang('user')</option>
+                                        <option selected disabled>@lang('select') @lang('users')</option>
+                                        @foreach ($users as $item)
+                                            <option value="{{ $item->id }}">
+                                                {{ $item->phone }}
+                                            </option>
+                                        @endforeach
                                     </select>
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="">@lang('cities')</label>
-                                    <select id="" class="search_input form-control"
+                                    <label for="city_id">@lang('cities')</label>
+                                    <select id="" class="form-control" name="city_id"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                        <option value="">11</option>
+                                        <option selected disabled>@lang('select') @lang('cities')</option>
+                                        @foreach ($cities as $item)
+                                            <option value="{{ $item->id }}">
+                                                {{ $item->name }}
+                                            </option>
+                                        @endforeach
                                     </select>
                                     <div class="invalid-feedback"></div>
                                 </div>
@@ -196,20 +206,20 @@
                 <form action="{{ route('Plates.update') }}" method="POST" id="form_edit" class=""
                     enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" name="id" id="id" class="form-control" />
+                    <input type="hidden" name="uuid" id="uuid" class="form-control" />
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('numberone')</label>
-                                    <input type="text" class="form-control" name="numberone">
+                                    <input type="text" class="form-control" name="numberone" id="numberone">
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('stringone')</label>
-                                    <input type="text" class="form-control" name="stringone">
+                                    <input type="text" class="form-control" name="stringone" id="stringone">
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
@@ -219,14 +229,14 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('numbertow')</label>
-                                    <input type="text" class="form-control" name="numbertow">
+                                    <input type="text" class="form-control" name="numbertow" id="numbertow">
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('stringtow')</label>
-                                    <input type="text" class="form-control" name="stringtow">
+                                    <input type="text" class="form-control" name="stringtow" id="stringtow">
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
@@ -235,9 +245,13 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="user_id">@lang('user_name')</label>
-                                    <select name="user_id" id="user_id" class="search_input form-control"
+                                    <select name="user_id" id="edit_user_id" class="form-control"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                        <option value="">11</option>
+                                        @foreach ($users as $item)
+                                            <option value="{{ $item->id }}">
+                                                {{ $item->phone }}
+                                            </option>
+                                        @endforeach
                                     </select>
                                     <div class="invalid-feedback"></div>
                                 </div>
@@ -245,9 +259,13 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="city_id">@lang('cities')</label>
-                                    <select id="city_id" class="search_input form-control"
-                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                        <option value="">11</option>
+                                    <select name="city_id" id="edit_city_id" class="form-control"
+                                 >
+                                        @foreach ($cities as $item)
+                                            <option value="{{ $item->id }}">
+                                                {{ $item->name }}
+                                            </option>
+                                        @endforeach
                                     </select>
                                     <div class="invalid-feedback"></div>
                                 </div>
@@ -259,14 +277,14 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('phone')</label>
-                                    <input type="text" class="form-control" name="phone">
+                                    <input type="text" class="form-control" name="phone" id="phone">
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('price')</label>
-                                    <input type="text" class="form-control" name="price">
+                                    <input type="text" class="form-control" name="price" id="price">
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
@@ -314,7 +332,7 @@
                 @endif // "oPaginate": {"sPrevious": '<-', "sNext": '->'},
             },
             ajax: {
-                url: '{{ route('brand.getData', app()->getLocale()) }}',
+                url: '{{ route('Plates.getData', app()->getLocale()) }}',
                 data: function(d) {
                     d.name = $('#s_name').val();
                 }
@@ -326,17 +344,40 @@
                     searchable: false
                 },
                 {
-                    "data": 'image',
-                    "name": 'image',
-                    render: function(data, type, full, meta) {
-                        return `<img src="{{ asset('uploads/${data}') }}" width="100" class="img-fluid img-thumbnail">`;
-                    },
-                    orderable: false,
-                    searchable: false
+                    data: 'user_name',
+                    name: 'user_name'
                 },
                 {
-                    data: 'name_text',
-                    name: 'name'
+                    data: 'city_name',
+                    name: 'city_name'
+                },
+                {
+                    data: 'numberone',
+                    name: 'numberone'
+                },
+                {
+                    data: 'numbertow',
+                    name: 'numbertow'
+                },
+                {
+                    data: 'stringone',
+                    name: 'stringone'
+                },
+                {
+                    data: 'stringtow',
+                    name: 'stringtow'
+                },
+                {
+                    data: 'phone',
+                    name: 'phone'
+                },
+                {
+                    data: 'price',
+                    name: 'price'
+                },
+                {
+                    data: 'status',
+                    name: 'status'
                 },
 
 
@@ -356,9 +397,17 @@
                 $('input').removeClass('is-invalid');
                 $('.invalid-feedback').text('');
                 event.preventDefault();
-                var button = $(this)
-                var id = button.data('id')
-                $('#id').val(id);
+                var button = $(this);
+                var uuid = button.data('uuid');
+                $('#uuid').val(uuid);
+                $('#numberone').val(button.data('numberone'));
+                $('#numbertow').val(button.data('numbertow'));
+                $('#stringone').val(button.data('stringone'));
+                $('#stringtow').val(button.data('stringtow'));
+                $('#phone').val(button.data('phone'));
+                $('#price').val(button.data('price'));
+                $('#edit_user_id').val(button.data('user_id'));
+                $('#edit_city_id').val(button.data('city_id')).trigger('change');
                 @foreach (locales() as $key => $value)
                     $('#edit_name_{{ $key }}').val(button.data('name_{{ $key }}'))
                 @endforeach

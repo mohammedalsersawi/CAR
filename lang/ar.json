@@ -450,5 +450,7 @@
     "numberone" : "الرقم الاول",
     "numbertow" : "الرقم الثاني",
     "stringone" : "النص الاول",
-    "stringtow" : "النص الثاني"
+    "stringtow" : "النص الثاني",
+    "Sold" : "تم البيع",
+    "Nat_Sold" : "لم تباع"
 }
