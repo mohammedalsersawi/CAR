@@ -445,5 +445,10 @@
     "images_car" : "صور السيارة",
     "Discount Store Type": "نوع متجر الخصم",
     "add row": "اضافة صف",
-    "photographer": "مصور فوتغرافي"
+    "photographer": "مصور فوتغرافي",
+    "Plates" : "اللوحات",
+    "numberone" : "الرقم الاول",
+    "numbertow" : "الرقم الثاني",
+    "stringone" : "النص الاول",
+    "stringtow" : "النص الثاني"
 }

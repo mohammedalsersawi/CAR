@@ -29,10 +29,34 @@ class Photographer extends Model
     {
         return $this->morphOne(Image::class, 'imageable');
     }
-    public function city(){
+
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function ($photographer) {
+            $photographer->uuid = Str::uuid();
+        });
+        self::deleted(function ($photographer) {
+            File::delete(public_path('uploads/' . $photographer->uploudphotographer->filename));
+            $photographer->uploudphotographer()->delete();
+        });
+    }
+
+    public const TYPES = [
+        1 => 'image',
+        2 => 'imageVideo',
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+    public function city()
+    {
         return @$this->belongsTo(City::class);
     }
-    public function area(){
+    public function area()
+    {
         return @$this->belongsTo(Area::class);
     }
     public function getCityNameAttribute()
@@ -43,27 +67,6 @@ class Photographer extends Model
     {
         return @$this->area->name;
     }
-    public static function boot()
-    {
-        parent::boot();
-        self::creating(function ($photographer) {
-            $photographer->uuid = Str::uuid();
-        });
-        self::deleteddeleted(function ($photographer) {
-            File::delete(public_path('uploads/' . $photographer->uploudphotographer->filename));
-            $photographer->uploudphotographer()->delete();
-        });
-    }
-    public const TYPES = [
-        1 => 'image',
-        2 => 'imageVideo',
-    ];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
-
     public function getUserNameAttribute()
     {
         return @$this->user->name;
