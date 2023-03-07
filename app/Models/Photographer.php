@@ -1,11 +1,6 @@
 <?php
 
 namespace App\Models;
-
-use App\Models\Area;
-use App\Models\City;
-use App\Models\User;
-use App\Models\Image;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use Illuminate\Database\Eloquent\Model;

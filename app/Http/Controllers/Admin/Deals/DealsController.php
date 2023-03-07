@@ -24,15 +24,11 @@ class DealsController extends Controller
     {
         $rules = [];
         $rules['image'] = 'required|image';
-        foreach (locales() as $key => $language) {
-            $rules['deals_' . $key] = 'required|string|max:255';
-        }
+        $rules['deals'] = 'required|string|max:255';
 
         $this->validate($request, $rules);
         $data = [];
-        foreach (locales() as $key => $language) {
-            $data['deals'][$key] = $request->get('deals_' . $key);
-        }
+        $data['deals']= $request->get('deals');
         $data['user_id']=$request->user_id;
         $deals =  Deals::create($data);
         UploadImage($request->image, null, 'App\Models\Deals', $deals->uuid, false);
@@ -41,15 +37,12 @@ class DealsController extends Controller
     public function update(Request $request)
     {
         $rules = [];
-        foreach (locales() as $key => $language) {
-            $rules['deals_' . $key] = 'required|string|max:255';
-        }
+        $rules['deals'] = 'required|string|max:255';
+
         $rules['image'] = 'c|image';
         $this->validate($request, $rules);
         $data = [];
-        foreach (locales() as $key => $language) {
-            $data['deals'][$key] = $request->get('deals_' . $key);
-        }
+        $data['deals']= $request->get('deals');
 
         $data['user_id']=$request->user_id;
 
@@ -78,7 +71,7 @@ class DealsController extends Controller
                     $query->whereIn('user_id', $user);
                 }
                 if ($request->get('deals')) {
-                    $query->where('deals->'.locale(),'like', "%{$request->get('deals')}%");
+                    $query->where('deals','like', "%{$request->get('deals')}%");
                 }
                 if ($request->get('discount_type_id')) {
                     $user=User::where('discount_type_id',$request->get('discount_type_id'))->pluck('id');
@@ -92,9 +85,6 @@ class DealsController extends Controller
                 $data_attr .= 'data-user_id="' . $que->user_id . '" ';
                 $data_attr .= 'data-discount_store_type="' . $que->discount_store_type . '" ';
                 $data_attr .= 'data-image="' . @$que->image->filename . '" ';
-                foreach (locales() as $key => $value) {
-                    $data_attr .= 'data-deals_' . $key . '="' . $que->getTranslation('deals', $key) . '" ';
-                }
                 $string = '';
                 $string .= '<button class="edit_btn btn btn-sm btn-outline-primary btn_edit" data-toggle="modal"
                     data-target="#edit_modal" ' . $data_attr . '>' . __('edit') . '</button>';
