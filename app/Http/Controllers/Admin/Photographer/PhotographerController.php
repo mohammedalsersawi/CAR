@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers\Admin\Photographer;
 
-use App\Models\Area;
 use App\Models\City;
 use App\Models\User;
-use App\Models\Deals;
 use App\Models\Country;
 use App\Models\Photographer;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Controllers\Admin\ResponseTrait;
@@ -85,10 +82,28 @@ class PhotographerController extends Controller
     }
     public function getData(Request $request)
     {
-        $Photographer = Photographer::all();
+        $Photographer = Photographer::query();
 
         return Datatables::of($Photographer)
+            ->filter(function ($query) use ($request) {
 
+                if ($request->get('city_id')) {
+                    $query->where('city_id',$request->get('city_id'));
+                }
+                if ($request->get('area_id')) {
+                    $query->where('area_id',$request->get('area_id'));
+                }
+                if ($request->get('phone')) {
+                    $query->where('phone','like', "%{$request->phone}%");
+                }
+                if ($request->get('date')) {
+                    $query->where('date', $request->get('date'));
+                }
+                if ($request->get('user_id')) {
+                    $query->where('user_id', $request->get('user_id'));
+                }
+
+            })
             ->addIndexColumn()
             ->addColumn('action', function ($que) {
                 $data_attr = '';

@@ -55,22 +55,7 @@ class Photographer extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
-    public function city()
-    {
-        return @$this->belongsTo(City::class);
-    }
-    public function area()
-    {
-        return @$this->belongsTo(Area::class);
-    }
-    public function getCityNameAttribute()
-    {
-        return @$this->city->name;
-    }
-    public function getAreaNameAttribute()
-    {
-        return @$this->area->name;
-    }
+
     public function getUserNameAttribute()
     {
         return @$this->user->name;
