@@ -446,22 +446,16 @@
     "Discount Store Type": "نوع متجر الخصم",
     "add row": "اضافة صف",
     "photographer": "مصور فوتغرافي",
-<<<<<<< HEAD
     "plates failed": "فشل تقديم الاعلان",
     "plates successfully": "تم تقديم الاعلان",
     "deals failed": "فشل تقديم صفقة",
-    "deals successfully": "تم تقديم صفقة"
-=======
+    "deals successfully": "تم تقديم صفقة",
     "Plates" : "اللوحات",
     "numberone" : "الرقم الاول",
     "numbertow" : "الرقم الثاني",
     "stringone" : "النص الاول",
-<<<<<<< HEAD
-    "stringtow" : "النص الثاني"
->>>>>>> fb64e7a08287d51e4e6d233f1d7c4d356608ea99
-=======
     "stringtow" : "النص الثاني",
     "Sold" : "تم البيع",
     "Nat_Sold" : "لم تباع"
->>>>>>> 73720660414fc7c0b16861a58ec6af168bc937ba
+
 }
