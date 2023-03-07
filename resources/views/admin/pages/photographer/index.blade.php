@@ -1,6 +1,6 @@
 @extends('admin.part.app')
 @section('title')
-    @lang('area')
+    @lang('photographer')
 @endsection
 @section('styles')
 @endsection
@@ -10,12 +10,12 @@
             <div class="content-header-left col-md-9 col-12 mb-2">
                 <div class="row breadcrumbs-top">
                     <div class="col-12">
-                        <h2 class="content-header-title float-left mb-0">@lang('area')</h2>
+                        <h2 class="content-header-title float-left mb-0">@lang('photographer')</h2>
                         <div class="breadcrumb-wrapper">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ url('/admin') }}">@lang('home')</a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="{{ route('area.index') }}">@lang('area')</a>
+                                <li class="breadcrumb-item"><a href="{{ route('photographer.index') }}">@lang('photographer')</a>
                                 </li>
                             </ol>
                         </div>
@@ -31,7 +31,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="head-label">
-                                    <h4 class="card-title">photographer</h4>
+                                    <h4 class="card-title">@lang('photographer')</h4>
                                 </div>
                                 <div class="text-right">
                                     <div class="form-gruop">
@@ -49,21 +49,21 @@
                                             <div class="form-group">
                                                 <label for="s_mobile">@lang('phone')</label>
                                                 <input id="s_phone" type="text" class="search_input form-control"
-                                                       placeholder="@lang('phone')">
+                                                    placeholder="@lang('phone')">
                                             </div>
                                         </div>
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="s_name">@lang('name')</label>
                                                 <input id="s_name" type="text" class="search_input form-control"
-                                                       placeholder="@lang('name')">
+                                                    placeholder="@lang('name')">
                                             </div>
                                         </div>
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="city_id">@lang('city')</label>
                                                 <select name="city_id" id="s_city" class="search_input form-control"
-                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                                    data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                                     <option selected disabled>Select @lang('city')</option>
                                                     @foreach ($cities as $itemm)
                                                         <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
@@ -76,7 +76,7 @@
                                             <div class="form-group">
                                                 <label for="area_id">@lang('area')</label>
                                                 <select name="area_id" id="s_area" class="search_input form-control"
-                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                                    data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                                 </select>
                                             </div>
                                         </div>
@@ -84,11 +84,11 @@
                                             <div class="form-group">
                                                 <label for="status">@lang('status')</label>
                                                 <select name="status" id="s_status" class="search_input form-control"
-                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                                    data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                                     <option selected disabled>Select @lang('status')</option>
 
                                                     <option value="3"> @lang('pending') </option>
-                                                     <option value="1"> @lang('accepted') </option>
+                                                    <option value="1"> @lang('accepted') </option>
                                                     <option value="2"> @lang('rejected') </option>
 
                                                 </select>
@@ -147,8 +147,8 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('photographer.store') }}" method="POST" id="add_model_form" class="add-mode-form"
-                    enctype="multipart/form-data">
+                <form action="{{ route('photographer.store') }}" method="POST" id="add_model_form"
+                    class="add-mode-form" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
                         <div class="row">

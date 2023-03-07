@@ -350,7 +350,8 @@
   "order_successfully" : "Application submitted successfully",
   "order_failed" : "Application submitted failed",
   "details" : "Details",
-  "images_car" : "Images Car"
+  "images_car" : "Images Car",
+  "photographer" : "photographer"
 
 
 }
