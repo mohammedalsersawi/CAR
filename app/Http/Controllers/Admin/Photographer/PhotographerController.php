@@ -2,108 +2,102 @@
 
 namespace App\Http\Controllers\Admin\Photographer;
 
-use App\Http\Controllers\Admin\ResponseTrait;
-use App\Http\Controllers\Controller;
 use App\Models\Area;
 use App\Models\City;
+use App\Models\User;
+use App\Models\Deals;
 use App\Models\Country;
 use App\Models\Photographer;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Http\Controllers\Controller;
+use Yajra\DataTables\Facades\DataTables;
+use App\Http\Controllers\Admin\ResponseTrait;
 
 class PhotographerController extends Controller
 {
     use ResponseTrait;
     public function index()
     {
-        $cities=City::select(['name','id'])->get();
-        $country=Country::select(['name','id'])->get();
-        return view('admin.pages.photographer.index',compact('country','cities'));
+        $cities = City::select(['name', 'id'])->get();
+        $country = Country::select(['name', 'id'])->get();
+        $users = User::select(['name', 'id', 'phone'])->get();
+        $type =  Photographer::TYPES;
+        return view('admin.pages.photographer.index', compact('country', 'cities', 'users', 'type'));
     }
     public function store(Request $request)
     {
         $rules = [];
-        $rules['image'] = 'required|image';
-        $rules['city_id'] = 'nullable|exists:cities,id';
-        $rules['user_id'] = 'required|exists:users,id';
-        $rules ['area_id']=
-            ['nullable',
-                Rule::exists(Area::class, 'id')->where(function ($query) use ($request) {
-                    $query->where('city_id',$request->city_id);
-                }),
-            ];
-        $rules['time'] = 'required';
+        $rules['typeContent'] = 'required';
+        $rules['video'] = 'required_if:typeContent,2';
+        $rules['image'] = 'required_if:typeContent,1,2';
+        $rules['user_id'] = 'required';
+        $rules['phone'] = 'required|numeric';
+        $rules['country_id'] = 'required';
+        $rules['area_id'] = 'required_with:city_id';
+        $rules['city_id'] = 'required_with:country_id';
         $rules['date'] = 'required';
-
         $this->validate($request, $rules);
-
-        $photographer =  Photographer::create($request->only(['user_id','city_id','area_id','time','date']));
-        UploadImage($request->image, null, Photographer::class, $photographer->uuid, false);
+        $photographer =  Photographer::create($request->only(['user_id', 'city_id', 'area_id', 'date', 'phone']));
+        if ($request->hasFile('image')) {
+            UploadImage($request->image, null, Photographer::class, $photographer->uuid, false);
+        }
+        if ($request->hasFile('video')) {
+            UploadImage($request->video, null, Photographer::class, $photographer->uuid, false);
+        }
         return $this->sendResponse(null, __('item_added'));
     }
     public function update(Request $request)
     {
         $rules = [];
-        foreach (locales() as $key => $language) {
-            $rules['deals_' . $key] = 'required|string|max:255';
-        }
-        $rules['image'] = 'c|image';
+        // $rules['typeContent'] = 'required';
+        // $rules['video'] = 'required_if:typeContent,2';
+        // $rules['image'] = 'required_if:typeContent,1,2';
+        $rules['user_id'] = 'required';
+        $rules['phone'] = 'required|numeric';
+        $rules['country_id'] = 'required';
+        $rules['area_id'] = 'required_with:city_id';
+        $rules['city_id'] = 'required_with:country_id';
+        $rules['date'] = 'required';
         $this->validate($request, $rules);
-        $data = [];
-        foreach (locales() as $key => $language) {
-            $data['deals'][$key] = $request->get('deals_' . $key);
-        }
-
-        $data['user_id']=$request->user_id;
-
-        $deals =Deals::findOrFail($request->uuid);
-
-        $deals->update($data);
+        $photographer =  Photographer::findOrFail($request->uuid);
+        $photographer->user_id = $request->user_id;
+        $photographer->phone = $request->phone;
+        $photographer->area_id = $request->area_id;
+        $photographer->city_id = $request->city_id;
+        $photographer->date = $request->date;
+        $photographer->save();
         if ($request->hasFile('image')) {
-            UploadImage($request->image, null, 'App\Models\Deals', $deals->uuid, true);
+            UploadImage($request->image, null, Photographer::class, $photographer->uuid, true);
         }
-        return $this->sendResponse(null, __('item_edited'));
+        if ($request->hasFile('video')) {
+            UploadImage($request->video, null, Photographer::class, $photographer->uuid, true);
+        }
+        return $this->sendResponse(null, __('item_added'));
 
+
+        return $this->sendResponse(null, __('item_edited'));
     }
     public function destroy($uuid)
     {
-        $deals =Deals::destroy($uuid);
+        $photographer = Photographer::destroy($uuid);
         return $this->sendResponse(null, null);
     }
     public function getData(Request $request)
     {
-        $deals = Deals::query();
+        $Photographer = Photographer::all();
 
-        return Datatables::of($deals)
+        return Datatables::of($Photographer)
 
             ->addIndexColumn()
-            ->filter(function ($query) use ($request) {
-                if ($request->get('user_id')) {
-                    $user=User::where('name','like', "%{$request->get('user_id')}%")->pluck('id');
-                    $query->whereIn('user_id', $user);
-                }
-                if ($request->get('deals')) {
-                    $query->where('deals->'.locale(),'like', "%{$request->get('deals')}%");
-                }
-                if ($request->get('discount_type_id')) {
-                    $user=User::where('discount_type_id',$request->get('discount_type_id'))->pluck('id');
-                    $query->whereIn('user_id',$user);
-                }
-//                if ($request->get('search')) {
-//                    $locale = app()->getLocale();
-//                    $query->where('deals->'.locale(), 'like', "%{$request->search['value']}%");
-//                }
-            })
             ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-uuid="' . $que->uuid . '" ';
-                $data_attr .= 'data-deals="' . $que->deals . '" ';
+                $data_attr .= 'data-city_id="' . $que->city_id . '" ';
                 $data_attr .= 'data-user_id="' . $que->user_id . '" ';
-                $data_attr .= 'data-discount_store_type="' . $que->discount_store_type . '" ';
-                $data_attr .= 'data-image="' . @$que->image->filename . '" ';
-                foreach (locales() as $key => $value) {
-                    $data_attr .= 'data-deals_' . $key . '="' . $que->getTranslation('deals', $key) . '" ';
-                }
+                $data_attr .= 'data-area_id="' . $que->area_id . '" ';
+                $data_attr .= 'data-phone="' . $que->phone . '" ';
+                $data_attr .= 'data-date="' . $que->date . '" ';
                 $string = '';
                 $string .= '<button class="edit_btn btn btn-sm btn-outline-primary btn_edit" data-toggle="modal"
                     data-target="#edit_modal" ' . $data_attr . '>' . __('edit') . '</button>';
@@ -111,14 +105,7 @@ class PhotographerController extends Controller
                     '">' . __('delete') . '  </button>';
                 return $string;
             })
-            ->addColumn('image', function ($row) {
-                $imageData = @$row->imageDeal->filename;
-                return @$imageData;
-            })
-
-            ->rawColumns(['image'])
             ->rawColumns(['action'])
             ->make(true);
     }
-
 }

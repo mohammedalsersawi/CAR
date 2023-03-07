@@ -157,6 +157,8 @@
     "select_image": "اختر صوره",
     "image": "الصورة",
     "images": "الصور",
+    "type_content": "نوع المرفقات",
+    "imageVideo": "صورة + فيديو",
     "password": "كلمة المرور",
     "current_password": "كلمة المرور الحاليه",
     "password_confirmation": "تأكيد كلمة المرور",
