@@ -103,7 +103,7 @@ class PlatesController extends Controller
             })
             ->addColumn('status', function ($que) {
                 $string = '';
-                if($que->status == 0){
+                if($que->status == 1){
                     $string .= '<span class="badge badge-primary">' . __('Sold') . '</span>';
                 }else{
                     $string .= '<span class="badge badge-success">' . __('Nat_Sold') . '</span>';
