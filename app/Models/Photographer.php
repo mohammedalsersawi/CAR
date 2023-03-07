@@ -49,16 +49,11 @@ class Photographer extends Model
         self::creating(function ($photographer) {
             $photographer->uuid = Str::uuid();
         });
-    }
-
-    protected static function booted()
-    {
-        static::deleted(function ($photographer) {
+        self::deleteddeleted(function ($photographer) {
             File::delete(public_path('uploads/' . $photographer->uploudphotographer->filename));
             $photographer->uploudphotographer()->delete();
         });
     }
-
     public const TYPES = [
         1 => 'image',
         2 => 'imageVideo',
