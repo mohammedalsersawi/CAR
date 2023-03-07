@@ -12,10 +12,31 @@ class Photographer extends Model
     use HasFactory;
     protected $guarded=[];
     protected $primaryKey = 'uuid';
+    protected $appends = ['city_name','area_name'];
+    protected $hidden=[
+        'city_id',
+        'area_id',
+        'city',
+        'area'
+    ];
     public $incrementing = false;
     public function uploudphotographer()
     {
         return $this->morphOne(Image::class, 'imageable');
+    }
+    public function city(){
+        return @$this->belongsTo(City::class);
+    }
+    public function area(){
+        return @$this->belongsTo(Area::class);
+    }
+    public function getCityNameAttribute()
+    {
+        return @$this->city->name;
+    }
+    public function getAreaNameAttribute()
+    {
+        return @$this->area->name;
     }
     public static function boot()
     {

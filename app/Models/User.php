@@ -87,6 +87,13 @@ class User extends Authenticatable
             return 'sorry';
         }
     }
+    public function photographer(){
+        if ($this->user_type_id==User::PHOTOGRAPHER){
+            return @$this->hasMany(Photographer::class)->where('area_id',$this->area_id);
+        }else{
+            return 'sorry';
+        }
+    }
     public function image()
     {
         return $this->morphOne(Image::class, 'imageable');

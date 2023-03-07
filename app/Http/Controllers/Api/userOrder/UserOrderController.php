@@ -17,9 +17,10 @@ class UserOrderController extends Controller
     {
         $rules = [
             'name' => 'required',
-            'phone' => 'required|between:8,14|unique:user_orders,phone',
+            'phone' => 'required|between:8,14',
             'city_id' => 'required|exists:cities,id',
             'area_id' => 'required|exists:areas,id',
+
         ];
         $vaild = $request->all();
         $validator = Validator::make($vaild, $rules);
@@ -35,7 +36,7 @@ class UserOrderController extends Controller
         ]);
         event(new UserOrderEvent());
 
-        return mainResponse(true, __('order_successfully'), [], [], 101);
+        return mainResponse(true, __('order_successfully'), $data, [], 101);
     }
 
 

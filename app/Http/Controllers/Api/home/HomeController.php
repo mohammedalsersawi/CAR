@@ -47,6 +47,8 @@ class HomeController extends Controller
         ];
             $ads= $user->cars;
             $data= carresourse::collection($ads);
+        }elseif ($user->user_type_id==User::PHOTOGRAPHER){
+            $data= $user->photographer;
         }
 
 
@@ -58,9 +60,8 @@ class HomeController extends Controller
     {
         $query = Car::query();
         $query->when($request->get('search'), function ($query, $search) {
-            $query->where(function ($query) use ($search) {
                 $query->where('year', $search)
-                    ->orWhere(function ($query) use ($search) {
+                      ->orWhere(function ($query) use ($search) {
                         $query->whereHas('brand', function ($query) use ($search) {
                             $query->where('name->' . locale(), 'like', "%{$search}%");
                             foreach (locales() as $key => $value) {
@@ -69,7 +70,7 @@ class HomeController extends Controller
                             }
                         });
                     })
-                    ->orWhere(function ($query) use ($search) {
+                      ->orWhere(function ($query) use ($search) {
                         $query->whereHas('model', function ($query) use ($search) {
                             $query->where('name->' . locale(), 'like', "%{$search}%");
                             foreach (locales() as $key => $value) {
@@ -78,8 +79,11 @@ class HomeController extends Controller
                             }
                         });
                     });
-            });
+
         });
+
+
+
         $ads = $query->select(['uuid', 'brand_id', 'model_id', 'year'])->paginate(6);
         $cars = carresourse::collection($ads);
 
