@@ -15,7 +15,8 @@
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ url('/admin') }}">@lang('home')</a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="{{ route('photographer.index') }}">@lang('photographer')</a>
+                                <li class="breadcrumb-item"><a
+                                        href="{{ route('photographer.index') }}">@lang('photographer')</a>
                                 </li>
                             </ol>
                         </div>
@@ -83,7 +84,8 @@
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="area_id">@lang('date')</label>
-                                                <input name="date" type="date" id="s_date" class="search_input form-control">
+                                                <input name="date" type="date" id="s_date"
+                                                    class="search_input form-control">
 
                                             </div>
                                         </div>
@@ -215,7 +217,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('type_content')</label>
                                     <select class="form-control type_content" name="typeContent" id=""
@@ -227,16 +229,13 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-12" style="display: none">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for=""></label>
-                                    <select class="form-control" name="" id=""
-                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                        <option selected disabled>Select @lang('select')</option>
-
-                                    </select>
+                                    <label for="">@lang('time')</label>
+                                    <input type="time" class="form-control" name="time" id="">
                                 </div>
                             </div>
+
                         </div>
                         <div class="row">
                             <div class="col-md-6 content-1" style="display: none" id="">
