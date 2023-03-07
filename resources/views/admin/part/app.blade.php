@@ -604,6 +604,7 @@
 
         $(document).on('click', '.button_modal', function(event) {
             $('input').removeClass('is-invalid');
+            $('select').removeClass('is-invalid');
             $('.invalid-feedback').text('');
         });
     </script>
