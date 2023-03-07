@@ -1,11 +1,6 @@
 <?php
 
 namespace App\Models;
-
-use App\Models\Area;
-use App\Models\City;
-use App\Models\User;
-use App\Models\Image;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use Illuminate\Database\Eloquent\Model;
@@ -49,7 +44,7 @@ class Photographer extends Model
         self::creating(function ($photographer) {
             $photographer->uuid = Str::uuid();
         });
-        self::deleteddeleted(function ($photographer) {
+        self::deleted(function ($photographer) {
             File::delete(public_path('uploads/' . $photographer->uploudphotographer->filename));
             $photographer->uploudphotographer()->delete();
         });

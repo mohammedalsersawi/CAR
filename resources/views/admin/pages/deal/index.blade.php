@@ -129,17 +129,17 @@
                     enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
-                        @foreach (locales() as $key => $value)
+
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label for="deals_{{ $key }}">@lang('deals') @lang($value)</label>
+                                    <label for="deals">@lang('deals')</label>
                                     <input type="text" class="form-control"
-                                        placeholder="@lang('deals') @lang($value)" name="deals_{{ $key }}"
-                                        id="deals_{{ $key }}">
+                                        placeholder="@lang('deals')" name="deals"
+                                        id="deals">
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
-                        @endforeach
+
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="user_id">@lang('users')</label>
@@ -187,17 +187,17 @@
                     @csrf
                     <input type="hidden" name="uuid" id="uuid" class="form-control" />
                     <div class="modal-body">
-                        @foreach (locales() as $key => $value)
+
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label for="deals_{{ $key }}">@lang('deals') @lang($value)</label>
+                                    <label for="deals">@lang('deals')</label>
                                     <input type="text" class="form-control"
-                                        placeholder="@lang('deals') @lang($value)"
-                                        name="deals_{{ $key }}" id="edit_name_{{ $key }}">
+                                        placeholder="@lang('deals')"
+                                        name="deals" id="edit_name_deals">
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
-                        @endforeach
+
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="user_id">@lang('users')</label>
@@ -299,7 +299,7 @@
                     orderable: false,
                 },
                 {
-                    data: 'text_name',
+                    data: 'deals',
                     name: 'deals',
                     searchable: true,
                     orderable: true,
@@ -328,10 +328,8 @@
                 $('#uuid').val(uuid);
                 $('#edit_user_id').val(button.data('user_id')).trigger('change');
                 $('#edit_discount_type_id').val(button.data('discount_type_id')).trigger('change');
+                $('#edit_name_deals').val(button.data('deals'))
 
-                @foreach (locales() as $key => $value)
-                    $('#edit_name_{{ $key }}').val(button.data('deals_{{ $key }}'))
-                @endforeach
 
             });
         });

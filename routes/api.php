@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\Deals\DealsController;
 use App\Http\Controllers\Api\home\HomeController;
+use App\Http\Controllers\Api\Plates\PlatesController;
 use App\Http\Controllers\Api\userOrder\UserOrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -36,10 +38,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::get('home',[\App\Http\Controllers\Api\home\HomeController::class,'home']);
 Route::post('verification code',[AuthController::class, 'verification_code']);
 Route::post('resend code',[AuthController::class, 'resend_code']);
-
 Route::get('show/cars', [HomeController::class,'lodemor'])->name('cars.lodemor');
-
-
 Route::controller(UserOrderController::class)->prefix('orders')->name('orders.')->group(function () {
     Route::post('/store', 'store')->name('store');
 });
+Route::post('plates',[PlatesController::class, 'plates']);
+Route::get('plates',[PlatesController::class, 'getplates']);
+Route::post('deals',[DealsController::class, 'deals']);
+Route::post('deal_code',[DealsController::class, 'deal_code']);
+
+
+

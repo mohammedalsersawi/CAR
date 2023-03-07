@@ -6,30 +6,24 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use Spatie\Translatable\HasTranslations;
-use Symfony\Component\Uid\Uuid;
+
 
 
 class Deals extends Model
 {
-    use HasFactory, HasTranslations;
-    public $translatable = ['deals'];
+    use HasFactory;
     protected $primaryKey = 'uuid';
     public $incrementing = false;
     protected $guarded = [];
-    protected $appends = ['text_name','user_name','image','discount_store_type'];
+    protected $appends = ['user_name','image','discount_store_type'];
     protected $hidden=[
         'user',
-        'deals',
         'updated_at',
         'updated_at',
         'imageDeal',
         'user_id'
     ];
-    public function getTextNameAttribute()
-    {
-        return @$this->deals;
-    }
+
     public function getUserNameAttribute()
     {
         return @$this->user->name;

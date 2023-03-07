@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('stringone',3);
             $table->string('stringtow',3);
             $table->string('phone');
+            $table->enum('status',[0,1])->default(0);
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('city_id')->nullable()->constrained('cities')->nullOnDelete();
             $table->integer('price');
             $table->timestamps();

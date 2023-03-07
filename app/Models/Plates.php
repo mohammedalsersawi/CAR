@@ -13,6 +13,12 @@ class Plates extends Model
     protected $primaryKey = 'uuid';
     public $incrementing = false;
     protected $guarded=[];
+    protected $hidden=[
+        'city',
+        'city_id',
+        'updated_at',
+        'created_at'
+    ];
     protected $appends = ['city_name'];
 
     public function city(){
