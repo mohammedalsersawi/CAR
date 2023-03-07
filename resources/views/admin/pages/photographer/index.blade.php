@@ -62,8 +62,7 @@
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="city_id">@lang('city')</label>
-                                                <select name="city_id" id="s_city" class="search_input form-control"
-                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                                <select name="city_id" id="s_city" class="search_input form-control">
                                                     <option selected disabled>Select @lang('city')</option>
                                                     @foreach ($cities as $itemm)
                                                         <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
@@ -82,19 +81,11 @@
                                         </div>
                                         <div class="col-3">
                                             <div class="form-group">
-                                                <label for="status">@lang('status')</label>
-                                                <select name="status" id="s_status" class="search_input form-control"
-                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                                    <option selected disabled>Select @lang('status')</option>
+                                                <label for="area_id">@lang('date')</label>
+                                                <input name="date" type="date" id="s_date" class="search_input form-control">
 
-                                                    <option value="3"> @lang('pending') </option>
-                                                     <option value="1"> @lang('accepted') </option>
-                                                    <option value="2"> @lang('rejected') </option>
-
-                                                </select>
                                             </div>
                                         </div>
-
 
                                         <div class="col-3" style="margin-top: 20px">
                                             <div class="form-group">
@@ -461,7 +452,9 @@
                 data: function(d) {
                     d.city_id = $('#s_city').val();
                     d.area_id = $('#s_area').val();
-                    d.status = $('#s_status').val();
+                    d.user_id = $('#s_name').val();
+                    d.phone = $('#s_phone').val()
+                    d.status = $('#s_date').val();
 
                 }
             },

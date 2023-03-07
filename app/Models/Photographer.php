@@ -16,7 +16,6 @@ class Photographer extends Model
     use HasFactory;
     protected $guarded = [];
     protected $primaryKey = 'uuid';
-    protected $appends = ['city_name','area_name'];
     protected $hidden=[
         'city_id',
         'area_id',
@@ -69,6 +68,7 @@ class Photographer extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
     public function getUserNameAttribute()
     {
         return @$this->user->name;
