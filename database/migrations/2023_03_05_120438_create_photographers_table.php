@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('area_id')->nullable()->constrained('areas')->nullOnDelete()->cascadeOnUpdate();
             $table->string('phone',15);
             $table->date('date');
+            $table->time('time');
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
 
