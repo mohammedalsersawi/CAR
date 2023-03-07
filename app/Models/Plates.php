@@ -20,7 +20,7 @@ class Plates extends Model
         'updated_at',
         'created_at'
     ];
-    protected $appends = ['city_name'];
+    protected $appends = ['city_name' , 'user_name'];
 
     public function city(){
         return @$this->belongsTo(City::class);
