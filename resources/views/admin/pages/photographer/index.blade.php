@@ -150,7 +150,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('country')</label>
-                                    <select name="country_id" id="edit_country" class="select form-control"
+                                    <select name="country_id" id="" class="select form-control"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                         <option selected disabled>Select @lang('country')</option>
                                         @foreach ($country as $itemm)
@@ -178,7 +178,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('area')</label>
-                                    <select name="area_id" id="edit_area" class="select form-control"
+                                    <select name="area_id" id="" class="select form-control"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                         <option selected disabled>Select @lang('area')</option>
                                     </select>
@@ -515,11 +515,17 @@
                 event.preventDefault();
                 var button = $(this);
                 var uuid = button.data('uuid');
-                $('#edit_city_id').val(button.data('city_id')).trigger('change');
                 $('#edit_user_id').val(button.data('user_id')).trigger('change');
                 $('#phone').val(button.data('phone'));
                 $('#date').val(button.data('date'));
+                $('#time').val(button.data('time'));
+                $('#edit_country').val(button.data('country_id'));
+                $('#edit_city_id').append('<option value="' + button.data('city_id') + '" selected>' + button
+                    .data('city_name') + '</option>');
+                $('#edit_area').append('<option value="' + button.data('area_id') + '" selected>' + button
+                    .data('area_name') + '</option>');
                 $('#id').val(uuid);
+
                 @foreach (locales() as $key => $value)
                     $('#edit_name_{{ $key }}').val(button.data('name_{{ $key }}'))
                 @endforeach

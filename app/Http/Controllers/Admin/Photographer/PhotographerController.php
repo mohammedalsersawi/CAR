@@ -116,6 +116,9 @@ class PhotographerController extends Controller
                 $data_attr .= 'data-phone="' . $que->phone . '" ';
                 $data_attr .= 'data-date="' . $que->date . '" ';
                 $data_attr .= 'data-time="' . $que->time . '" ';
+                $data_attr .= 'data-city_name="' . $que->city->name . '" ';
+                $data_attr .= 'data-area_name="' . $que->area->name . '" ';
+                $data_attr .= 'data-country_id="' . $que->city->country->id . '" ';
                 $string = '';
                 $string .= '<button class="edit_btn btn btn-sm btn-outline-primary btn_edit" data-toggle="modal"
                     data-target="#edit_modal" ' . $data_attr . '>' . __('edit') . '</button>';

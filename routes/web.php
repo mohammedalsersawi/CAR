@@ -1,24 +1,25 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\DataController;
 use App\Http\Controllers\Admin\Ads\AdsCarController;
+use App\Http\Controllers\Admin\Deals\DealsController;
+use App\Http\Controllers\Admin\Car\City\CityController;
+use App\Http\Controllers\Admin\Plates\PlatesController;
+use App\Http\Controllers\Admin\UserTyue\TypeController;
 use App\Http\Controllers\Admin\Car\area\AreaControllerr;
 use App\Http\Controllers\Admin\Car\Brand\BrandController;
-use App\Http\Controllers\Admin\Car\City\CityController;
 use App\Http\Controllers\Admin\Car\Color\ColorController;
-use App\Http\Controllers\Admin\Car\country\CountryController;
-use App\Http\Controllers\Admin\Car\Engine\EngineController;
-use App\Http\Controllers\Admin\Car\FulType\FuelTypeController;
 use App\Http\Controllers\Admin\Car\Model\ModelController;
-use App\Http\Controllers\Admin\Car\Transmission\TransmissionController;
-use App\Http\Controllers\Admin\DataController;
-use App\Http\Controllers\Admin\Deals\DealsController;
 use App\Http\Controllers\Admin\order\UserOrderController;
-use App\Http\Controllers\Admin\Photographer\PhotographerController;
 use App\Http\Controllers\Admin\Setting\SettingController;
-use App\Http\Controllers\Admin\UserTyue\TypeController;
+use App\Http\Controllers\Admin\Car\Engine\EngineController;
 use App\Http\Controllers\Admin\UserTyue\UserTypeController;
-use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+use App\Http\Controllers\Admin\Car\country\CountryController;
+use App\Http\Controllers\Admin\Car\FulType\FuelTypeController;
+use App\Http\Controllers\Admin\Photographer\PhotographerController;
+use App\Http\Controllers\Admin\Car\Transmission\TransmissionController;
 
 
 Route::prefix('/test')->group(function () {
@@ -149,6 +150,13 @@ Route::group(
             Route::delete('{uuid}','destroy')->name('delete');
         });
         Route::controller(PhotographerController::class)->name('photographer.')->prefix('photographer')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('/store', 'store')->name('store');
+            Route::post('/update', 'update')->name('update');
+            Route::delete('/{id?}', 'destroy')->name('delete');
+            Route::get('/getData', 'getData')->name('getData');
+        });
+        Route::controller(PlatesController::class)->name('Plates.')->prefix('Plates')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::post('/store', 'store')->name('store');
             Route::post('/update', 'update')->name('update');

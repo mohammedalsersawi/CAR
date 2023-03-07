@@ -24,20 +24,7 @@ class Photographer extends Model
     {
         return $this->morphOne(Image::class, 'imageable');
     }
-    public function city(){
-        return @$this->belongsTo(City::class);
-    }
-    public function area(){
-        return @$this->belongsTo(Area::class);
-    }
-    public function getCityNameAttribute()
-    {
-        return @$this->city->name;
-    }
-    public function getAreaNameAttribute()
-    {
-        return @$this->area->name;
-    }
+
     public static function boot()
     {
         parent::boot();
@@ -49,6 +36,7 @@ class Photographer extends Model
             $photographer->uploudphotographer()->delete();
         });
     }
+
     public const TYPES = [
         1 => 'image',
         2 => 'imageVideo',
@@ -58,7 +46,22 @@ class Photographer extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
-
+    public function city()
+    {
+        return @$this->belongsTo(City::class);
+    }
+    public function area()
+    {
+        return @$this->belongsTo(Area::class);
+    }
+    public function getCityNameAttribute()
+    {
+        return @$this->city->name;
+    }
+    public function getAreaNameAttribute()
+    {
+        return @$this->area->name;
+    }
     public function getUserNameAttribute()
     {
         return @$this->user->name;

@@ -23,7 +23,9 @@ return new class extends Migration
             $table->enum('status',[0,1])->default(0);
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('city_id')->nullable()->constrained('cities')->nullOnDelete();
+            $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->integer('price');
+            $table->enum('status', ['0', '1'])->default('0');
             $table->timestamps();
         });
     }
