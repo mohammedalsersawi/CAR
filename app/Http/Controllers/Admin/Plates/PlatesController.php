@@ -80,6 +80,22 @@ class PlatesController extends Controller
 
         $Car = Plates::query();
         return Datatables::of($Car)
+            ->filter(function ($query) use ($request) {
+
+                if ($request->get('city_id')) {
+                    $query->where('city_id',$request->get('city_id'));
+                }
+                if ($request->get('phone')) {
+                    $query->where('phone',$request->get('phone'));
+                }
+                if ($request->get('price')) {
+                    $query->where('price',$request->price);
+                }
+
+                if ($request->get('status') !== null) {
+                    $query->where('status', '=', $request->get('status'));
+                }
+            })
             ->addIndexColumn()
             ->addColumn('action', function ($que) {
                 $data_attr = '';

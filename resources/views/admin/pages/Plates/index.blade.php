@@ -46,10 +46,81 @@
                                 <form id="search_form">
                                     <div class="row">
 
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="s_mobile">@lang('phone')</label>
+                                                <input id="s_phone" type="text" class="search_input form-control"
+                                                       placeholder="@lang('phone')">
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="s_price">@lang('price')</label>
+                                                <input id="s_price" type="text" class="search_input form-control"
+                                                       placeholder="@lang('price')">
+                                            </div>
+                                        </div>
+{{--                                        <div class="col-3">--}}
+{{--                                            <div class="form-group">--}}
+{{--                                                <label for="s_numbertow">@lang('number tow')</label>--}}
+{{--                                                <input id="s_numbertow" type="text" class="search_input form-control"--}}
+{{--                                                       placeholder="@lang('number tow')">--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="col-3">--}}
+{{--                                            <div class="form-group">--}}
+{{--                                                <label for="s_textone">@lang('text one')</label>--}}
+{{--                                                <input id="s_textone" type="text" class="search_input form-control"--}}
+{{--                                                       placeholder="@lang('text one')">--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="col-3">--}}
+{{--                                            <div class="form-group">--}}
+{{--                                                <label for="s_textrtow">@lang('text tow')</label>--}}
+{{--                                                <input id="s_textrtow" type="text" class="search_input form-control"--}}
+{{--                                                       placeholder="@lang('text tow')">--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="city_id">@lang('city')</label>
+                                                <select id="s_city" class="search_input form-control"
+                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                                    <option selected disabled>Select @lang('city')</option>
+                                                    @foreach ($cities as $itemm)
+                                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="">@lang('status')</label>
+                                                <select id="s_status" class="search_input form-control"
+                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                                    <option selected disabled>@lang('select') @lang('status')</option>
+                                                          <option value="0"> @lang('Nat_Sold') </option>
+                                                        <option value="1"> @lang('Sold') </option>
+
+
+                                                </select>
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+
 
                                         <div class="col-3" style="margin-top: 20px">
-
+                                            <div class="form-group">
+                                                <button id="search_btn" class="btn btn-outline-info" type="submit">
+                                                    <span><i class="fa fa-search"></i> @lang('search')</span>
+                                                </button>
+                                                <button id="clear_btn" class="btn btn-outline-secondary" type="submit">
+                                                    <span><i class="fa fa-undo"></i> @lang('reset')</span>
+                                                </button>
+                                            </div>
                                         </div>
+
                                     </div>
                                 </form>
                             </div>
@@ -294,7 +365,7 @@
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('close')</button>
                         <button class="btn btn-primary">@lang('save changes')</button>
                     </div>
-            </div>
+
             </form>
         </div>
     </div>
@@ -334,7 +405,11 @@
             ajax: {
                 url: '{{ route('Plates.getData', app()->getLocale()) }}',
                 data: function(d) {
-                    d.name = $('#s_name').val();
+                    d.status = $('#s_status').val();
+                    d.city_id = $('#s_city').val();
+                    d.phone = $('#s_phone').val();
+                    d.price = $('#s_price').val();
+
                 }
             },
             columns: [{
