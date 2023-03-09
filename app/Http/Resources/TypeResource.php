@@ -19,7 +19,9 @@ class TypeResource extends JsonResource
     {
         $id=User::where('discount_type_id',$this->id)->pluck('id');
         return [
-            $this->name=>Deals::whereIn('user_id',$id)->get()
+            'uuid'=>$this->id,
+            'title'=>$this->name,
+            'deals'=>Deals::whereIn('user_id',$id)->get()
         ];
 
     }

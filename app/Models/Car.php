@@ -19,17 +19,16 @@ class Car extends Model
         'brand',
         'engine',
         'fueltype',
-        'color_interior',
-        'color_exterior',
-        'year',
+        'color_exterior_id',
+        'color_interior_id',
         'model',
         'transmission',
         'model_id',
         'brand_id',
         'transmission_id',
         'user_id',
-        'color_interior_id',
-        'color_exterior_id',
+'color_exterior_car',
+        'color_interior_car',
         'fule_type_id',
         'engine_id',
         'updated_at',
@@ -53,10 +52,10 @@ class Car extends Model
     public function fueltype(){
         return $this->belongsTo(FuelType::class,'fule_type_id');
     }
-    public function color_interior(){
+    public function color_interior_car(){
         return $this->belongsTo(ColorCar::class,'color_interior_id');
     }
-    public function color_exterior(){
+    public function color_exterior_car(){
         return $this->belongsTo(ColorCar::class,'color_exterior_id');
     }
     public function year(){
@@ -101,11 +100,11 @@ class Car extends Model
     }
     public function getColorInteriorAttribute()
     {
-        return @$this->color_interior->name;
+        return @$this->color_interior_car->color;
     }
     public function getColorExteriorAttribute()
     {
-        return @$this->color_exterior->name;
+        return @$this->color_exterior_car->color;
     }
     public function getImagesAttribute()
     {

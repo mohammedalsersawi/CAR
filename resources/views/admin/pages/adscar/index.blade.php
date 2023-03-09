@@ -843,32 +843,32 @@
                     name: 'mileage'
                 },
                 {
-                    data: 'brand',
+                    data: 'brand_name',
                     name: 'brand',
                     orderable: false,
                     searchable: false
                 },
                 {
-                    data: 'model',
+                    data: 'model_name',
                     name: 'model',
                     orderable: false,
                     searchable: false
                 },
 
                 {
-                    data: 'engine',
+                    data: 'engine_name',
                     name: 'engine',
                     orderable: false,
                     searchable: false
                 },
                 {
-                    data: 'fueltype',
+                    data: 'fueltype_name',
                     name: 'fueltype',
                     orderable: false,
                     searchable: false
                 },
                 {
-                    data: 'color_exterior',
+                    data: 'color_exterior_car',
                     "render": function (data, type, full, meta) {
                         return "<div style='background-color:" + data + ";width: 20px;height: 20px'></div>";
                     },
@@ -876,7 +876,7 @@
                     searchable: false
                 },
                 {
-                    data: 'color_interior',
+                    data: 'color_interior_car',
                     "render": function (data, type, full, meta) {
                         return "<div style='background-color:" + data + ";width: 20px;height: 20px'></div>";
                     },
@@ -884,7 +884,7 @@
                     searchable: false
                 },
                 {
-                    data: 'transmission',
+                    data: 'transmission_name',
                     name: 'transmission'
                 },
                 {

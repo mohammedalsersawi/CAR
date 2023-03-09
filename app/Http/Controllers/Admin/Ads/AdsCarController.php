@@ -234,32 +234,15 @@ class AdsCarController extends Controller
 
                 return $string;
             })
-            ->addColumn('brand', function ($row) {
-                return @$row->brand->name;
+
+            ->addColumn('color_exterior_car', function ($row) {
+                return $row->color_exterior_car->color;
             })
-            ->addColumn('model', function ($row) {
-                return @$row->model->name;
+            ->addColumn('color_interior_car', function ($row) {
+                return $row->color_interior_car->color;
             })
-            ->addColumn('engine', function ($row) {
-                return @$row->engine->name;
-            })
-            ->addColumn('fueltype', function ($row) {
-                return @$row->fueltype->name;
-            })
-            ->addColumn('color_exterior', function ($row) {
-                return @$row->color_exterior->color;
-            })
-            ->addColumn('color_interior', function ($row) {
-                return @$row->color_interior->color;
-            })
-            ->addColumn('transmission', function ($row) {
-                return @$row->transmission->name;
-            })
-            //            ->addColumn('image', function ($row) {
-            //                $imageData = @$row->image->filename;
-            //                return $imageData;
-            //            })
-            //            ->rawColumns(['image'])
+
+
             ->rawColumns(['action'])
             ->make(true);
     }
