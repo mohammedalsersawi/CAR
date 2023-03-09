@@ -13,7 +13,7 @@
                         <h2 class="content-header-title float-left mb-0">@lang('area')</h2>
                         <div class="breadcrumb-wrapper">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{{ url('/admin') }}">@lang('home')</a>
+                                <li class="breadcrumb-item"><a href="{{ route('admin.index') }}">@lang('home')</a>
                                 </li>
                                 <li class="breadcrumb-item"><a href="{{ route('area.index') }}">@lang('area')</a>
                                 </li>
@@ -108,7 +108,7 @@
                                 <label for="">@lang('city')</label>
                                 <select name="city_id" id="" class="select form-control"
                                     data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                    <option selected disabled>Select @lang('area')</option>
+                                    <option selected disabled>@lang('select') @lang('city')</option>
                                     @foreach ($cities as $itemm)
                                         <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
                                         </option>
@@ -161,7 +161,7 @@
                             <div class="form-group">
                                 <label for="city_id">@lang('cities')</label>
                                 <select class="form-control" id="edit_city_id" name="city_id" required>
-                                    <option value="">@lang('select') @lang('area')</option>
+                                    <option selected disabled>@lang('select') @lang('city')</option>
                                     @foreach ($cities as $itemm)
                                         <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
                                     @endforeach

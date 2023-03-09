@@ -32,6 +32,9 @@ Route::group(
         'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath']
     ],
     function () {
+        Route::prefix('admin')->middleware('auth')->group(function () {
+            Route::view('/index', 'admin.part.app')->name('admin.index');
+        });
         Route::middleware('auth')->group(function () {
             Route::view('/index', 'admin.part.app');
 
@@ -112,7 +115,8 @@ Route::group(
             Route::delete('/{id}', 'destroy')->name('delete');
             Route::get('/getData', 'getData')->name('getData');
         });
-        Route::controller(UserTypeController::class)->prefix('usertype')->name('usertype.')->group(function () {
+
+        Route::controller(UserTypeController::class)->prefix('users')->name('usertype.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::post('/store', 'store')->name('store');
             Route::post('/update', 'update')->name('update');

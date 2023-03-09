@@ -13,7 +13,7 @@
                         <h2 class="content-header-title float-left mb-0">@lang('Plates')</h2>
                         <div class="breadcrumb-wrapper">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{{ url('/admin') }}">@lang('home')</a>
+                                <li class="breadcrumb-item"><a href="{{ route('admin.index') }}">@lang('home')</a>
                                 </li>
                                 <li class="breadcrumb-item"><a href="{{ route('Plates.index') }}">@lang('Plates')</a>
                                 </li>
@@ -481,7 +481,7 @@
                 $('#stringtow').val(button.data('stringtow'));
                 $('#phone').val(button.data('phone'));
                 $('#price').val(button.data('price'));
-                $('#edit_user_id').val(button.data('user_id'));
+                $('#edit_user_id').val(button.data('user_id')).trigger('change');
                 $('#edit_city_id').val(button.data('city_id')).trigger('change');
                 @foreach (locales() as $key => $value)
                     $('#edit_name_{{ $key }}').val(button.data('name_{{ $key }}'))

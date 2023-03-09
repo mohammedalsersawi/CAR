@@ -13,7 +13,7 @@
                         <h2 class="content-header-title float-left mb-0">@lang('photographer')</h2>
                         <div class="breadcrumb-wrapper">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{{ url('/admin') }}">@lang('home')</a>
+                                <li class="breadcrumb-item"><a href="{{ route('admin.index') }}">@lang('home')</a>
                                 </li>
                                 <li class="breadcrumb-item"><a
                                         href="{{ route('photographer.index') }}">@lang('photographer')</a>
@@ -65,7 +65,7 @@
                                                 <label for="city_id">@lang('city')</label>
                                                 <select name="city_id" id="s_city" class="search_input form-control"
                                                     data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                                    <option selected disabled>Select @lang('city')</option>
+                                                    <option selected disabled>@lang('select') @lang('city')</option>
                                                     @foreach ($cities as $itemm)
                                                         <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
                                                         </option>
@@ -152,7 +152,7 @@
                                     <label for="">@lang('country')</label>
                                     <select name="country_id" id="" class="select form-control"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                        <option selected disabled>Select @lang('country')</option>
+                                        <option selected disabled>@lang('select') @lang('country')</option>
                                         @foreach ($country as $itemm)
                                             <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
                                             </option>
@@ -166,7 +166,7 @@
                                     <label for="">@lang('city')</label>
                                     <select name="city_id" id="edit_city" class="select form-control"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                        <option selected disabled>Select @lang('city')</option>
+                                        <option selected disabled>@lang('select') @lang('city')</option>
                                     </select>
                                     <div class="invalid-feedback"></div>
                                 </div>
@@ -180,7 +180,7 @@
                                     <label for="">@lang('area')</label>
                                     <select name="area_id" id="" class="select form-control"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                        <option selected disabled>Select @lang('area')</option>
+                                        <option selected disabled>@lang('select') @lang('area')</option>
                                     </select>
                                     <div class="invalid-feedback"></div>
                                 </div>
@@ -190,7 +190,7 @@
                                     <label for="">@lang('user')</label>
                                     <select name="user_id" id="" class="form-control"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                        <option selected disabled>Select @lang('users')</option>
+                                        <option selected disabled>@lang('select') @lang('users')</option>
                                         @foreach ($users as $itemm)
                                             <option value="{{ $itemm->id }}"> {{ $itemm->phone }} </option>
                                             </option>
@@ -223,7 +223,7 @@
                                     <label for="">@lang('type_content')</label>
                                     <select class="form-control type_content" name="typeContent" id=""
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                        <option selected disabled>Select @lang('select')</option>
+                                        <option selected disabled>@lang('select') @lang('select')</option>
                                         @foreach ($type as $key => $item)
                                             <option value="{{ $key }}">@lang($item)</option>
                                         @endforeach
@@ -286,7 +286,7 @@
                                     <label for="">@lang('country')</label>
                                     <select name="country_id" id="edit_country" class="select form-control"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                        <option selected disabled>Select @lang('country')</option>
+                                        <option selected disabled>@lang('select') @lang('country')</option>
                                         @foreach ($country as $itemm)
                                             <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
                                             </option>
@@ -300,7 +300,7 @@
                                     <label for="">@lang('city')</label>
                                     <select name="city_id" id="edit_city_id" class="select form-control"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                        <option selected disabled>Select @lang('city')</option>
+                                        <option selected disabled>@lang('select') @lang('city')</option>
                                     </select>
                                     <div class="invalid-feedback"></div>
                                 </div>
@@ -314,7 +314,7 @@
                                     <label for="">@lang('area')</label>
                                     <select name="area_id" id="edit_area" class="select form-control"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                        <option selected disabled>Select @lang('area')</option>
+                                        <option selected disabled>@lang('select') @lang('area')</option>
                                     </select>
                                     <div class="invalid-feedback"></div>
                                 </div>
@@ -324,7 +324,7 @@
                                     <label for="">@lang('user')</label>
                                     <select name="user_id" id="edit_user_id" class="form-control"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                        <option selected disabled>Select @lang('users')</option>
+                                        <option selected disabled>@lang('select') @lang('users')</option>
                                         @foreach ($users as $itemm)
                                             <option value="{{ $itemm->id }}"> {{ $itemm->phone }} </option>
                                             </option>
@@ -359,7 +359,7 @@
                                     <label for="">@lang('type_content')</label>
                                     <select class="form-control type_content" name="typeContent" id=""
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                        <option selected disabled>Select @lang('select')</option>
+                                        <option selected disabled>@lang('select') @lang('select')</option>
                                         @foreach ($type as $key => $item)
                                             <option value="{{ $key }}">@lang($item)</option>
                                         @endforeach
@@ -550,7 +550,7 @@
                             $('select[name="area_id"]').empty();
 
                             $('select[name="area_id"]').append(`
-                             <option selected  disabled>Select @lang('area')</option>
+                             <option selected  disabled>@lang('select') @lang('area')</option>
                              `)
                             $.each(data, function(key, value) {
                                 $('select[name="area_id"]').append('<option value="' +
@@ -576,7 +576,7 @@
                             console.log('ccc')
                             $('select[name="city_id"]').empty();
                             $('select[name="city_id"]').append(`
-                             <option selected  disabled>Select @lang('area')</option>
+                             <option selected  disabled>@lang('select') @lang('area')</option>
                              `)
                             $('select[name="area_id"]').empty();
                             $.each(data, function(key, value) {

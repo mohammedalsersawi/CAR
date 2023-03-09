@@ -13,7 +13,7 @@
                         <h2 class="content-header-title float-left mb-0">@lang('deals')</h2>
                         <div class="breadcrumb-wrapper">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{{ url('/admin') }}">@lang('home')</a>
+                                <li class="breadcrumb-item"><a href="{{ route('admin.index') }}">@lang('home')</a>
                                 </li>
                                 <li class="breadcrumb-item"><a href="{{ route('deals.index') }}">@lang('deals')</a>
                                 </li>
@@ -281,7 +281,7 @@
                     "data": 'image',
                     "name": 'image',
                     render: function(data, type, full, meta) {
-                        return `<img src="{{ asset('uploads/${data}') }}" width="100" class="img-fluid img-thumbnail">`;
+                        return `<img src="{{ asset('uploads/${data}') }}" style="width:100px;height:100px;" class="img-fluid img-thumbnail">`;
                     },
                     orderable: false,
                     searchable: false

@@ -27,7 +27,7 @@
                         <h2 class="content-header-title float-left mb-0">@lang('users')</h2>
                         <div class="breadcrumb-wrapper">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{{ url('/admin') }}">@lang('home')</a>
+                                <li class="breadcrumb-item"><a href="{{ route('admin.index') }}">@lang('home')</a>
                                 </li>
                                 <li class="breadcrumb-item"><a href="{{ route('usertype.index') }}">@lang('users')</a>
                                 </li>
@@ -62,13 +62,7 @@
                             <div class="card-body">
                                 <form id="search_form">
                                     <div class="row">
-{{--                                        <div class="col-3">--}}
-{{--                                            <div class="form-group">--}}
-{{--                                                <label for="s_name">@lang('code')</label>--}}
-{{--                                                <input id="s_number" type="text" class="search_input form-control"--}}
-{{--                                                    placeholder="@lang('code')">--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
+
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="s_mobile">@lang('phone')</label>
@@ -95,19 +89,14 @@
                                                 <label for="area_id">@lang('area')</label>
                                                 <select name="area_id" id="s_area" class="search_input form-control"
                                                     data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                                    {{--                                                    @foreach ($area as $item) --}}
-                                                    {{--                                                        <option value="{{ $item->id }}"> {{ $item->name }} </option> --}}
-                                                    {{--                                                        </option> --}}
-                                                    {{--                                                    @endforeach --}}
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="s_user_type_id">@lang('type')</label>
-                                                <select id="s_user_type_id"
-                                                    class="search_input form-control" data-select2-id="select2-data-1-bgy2"
-                                                    tabindex="-1" aria-hidden="true">
+                                                <select id="s_user_type_id" class="search_input form-control"
+                                                    data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                                     <option selected disabled>Select @lang('type')</option>
                                                     @foreach ($user as $item)
                                                         <option value="{{ $item->id }}"> {{ $item->Name }} </option>
@@ -119,7 +108,7 @@
                                             <div class="form-group">
                                                 <label for="">@lang('Discount Store Type')</label>
                                                 <select id="s_discount_type_id" class="search_input form-control"
-                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                                    data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                                     <option selected disabled>@lang('select') @lang('Discount Store Type')</option>
                                                     @foreach ($type as $itemm)
                                                         <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
@@ -188,39 +177,48 @@
                     enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
-
-                            <div class="row">
-                              <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="phone">@lang('phone')</label>
                                     <input type="number" class="form-control" placeholder="@lang('phone')"
                                         name="phone" id="phone">
                                     <div class="invalid-feedback"></div>
                                 </div>
-                              </div>
                             </div>
-                             <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('name')</label>
                                     <input type="text" class="form-control" placeholder="@lang('name')"
-                                           name="name" id="">
+                                        name="name" id="">
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
                         </div>
-                             <div class="row">
 
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="about">@lang('about')
-                                           </label>
-                                        <input type="text" class="form-control"
-                                            placeholder="@lang('about')"
-                                            name="about" id="about">
-                                        <div class="invalid-feedback"></div>
-                                    </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="about">@lang('about')
+                                    </label>
+                                    <input type="text" class="form-control" placeholder="@lang('about')"
+                                        name="about" id="about">
+                                    <div class="invalid-feedback"></div>
                                 </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">@lang('Discount Store Type')</label>
+                                    <select name="discount_type_id" id="" class="select form-control"
+                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                        <option selected disabled>@lang('select') @lang('Discount Store Type')</option>
+                                        @foreach ($type as $itemm)
+                                            <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
@@ -271,20 +269,6 @@
                                         @foreach ($user as $itemm)
                                             <option value="{{ $itemm->id }}"> {{ $itemm->Name }} </option>
                                             </option>
-                                        @endforeach
-                                    </select>
-                                    <div class="invalid-feedback"></div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="">@lang('Discount Store Type')</label>
-                                    <select name="discount_type_id" id="" class="select form-control"
-                                            data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                        <option selected disabled>@lang('select') @lang('Discount Store Type')</option>
-                                        @foreach ($type as $itemm)
-                                            <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
                                         @endforeach
                                     </select>
                                     <div class="invalid-feedback"></div>
@@ -348,16 +332,14 @@
                     <div class="modal-body">
 
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('name')</label>
                                     <input type="text" class="form-control" placeholder="@lang('name')"
-                                           name="name" id="edit_name">
+                                        name="name" id="edit_name">
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="phone">@lang('phone')</label>
@@ -366,27 +348,30 @@
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
-{{--                            <div class="col-md-6">--}}
-{{--                                <div class="form-group">--}}
-{{--                                    <label for="number">@lang('code')</label>--}}
-{{--                                    <input type="text" class="form-control" placeholder="@lang('code')"--}}
-{{--                                        name="number" id="edit_number">--}}
-{{--                                    <div class="invalid-feedback"></div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
                         </div>
-                        <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="about">@lang('about')
-                                           </label>
-                                        <input type="text" class="form-control"
-                                            placeholder="@lang('about') "
-                                            name="about" id="edit_about">
-                                        <div class="invalid-feedback"></div>
-                                    </div>
-                                </div>
 
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="about">@lang('about')
+                                    </label>
+                                    <input type="text" class="form-control" placeholder="@lang('about') "
+                                        name="about" id="edit_about">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">@lang('Discount Store Type')</label>
+                                    <select name="discount_type_id" id="discount_type_id" class="select form-control">
+                                        <option selected disabled>Select @lang('Discount Store Type')</option>
+                                        @foreach ($type as $itemm)
+                                            <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
@@ -435,20 +420,6 @@
                                         @foreach ($user as $itemm)
                                             <option value="{{ $itemm->id }}"> {{ $itemm->Name }} </option>
                                             </option>
-                                        @endforeach
-                                    </select>
-                                    <div class="invalid-feedback"></div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="">@lang('Discount Store Type')</label>
-                                    <select name="discount_type_id" id="discount_type_id" class="select form-control"
-                                            >
-                                        <option selected disabled>Select @lang('Discount Store Type')</option>
-                                        @foreach ($type as $itemm)
-                                            <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
                                         @endforeach
                                     </select>
                                     <div class="invalid-feedback"></div>
@@ -563,8 +534,7 @@
                     d.discount_type_id = $('#s_discount_type_id').val();
                 }
             },
-            columns: [
-                {
+            columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex',
                     orderable: false,
@@ -582,7 +552,9 @@
                     "data": 'image',
                     "name": 'image',
                     render: function(data, type, full, meta) {
-                        return (data)?`<img src="{{ asset('uploads/${data}') }}" width="100" class="img-fluid img-thumbnail">`:' no image';
+                        return (data) ?
+                            `<img src="{{ asset('uploads/${data}') }}" style="width:100px;height:100px;" class="img-fluid img-thumbnail">` :
+                            ' no image';
                     },
                 },
 
@@ -659,7 +631,7 @@
                 $('#edit_lng').val(button.data('lng'))
                 $('#edit_name').val(button.data('name'))
                 $('#id').val(id);
-                    $('#edit_about').val(button.data('about'))
+                $('#edit_about').val(button.data('about'))
 
                 L.marker([button.data('lat'), button.data('lng')]).addTo(map2)
                     .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
@@ -728,7 +700,7 @@
                 }
             });
         });
-        $('#edit_modal').on('hidden.bs.modal',function () {
+        $('#edit_modal').on('hidden.bs.modal', function() {
             $('select[name="area_id"]').empty();
 
             console.log('ddd');
