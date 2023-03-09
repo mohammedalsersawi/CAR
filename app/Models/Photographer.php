@@ -14,6 +14,10 @@ class Photographer extends Model
     protected $hidden=[
         'city_id',
         'area_id',
+        'updated_at',
+        'created_at',
+        'user_id',
+        'user',
         'city',
         'area'
     ];

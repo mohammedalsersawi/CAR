@@ -9,4 +9,7 @@ class Specification extends Model
 {
     use HasFactory;
     protected $guarded=[];
+    protected $hidden=[
+        'car_id'
+    ];
 }

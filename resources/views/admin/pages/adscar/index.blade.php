@@ -69,6 +69,13 @@
                                                        placeholder="@lang('phone')">
                                             </div>
                                         </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="s_price">@lang('price')</label>
+                                                <input id="s_price" type="text" class="search_input form-control"
+                                                       placeholder="@lang('price')">
+                                            </div>
+                                        </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="s_user_id">@lang('users')</label>
@@ -247,6 +254,7 @@
                                         <th>#</th>
                                         <th>@lang('phone')</th>
                                         <th>@lang('users')</th>
+                                        <th>@lang('price')</th>
                                         <th>@lang('year')</th>
                                         <th>@lang('mileage')</th>
                                         <th>@lang('Brand')</th>
@@ -306,6 +314,14 @@
                                     <label for="phone">@lang('phone')</label>
                                     <input type="text" class="form-control" placeholder="@lang('phone')"
                                            name="phone" id="phone">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="price">@lang('price')</label>
+                                    <input type="text" class="form-control" placeholder="@lang('price')"
+                                           name="price" id="price">
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
@@ -530,6 +546,15 @@
                                     <label for="phone">@lang('phone')</label>
                                     <input type="text" class="form-control" placeholder="@lang('phone')"
                                            name="phone" id="edit_phone">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="price">@lang('price')</label>
+                                    <input type="text" class="form-control" placeholder="@lang('price')"
+                                           name="price" id="edit_price">
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
@@ -783,6 +808,7 @@
                     d.model = $('#s_model').val();
                     d.engine = $('#s_engine').val();
                     d.fueltype = $('#s_fuel').val();
+                    d.price = $('#s_price').val();
                     d.transmission = $('#s_transmission').val();
                     d.color_exterior = $('#s_color_exterior').val();
                     d.color_interior = $('#s_color_interior').val();
@@ -804,7 +830,10 @@
                     data: 'user_name',
                     name: 'user_id'
                 },
-
+                {
+                    data: 'price',
+                    name: 'price'
+                },
                 {
                     data: 'year',
                     name: 'year'
@@ -891,6 +920,7 @@
                 $('#edit_lat').val(button.data('lat'))
                 $('#edit_year').val(button.data('year')).trigger('change')
                 $('#edit_lng').val(button.data('lng'))
+                $('#edit_price').val(button.data('price'))
                 $('#edit_user').val(button.data('user')).trigger('change')
 
                 $('#edit_mileage').val(button.data('mileage'))

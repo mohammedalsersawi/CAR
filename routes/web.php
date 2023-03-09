@@ -32,9 +32,9 @@ Route::group(
         'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath']
     ],
     function () {
-        Route::prefix('admin')->middleware('auth')->group(function () {
+        Route::middleware('auth')->group(function () {
             Route::view('/index', 'admin.part.app');
-        });
+
         Route::controller(ModelController::class)->name('model.')->prefix('model')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::post('/store', 'store')->name('store');
@@ -112,7 +112,6 @@ Route::group(
             Route::delete('/{id}', 'destroy')->name('delete');
             Route::get('/getData', 'getData')->name('getData');
         });
-
         Route::controller(UserTypeController::class)->prefix('usertype')->name('usertype.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::post('/store', 'store')->name('store');
@@ -140,7 +139,6 @@ Route::group(
             Route::post('/year', 'year')->name('year');
             Route::post('/video', 'video')->name('video');
         });
-
         Route::controller(UserOrderController::class)->prefix('orders')->name('orders.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/getData', 'getData')->name('getData');
@@ -164,7 +162,7 @@ Route::group(
             Route::get('/getData', 'getData')->name('getData');
         });
 
-
+        });
     }
 );
 

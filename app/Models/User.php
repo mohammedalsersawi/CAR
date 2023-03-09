@@ -89,7 +89,7 @@ class User extends Authenticatable
     }
     public function photographer(){
         if ($this->user_type_id==User::PHOTOGRAPHER){
-            return @$this->hasMany(Photographer::class)->where('area_id',$this->area_id);
+            return $this->hasMany(Photographer::class);
         }else{
             return 'sorry';
         }

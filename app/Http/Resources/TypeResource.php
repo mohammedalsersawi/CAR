@@ -2,10 +2,12 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Code_Deals;
+use App\Models\Deals;
+use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
+use mysql_xdevapi\Collection;
 
-class salesResource extends JsonResource
+class TypeResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,12 +17,10 @@ class salesResource extends JsonResource
      */
     public function toArray($request)
     {
-
+        $id=User::where('discount_type_id',$this->id)->pluck('id');
         return [
-            "name"=> $this->deals,
-            "buyers"=>$this->seals_count,
-
-
+            $this->name=>Deals::whereIn('user_id',$id)->get()
         ];
+
     }
 }

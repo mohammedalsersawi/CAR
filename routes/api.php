@@ -32,7 +32,8 @@ Route::middleware(['guest:sanctum'])->prefix('auth')->group(function () {
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('profile',[\App\Http\Controllers\Api\home\HomeController::class,'profile'])->name('profile');
-
+    Route::post('ads/car',[\App\Http\Controllers\Api\Cars\CarsController::class,'car']);
+    Route::get('/show/car/{uuid}',[\App\Http\Controllers\Api\Cars\CarsController::class,'onecar']);
 
 });
 Route::get('home',[\App\Http\Controllers\Api\home\HomeController::class,'home']);

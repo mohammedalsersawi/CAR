@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Api\home;
 
 use App\Http\Resources\salesResource;
+use App\Http\Resources\TypeResource;
 use App\Models\Car;
 use App\Models\Code_Deals;
+use App\Models\Photographer;
+use App\Models\Type;
 use App\Models\User;
 use App\Models\Brand;
 use App\Models\Deals;
@@ -43,7 +46,7 @@ class HomeController extends Controller
             $data= carresourse::collection($ads);
         }elseif ($user->user_type_id==User::DISCOUNT_STORE){
             $data= $user->deals;
-             $sales=salesResource::collection($data);
+             $sales=salesResource::collection($user->deals()->select('deals')->withCount('seals')->get());
             return mainResponse(true, __('ok'), compact('profile','data','sales'), [], 200);
 
         }elseif ($user->user_type_id==User::USER){
@@ -54,7 +57,7 @@ class HomeController extends Controller
             $ads= $user->cars;
             $data= carresourse::collection($ads);
         }elseif ($user->user_type_id==User::PHOTOGRAPHER){
-            $data= $user->photographer;
+            $data= Photographer::where('area_id',$user->area_id)->get();
         }
 
 
@@ -94,7 +97,9 @@ class HomeController extends Controller
         return mainResponse(true, __('ok'), $cars, [], 200);
     }
     public function deals(){
-   return Deals::all();
+        $type=Type::all();
+        $data=TypeResource::collection($type);
+   return mainResponse(true, __('ok'), $data, [], 200);
     }
 
 }
