@@ -27,7 +27,7 @@ class Car extends Model
         'brand_id',
         'transmission_id',
         'user_id',
-'color_exterior_car',
+        'color_exterior_car',
         'color_interior_car',
         'fule_type_id',
         'engine_id',
