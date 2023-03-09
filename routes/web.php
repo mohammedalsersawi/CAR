@@ -35,6 +35,9 @@ Route::group(
         Route::prefix('admin')->middleware('auth')->group(function () {
             Route::view('/index', 'admin.part.app')->name('admin.index');
         });
+        Route::middleware('auth')->group(function () {
+            Route::view('/index', 'admin.part.app');
+
         Route::controller(ModelController::class)->name('model.')->prefix('model')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::post('/store', 'store')->name('store');
