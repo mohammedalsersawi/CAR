@@ -13,7 +13,7 @@
                         <h2 class="content-header-title float-left mb-0">@lang('Transmission')</h2>
                         <div class="breadcrumb-wrapper">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{{ url('/admin') }}">@lang('home')</a>
+                                <li class="breadcrumb-item"><a href="{{ route('admin.index') }}">@lang('home')</a>
                                 </li>
                                 <li class="breadcrumb-item"><a href="{{ route('transmission.index') }}">@lang('Transmission')</a>
                                 </li>

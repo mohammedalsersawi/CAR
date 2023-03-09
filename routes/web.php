@@ -33,7 +33,7 @@ Route::group(
     ],
     function () {
         Route::prefix('admin')->middleware('auth')->group(function () {
-            Route::view('/index', 'admin.part.app');
+            Route::view('/index', 'admin.part.app')->name('admin.index');
         });
         Route::controller(ModelController::class)->name('model.')->prefix('model')->group(function () {
             Route::get('/', 'index')->name('index');
@@ -113,7 +113,7 @@ Route::group(
             Route::get('/getData', 'getData')->name('getData');
         });
 
-        Route::controller(UserTypeController::class)->prefix('usertype')->name('usertype.')->group(function () {
+        Route::controller(UserTypeController::class)->prefix('users')->name('usertype.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::post('/store', 'store')->name('store');
             Route::post('/update', 'update')->name('update');

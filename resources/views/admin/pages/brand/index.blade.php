@@ -213,7 +213,7 @@
                     "data": 'image',
                     "name": 'image',
                     render: function(data, type, full, meta) {
-                        return `<img src="{{ asset('uploads/${data}') }}" width="100" class="img-fluid img-thumbnail">`;
+                        return `<img src="{{ asset('uploads/${data}') }}" style="width:100px;height:100px;"  class="img-fluid img-thumbnail">`;
                     },
                     orderable: false,
                     searchable: false

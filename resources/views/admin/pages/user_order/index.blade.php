@@ -58,7 +58,7 @@
                                                 <label for="city_id">@lang('city')</label>
                                                 <select name="city_id" id="s_city" class="search_input form-control"
                                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                                    <option selected disabled>Select @lang('city')</option>
+                                                    <option selected disabled>@lang('select') @lang('city')</option>
                                                     @foreach ($cities as $itemm)
                                                         <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
                                                         </option>
@@ -79,7 +79,7 @@
                                                 <label for="status">@lang('status')</label>
                                                 <select name="status" id="s_status" class="search_input form-control"
                                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                                    <option selected disabled>Select @lang('status')</option>
+                                                    <option selected disabled>@lang('select') @lang('status')</option>
 
                                                     <option value="3"> @lang('pending') </option>
                                                      <option value="1"> @lang('accepted') </option>
@@ -242,7 +242,7 @@
                             $('select[name="area_id"]').empty();
 
                             $('select[name="area_id"]').append(`
-                                 <option selected  disabled>Select @lang('area')</option>
+                                 <option selected  disabled>@lang('select') @lang('area')</option>
                                  `)
                             $.each(data, function (key, value) {
                                 $('select[name="area_id"]').append('<option value="' +
