@@ -448,7 +448,9 @@
     "photographer": "مصور فوتغرافي",
     "plates failed": "فشل تقديم الاعلان",
     "plates successfully": "تم تقديم الاعلان",
+    "car successfully": "تم تقديم السيارة",
     "deals failed": "فشل تقديم صفقة",
+    "car failed": "فشل تقديم السيارة",
     "deals successfully": "تم تقديم صفقة",
     "Plates" : "اللوحات",
     "numberone" : "الرقم الاول",
@@ -456,5 +458,6 @@
     "stringone" : "النص الاول",
     "stringtow" : "النص الثاني",
     "Sold" : "تم البيع",
-    "Nat_Sold" : "لم تباع"
+    "Nat_Sold" : "لم تباع",
+    "failed": "فشل"
 }

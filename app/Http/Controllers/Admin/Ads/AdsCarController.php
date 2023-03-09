@@ -14,6 +14,7 @@ use App\Models\FuelType;
 use App\Models\ModelCar;
 use App\Models\Transmission;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
@@ -49,6 +50,8 @@ class AdsCarController extends Controller
         $rules['lng'] = 'required';
         $rules['year'] = 'required';
         $rules['phone'] = 'required';
+        $rules['price'] = 'required';
+
         $rules['mileage'] = 'required';
         $rules['image'] = 'required';
         $rules['user_id'] = 'required|exists:users,id';
@@ -67,6 +70,7 @@ class AdsCarController extends Controller
         $rules['color_interior_id'] = 'required|exists:color_cars,id';
         $rules['transmission_id'] = 'required|exists:transmissions,id';
         $this->validate($request, $rules);
+
         $Car = Car::create($request->only(
             'transmission_id',
             'lat',
@@ -74,6 +78,7 @@ class AdsCarController extends Controller
             'year',
             'user_id',
             'phone',
+            'price',
             'mileage',
             'brand_id',
             'model_id',
@@ -104,6 +109,8 @@ class AdsCarController extends Controller
         $rules['lng'] = 'required';
         $rules['year'] = 'required';
         $rules['phone'] = 'required';
+        $rules['price'] = 'required';
+
         $rules['mileage'] = 'required';
         $rules['user_id'] = 'required|exists:users,id';
 
@@ -128,6 +135,7 @@ class AdsCarController extends Controller
             'user_id',
             'lng',
             'phone',
+            'price',
             'year',
             'mileage',
             'brand_id',
@@ -160,6 +168,9 @@ class AdsCarController extends Controller
             ->filter(function ($query) use ($request) {
                 if ($request->get('phone')) {
                     $query->where('phone', $request->phone);
+                }
+                if ($request->get('price')) {
+                    $query->where('price', $request->price);
                 }
                 if ($request->get('user_id')) {
                     $query->where('user_id', $request->user_id);
@@ -197,6 +208,7 @@ class AdsCarController extends Controller
             ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-uuid="' . @$que->uuid . '" ';
+                $data_attr .= 'data-price="' . @$que->price . '" ';
                 $data_attr .= 'data-lat="' . @$que->lat . '" ';
                 $data_attr .= 'data-lng="' . @$que->lng . '" ';
                 $data_attr .= 'data-phone="' . @$que->phone . '" ';
@@ -222,32 +234,15 @@ class AdsCarController extends Controller
 
                 return $string;
             })
-            ->addColumn('brand', function ($row) {
-                return @$row->brand->name;
+
+            ->addColumn('color_exterior_car', function ($row) {
+                return $row->color_exterior_car->color;
             })
-            ->addColumn('model', function ($row) {
-                return @$row->model->name;
+            ->addColumn('color_interior_car', function ($row) {
+                return $row->color_interior_car->color;
             })
-            ->addColumn('engine', function ($row) {
-                return @$row->engine->name;
-            })
-            ->addColumn('fueltype', function ($row) {
-                return @$row->fueltype->name;
-            })
-            ->addColumn('color_exterior', function ($row) {
-                return @$row->color_exterior->color;
-            })
-            ->addColumn('color_interior', function ($row) {
-                return @$row->color_interior->color;
-            })
-            ->addColumn('transmission', function ($row) {
-                return @$row->transmission->name;
-            })
-            //            ->addColumn('image', function ($row) {
-            //                $imageData = @$row->image->filename;
-            //                return $imageData;
-            //            })
-            //            ->rawColumns(['image'])
+
+
             ->rawColumns(['action'])
             ->make(true);
     }

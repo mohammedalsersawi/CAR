@@ -16,6 +16,8 @@ class Plates extends Model
     protected $guarded=[];
     protected $hidden=[
         'city',
+        'user',
+        'user_id',
         'city_id',
         'updated_at',
         'created_at'

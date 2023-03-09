@@ -140,7 +140,6 @@ Route::group(
             Route::post('/year', 'year')->name('year');
             Route::post('/video', 'video')->name('video');
         });
-
         Route::controller(UserOrderController::class)->prefix('orders')->name('orders.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/getData', 'getData')->name('getData');
@@ -164,7 +163,7 @@ Route::group(
             Route::get('/getData', 'getData')->name('getData');
         });
 
-
+        });
     }
 );
 

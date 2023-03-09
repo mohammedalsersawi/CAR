@@ -52,7 +52,9 @@ class Deals extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
-
+    public function seals(){
+        return $this->hasMany(Code_Deals::class,'deal_id');
+    }
     protected static function booted()
     {
         static::deleted(function ($deal) {

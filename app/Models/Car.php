@@ -12,7 +12,29 @@ class Car extends Model
     use HasFactory;
     protected $primaryKey = 'uuid';
     public $incrementing = false;
-    protected $appends=['images','brand_name','model_name','user_name'];
+    protected $appends=['images','brand_name','model_name','user_name','transmission_name','color_interior','color_exterior','engine_name','fueltype_name'];
+    protected $hidden=[
+      'user',
+        'ImagesCar',
+        'brand',
+        'engine',
+        'fueltype',
+        'color_exterior_id',
+        'color_interior_id',
+        'model',
+        'transmission',
+        'model_id',
+        'brand_id',
+        'transmission_id',
+        'user_id',
+        'color_exterior_car',
+        'color_interior_car',
+        'fule_type_id',
+        'engine_id',
+        'updated_at',
+        'created_at'
+
+    ];
     protected $guarded = [];
     public function user(){
         return $this->belongsTo(User::class,'user_id');
@@ -30,10 +52,10 @@ class Car extends Model
     public function fueltype(){
         return $this->belongsTo(FuelType::class,'fule_type_id');
     }
-    public function color_interior(){
+    public function color_interior_car(){
         return $this->belongsTo(ColorCar::class,'color_interior_id');
     }
-    public function color_exterior(){
+    public function color_exterior_car(){
         return $this->belongsTo(ColorCar::class,'color_exterior_id');
     }
     public function year(){
@@ -52,6 +74,14 @@ class Car extends Model
     {
         return @$this->brand->name;
     }
+//    public function getSpecificationNameAttribute()
+//    {
+//        return @$this->specification->name;
+//    }
+    public function gettransmissionNameAttribute()
+    {
+        return @$this->transmission->name;
+    }
     public function getUserNameAttribute()
     {
         return @$this->user->name;
@@ -59,6 +89,22 @@ class Car extends Model
     public function getmodelNameAttribute()
     {
         return @$this->model->name;
+    }
+    public function getFueltypeNameAttribute()
+    {
+        return @$this->fueltype->name;
+    }
+    public function getEngineNameAttribute()
+    {
+        return @$this->engine->name;
+    }
+    public function getColorInteriorAttribute()
+    {
+        return @$this->color_interior_car->color;
+    }
+    public function getColorExteriorAttribute()
+    {
+        return @$this->color_exterior_car->color;
     }
     public function getImagesAttribute()
     {
