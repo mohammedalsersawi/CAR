@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
+            $table->uuid()->primary();
             $table->string('phone')->unique();
             $table->string('password');
             $table->string('name')->nullable();
@@ -23,12 +23,14 @@ return new class extends Migration
             $table->double('lng')->nullable();
             $table->text('code')->nullable();
             $table->boolean('verification')->default(0);
-            $table->foreignId('discount_type_id')->nullable()->constrained('types')->nullOnDelete()->cascadeOnUpdate();
+            $table->char('discount_type_uuid', 36)->nullable();
+            $table->foreign('discount_type_uuid')->references('uuid')->on('types')->nullOnDelete()->cascadeOnUpdate();
             $table->char('city_uuid', 36)->nullable();
             $table->foreign('city_uuid')->references('uuid')->on('cities')->nullOnDelete();
             $table->char('area_uuid', 36)->nullable();
             $table->foreign('area_uuid')->references('uuid')->on('areas')->nullOnDelete();
-            $table->foreignId('user_type_id')->default(5)->unsigned()->references('id')->on('user_types')->cascadeOnUpdate();
+            $table->char('user_type_uuid', 36);
+            $table->foreign('user_type_uuid')->default(5)->references('uuid')->on('user_types');
             $table->rememberToken();
             $table->timestamps();
         });

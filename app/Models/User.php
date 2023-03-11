@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -18,7 +19,8 @@ class User extends Authenticatable
      * @var array
      */
 
-
+    protected $primaryKey = 'uuid';
+    public $incrementing = false;
     protected $appends = ['area_name','city_name','type_name','image_user','DiscountStoreType'];
     protected $fillable = [
         'phone',
@@ -26,12 +28,12 @@ class User extends Authenticatable
 //        'number',
         'about',
         'code',
-        'city_id',
-        'area_id',
-        'user_type_id',
+        'city_uuid',
+        'area_uuid',
+        'user_type_uuid',
         'lat',
         'lng',
-        'discount_type_id',
+        'discount_type_uuid',
         'name',
         'verification'
     ];
@@ -43,15 +45,15 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'city_id',
-        'area_id',
-        'discount_type_id',
+        'city_uuid',
+        'area_uuid',
+        'discount_type_uuid',
         'code',
         'image',
         'city',
         'area',
         'type',
-        'user_type_id',
+        'user_type_uuid',
         'created_at',
         'updated_at'
     ];
@@ -69,7 +71,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
     public function type(){
-        return @$this->belongsTo(UserType::class,'user_type_id');
+        return @$this->belongsTo(UserType::class,'user_type_uuid');
     }
     public function city(){
         return @$this->belongsTo(City::class);
@@ -81,14 +83,14 @@ class User extends Authenticatable
         return @$this->hasMany(Car::class);
     }
     public function deals(){
-        if ($this->user_type_id==User::DISCOUNT_STORE){
+        if ($this->user_type_uuid==User::DISCOUNT_STORE){
             return @$this->hasMany(Deals::class);
         }else{
             return 'sorry';
         }
     }
     public function photographer(){
-        if ($this->user_type_id==User::PHOTOGRAPHER){
+        if ($this->user_type_uuid==User::PHOTOGRAPHER){
             return $this->hasMany(Photographer::class);
         }else{
             return 'sorry';
@@ -99,7 +101,7 @@ class User extends Authenticatable
         return $this->morphOne(Image::class, 'imageable');
     }
     public function Discount_Type(){
-        return @$this->belongsTo(Type::class,'discount_type_id');
+        return @$this->belongsTo(Type::class,'discount_type_uuid');
 
     }
     public function getDiscountStoreTypeAttribute()
@@ -137,6 +139,13 @@ class User extends Authenticatable
         });
 
     }
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function ($user) {
+            $user->uuid = Str::uuid();
+        });
 
+    }
 
 }

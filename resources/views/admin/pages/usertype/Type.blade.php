@@ -89,7 +89,7 @@
                 <form action="{{ route('usertype.type.update') }}" method="POST" id="form_edit" class=""
                     enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" name="id" id="id" class="form-control" />
+                    <input type="hidden" name="uuid" id="uuid" class="form-control" />
                     <div class="modal-body">
                         @foreach (locales() as $key => $value)
                             <div class="col-12">
@@ -195,8 +195,10 @@
             },
             columns: [
                 {
-                    data: 'id',
-                    name: 'id',
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    orderable: false,
+                    searchable: false
                 },
                 {
                     data: 'text_name',
@@ -220,8 +222,8 @@
                 $('input').removeClass('is-invalid');
                 $('.invalid-feedback').text('');
                 var button = $(this)
-                var id = button.data('id');
-                $('#id').val(id);
+                var uuid = button.data('uuid');
+                $('#uuid').val(uuid);
                 @foreach (locales() as $key => $value)
                     $('#edit_name_{{ $key }}').val(button.data('name_{{ $key }}'))
                 @endforeach

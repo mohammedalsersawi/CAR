@@ -42,42 +42,42 @@ Route::group(
             Route::get('/', 'index')->name('index');
             Route::post('/store', 'store')->name('store');
             Route::post('/update', 'update')->name('update');
-            Route::delete('/{id?}', 'destroy')->name('delete');
+            Route::delete('/{id}', 'destroy')->name('delete');
             Route::get('/getData', 'getData')->name('getData');
         });
         Route::controller(EngineController::class)->prefix('engines')->name('engines.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::post('/store', 'store')->name('store');
             Route::post('/update', 'update')->name('update');
-            Route::delete('/{id?}', 'destroy')->name('delete');
+            Route::delete('/{uuid}', 'destroy')->name('delete');
             Route::get('/getData', 'getData')->name('getData');
         });
         Route::controller(FuelTypeController::class)->prefix('fuel/type')->name('fuelType.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::post('/store', 'store')->name('store');
             Route::post('//update', 'update')->name('update');
-            Route::delete('/{id}', 'destroy')->name('delete');
+            Route::delete('/{uuid}', 'destroy')->name('delete');
             Route::GET('/getData', 'getData')->name('getData');
         });
         Route::controller(BrandController::class)->prefix('brand')->name('brand.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::post('/store', 'store')->name('store');
             Route::post('/update', 'update')->name('update');
-            Route::delete('/{id?}', 'destroy')->name('delete');
+            Route::delete('/{uuid}', 'destroy')->name('delete');
             Route::get('/getData', 'getData')->name('getData');
         });
         Route::controller(ColorController::class)->prefix('color')->name('color.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::post('/store', 'store')->name('store');
             Route::post('/update', 'update')->name('update');
-            Route::delete('/{id?}', 'destroy')->name('delete');
+            Route::delete('/{uuid}', 'destroy')->name('delete');
             Route::get('/getData', 'getData')->name('getData');
         });
         Route::controller(TransmissionController::class)->prefix('transmission')->name('transmission.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::post('/store', 'store')->name('store');
             Route::post('/update', 'update')->name('update');
-            Route::delete('/{id?}', 'destroy')->name('delete');
+            Route::delete('/{uuid}', 'destroy')->name('delete');
             Route::get('/getData', 'getData')->name('getData');
         });
         Route::controller(CityController::class)->prefix('city')->name('city.')->group(function () {
@@ -112,7 +112,7 @@ Route::group(
             Route::get('/', 'index')->name('index');
             Route::post('/store', 'store')->name('store');
             Route::post('/update', 'update')->name('update');
-            Route::delete('/{id}', 'destroy')->name('delete');
+            Route::delete('/{uuid}', 'destroy')->name('delete');
             Route::get('/getData', 'getData')->name('getData');
         });
 
@@ -122,8 +122,8 @@ Route::group(
             Route::post('/update', 'update')->name('update');
             Route::delete('/{uuid}', 'destroy')->name('delete');
             Route::get('/getData', 'getData')->name('getData');
-            Route::get('/area/{id}', 'area')->name('area');
-            Route::get('/country/{id}', 'country')->name('country');
+            Route::get('/area/{uuid}', 'area')->name('area');
+            Route::get('/country/{uuid}', 'country')->name('country');
         });
         Route::controller(AdsCarController::class)->prefix('ads/car')->name('ads.car.')->group(function () {
             Route::get('/', 'index')->name('index');
@@ -131,11 +131,11 @@ Route::group(
             Route::post('/update', 'update')->name('update');
             Route::delete('/{uuid}', 'destroy')->name('delete');
             Route::get('/getData', 'getData')->name('getData');
-            Route::get('/images/{id}', 'showImages')->name('showImages');
-            Route::delete('/images/{id}/{idd}', 'deleteimages')->name('deletemages');
+            Route::get('/images/{uuid}', 'showImages')->name('showImages');
+            Route::delete('/images/{uuid}/{uuidd}', 'deleteimages')->name('deletemages');
             Route::post('update/images', 'updateImages')->name('updateImages');
             Route::get('/show/card/', 'showCard')->name('showCard');
-            Route::get('model/{id}', [DataController::class,'model'])->name('model');
+            Route::get('model/{uuid}', [DataController::class,'model'])->name('model');
 
         });
         Route::controller(SettingController::class)->prefix('setting')->name('setting.')->group(function (){
@@ -155,14 +155,14 @@ Route::group(
             Route::get('/', 'index')->name('index');
             Route::post('/store', 'store')->name('store');
             Route::post('/update', 'update')->name('update');
-            Route::delete('/{id?}', 'destroy')->name('delete');
+            Route::delete('/{uuid}', 'destroy')->name('delete');
             Route::get('/getData', 'getData')->name('getData');
         });
         Route::controller(PlatesController::class)->name('Plates.')->prefix('Plates')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::post('/store', 'store')->name('store');
             Route::post('/update', 'update')->name('update');
-            Route::delete('/{id?}', 'destroy')->name('delete');
+            Route::delete('/{uuid}', 'destroy')->name('delete');
             Route::get('/getData', 'getData')->name('getData');
         });
 
