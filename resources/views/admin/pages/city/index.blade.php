@@ -58,7 +58,7 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>@lang('name')</th>
+                                            <th>@lang('city')</th>
                                             <th>@lang('country')</th>
                                             <th style="width: 225px;">@lang('actions')</th>
                                         </tr>
@@ -104,12 +104,11 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="">@lang('city')</label>
-                                <select name="country_id" id="country_id" class="select form-control"
+                                <select name="country_uuid" id="country_uuid" class="select form-control"
                                     data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                     <option selected disabled>@lang('select') @lang('country')</option>
                                     @foreach ($country as $itemm)
-                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
-                                        </option>
+                                        <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback"></div>
@@ -142,7 +141,7 @@
                 <form action="{{ route('city.update') }}" method="POST" id="form_edit" class=""
                     enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" name="id" id="id" class="form-control" />
+                    <input type="hidden" name="uuid" id="uuid" class="form-control" />
                     <div class="modal-body">
                         @foreach (locales() as $key => $value)
                             <div class="col-12">
@@ -157,11 +156,11 @@
                         @endforeach
                         <div class="col-12">
                             <div class="form-group">
-                                <label for="country_id">@lang('cities')</label>
-                                <select class="form-control" id="edit_country_id" name="country_id" required>
+                                <label for="country_uuid">@lang('cities')</label>
+                                <select class="form-control" id="edit_country_uuid" name="country_uuid" required>
                                     <option value="">@lang('select') @lang('country')</option>
                                     @foreach ($country as $itemm)
-                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
+                                        <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback"></div>
@@ -250,9 +249,9 @@
                 $('.invalid-feedback').text('');
                 event.preventDefault();
                 var button = $(this)
-                var id = button.data('id')
-                $('#edit_country_id').val(button.data('country_id')).trigger('change');
-                $('#id').val(id);
+                var uuid = button.data('uuid')
+                $('#edit_country_uuid').val(button.data('country_uuid')).trigger('change');
+                $('#uuid').val(uuid);
                 @foreach (locales() as $key => $value)
                     $('#edit_name_{{ $key }}').val(button.data('name_{{ $key }}'))
                 @endforeach

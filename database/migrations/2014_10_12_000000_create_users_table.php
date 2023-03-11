@@ -24,8 +24,10 @@ return new class extends Migration
             $table->text('code')->nullable();
             $table->boolean('verification')->default(0);
             $table->foreignId('discount_type_id')->nullable()->constrained('types')->nullOnDelete()->cascadeOnUpdate();
-            $table->foreignId('city_id')->nullable()->constrained('cities')->nullOnDelete()->cascadeOnUpdate();
-            $table->foreignId('area_id')->nullable()->constrained('areas')->nullOnDelete()->cascadeOnUpdate();
+            $table->char('city_uuid', 36)->nullable();
+            $table->foreign('city_uuid')->references('uuid')->on('cities')->nullOnDelete();
+            $table->char('area_uuid', 36)->nullable();
+            $table->foreign('area_uuid')->references('uuid')->on('areas')->nullOnDelete();
             $table->foreignId('user_type_id')->default(5)->unsigned()->references('id')->on('user_types')->cascadeOnUpdate();
             $table->rememberToken();
             $table->timestamps();

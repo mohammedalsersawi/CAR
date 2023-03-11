@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Car\area;
+namespace App\Http\Controllers\Admin\places\area;
 
+use App\Http\Controllers\Admin\ResponseTrait;
+use App\Http\Controllers\Controller;
+use App\Models\Area;
 use App\Models\City;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\Admin\ResponseTrait;
-use App\Models\Area;
 use Yajra\DataTables\Facades\DataTables;
 
 class AreaControllerr extends Controller
@@ -14,7 +14,7 @@ class AreaControllerr extends Controller
     use ResponseTrait;
     public function index()
     {
-       $cities=City::select(['name','id'])->get();
+       $cities=City::select(['name','uuid'])->get();
 
         return view('admin.pages.area.index',compact('cities'));
     }
@@ -27,13 +27,13 @@ class AreaControllerr extends Controller
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:45';
         }
-        $rules['city_id']='required|exists:cities,id';
+        $rules['city_uuid']='required|exists:cities,uuid';
         $this->validate($request, $rules);
         $data = [];
         foreach (locales() as $key => $language) {
             $data['name'][$key] = $request->get('name_' . $key);
         }
-        $data['city_id']=$request->city_id;
+        $data['city_uuid']=$request->city_uuid;
         $this->validate($request, $rules);
          Area::create($data);
         return $this->sendResponse(null, __('item_added'));
@@ -45,22 +45,22 @@ class AreaControllerr extends Controller
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
         }
-        $rules['city_id']='required|exists:cities,id';
+        $rules['city_uuid']='required|exists:cities,uuid';
         $this->validate($request, $rules);
         $data = [];
         foreach (locales() as $key => $language) {
             $data['name'][$key] = $request->get('name_' . $key);
         }
-        $data['city_id']=$request->city_id;
-        $area = Area::findOrFail($request->id);
+        $data['city_uuid']=$request->city_uuid;
+        $area = Area::findOrFail($request->uuid);
         $area->update($data);
         return $this->sendResponse(null, __('item_edited'));
 
     }
 
-    public function destroy($id)
+    public function destroy($uuid)
     {
-        $area = Area::destroy($id);
+        $area = Area::destroy($uuid);
         return $this->sendResponse(null, null);
     }
 
@@ -82,15 +82,15 @@ class AreaControllerr extends Controller
 
             ->addColumn('action', function ($que) {
                 $data_attr = '';
-                $data_attr .= 'data-id="' .@$que->id . '" ';
-                $data_attr .= 'data-city_id="' .@$que->cites->id . '" ';
+                $data_attr .= 'data-uuid="' .@$que->uuid . '" ';
+                $data_attr .= 'data-city_uuid="' .@$que->cites->uuid . '" ';
                 foreach (locales() as $key => $value) {
                     $data_attr .= 'data-name_' . $key . '="' . $que->getTranslation('name', $key) . '" ';
                 }
                 $string = '';
                 $string .= '<button class="edit_btn btn btn-sm btn-outline-primary btn_edit" data-toggle="modal"
                     data-target="#edit_modal" ' . $data_attr . '>' . __('edit') . '</button>';
-                $string .= ' <button type="button"  class="btn btn-sm btn-outline-danger btn_delete" data-id="' . $que->id .
+                $string .= ' <button type="button"  class="btn btn-sm btn-outline-danger btn_delete" data-uuid="' . $que->id .
                     '">' . __('delete') . '  </button>';
                 return $string;
             })

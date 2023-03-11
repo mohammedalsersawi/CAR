@@ -14,9 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('areas', function (Blueprint $table) {
-            $table->id();
+            $table->uuid()->primary();
             $table->string('name');
-            $table->foreignId('city_id')->references('id')->on('cities')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->char('city_uuid', 36);
+            $table->foreign('city_uuid')->references('uuid')->on('cities')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }

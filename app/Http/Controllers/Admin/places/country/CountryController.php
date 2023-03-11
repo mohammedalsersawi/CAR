@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Car\country;
+namespace App\Http\Controllers\Admin\places\country;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Yajra\DataTables\Facades\DataTables;
 use App\Http\Controllers\Admin\ResponseTrait;
+use App\Http\Controllers\Controller;
 use App\Models\Country;
+use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class CountryController extends Controller
 {
@@ -46,15 +46,15 @@ class CountryController extends Controller
         foreach (locales() as $key => $language) {
             $data['name'][$key] = $request->get('name_' . $key);
         }
-        $engines = Country::findOrFail($request->id);
+        $engines = Country::findOrFail($request->uuid);
         $engines->update($data);
         return $this->sendResponse(null, __('item_edited'));
     }
 
-    public function destroy($id)
+    public function destroy($uuid)
     {
-        $engines = Country::find($id);
-        $engines->delete();
+        $Country = Country::find($uuid);
+        $Country->delete();
         return $this->sendResponse(null,  null);
     }
 
@@ -75,7 +75,7 @@ class CountryController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function ($que) {
                 $data_attr = '';
-                $data_attr .= 'data-id="' . $que->id . '" ';
+                $data_attr .= 'data-uuid="' . $que->uuid . '" ';
                 $data_attr .= 'data-name="' . $que->name . '" ';
                 foreach (locales() as $key => $value) {
                     $data_attr .= 'data-name_' . $key . '="' . $que->getTranslation('name', $key) . '" ';
@@ -83,7 +83,7 @@ class CountryController extends Controller
                 $string = '';
                 $string .= '<button class="edit_btn btn btn-sm btn-outline-primary btn_edit" data-toggle="modal"
                     data-target="#edit_modal" ' . $data_attr . '>' . __('edit') . '</button>';
-                $string .= ' <button type="button" class="btn btn-sm btn-outline-danger btn_delete" data-id="' . $que->id .
+                $string .= ' <button type="button" class="btn btn-sm btn-outline-danger btn_delete" data-uuid="' . $que->uuid .
                     '">' . __('delete') . '</button>';
                 return $string;
             })

@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('specifications', function (Blueprint $table) {
             $table->id();
             $table->char('car_id', 36);
-            $table->foreign('car_id')->references('uuid')->on('cars')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign('car_uuid')->references('uuid')->on('cars')->cascadeOnDelete()->cascadeOnUpdate();
             $table->text('name');
             $table->timestamps();
         });

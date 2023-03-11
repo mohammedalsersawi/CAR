@@ -3,14 +3,11 @@
 namespace App\Http\Controllers\Admin\order;
 
 use App\Events\CountUserOrderEvent;
-use App\Http\Controllers\Admin\Car\country\CountryController;
 use App\Http\Controllers\Admin\ResponseTrait;
 use App\Http\Controllers\Controller;
-use App\Models\Area;
 use App\Models\City;
 use App\Models\User;
 use App\Models\UserOrder;
-use App\Models\UserType;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
