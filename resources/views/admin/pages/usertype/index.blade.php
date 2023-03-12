@@ -94,8 +94,8 @@
                                         </div>
                                         <div class="col-3">
                                             <div class="form-group">
-                                                <label for="s_user_type_uuid">@lang('type')</label>
-                                                <select id="s_user_type_uuid" class="search_input form-control"
+                                                <label for="s_user_type_id">@lang('type')</label>
+                                                <select id="s_user_type_id" class="search_input form-control"
                                                     data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                                     <option selected disabled>Select @lang('type')</option>
                                                     @foreach ($user as $item)
@@ -263,11 +263,11 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('type')</label>
-                                    <select name="user_type_uuid" id="" class="select form-control"
+                                    <select name="user_type_id" id="" class="select form-control"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                         <option selected disabled>Select @lang('type')</option>
                                         @foreach ($user as $itemm)
-                                            <option value="{{ $itemm->uuid }}"> {{ $itemm->Name }} </option>
+                                            <option value="{{ $itemm->id }}"> {{ $itemm->Name }} </option>
                                             </option>
                                         @endforeach
                                     </select>
@@ -414,12 +414,12 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('type')</label>
-                                    <select name="user_type_uuid" id="edit_type" class="select form-control"
+                                    <select name="user_type_id" id="edit_type" class="select form-control"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                         <option selected disabled>Select @lang('type')</option>
                                         @foreach ($user as $itemm)
-                                            <option value="{{ $itemm->uuid }}"> {{ $itemm->Name }} </option>
-                                            </option>
+                                            <option value="{{ $itemm->id }}"> {{ $itemm->Name }} </option>
+
                                         @endforeach
                                     </select>
                                     <div class="invalid-feedback"></div>
@@ -530,7 +530,7 @@
                     d.number = $('#s_number').val();
                     d.city_uuid = $('#s_city').val();
                     d.area_uuid = $('#s_area').val();
-                    d.user_type_uuid = $('#s_user_type_uuid').val();
+                    d.user_type_id = $('#s_user_type_id').val();
                     d.discount_type_uuid = $('#s_discount_type_uuid').val();
                 }
             },
@@ -625,7 +625,7 @@
 
 
 
-                $('#edit_type').val(button.data('user_type_uuid')).trigger('change');
+                $('#edit_type').val(button.data('user_type_id')).trigger('change');
                 $('#edit_phone').val(button.data('phone'));
                 $('#edit_number').val(button.data('number'));
                 $('#edit_lat').val(button.data('lat'))

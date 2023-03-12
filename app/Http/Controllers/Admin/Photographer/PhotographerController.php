@@ -16,9 +16,9 @@ class PhotographerController extends Controller
     use ResponseTrait;
     public function index()
     {
-        $cities = City::select(['name', 'id'])->get();
-        $country = Country::select(['name', 'id'])->get();
-        $users = User::select(['name', 'id', 'phone'])->get();
+        $cities = City::select(['name', 'uuid'])->get();
+        $country = Country::select(['name', 'uuid'])->get();
+        $users = User::select(['name', 'uuid', 'phone'])->get();
         $type =  Photographer::TYPES;
         return view('admin.pages.photographer.index', compact('country', 'cities', 'users', 'type'));
     }
@@ -28,15 +28,15 @@ class PhotographerController extends Controller
         $rules['typeContent'] = 'required';
         $rules['video'] = 'required_if:typeContent,2';
         $rules['image'] = 'required_if:typeContent,1,2';
-        $rules['user_id'] = 'required';
+        $rules['user_uuid'] = 'required';
         $rules['phone'] = 'required|numeric';
-        $rules['country_id'] = 'required';
-        $rules['area_id'] = 'required_with:city_id';
-        $rules['city_id'] = 'required_with:country_id';
-        $rules['date'] = 'required';
-        $rules['time'] = 'required';
+        $rules['country_uuid'] = 'required';
+        $rules['area_uuid'] = 'required_with:city_uuid';
+        $rules['city_uuid'] = 'required_with:country_uuid';
+        $rules['date'] = 'required|date';
+        $rules['time'] = 'required|date_format:H:i';
         $this->validate($request, $rules);
-        $photographer =  Photographer::create($request->only(['user_id', 'city_id', 'area_id', 'date', 'phone', 'time']));
+        $photographer =  Photographer::create($request->only(['user_uuid', 'city_uuid', 'area_uuid', 'date', 'phone', 'time']));
         if ($request->hasFile('image')) {
             UploadImage($request->image, null, Photographer::class, $photographer->uuid, false);
         }
@@ -51,19 +51,19 @@ class PhotographerController extends Controller
         // $rules['typeContent'] = 'required';
         // $rules['video'] = 'required_if:typeContent,2';
         // $rules['image'] = 'required_if:typeContent,1,2';
-        $rules['user_id'] = 'required';
+        $rules['user_uuid'] = 'required';
         $rules['time'] = 'required';
         $rules['phone'] = 'required|numeric';
-        $rules['country_id'] = 'required';
-        $rules['area_id'] = 'required_with:city_id';
-        $rules['city_id'] = 'required_with:country_id';
+        $rules['country_uuid'] = 'required';
+        $rules['area_uuid'] = 'required_with:city_uuid';
+        $rules['city_uuid'] = 'required_with:country_uuid';
         $rules['date'] = 'required';
         $this->validate($request, $rules);
         $photographer =  Photographer::findOrFail($request->uuid);
-        $photographer->user_id = $request->user_id;
+        $photographer->user_uuid = $request->user_uuid;
         $photographer->phone = $request->phone;
-        $photographer->area_id = $request->area_id;
-        $photographer->city_id = $request->city_id;
+        $photographer->area_uuid = $request->area_uuid;
+        $photographer->city_uuid = $request->city_uuid;
         $photographer->date = $request->date;
         $photographer->time = $request->time;
         $photographer->save();
@@ -90,11 +90,11 @@ class PhotographerController extends Controller
         return Datatables::of($Photographer)
             ->filter(function ($query) use ($request) {
 
-                if ($request->get('city_id')) {
-                    $query->where('city_id', $request->get('city_id'));
+                if ($request->get('city_uuid')) {
+                    $query->where('city_uuid', $request->get('city_uuid'));
                 }
-                if ($request->get('area_id')) {
-                    $query->where('area_id', $request->get('area_id'));
+                if ($request->get('area_uuid')) {
+                    $query->where('area_uuid', $request->get('area_uuid'));
                 }
                 if ($request->get('phone')) {
                     $query->where('phone', 'like', "%{$request->phone}%");
@@ -102,23 +102,23 @@ class PhotographerController extends Controller
                 if ($request->get('date')) {
                     $query->where('date', $request->get('date'));
                 }
-                if ($request->get('user_id')) {
-                    $query->where('user_id', $request->get('user_id'));
+                if ($request->get('user_uuid')) {
+                    $query->where('user_uuid', $request->get('user_uuid'));
                 }
             })
             ->addIndexColumn()
             ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-uuid="' . $que->uuid . '" ';
-                $data_attr .= 'data-city_id="' . $que->city_id . '" ';
-                $data_attr .= 'data-user_id="' . $que->user_id . '" ';
-                $data_attr .= 'data-area_id="' . $que->area_id . '" ';
+                $data_attr .= 'data-city_uuid="' . $que->city_uuid . '" ';
+                $data_attr .= 'data-user_uuid="' . $que->user_uuid . '" ';
+                $data_attr .= 'data-area_uuid="' . $que->area_uuid . '" ';
                 $data_attr .= 'data-phone="' . $que->phone . '" ';
                 $data_attr .= 'data-date="' . $que->date . '" ';
                 $data_attr .= 'data-time="' . $que->time . '" ';
                 $data_attr .= 'data-city_name="' . $que->city->name . '" ';
                 $data_attr .= 'data-area_name="' . $que->area->name . '" ';
-                $data_attr .= 'data-country_id="' . $que->city->country->id . '" ';
+                $data_attr .= 'data-country_uuid="' . $que->city->country->id . '" ';
                 $string = '';
                 $string .= '<button class="edit_btn btn btn-sm btn-outline-primary btn_edit" data-toggle="modal"
                     data-target="#edit_modal" ' . $data_attr . '>' . __('edit') . '</button>';

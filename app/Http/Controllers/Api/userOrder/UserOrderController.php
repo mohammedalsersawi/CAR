@@ -18,8 +18,8 @@ class UserOrderController extends Controller
         $rules = [
             'name' => 'required',
             'phone' => 'required|between:8,14',
-            'city_id' => 'required|exists:cities,id',
-            'area_id' => 'required|exists:areas,id',
+            'city_uuid' => 'required|exists:cities,uuid',
+            'area_uuid' => 'required|exists:areas,uuid',
 
         ];
         $vaild = $request->all();
@@ -27,12 +27,14 @@ class UserOrderController extends Controller
         if ($validator->fails()) {
             return mainResponse(false, __('order_failed'), [], $validator->errors()->messages(), 101);
         }
+        $user=Auth::guard('sanctum')->user();
+
         $data = UserOrder::create([
             'name' => $request->name,
             'phone' => $request->phone,
-            'city_id' => $request->city_id,
-            'area_id' => $request->area_id,
-            'user_id' => Auth::guard('sanctum')->id(),
+            'city_uuid' => $request->city_uuid,
+            'area_uuid' => $request->area_uuid,
+            'user_uuid' =>$user->uuid,
         ]);
         event(new UserOrderEvent());
 

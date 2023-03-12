@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\Deals\DealsController;
 use App\Http\Controllers\Api\home\HomeController;
+use App\Http\Controllers\Api\photgrapher\PhotgrapherController;
 use App\Http\Controllers\Api\Plates\PlatesController;
 use App\Http\Controllers\Api\userOrder\UserOrderController;
 use Illuminate\Http\Request;
@@ -34,8 +35,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('profile',[\App\Http\Controllers\Api\home\HomeController::class,'profile'])->name('profile');
     Route::post('ads/car',[\App\Http\Controllers\Api\Cars\CarsController::class,'car']);
     Route::get('/show/car/{uuid}',[\App\Http\Controllers\Api\Cars\CarsController::class,'onecar']);
+    Route::post('order/photgrapher',[PhotgrapherController::class,'post']);
+    Route::post('order/photgrapher/acsept',[PhotgrapherController::class,'acsept']);
 
 });
+
 Route::get('home',[\App\Http\Controllers\Api\home\HomeController::class,'home']);
 Route::post('verification code',[AuthController::class, 'verification_code']);
 Route::post('resend code',[AuthController::class, 'resend_code']);

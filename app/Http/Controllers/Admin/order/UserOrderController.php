@@ -17,7 +17,7 @@ class UserOrderController extends Controller
 
     public function index()
     {
-        $cities=City::select(['name','id'])->get();
+        $cities=City::select(['name','uuid'])->get();
 
 //        return UserOrder::select('uuid')->get();
         return view('admin.pages.user_order.index',compact('cities'));
@@ -34,10 +34,10 @@ class UserOrderController extends Controller
     }
     public function accepted($uuid){
        $useroreder= UserOrder::findOrFail($uuid);
-       User::where('id',$useroreder->user_id)->update([
+       User::where('uuid',$useroreder->user_uuid)->update([
            'name'=>$useroreder->name,
-           'city_id'=>$useroreder->city_id,
-           'area_id'=>$useroreder->area_id,
+           'city_uuid'=>$useroreder->city_uuid,
+           'area_uuid'=>$useroreder->area_uuid,
            'user_type_id'=>User::PHOTOGRAPHER,
            'phone'=>$useroreder->phone
        ]);
@@ -72,11 +72,11 @@ class UserOrderController extends Controller
                  if ($request->get('phone')) {
                      $query->where('phone', 'like', "%{$request->phone}%");
                  }
-                 if ($request->get('city_id')) {
-                     $query->where('city_id', $request->city_id);
+                 if ($request->get('city_uuid')) {
+                     $query->where('city_uuid', $request->city_uuid);
                  }
-                 if ($request->get('area_id')) {
-                     $query->where('area_id', $request->area_id);
+                 if ($request->get('area_uuid')) {
+                     $query->where('area_uuid', $request->area_uuid);
                  }
                  if ($request->get('status')) {
                      $query->where('status', $request->status);
@@ -87,10 +87,10 @@ class UserOrderController extends Controller
                 $string = '';
                 if ($que->status == UserOrder::pending){
 
-                    $string .= ' <button type="button"  class="btn btn-sm btn-outline-danger btn-success" data-id="' . $que->uuid .
+                    $string .= ' <button type="button"  class="btn btn-sm btn-outline-danger btn-success" data-uuid="' . $que->uuid .
                         '">' . __('accepted') . '  </button> <span>  </span>';
 
-                    $string .= ' <button type="button"     class="btn btn-sm btn-outline-danger  btn-warning" data-id="' . $que->uuid .
+                    $string .= ' <button type="button"     class="btn btn-sm btn-outline-danger  btn-warning" data-uuid="' . $que->uuid .
                         '">' . __('rejected') . '  </button>';
                 }else{
                    $string .=($que->status==UserOrder::rejected)?__('rejected'):__('accepted');
@@ -99,7 +99,7 @@ class UserOrderController extends Controller
             })
             ->addColumn('delete',function ($que){
                 $string = '';
-                $string .= ' <button type="button"    class="btn btn-sm btn-outline-danger btn_delete" data-id="' . $que->uuid .
+                $string .= ' <button type="button"    class="btn btn-sm btn-outline-danger btn_delete" data-uuid="' . $que->uuid .
                     '">' . __('delete') . '  </button>';
                 return $string;
             })

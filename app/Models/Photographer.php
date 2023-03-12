@@ -12,23 +12,24 @@ class Photographer extends Model
     protected $guarded = [];
     protected $primaryKey = 'uuid';
     protected $hidden=[
-        'city_id',
-        'area_id',
+        'city_uuid',
+        'area_uuid',
         'updated_at',
         'created_at',
-        'user_id',
+        'user_uuid',
         'user',
         'city',
         'area'
     ];
     public $incrementing = false;
-    protected $appends = ['area_name', 'city_name', 'user_name'];
+    protected $appends = ['area_name', 'city_name', 'photographer'];
 
     public function uploudphotographer()
     {
         return $this->morphOne(Image::class, 'imageable');
     }
-
+    const define=2;
+    const undefine=1;
     public static function boot()
     {
         parent::boot();
@@ -45,11 +46,15 @@ class Photographer extends Model
         1 => 'image',
         2 => 'imageVideo',
     ];
-
+    public function photographerr()
+    {
+        return $this->belongsTo(User::class, 'photographer_uuid');
+    }
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_uuid');
     }
+
     public function city()
     {
         return @$this->belongsTo(City::class);
@@ -66,8 +71,8 @@ class Photographer extends Model
     {
         return @$this->area->name;
     }
-    public function getUserNameAttribute()
+    public function getPhotographerAttribute()
     {
-        return @$this->user->name;
+        return @$this->photographerr->name;
     }
 }

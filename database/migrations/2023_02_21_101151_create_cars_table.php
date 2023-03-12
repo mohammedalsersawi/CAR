@@ -15,16 +15,16 @@ return new class extends Migration
     {
         Schema::create('cars', function (Blueprint $table) {
             $table->uuid()->primary();
-            $table->foreignId('brand_id')->nullable()->constrained('brands')->cascadeOnUpdate()->nullOnDelete();
-            $table->foreignId('model_id')->nullable()->constrained('model_cars')->cascadeOnUpdate()->nullOnDelete();
-            $table->foreignId('engine_id')->nullable()->constrained('engines')->cascadeOnUpdate()->nullOnDelete();
-            $table->foreignId('transmission_id')->nullable()->constrained('transmissions')->cascadeOnUpdate()->nullOnDelete();
-            $table->foreignId('fule_type_id')->nullable()->references('id')->on('fuel_types')->nullOnDelete()->cascadeOnUpdate();
-            $table->foreignId('color_exterior_id')->nullable()->constrained('color_cars')->cascadeOnUpdate()->nullOnDelete();
-            $table->foreignId('color_interior_id')->nullable()->constrained('color_cars')->cascadeOnUpdate()->nullOnDelete();
+            $table->foreignUuid('brand_uuid')->nullable()->references('uuid')->on('brands')->cascadeOnUpdate()->nullOnDelete();
+            $table->foreignUuid('model_uuid')->nullable()->references('uuid')->on('model_cars')->cascadeOnUpdate()->nullOnDelete();
+            $table->foreignUuid('engine_uuid')->nullable()->references('uuid')->on('engines')->cascadeOnUpdate()->nullOnDelete();
+            $table->foreignUuid('transmission_uuid')->nullable()->references('uuid')->on('transmissions')->cascadeOnUpdate()->nullOnDelete();
+            $table->foreignUuid('fule_type_uuid')->nullable()->references('uuid')->on('fuel_types')->nullOnDelete()->cascadeOnUpdate();
+            $table->foreignUuid('color_exterior_uuid')->nullable()->references('uuid')->on('color_cars')->cascadeOnUpdate()->nullOnDelete();
+            $table->foreignUuid('color_interior_uuid')->nullable()->references('uuid')->on('color_cars')->cascadeOnUpdate()->nullOnDelete();
             $table->integer('mileage');
-            $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('year');
+            $table->foreignUuid('user_uuid')->references('uuid')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignUuid('year');
             $table->string('phone');
             $table->double('lat');
             $table->double('lng');

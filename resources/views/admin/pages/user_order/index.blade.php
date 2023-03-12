@@ -55,12 +55,12 @@
                                         </div>
                                         <div class="col-3">
                                             <div class="form-group">
-                                                <label for="city_id">@lang('city')</label>
-                                                <select name="city_id" id="s_city" class="search_input form-control"
+                                                <label for="city_uuid">@lang('city')</label>
+                                                <select name="city_uuid" id="s_city" class="search_input form-control"
                                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                                     <option selected disabled>@lang('select') @lang('city')</option>
                                                     @foreach ($cities as $itemm)
-                                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
+                                                        <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -68,8 +68,8 @@
                                         </div>
                                         <div class="col-3">
                                             <div class="form-group">
-                                                <label for="area_id">@lang('area')</label>
-                                                <select name="area_id" id="s_area" class="search_input form-control"
+                                                <label for="area_uuid">@lang('area')</label>
+                                                <select name="area_uuid" id="s_area" class="search_input form-control"
                                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                                 </select>
                                             </div>
@@ -175,8 +175,8 @@
                 data: function(d) {
                     d.phone = $('#s_phone').val();
                     d.name = $('#s_name').val();
-                    d.city_id = $('#s_city').val();
-                    d.area_id = $('#s_area').val();
+                    d.city_uuid = $('#s_city').val();
+                    d.area_uuid = $('#s_area').val();
                     d.status = $('#s_status').val();
 
                 }
@@ -202,7 +202,7 @@
                 },
                 {
                     data: 'city_name',
-                    name: 'city_id',
+                    name: 'city_uuid',
                     orderable: false,
                     searchable: false
                 },
@@ -229,23 +229,23 @@
 
         });
         $(document).ready(function() {
-            $('select[name="city_id"]').on('change', function () {
+            $('select[name="city_uuid"]').on('change', function () {
 
-                var city_id = $(this).val();
-                console.log(city_id)
-                if (city_id) {
+                var city_uuid = $(this).val();
+                console.log(city_uuid)
+                if (city_uuid) {
                     $.ajax({
-                        url: "usertype/area" + "/" + city_id,
+                        url: "users/area" + "/" + city_uuid,
                         type: "GET",
                         dataType: "json",
                         success: function (data) {
-                            $('select[name="area_id"]').empty();
+                            $('select[name="area_uuid"]').empty();
 
-                            $('select[name="area_id"]').append(`
+                            $('select[name="area_uuid"]').append(`
                                  <option selected  disabled>@lang('select') @lang('area')</option>
                                  `)
                             $.each(data, function (key, value) {
-                                $('select[name="area_id"]').append('<option value="' +
+                                $('select[name="area_uuid"]').append('<option value="' +
                                     key + '">' + value + '</option>');
                             });
                         },
@@ -272,8 +272,8 @@
                 buttonsStyling: true
             }).then(function(result) {
                 if (result.value) {
-                    var id = button.data('id')
-                    var url = window.location.href + '/' +'accepted'+'/'+id;
+                    var uuid = button.data('uuid')
+                    var url = window.location.href + '/' +'accepted'+'/'+uuid;
                     $.ajax({
                         url: url,
                         method: 'POST',
@@ -315,8 +315,8 @@
                 buttonsStyling: true
             }).then(function(result) {
                 if (result.value) {
-                    var id = button.data('id')
-                    var url = window.location.href + '/' +'rejected'+'/'+id;
+                    var uuid = button.data('uuid')
+                    var url = window.location.href + '/' +'rejected'+'/'+uuid;
                     $.ajax({
                         url: url,
                         method: 'POST',

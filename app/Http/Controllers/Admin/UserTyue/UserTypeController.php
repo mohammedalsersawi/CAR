@@ -26,6 +26,7 @@ class UserTypeController extends Controller
         $country=Country::select(['name','uuid'])->get();
         $type=Type::select(['name','uuid'])->get();
         $user=UserType::all();
+
 //        $area=Area::select(['uuid','name'])->get();
 
         return view('admin.pages.usertype.index',compact(['cities','user','country','type']));
@@ -46,14 +47,14 @@ class UserTypeController extends Controller
         $rules['name'] = 'nullable';
         $rules['phone'] = 'required|between:8,14';
         $rules['city_uuid'] = 'nullable|exists:cities,uuid';
-        $rules['discount_type_uuid'] = 'nullable|exists:types,uuid';
+        $rules['discount_type_id'] = 'nullable|exists:types,uuid';
         $rules ['area_uuid']=
             ['nullable',
                 Rule::exists(Area::class, 'uuid')->where(function ($query) use ($request) {
                     $query->where('city_uuid',$request->city_uuid);
                 }),
             ];
-        $rules['user_type_uuid'] = 'required|exists:user_types,uuid';
+        $rules['user_type_id'] = 'required|exists:user_types,id';
         $rules['password'] = 'required';
         $this->validate($request, $rules);
         $data=[];
@@ -66,7 +67,7 @@ class UserTypeController extends Controller
         $data['city_uuid']=$request->city_uuid;
         $data['area_uuid']=$request->area_uuid;
         $data['password']=Hash::make($request->password);
-        $data['user_type_uuid']=$request->user_type_uuid;
+        $data['user_type_id']=$request->user_type_id;
         $user= User::create($data);
 
         if($request->image)
@@ -93,7 +94,7 @@ class UserTypeController extends Controller
                     $query->where('city_uuid',$request->city_uuid);
                 }),
             ];
-        $rules['user_type_uuid'] = 'nullable|exists:user_types,uuid';
+        $rules['user_type_id'] = 'nullable|exists:user_types,id';
         $rules['lat'] = 'nullable';
         $rules['lng'] = 'nullable';
         $this->validate($request, $rules);
@@ -106,7 +107,7 @@ class UserTypeController extends Controller
             'phone',
             'city_uuid',
             'area_uuid',
-            'user_type_uuid',
+            'user_type_id',
             ]));
         if($request->image)
         {
@@ -119,7 +120,7 @@ class UserTypeController extends Controller
 
     public function destroy($uuid)
     {
-        $Color = User::destroy($uuid);
+       User::where('uuid',$uuid)->delete();
         return $this->sendResponse(null,null);
     }
 
@@ -144,8 +145,8 @@ class UserTypeController extends Controller
                 if ($request->get('number')) {
                     $query->where('number', 'like', "%{$request->get('number')}%");
                 }
-                if ($request->get('user_type_uuid')) {
-                    $query->where('user_type_uuid', $request->get('user_type_uuid'));
+                if ($request->get('user_type_id')) {
+                    $query->where('user_type_id', $request->get('user_type_id'));
                 }
                 if ($request->get('discount_type_uuid')) {
                     $query->where('discount_type_uuid', $request->get('discount_type_uuid'));
@@ -166,7 +167,7 @@ class UserTypeController extends Controller
                 $data_attr .= 'data-country_name="' .@ $que->city->country->name . '" ';
                 $data_attr .= 'data-lat="' . @$que->lat . '" ';
                 $data_attr .= 'data-lng="' . @$que->lng . '" ';
-                $data_attr .= 'data-user_type_uuid="' .@ $que->user_type_uuid . '" ';
+                $data_attr .= 'data-user_type_id="' .@ $que->user_type_id . '" ';
                 $data_attr .= 'data-about="' .@ $que->about . '" ';
                 $string = '';
                 $string .= '<button class="edit_btn btn btn-sm btn-outline-primary btn_edit" data-toggle="modal"

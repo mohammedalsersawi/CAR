@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -18,19 +17,17 @@ class User extends Authenticatable
      *
      * @var array
      */
-
     protected $primaryKey = 'uuid';
     public $incrementing = false;
     protected $appends = ['area_name','city_name','type_name','image_user','DiscountStoreType'];
     protected $fillable = [
         'phone',
         'password',
-//        'number',
         'about',
         'code',
         'city_uuid',
         'area_uuid',
-        'user_type_uuid',
+        'user_type_id',
         'lat',
         'lng',
         'discount_type_uuid',
@@ -53,15 +50,15 @@ class User extends Authenticatable
         'city',
         'area',
         'type',
-        'user_type_uuid',
+        'user_type_id',
         'created_at',
         'updated_at'
     ];
 
-    const SHOWROOM = 2;
-    const DISCOUNT_STORE = 3;
-    const PHOTOGRAPHER = 4;
-    const USER = 5;
+    const SHOWROOM = 1;
+    const DISCOUNT_STORE = 2;
+    const PHOTOGRAPHER = 3;
+    const USER = 4;
     /**
      * The attributes that should be cast to native types.
      *
@@ -71,7 +68,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
     public function type(){
-        return @$this->belongsTo(UserType::class,'user_type_uuid');
+        return @$this->belongsTo(UserType::class,'user_type_id');
     }
     public function city(){
         return @$this->belongsTo(City::class);

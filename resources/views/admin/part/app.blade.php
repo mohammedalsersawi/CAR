@@ -325,9 +325,9 @@
                             <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
                             <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
                         </svg>
-{{--                        @php--}}
-{{--                            $count = \App\Models\UserOrder::where('status', \App\Models\UserOrder::pending)->count();--}}
-{{--                        @endphp--}}
+                        @php
+                            $count = \App\Models\UserOrder::where('status', \App\Models\UserOrder::pending)->count();
+                        @endphp
                         <span class="menu-title text-truncate" data-i18n="Charts">@lang('user_order')</span>
                         <h5 class="text-danger">
                             <span id="count">{{ @$count }}</span>

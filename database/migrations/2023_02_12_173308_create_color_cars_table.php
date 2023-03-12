@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('color_cars', function (Blueprint $table) {
-            $table->id();
+            $table->uuid()->primary();;
             $table->string('name');
             $table->string('color');
             $table->timestamps();

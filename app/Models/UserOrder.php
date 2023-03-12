@@ -14,8 +14,8 @@ class UserOrder extends Model
     protected $appends = ['area_name', 'city_name', 'user_name', 'status_type'];
     protected $primaryKey = 'uuid';
     protected $hidden = [
-        'city_id',
-        'area_id',
+        'city_uuid',
+        'area_uuid',
 
 
     ];
@@ -31,7 +31,7 @@ class UserOrder extends Model
     }
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_uuid');
     }
     public function city()
     {

@@ -27,11 +27,9 @@ class DatabaseSeeder extends Seeder
             'password'=>Hash::make('123456789')
         ]);
 
+
         UserType::create([
-                'name_en'=> 'gest',
-                'name_ar'=>'ضيف'
-        ]);
-        UserType::create([
+
             'name_en'=> 'ShowRoom',
             'name_ar'=>'صالة عرض
 '
