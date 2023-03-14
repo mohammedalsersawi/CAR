@@ -105,9 +105,12 @@
                                                         data-select2-id="select2-data-1-bgy2" tabindex="-1"
                                                         aria-hidden="true">
                                                     <option selected disabled>@lang('select') @lang('year')</option>
+                                                    @isset($year)
                                                     @for ($i = $year->from; $i <= $year->to ;$i++)
-                                                        <option value="{{ $i }}">{{ $i }}</option>
-                                                    @endfor
+                                                    <option value="{{ $i }}">{{ $i }}</option>
+                                                @endfor
+                                                    @endisset
+
                                                 </select>
                                                 <div class="invalid-feedback"></div>
                                             </div>
@@ -421,9 +424,12 @@
                                 <select name="year" id="" class="select form-control"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                     <option selected disabled>@lang('select') @lang('select')</option>
+                                    @isset($year)
                                     @for ($i = $year->from; $i <= $year->to ;$i++)
-                                        <option value="{{ $i }}">{{ $i }}</option>
-                                    @endfor
+                                    <option value="{{ $i }}">{{ $i }}</option>
+                                @endfor
+                                    @endisset
+
                                 </select>
                                 <div class="invalid-feedback"></div>
                             </div>
@@ -661,9 +667,12 @@
                                 <select name="year" id="edit_year" class="select form-control"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                     <option selected disabled>@lang('select') @lang('year')</option>
+                                    @isset($year)
                                     @for ($i = $year->from; $i <= $year->to ;$i++)
-                                        <option value="{{ $i }}">{{ $i }}</option>
-                                    @endfor
+                                    <option value="{{ $i }}">{{ $i }}</option>
+                                @endfor
+                                    @endisset
+
                                 </select>
                                 <div class="invalid-feedback"></div>
                             </div>
