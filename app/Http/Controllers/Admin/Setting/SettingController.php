@@ -27,7 +27,7 @@ class SettingController extends Controller
         ];
         $this->validate($request, $rules);
         Year::query()->updateOrCreate(
-            ['id'=>1],
+            ['uuid'=>1],
             [
             'from'=>$request->from,
             'to'=>$request->to

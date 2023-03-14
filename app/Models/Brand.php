@@ -4,11 +4,12 @@ namespace App\Models;
 
 use App\Models\Upload;
 use App\Utils\ImageUpload;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -18,13 +19,16 @@ class Brand extends Model
     use HasTranslations;
 
     protected $translatable = ['name'];
+    protected $primaryKey = 'uuid';
 
-    protected $guarded=[];
-protected $hidden=[
-    'name',
-    'imageBrand'
-];
-    protected $appends = ['name_text','image'];
+    public $incrementing = false;
+
+    protected $guarded = [];
+    protected $hidden = [
+        'name',
+        'imageBrand'
+    ];
+    protected $appends = ['name_text', 'image'];
 
     public function imageBrand()
     {
@@ -33,7 +37,7 @@ protected $hidden=[
 
     public function getImageAttribute()
     {
-        return url()->previous().'/uploads/'.@$this->imageBrand->filename;
+        return url()->previous() . '/uploads/' . @$this->imageBrand->filename;
     }
     public function getNameTextAttribute()
     {
@@ -42,10 +46,16 @@ protected $hidden=[
     protected static function booted()
     {
         self::deleted(function ($brand) {
-            File::delete(public_path('uploads/'.$brand->imageBrand->filename));
+            File::delete(public_path('uploads/' . $brand->imageBrand->filename));
             $brand->imageBrand()->delete();
         });
-
     }
 
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function ($brand) {
+            $brand->uuid = Str::uuid();
+        });
+    }
 }

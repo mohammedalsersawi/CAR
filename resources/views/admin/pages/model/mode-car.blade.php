@@ -88,7 +88,7 @@
                 <form action="{{ route('model.update') }}" method="POST" id="form_edit" class=""
                     enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" name="id" id="id" class="form-control" />
+                    <input type="hidden" name="uuid" id="uuid" class="form-control" />
                     <div class="modal-body">
                         @foreach (locales() as $key => $value)
                             <div class="col-12">
@@ -103,11 +103,11 @@
                         @endforeach
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label for="edit_brand_id">@lang('brand')</label>
-                                    <select class="form-control" id="edit_brand_id" name="brand_id" required>
+                                    <label for="edit_brand_uuid">@lang('brand')</label>
+                                    <select class="form-control" id="edit_brand_uuid" name="brand_uuid" required>
                                         <option value="">@lang('select')</option>
                                         @foreach ($brand as $itemm)
-                                            <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
+                                            <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
                                         @endforeach
                                     </select>
                                     <div class="invalid-feedback"></div>
@@ -139,7 +139,7 @@
                 <form action="{{ route('model.store') }}" method="POST" id="add_model_form" class="add-mode-form"
                     class="add_model_form">
                     @csrf
-                    <input type="hidden" name="id" id="id" class="form-control" />
+                    <input type="hidden" name="uuid" id="uuid" class="form-control" />
                     <div class="modal-body">
                         @foreach (locales() as $key => $value)
                             <div class="col-12">
@@ -154,11 +154,11 @@
                         @endforeach
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label for="brand_id">@lang('brand')</label>
-                                    <select class="form-control" id="brand_id" name="brand_id" >
+                                    <label for="brand_uuid">@lang('brand')</label>
+                                    <select class="form-control" id="brand_uuid" name="brand_uuid" >
                                         <option value="">@lang('select')</option>
                                         @foreach ($brand as $itemm)
-                                            <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
+                                            <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
                                         @endforeach
                                     </select>
                                     <div class="invalid-feedback"></div>
@@ -249,10 +249,10 @@
                 $('input').removeClass('is-invalid');
                 $('.invalid-feedback').text('');
                 var button = $(this)
-                var id = button.data('id')
-                $('#edit_brand_id').val(button.data('brand_id')).trigger('change');
+                var uuid = button.data('uuid')
+                $('#edit_brand_uuid').val(button.data('brand_uuid')).trigger('change');
 
-                $('#id').val(id);
+                $('#uuid').val(uuid);
                 @foreach (locales() as $key => $value)
                     $('#edit_name_{{ $key }}').val(button.data('name_{{ $key }}'))
                 @endforeach

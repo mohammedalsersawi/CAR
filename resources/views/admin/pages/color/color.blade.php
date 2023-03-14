@@ -136,7 +136,7 @@
                 <form action="{{ route('color.update') }}" method="POST" id="form_edit" class=""
                     enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" name="id" id="id" class="form-control" />
+                    <input type="hidden" name="uuid" id="uuid" class="form-control" />
                     <div class="modal-body">
                         @foreach (locales() as $key => $value)
                             <div class="col-12">
@@ -221,9 +221,9 @@
                 $('input').removeClass('is-invalid');
                 $('.invalid-feedback').text('');
                 var button = $(this)
-                var id = button.data('id');
+                var uuid = button.data('uuid');
                 var color = button.data('color');
-                $('#id').val(id);
+                $('#uuid').val(uuid);
                 $('.colors-list').val(color);
                 console.log(color);
                 @foreach (locales() as $key => $value)
