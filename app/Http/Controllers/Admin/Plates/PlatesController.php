@@ -17,8 +17,8 @@ class PlatesController extends Controller
 
     public function index()
     {
-        $users = User::select(['name', 'id', 'phone'])->get();
-        $cities = City::select(['name', 'id'])->get();
+        $users = User::select(['name', 'uuid', 'phone'])->get();
+        $cities = City::select(['name', 'uuid'])->get();
         return view('admin.pages.Plates.index', compact('cities', 'users'));
     }
 
@@ -31,9 +31,9 @@ class PlatesController extends Controller
         $rules['stringone'] = 'required|string|size:3';
         $rules['stringtow'] = 'required|string|size:3';
         $rules['phone'] = 'required|between:8,14';
-        $rules['city_id'] = 'required|exists:cities,id';
+        $rules['city_uuid'] = 'required|exists:cities,uuid';
         $rules['price'] = 'required|numeric';
-        $rules['user_id'] = 'required|exists:users,id';
+        $rules['user_uuid'] = 'required|exists:users,uuid';
         $this->validate($request, $rules);
         $plates = Plates::create($request->only(
             'numberone',
@@ -41,9 +41,9 @@ class PlatesController extends Controller
             'stringone',
             'stringtow',
             'phone',
-            'city_id',
+            'city_uuid',
             'price',
-            'user_id',
+            'user_uuid',
         ));
         return $this->sendResponse(null, __('item_added'));
     }
@@ -55,9 +55,9 @@ class PlatesController extends Controller
         $rules['stringone'] = 'required|string|size:3';
         $rules['stringtow'] = 'required|string|size:3';
         $rules['phone'] = 'required|between:8,14';
-        $rules['city_id'] = 'required|exists:cities,id';
+        $rules['city_uuid'] = 'required|exists:cities,id';
         $rules['price'] = 'required|numeric';
-        $rules['user_id'] = 'required|exists:users,id';
+        $rules['user_uuid'] = 'required|exists:users,id';
         $this->validate($request, $rules);
         $plates = Plates::findOrFail($request->uuid);
         $plates->update($request->only(
@@ -66,9 +66,9 @@ class PlatesController extends Controller
             'stringone',
             'stringtow',
             'phone',
-            'city_id',
+            'city_uuid',
             'price',
-            'user_id',
+            'user_uuid',
         ));
 
         return $this->sendResponse(null, __('item_added'));
@@ -82,8 +82,8 @@ class PlatesController extends Controller
         return Datatables::of($Car)
             ->filter(function ($query) use ($request) {
 
-                if ($request->get('city_id')) {
-                    $query->where('city_id',$request->get('city_id'));
+                if ($request->get('city_uuid')) {
+                    $query->where('city_uuid',$request->get('city_uuid'));
                 }
                 if ($request->get('phone')) {
                     $query->where('phone',$request->get('phone'));
@@ -106,8 +106,8 @@ class PlatesController extends Controller
                 $data_attr .= 'data-stringtow="' . @$que->stringtow . '" ';
                 $data_attr .= 'data-phone="' . @$que->phone . '" ';
                 $data_attr .= 'data-price="' . @$que->price . '" ';
-                $data_attr .= 'data-user_id="' . @$que->user_id . '" ';
-                $data_attr .= 'data-city_id ="' . @$que->city_id  . '" ';
+                $data_attr .= 'data-user_uuid="' . @$que->user_uuid . '" ';
+                $data_attr .= 'data-city_uuid ="' . @$que->city_uuid  . '" ';
                 $data_attr .= 'data-city_name="' . @$que->city->name . '" ';
 
                 $string = '';

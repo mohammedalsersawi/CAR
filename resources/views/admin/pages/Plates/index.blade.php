@@ -83,12 +83,12 @@
 {{--                                        </div>--}}
                                         <div class="col-3">
                                             <div class="form-group">
-                                                <label for="city_id">@lang('city')</label>
+                                                <label for="city_uuid">@lang('city')</label>
                                                 <select id="s_city" class="search_input form-control"
                                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                                     <option selected disabled>Select @lang('city')</option>
                                                     @foreach ($cities as $itemm)
-                                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
+                                                        <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -205,12 +205,12 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="user_id">@lang('user_name')</label>
-                                    <select name="user_id" id="" class="form-control"
+                                    <label for="user_uuid">@lang('user_name')</label>
+                                    <select name="user_uuid" id="" class="form-control"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                         <option selected disabled>@lang('select') @lang('users')</option>
                                         @foreach ($users as $item)
-                                            <option value="{{ $item->id }}">
+                                            <option value="{{ $item->uuid }}">
                                                 {{ $item->phone }}
                                             </option>
                                         @endforeach
@@ -220,12 +220,12 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="city_id">@lang('cities')</label>
-                                    <select id="" class="form-control" name="city_id"
+                                    <label for="city_uuid">@lang('cities')</label>
+                                    <select id="" class="form-control" name="city_uuid"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                         <option selected disabled>@lang('select') @lang('cities')</option>
                                         @foreach ($cities as $item)
-                                            <option value="{{ $item->id }}">
+                                            <option value="{{ $item->uuid }}">
                                                 {{ $item->name }}
                                             </option>
                                         @endforeach
@@ -315,11 +315,11 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="user_id">@lang('user_name')</label>
-                                    <select name="user_id" id="edit_user_id" class="form-control"
+                                    <label for="user_uuid">@lang('user_name')</label>
+                                    <select name="user_uuid" id="edit_user_uuid" class="form-control"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                         @foreach ($users as $item)
-                                            <option value="{{ $item->id }}">
+                                            <option value="{{ $item->uuid }}">
                                                 {{ $item->phone }}
                                             </option>
                                         @endforeach
@@ -329,11 +329,11 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="city_id">@lang('cities')</label>
-                                    <select name="city_id" id="edit_city_id" class="form-control"
+                                    <label for="city_uuid">@lang('cities')</label>
+                                    <select name="city_uuid" id="edit_city_uuid" class="form-control"
                                  >
                                         @foreach ($cities as $item)
-                                            <option value="{{ $item->id }}">
+                                            <option value="{{ $item->uuid }}">
                                                 {{ $item->name }}
                                             </option>
                                         @endforeach
@@ -406,7 +406,7 @@
                 url: '{{ route('Plates.getData', app()->getLocale()) }}',
                 data: function(d) {
                     d.status = $('#s_status').val();
-                    d.city_id = $('#s_city').val();
+                    d.city_uuid = $('#s_city').val();
                     d.phone = $('#s_phone').val();
                     d.price = $('#s_price').val();
 
@@ -481,8 +481,8 @@
                 $('#stringtow').val(button.data('stringtow'));
                 $('#phone').val(button.data('phone'));
                 $('#price').val(button.data('price'));
-                $('#edit_user_id').val(button.data('user_id')).trigger('change');
-                $('#edit_city_id').val(button.data('city_id')).trigger('change');
+                $('#edit_user_uuid').val(button.data('user_uuid')).trigger('change');
+                $('#edit_city_uuid').val(button.data('city_uuid')).trigger('change');
                 @foreach (locales() as $key => $value)
                     $('#edit_name_{{ $key }}').val(button.data('name_{{ $key }}'))
                 @endforeach

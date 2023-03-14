@@ -17,8 +17,8 @@ class Plates extends Model
     protected $hidden=[
         'city',
         'user',
-        'user_id',
-        'city_id',
+        'user_uuid',
+        'city_uuid',
         'updated_at',
         'created_at'
     ];
@@ -41,7 +41,7 @@ class Plates extends Model
     }
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_uuid');
     }
     public function getUserNameAttribute()
     {

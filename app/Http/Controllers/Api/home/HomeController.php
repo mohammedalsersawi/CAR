@@ -6,6 +6,7 @@ use App\Http\Resources\salesResource;
 use App\Http\Resources\TypeResource;
 use App\Models\Car;
 use App\Models\Code_Deals;
+use App\Models\OrderAppointment;
 use App\Models\Photographer;
 use App\Models\Type;
 use App\Models\User;
@@ -57,7 +58,7 @@ class HomeController extends Controller
             $ads= $user->cars;
             $data= carresourse::collection($ads);
         }elseif ($user->user_type_id==User::PHOTOGRAPHER){
-            $data= Photographer::where('status',Photographer::undefine)->where('area_uuid',$user->area_uuid)->orWhere('photographer_uuid',$user->uuid)->get();
+            $data= OrderAppointment::where('status',OrderAppointment::pending)->where('area_uuid',$user->area_uuid)->orWhere('photographer_uuid',$user->uuid)->get();
         }
 
 

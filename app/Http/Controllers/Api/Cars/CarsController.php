@@ -24,42 +24,43 @@ class CarsController extends Controller
         $rules['phone'] = 'required';
         $rules['mileage'] = 'required';
         $rules['image'] = 'required';
-        $rules['brand_id'] = 'required|exists:brands,id';
-        $rules['model_id'] =
+        $rules['brand_uuid'] = 'required|exists:brands,uuid';
+        $rules['model_uuid'] =
             [
                 'required',
-                Rule::exists(ModelCar::class, 'id')->where(function ($query) use ($request) {
-                    $query->where('brand_id', $request->brand_id);
+                Rule::exists(ModelCar::class, 'uuid')->where(function ($query) use ($request) {
+                    $query->where('brand_uuid', $request->brand_uuid);
                 }),
             ];
-        $rules['engine_id'] = 'required|exists:engines,id';
-        $rules['fule_type_id'] = 'required|exists:fuel_types,id';
-        $rules['color_exterior_id'] = 'required|exists:color_cars,id';
-        $rules['color_interior_id'] = 'required|exists:color_cars,id';
-        $rules['transmission_id'] = 'required|exists:transmissions,id';
+        $rules['engine_uuid'] = 'required|exists:engines,uuid';
+        $rules['fule_type_uuid'] = 'required|exists:fuel_types,uuid';
+        $rules['color_exterior_uuid'] = 'required|exists:color_cars,uuid';
+        $rules['color_interior_uuid'] = 'required|exists:color_cars,uuid';
+        $rules['transmission_uuid'] = 'required|exists:transmissions,uuid';
         $vaild = $request->all();
         $validator = Validator::make($vaild, $rules);
         if ($validator->fails()) {
             return mainResponse(false, __('car failed'), [], $validator->errors()->messages(), 101);
         }
+        $user=Auth::guard('sanctum')->user();
         $request->merge([
-            'user_id'=>Auth::guard('sanctum')->id(),
+            'user_uuid'=>$user->uuid
         ]);
         $Car = Car::create($request->only(
-            'transmission_id',
+            'transmission_uuid',
             'lat',
             'lng',
             'year',
             'price',
-            'user_id',
+            'user_uuid',
             'phone',
             'mileage',
-            'brand_id',
-            'model_id',
-            'engine_id',
-            'fule_type_id',
-            'color_exterior_id',
-            'color_interior_id',
+            'brand_uuid',
+            'model_uuid',
+            'engine_uuid',
+            'fule_type_uuid',
+            'color_exterior_uuid',
+            'color_interior_uuid',
         ));
         foreach ($request->File('image') as $file) {
             UploadImage($file, null, Car::class, $Car->uuid, false);
@@ -70,7 +71,7 @@ class CarsController extends Controller
            foreach ($specification as $item){
                Specification::create([
                    'name'=>$item,
-                   'car_id'=>$Car->uuid,
+                   'car_uuid'=>$Car->uuid,
                ]);
                $i++;
            }
@@ -81,7 +82,7 @@ class CarsController extends Controller
     public function onecar($uuid){
 
         $car = Car::find($uuid)
-            ->with('specification:name,car_id')
+            ->with('specification:name,car_uuid')
             ->first();
         if ($car){
             return mainResponse(true, __('ok'), $car, [], 101);

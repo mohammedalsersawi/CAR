@@ -27,9 +27,9 @@ class OrderAppointment extends Model
 
     const image=1;
     const imagevideo=2;
-    const accept='accept';
-    const pending='pending';
-    const complete='complete';
+    const accept=2;
+    const pending=1;
+    const complete=3;
     public static function boot()
     {
         parent::boot();
@@ -66,12 +66,12 @@ class OrderAppointment extends Model
     }
     public function getStatusAppointmentAttribute()
     {
-        if ($this->status == 'pending' ) {
+        if ($this->status == 1 ) {
             return (app()->currentLocale() == 'ar') ? 'معلق' : 'pending';
-        } elseif ($this->status == 'accept') {
+        } elseif ($this->status == 2) {
             return (app()->currentLocale() == 'ar') ? 'تم القبول' : 'accept';
         } else {
-            return (app()->currentLocale() == 'ar') ? 'مكمل' : 'complete';
+            return (app()->currentLocale() === 'ar') ? 'مكمل' : 'complete';
         }
     }
     public function getAreaNameAttribute()

@@ -1,23 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\Api\photgrapher;
+namespace App\Http\Controllers\Api\appointment;
 
 use App\Http\Controllers\Controller;
 use App\Models\Area;
-use App\Models\Photographer;
+use App\Models\OrderAppointment;
+
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 
-class PhotgrapherController extends Controller
+class AppointmentController extends Controller
 {
-   public function post(Request $request){
+   public function addappointment(Request $request){
        $rules = [];
-       $rules['video'] = 'nullable';
-       $rules['image'] = 'required';
+
        $rules['phone'] = 'required';
+       $rules['type'] = 'required|in:1,2';
        $rules['city_uuid'] = 'required|exists:cities,uuid';
        $rules ['area_uuid']=
            ['required',
@@ -36,12 +37,12 @@ class PhotgrapherController extends Controller
        $request->merge([
            'user_uuid'=>$user->uuid
        ]);
-       $photographer =  Photographer::create($request->only(['user_uuid','city_uuid', 'area_uuid', 'date', 'phone', 'time']));
+       $photographer =  OrderAppointment::create($request->only(['type','user_uuid','city_uuid', 'area_uuid', 'date', 'phone', 'time']));
        if ($request->hasFile('image')) {
-           UploadImage($request->image, null, Photographer::class, $photographer->uuid, false);
+           UploadImage($request->image, null, OrderAppointment::class, $photographer->uuid, false);
        }
        if ($request->hasFile('video')) {
-           UploadImage($request->video, null, Photographer::class, $photographer->uuid, false);
+           UploadImage($request->video, null, OrderAppointment::class, $photographer->uuid, false);
        }
        if ($photographer) {
            return mainResponse(true, __('ok'), $photographer, [], 200);
@@ -70,10 +71,10 @@ class PhotgrapherController extends Controller
        if ($validator->fails()) {
            return mainResponse(false, __('failed'), [], $validator->errors()->messages(), 101);
        }
-       $photographer=  Photographer::find($request->uuid);
+       $photographer=  OrderAppointment::find($request->uuid);
        $photographer->update([
            'photographer_uuid'=>$user->uuid,
-           'status'=>2
+           'status'=>OrderAppointment::accept
        ]);
        return mainResponse(true, __('ok'), $photographer, [], 200);
 

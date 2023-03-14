@@ -22,7 +22,7 @@ return new class extends Migration
             $table->time('time');
             $table->enum('type',[1,2]);
             $table->foreignUuid('photographer_uuid')->nullable()->references('uuid')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->enum('status',['pending','accept','complete'])->default('pending');
+            $table->enum('status',[1,2,3])->default(1);
             $table->foreignUuid('user_uuid')->references('uuid')->on('users')->cascadeOnDelete();
             $table->timestamps();
         });

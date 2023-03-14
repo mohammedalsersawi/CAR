@@ -17,8 +17,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $primaryKey = 'id';
-    public $incrementing = false;
+
     protected $appends = ['area_name','city_name','type_name','image_user','DiscountStoreType'];
     protected $fillable = [
         'phone',
@@ -119,7 +118,11 @@ class User extends Authenticatable
     }
     public function getImageUserAttribute()
     {
-        return url()->previous(). '/uploads/'. @$this->image->filename;
+
+
+            return (@$this->image->filename==null)?url()->previous(). '/uploads/'. @$this->image->filename:"";
+
+
     }
 
 
