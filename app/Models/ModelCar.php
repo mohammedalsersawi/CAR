@@ -16,12 +16,12 @@ class ModelCar extends Model
     ];
 
     protected $appends = ['name_text'];
-public function brand(){
-    return $this->belongsTo(Brand::class,'brand_id');
-}
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class, 'brand_id');
+    }
     public function getNameTextAttribute()
     {
         return @$this->name;
     }
-
 }
