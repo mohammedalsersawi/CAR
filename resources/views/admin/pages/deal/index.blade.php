@@ -62,12 +62,12 @@
                                         </div>
                                         <div class="col-3">
                                             <div class="form-group">
-                                                <label for="s_discount_type_id">@lang('Discount Store Type')</label>
-                                                <select id="s_discount_type_id" class="search_input form-control"
+                                                <label for="s_discount_type_uuid">@lang('Discount Store Type')</label>
+                                                <select id="s_discount_type_uuid" class="search_input form-control"
                                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                                     <option selected disabled>@lang('select') @lang('Discount Store Type')</option>
                                                     @foreach ($type as $itemm)
-                                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
+                                                        <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -142,11 +142,11 @@
 
                         <div class="col-12">
                             <div class="form-group">
-                                <label for="user_id">@lang('users')</label>
-                                <select class="form-control" id="" name="user_id" required>
+                                <label for="user_uuid">@lang('users')</label>
+                                <select class="form-control" id="" name="user_uuid" required>
                                     <option value="">@lang('select')</option>
                                     @foreach ($user as $itemm)
-                                        <option value="{{ $itemm->id }}"> {{ $itemm->phone }} {{ $itemm->name }} </option>
+                                        <option value="{{ $itemm->uuid }}"> {{ $itemm->phone }} {{ $itemm->name }} </option>
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback"></div>
@@ -200,11 +200,11 @@
 
                         <div class="col-12">
                             <div class="form-group">
-                                <label for="user_id">@lang('users')</label>
-                                <select class="form-control" id="edit_user_id" name="user_id" required>
+                                <label for="user_uuid">@lang('users')</label>
+                                <select class="form-control" id="edit_user_uuid" name="user_uuid" required>
                                     <option value="">@lang('select')</option>
                                     @foreach ($user as $itemm)
-                                        <option value="{{ $itemm->id }}"> {{ $itemm->phone }} {{ $itemm->name }} </option>
+                                        <option value="{{ $itemm->uuid }}"> {{ $itemm->phone }} {{ $itemm->name }} </option>
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback"></div>
@@ -266,8 +266,8 @@
                 url: '{{ route('deals.getData', app()->getLocale()) }}',
                 data: function(d) {
                     d.deals = $('#s_title').val();
-                    d.user_id = $('#s_name').val();
-                    d.discount_type_id = $('#s_discount_type_id').val();
+                    d.user_uuid = $('#s_name').val();
+                    d.discount_type_uuid = $('#s_discount_type_uuid').val();
                 }
             },
             columns: [
@@ -326,8 +326,8 @@
                 var button = $(this)
                 var uuid = button.data('uuid')
                 $('#uuid').val(uuid);
-                $('#edit_user_id').val(button.data('user_id')).trigger('change');
-                $('#edit_discount_type_id').val(button.data('discount_type_id')).trigger('change');
+                $('#edit_user_uuid').val(button.data('user_uuid')).trigger('change');
+                $('#edit_discount_type_uuid').val(button.data('discount_type_uuid')).trigger('change');
                 $('#edit_name_deals').val(button.data('deals'))
 
 

@@ -459,5 +459,6 @@
     "stringtow" : "النص الثاني",
     "Sold" : "تم البيع",
     "Nat_Sold" : "لم تباع",
-    "failed": "فشل"
+    "failed": "فشل",
+    "Order Appointment": "طلبات المواعيد"
 }

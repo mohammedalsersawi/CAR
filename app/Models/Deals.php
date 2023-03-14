@@ -21,7 +21,7 @@ class Deals extends Model
         'updated_at',
         'created_at',
         'imageDeal',
-        'user_id'
+        'user_uuid'
     ];
 
     public function getUserNameAttribute()
@@ -53,14 +53,17 @@ class Deals extends Model
         return $this->belongsTo(User::class);
     }
     public function seals(){
-        return $this->hasMany(Code_Deals::class,'deal_id');
+        return $this->hasMany(Code_Deals::class,'deal_uuid');
     }
     protected static function booted()
     {
         static::deleted(function ($deal) {
+            if ($deal->imageDeal->filename){
             File::delete(public_path('uploads/'.$deal->imageDeal->filename));
             $deal->imageDeal()->delete();
+        }
         });
+
     }
     public function getRouteKeyName()
     {

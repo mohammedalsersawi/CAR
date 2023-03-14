@@ -351,12 +351,12 @@
                             <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
                             <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
                         </svg>
-                        <span class="menu-title text-truncate" data-i18n="Charts">@lang('photographer')</span></a>
+                        <span class="menu-title text-truncate" data-i18n="Charts">@lang('Order Appointment')</span></a>
                     <ul class="menu-content">
-                        <li class="nav-item {{ request()->routeIs('photographer.index') ? 'active' : '' }} ">
-                            <a class="d-flex align-items-center" href="{{ route('photographer.index') }}">
+                        <li class="nav-item {{ request()->routeIs('OrderAppointment.index') ? 'active' : '' }} ">
+                            <a class="d-flex align-items-center" href="{{ route('OrderAppointment.index') }}">
                                 <i data-feather="file-text"></i><span
-                                    class="menu-title text-truncate">@lang('photographer')</span>
+                                    class="menu-title text-truncate">@lang('Order Appointment')</span>
                             </a>
                         </li>
                     </ul>

@@ -151,7 +151,7 @@ Route::group(
             Route::post('/rejected/{uuid}', 'rejected')->name('rejected');
             Route::delete('{uuid}','destroy')->name('delete');
         });
-        Route::controller(PhotographerController::class)->name('photographer.')->prefix('photographer')->group(function () {
+        Route::controller(\App\Http\Controllers\Admin\OrderAppointment\OrderController::class)->name('OrderAppointment.')->prefix('Appointment')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::post('/store', 'store')->name('store');
             Route::post('/update', 'update')->name('update');

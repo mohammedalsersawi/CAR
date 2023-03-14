@@ -9,6 +9,8 @@ use Illuminate\Support\Str;
 class Code_Deals extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'uuid';
+    public $incrementing = false;
     protected $guarded=[];
     protected $appends=['deals_name'];
 protected $hidden=[

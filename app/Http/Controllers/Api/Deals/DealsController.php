@@ -23,12 +23,13 @@ class DealsController extends Controller
         if ($validator->fails()) {
             return mainResponse(false, __('deals failed'), [], $validator->errors()->messages(), 101);
         }
+        $user=Auth::guard('sanctum')->user();
         $request->merge([
-            'user_id'=>Auth::guard('sanctum')->id()
+            'user_uuid'=>$user->uuid
         ]);
         $deals= Deals::create($request->only([
             'deals',
-            'user_id',
+            'user_uuid',
         ]));
         if ($request->image){
             UploadImage($request->image, null, 'App\Models\Deals', $deals->uuid, false);
@@ -40,7 +41,7 @@ class DealsController extends Controller
 
         Code_Deals::create($request->only([
             'code',
-            'deal_id',
+            'deal_uuid',
         ]));
                     return mainResponse(true, __('ok'), [], [], 101);
 

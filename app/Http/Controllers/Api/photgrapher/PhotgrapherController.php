@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\photgrapher;
 use App\Http\Controllers\Controller;
 use App\Models\Area;
 use App\Models\Photographer;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -49,9 +50,27 @@ class PhotgrapherController extends Controller
 
        }
    }
-   public function acsept(Request $request){
+   public function accept(Request $request){
+
        $user=Auth::guard('sanctum')->user();
-       $photographer=  Photographer::where('uuid',$request->uuid)->first();
+
+       $request->merge([
+          'user'=>$user->uuid
+       ]);
+       $rules = [];
+       $rules ['user']=
+           ['required',
+               Rule::exists(User::class, 'uuid')->where(function ($query) use ($request) {
+                   $query->where('user_type_id',User::PHOTOGRAPHER);
+               }),
+           ];
+       $rules['uuid'] = 'required|exists:photographers,uuid';
+       $vaild = $request->all();
+       $validator = Validator::make($vaild, $rules);
+       if ($validator->fails()) {
+           return mainResponse(false, __('failed'), [], $validator->errors()->messages(), 101);
+       }
+       $photographer=  Photographer::find($request->uuid);
        $photographer->update([
            'photographer_uuid'=>$user->uuid,
            'status'=>2

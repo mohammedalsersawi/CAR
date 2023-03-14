@@ -17,7 +17,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $primaryKey = 'uuid';
+    protected $primaryKey = 'id';
     public $incrementing = false;
     protected $appends = ['area_name','city_name','type_name','image_user','DiscountStoreType'];
     protected $fillable = [

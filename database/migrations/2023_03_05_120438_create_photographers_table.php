@@ -21,7 +21,7 @@ return new class extends Migration
             $table->date('date');
             $table->time('time');
             $table->foreignUuid('photographer_uuid')->nullable()->references('uuid')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
-             $table->enum('status',[1,2])->default(1);
+             $table->enum('status',['pending','accept','complete'])->default(1);
             $table->foreignUuid('user_uuid')->references('uuid')->on('users')->cascadeOnDelete();
             $table->timestamps();
 

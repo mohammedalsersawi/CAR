@@ -1,6 +1,6 @@
 @extends('admin.part.app')
 @section('title')
-    @lang('photographer')
+    @lang('Order Appointment')
 @endsection
 @section('styles')
 @endsection
@@ -10,13 +10,13 @@
             <div class="content-header-left col-md-9 col-12 mb-2">
                 <div class="row breadcrumbs-top">
                     <div class="col-12">
-                        <h2 class="content-header-title float-left mb-0">@lang('photographer')</h2>
+                        <h2 class="content-header-title float-left mb-0">@lang('Order Appointment')</h2>
                         <div class="breadcrumb-wrapper">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ route('admin.index') }}">@lang('home')</a>
                                 </li>
                                 <li class="breadcrumb-item"><a
-                                        href="{{ route('photographer.index') }}">@lang('photographer')</a>
+                                        href="{{ route('OrderAppointment.index') }}">@lang('Order Appointment')</a>
                                 </li>
                             </ol>
                         </div>
@@ -32,7 +32,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="head-label">
-                                    <h4 class="card-title">@lang('photographer')</h4>
+                                    <h4 class="card-title">@lang('OrderAppointment')</h4>
                                 </div>
                                 <div class="text-right">
                                     <div class="form-gruop">
@@ -116,6 +116,7 @@
                                             <th>@lang('cities')</th>
                                             <th>@lang('date')</th>
                                             <th>@lang('time')</th>
+                                            <th>@lang('status')</th>
                                             <th>@lang('photographer')</th>
                                             <th style="width: 225px;">@lang('actions')</th>
                                         </tr>
@@ -143,7 +144,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('photographer.store') }}" method="POST" id="add_model_form"
+                <form action="{{ route('OrderAppointment.store') }}" method="POST" id="add_model_form"
                     class="add-mode-form" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
@@ -156,7 +157,7 @@
                                         <option selected disabled>@lang('select') @lang('country')</option>
                                         @foreach ($country as $itemm)
                                             <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
-                                            </option>
+
                                         @endforeach
                                     </select>
                                     <div class="invalid-feedback"></div>
@@ -167,7 +168,7 @@
                                     <label for="">@lang('city')</label>
                                     <select name="city_uuid" id="edit_city" class="select form-control"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                        <option selected disabled>@lang('select') @lang('city')</option>
+
                                     </select>
                                     <div class="invalid-feedback"></div>
                                 </div>
@@ -222,7 +223,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('type_content')</label>
-                                    <select class="form-control type_content" name="typeContent" id=""
+                                    <select class="form-control type_content" name="type" id=""
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                         <option selected disabled>@lang('select') @lang('select')</option>
                                         @foreach ($type as $key => $item)
@@ -239,20 +240,7 @@
                             </div>
 
                         </div>
-                        <div class="row">
-                            <div class="col-md-6 content-1" style="display: none" id="">
-                                <div class="form-group">
-                                    <label for="">@lang('image')</label>
-                                    <input type="file" class="file form-control" name="image">
-                                </div>
-                            </div>
-                            <div class="col-md-6 content-2" style="display: none" id="">
-                                <div class="form-group">
-                                    <label for="">@lang('video')</label>
-                                    <input type="file" class="file form-control" name="video">
-                                </div>
-                            </div>
-                        </div>
+
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
                                 data-dismiss="modal">@lang('close')</button>
@@ -275,7 +263,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('photographer.update') }}" method="POST" id="form_edit" class=""
+                <form action="{{ route('OrderAppointment.update') }}" method="POST" id="form_edit" class=""
                     enctype="multipart/form-data">
                     <div class="modal-body">
                         <div class="row">
@@ -357,8 +345,14 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    <label for="">@lang('time')</label>
+                                    <input type="time" class="form-control" name="time" id="time">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
                                     <label for="">@lang('type_content')</label>
-                                    <select class="form-control type_content" name="typeContent" id=""
+                                    <select class="form-control type_content" name="type" id="edit_type"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                         <option selected disabled>@lang('select') @lang('select')</option>
                                         @foreach ($type as $key => $item)
@@ -367,28 +361,9 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="">@lang('type_content')</label>
-                                    <input type="time" class="form-control" name="time" id="">
-                                </div>
-                            </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-6 content-1" style="display: none" id="">
-                                <div class="form-group">
-                                    <label for="">@lang('image')</label>
-                                    <input type="file" class="file form-control" name="image">
-                                </div>
-                            </div>
-                            <div class="col-md-6 content-2" style="display: none" id="">
-                                <div class="form-group">
-                                    <label for="">@lang('video')</label>
-                                    <input type="file" class="file form-control" name="video">
-                                </div>
-                            </div>
-                        </div>
+
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
                                 data-dismiss="modal">@lang('close')</button>
@@ -446,7 +421,7 @@
                 @endif // "oPaginate": {"sPrevious": '<-', "sNext": '->'},
             },
             ajax: {
-                url: '{{ route('photographer.getData', app()->getLocale()) }}',
+                url: '{{ route('OrderAppointment.getData', app()->getLocale()) }}',
                 data: function(d) {
                     d.city_uuid = $('#s_city').val();
                     d.area_uuid = $('#s_area').val();
@@ -494,6 +469,12 @@
                     searchable: false
                 },
                 {
+                    data: 'status_appointment',
+                    name: 'status_appointment',
+                    orderable: false,
+                    searchable: false
+                },
+                {
                     data: 'photographer',
                     name: 'photographer',
                     orderable: false,
@@ -518,6 +499,7 @@
                 var button = $(this);
                 var uuid = button.data('uuid');
                 $('#edit_user_uuid').val(button.data('user_uuid')).trigger('change');
+                $('#edit_type').val(button.data('type')).trigger('change');
                 $('#phone').val(button.data('phone'));
                 $('#date').val(button.data('date'));
                 $('#time').val(button.data('time'));

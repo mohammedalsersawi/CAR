@@ -21,12 +21,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
+Route::post('/login',[AuthController::class,'login'])->middleware('verification');
 Route::middleware(['guest:sanctum'])->prefix('auth')->group(function () {
-    Route::post('/login',[AuthController::class,'login'])->middleware('verification');
+
     Route::post('/register',[AuthController::class,'register']);
 });
 
@@ -36,7 +33,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('ads/car',[\App\Http\Controllers\Api\Cars\CarsController::class,'car']);
     Route::get('/show/car/{uuid}',[\App\Http\Controllers\Api\Cars\CarsController::class,'onecar']);
     Route::post('order/photgrapher',[PhotgrapherController::class,'post']);
-    Route::post('order/photgrapher/acsept',[PhotgrapherController::class,'acsept']);
+    Route::post('order/photgrapher/accept',[PhotgrapherController::class,'accept']);
 
 });
 
