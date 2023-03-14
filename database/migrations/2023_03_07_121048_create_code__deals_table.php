@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('code__deals', function (Blueprint $table) {
             $table->uuid()->primary();
             $table->text('code');
-            $table->foreignId('deal_id')->constrained('deals')->cascadeOnDelete();
+            $table->foreignUuid('deal_uuid')->references('uuid')->on('deals')->cascadeOnDelete();
             $table->timestamps();
         });
     }

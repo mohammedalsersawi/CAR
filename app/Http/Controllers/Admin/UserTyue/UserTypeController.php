@@ -22,11 +22,12 @@ class UserTypeController extends Controller
     public function index()
     {
 
-        $cities=City::select(['name','id'])->get();
-        $country=Country::select(['name','id'])->get();
-        $type=Type::select(['name','id'])->get();
+        $cities=City::select(['name','uuid'])->get();
+        $country=Country::select(['name','uuid'])->get();
+        $type=Type::select(['name','uuid'])->get();
         $user=UserType::all();
-//        $area=Area::select(['id','name'])->get();
+
+//        $area=Area::select(['uuid','name'])->get();
 
         return view('admin.pages.usertype.index',compact(['cities','user','country','type']));
     }
@@ -45,15 +46,15 @@ class UserTypeController extends Controller
         $rules['lng'] = 'nullable';
         $rules['name'] = 'nullable';
         $rules['phone'] = 'required|between:8,14';
-        $rules['city_id'] = 'nullable|exists:cities,id';
-        $rules['discount_type_id'] = 'nullable|exists:types,id';
-        $rules ['area_id']=
+        $rules['city_uuid'] = 'nullable|exists:cities,uuid';
+        $rules['discount_type_id'] = 'nullable|exists:types,uuid';
+        $rules ['area_uuid']=
             ['nullable',
-                Rule::exists(Area::class, 'id')->where(function ($query) use ($request) {
-                    $query->where('city_id',$request->city_id);
+                Rule::exists(Area::class, 'uuid')->where(function ($query) use ($request) {
+                    $query->where('city_uuid',$request->city_uuid);
                 }),
             ];
-        $rules['user_type_id'] = 'nullable|exists:user_types,id';
+        $rules['user_type_id'] = 'required|exists:user_types,id';
         $rules['password'] = 'required';
         $this->validate($request, $rules);
         $data=[];
@@ -62,16 +63,16 @@ class UserTypeController extends Controller
         $data['lng'] = $request->lng;
         $data['name'] = $request->name;
         $data['phone']=$request->phone;
-        $data['discount_type_id']=$request->discount_type_id;
-        $data['city_id']=$request->city_id;
-        $data['area_id']=$request->area_id;
+        $data['discount_type_uuid']=$request->discount_type_uuid;
+        $data['city_uuid']=$request->city_uuid;
+        $data['area_uuid']=$request->area_uuid;
         $data['password']=Hash::make($request->password);
         $data['user_type_id']=$request->user_type_id;
         $user= User::create($data);
 
         if($request->image)
         {
-            UploadImage($request->image, null, 'App\Models\User', $user->id, false);
+            UploadImage($request->image, null, 'App\Models\User', $user->uuid, false);
         }
         return $this->sendResponse(null, __('item_added'));
     }
@@ -85,41 +86,41 @@ class UserTypeController extends Controller
         $rules['name'] = 'nullable';
         $rules['about'] = 'nullable';
         $rules['phone'] = 'required|between:8,14';
-        $rules['discount_type_id'] = 'nullable|exists:types,id';
-        $rules['city_id'] = 'nullable|exists:cities,id';
-        $rules ['area_id']=
+        $rules['discount_type_uuid'] = 'nullable|exists:types,uuid';
+        $rules['city_uuid'] = 'nullable|exists:cities,uuid';
+        $rules ['area_uuid']=
             ['nullable',
-                Rule::exists(Area::class, 'id')->where(function ($query) use ($request) {
-                    $query->where('city_id',$request->city_id);
+                Rule::exists(Area::class, 'uuid')->where(function ($query) use ($request) {
+                    $query->where('city_uuid',$request->city_uuid);
                 }),
             ];
         $rules['user_type_id'] = 'nullable|exists:user_types,id';
         $rules['lat'] = 'nullable';
         $rules['lng'] = 'nullable';
         $this->validate($request, $rules);
-        $user=User::findOrFail($request->id);
+        $user=User::findOrFail($request->uuid);
         $user->update($request->only(['about',
             'name',
             'lat',
             'lng',
-            'discount_type_id',
+            'discount_type_uuid',
             'phone',
-            'city_id',
-            'area_id',
+            'city_uuid',
+            'area_uuid',
             'user_type_id',
             ]));
         if($request->image)
         {
-            UploadImage($request->image, null, 'App\Models\User', $user->id, true);
+            UploadImage($request->image, null, 'App\Models\User', $user->uuid, true);
         }
 
 
         return $this->sendResponse(null, __('item_edited'));
     }
 
-    public function destroy($id)
+    public function destroy($uuid)
     {
-        $Color = User::destroy($id);
+       User::where('uuid',$uuid)->delete();
         return $this->sendResponse(null,null);
     }
 
@@ -132,11 +133,11 @@ class UserTypeController extends Controller
         return Datatables::of($user)
             ->filter(function ($query) use ($request) {
 
-                if ($request->get('city_id')) {
-                    $query->where('city_id',$request->get('city_id'));
+                if ($request->get('city_uuid')) {
+                    $query->where('city_uuid',$request->get('city_uuid'));
                 }
-                if ($request->get('area_id')) {
-                    $query->where('area_id',$request->get('area_id'));
+                if ($request->get('area_uuid')) {
+                    $query->where('area_uuid',$request->get('area_uuid'));
                 }
                 if ($request->get('phone')) {
                     $query->where('phone','like', "%{$request->phone}%");
@@ -147,22 +148,22 @@ class UserTypeController extends Controller
                 if ($request->get('user_type_id')) {
                     $query->where('user_type_id', $request->get('user_type_id'));
                 }
-                if ($request->get('discount_type_id')) {
-                    $query->where('discount_type_id', $request->get('discount_type_id'));
+                if ($request->get('discount_type_uuid')) {
+                    $query->where('discount_type_uuid', $request->get('discount_type_uuid'));
                 }
             })
             ->addIndexColumn()
             ->addColumn('action', function ($que) {
                 $data_attr = '';
-                $data_attr .= 'data-id="' . @$que->id . '" ';
+                $data_attr .= 'data-uuid="' . @$que->uuid . '" ';
 //                $data_attr .= 'data-number="' . @$que->number . '" ';
                 $data_attr .= 'data-phone="' .@ $que->phone . '" ';
-                $data_attr .= 'data-city="' .@ $que->city_id . '" ';
-                $data_attr .= 'data-area="' .@ $que->area_id . '" ';
+                $data_attr .= 'data-city="' .@ $que->city_uuid . '" ';
+                $data_attr .= 'data-area="' .@ $que->area_uuid . '" ';
                 $data_attr .= 'data-name="' .@ $que->name . '" ';
                 $data_attr .= 'data-area_name="' .@ $que->area_name . '" ';
                 $data_attr .= 'data-city_name="' . @$que->city_name . '" ';
-                $data_attr .= 'data-country="' .@ $que->city->country_id . '" ';
+                $data_attr .= 'data-country="' .@ $que->city->country_uuid . '" ';
                 $data_attr .= 'data-country_name="' .@ $que->city->country->name . '" ';
                 $data_attr .= 'data-lat="' . @$que->lat . '" ';
                 $data_attr .= 'data-lng="' . @$que->lng . '" ';
@@ -171,7 +172,7 @@ class UserTypeController extends Controller
                 $string = '';
                 $string .= '<button class="edit_btn btn btn-sm btn-outline-primary btn_edit" data-toggle="modal"
                     data-target="#edit_modal" ' . $data_attr . '>' . __('edit') . '</button>';
-                $string .= ' <button type="button" class="btn btn-sm btn-outline-danger btn_delete" data-id="' . $que->id .
+                $string .= ' <button type="button" class="btn btn-sm btn-outline-danger btn_delete" data-uuid="' . $que->uuid .
                     '">' . __('delete') . '</button>';
                 return $string;
             })
@@ -184,19 +185,19 @@ class UserTypeController extends Controller
             ->rawColumns(['action'])
             ->make(true);
     }
-    public function area($id)
+    public function area($uuid)
     {
-        $list_classes = Area::where("city_id", $id)->pluck("name", "id");
+        $Area = Area::where("city_uuid", $uuid)->pluck("name", "uuid");
 
-        return $list_classes;
+        return $Area;
     }
 
 
 
-    public function country($id)
+    public function country($uuid)
     {
-        $country = City::where("country_id", $id)->pluck("name", "id");
+        $City = City::where("country_uuid", $uuid)->pluck("name", "uuid");
 
-        return $country;
+        return $City;
     }
 }

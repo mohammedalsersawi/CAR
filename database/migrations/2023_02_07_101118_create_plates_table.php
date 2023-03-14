@@ -21,11 +21,9 @@ return new class extends Migration
             $table->string('stringtow',3);
             $table->string('phone');
             $table->enum('status',[0,1])->default(0);
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('city_id')->nullable()->constrained('cities')->nullOnDelete();
-            $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignUuid('city_uuid')->nullable()->references('uuid')->on('cities')->nullOnDelete();
+            $table->foreignUuid('user_uuid')->nullable()->references('uuid')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->integer('price');
-            $table->enum('status', ['0', '1'])->default('0');
             $table->timestamps();
         });
     }

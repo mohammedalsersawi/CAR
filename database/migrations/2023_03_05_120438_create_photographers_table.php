@@ -15,12 +15,14 @@ return new class extends Migration
     {
         Schema::create('photographers', function (Blueprint $table) {
             $table->uuid()->primary();
-            $table->foreignId('city_id')->nullable()->constrained('cities')->nullOnDelete()->cascadeOnUpdate();
-            $table->foreignId('area_id')->nullable()->constrained('areas')->nullOnDelete()->cascadeOnUpdate();
+            $table->foreignUuid('city_uuid')->nullable()->references('uuid')->on('cities')->nullOnDelete();
+            $table->foreignUuid('area_uuid')->nullable()->references('uuid')->on('areas')->nullOnDelete();
             $table->string('phone',15);
             $table->date('date');
             $table->time('time');
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignUuid('photographer_uuid')->nullable()->references('uuid')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
+             $table->enum('status',[1,2])->default(1);
+            $table->foreignUuid('user_uuid')->references('uuid')->on('users')->cascadeOnDelete();
             $table->timestamps();
 
         });

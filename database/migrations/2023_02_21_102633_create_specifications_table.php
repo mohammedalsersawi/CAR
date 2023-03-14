@@ -14,9 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('specifications', function (Blueprint $table) {
-            $table->id();
-            $table->char('car_id', 36);
-            $table->foreign('car_id')->references('uuid')->on('cars')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->uuid()->primary();
+            $table->foreignUuid('car_uuid')->references('uuid')->on('cars')->cascadeOnDelete()->cascadeOnUpdate();
             $table->text('name');
             $table->timestamps();
         });

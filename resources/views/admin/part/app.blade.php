@@ -330,7 +330,7 @@
                         @endphp
                         <span class="menu-title text-truncate" data-i18n="Charts">@lang('user_order')</span>
                         <h5 class="text-danger">
-                            <span id="count">{{ $count }}</span>
+                            <span id="count">{{ @$count }}</span>
                         </h5>
                     </a>
                     <ul class="menu-content">
@@ -539,8 +539,8 @@
                 buttonsStyling: true
             }).then(function(result) {
                 if (result.value) {
-                    var id = button.data('id')
-                    var url = window.location.href + '/' + id;
+                    var uuid = button.data('uuid')
+                    var url = window.location.href + '/' + uuid;
                     $.ajax({
                         url: url,
                         method: 'DELETE',

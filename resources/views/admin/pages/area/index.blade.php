@@ -106,12 +106,12 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="">@lang('city')</label>
-                                <select name="city_id" id="" class="select form-control"
+                                <select name="city_uuid" id="" class="select form-control"
                                     data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                     <option selected disabled>@lang('select') @lang('city')</option>
                                     @foreach ($cities as $itemm)
-                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
-                                        </option>
+                                        <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
+
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback"></div>
@@ -144,7 +144,7 @@
                 <form action="{{ route('area.update') }}" method="POST" id="form_edit" class=""
                     enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" name="id" id="id" class="form-control" />
+                    <input type="hidden" name="uuid" id="uuid" class="form-control" />
                     <div class="modal-body">
                         @foreach (locales() as $key => $value)
                             <div class="col-12">
@@ -159,11 +159,11 @@
                         @endforeach
                         <div class="col-12">
                             <div class="form-group">
-                                <label for="city_id">@lang('cities')</label>
-                                <select class="form-control" id="edit_city_id" name="city_id" required>
+                                <label for="city_uuid">@lang('cities')</label>
+                                <select class="form-control" id="edit_city_uuid" name="city_uuid" required>
                                     <option selected disabled>@lang('select') @lang('city')</option>
                                     @foreach ($cities as $itemm)
-                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
+                                        <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback"></div>
@@ -249,9 +249,9 @@
                 $('.invalid-feedback').text('');
                 event.preventDefault();
                 var button = $(this);
-                var id = button.data('id');
-                $('#edit_city_id').val(button.data('city_id')).trigger('change');
-                $('#id').val(id);
+                var uuid = button.data('uuid');
+                $('#edit_city_uuid').val(button.data('city_uuid')).trigger('change');
+                $('#uuid').val(uuid);
                 @foreach (locales() as $key => $value)
                     $('#edit_name_{{ $key }}').val(button.data('name_{{ $key }}'))
                 @endforeach

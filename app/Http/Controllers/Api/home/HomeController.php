@@ -31,9 +31,9 @@ class HomeController extends Controller
         ];
         $room = User::where('user_type_id', User::SHOWROOM)->select(['name', 'id'])->limit(10)->get();
         $showrooms = roomresourse::collection($room);
-        $deals = Deals::select(['uuid', 'user_id', 'deals'])->get();
+        $deals = Deals::select(['uuid', 'user_uuid', 'deals'])->get();
         $brands = Brand::select('name', 'id')->get();
-        $ads = Car::query()->select(['uuid', 'brand_id', 'model_id', 'year'])->take(3)->get();
+        $ads = Car::query()->select(['uuid', 'brand_uuid', 'model_uuid', 'year'])->take(3)->get();
         $cars = carresourse::collection($ads);
         return mainResponse(true, __('ok'), compact('video', 'showrooms', 'deals', 'brands', 'cars'), [], 200);
     }
@@ -51,13 +51,13 @@ class HomeController extends Controller
 
         }elseif ($user->user_type_id==User::USER){
         $profile=[
-            'id'=>$user->id,
+            'uuid'=>$user->uuid,
             'phone'=>$user->phone,
         ];
             $ads= $user->cars;
             $data= carresourse::collection($ads);
         }elseif ($user->user_type_id==User::PHOTOGRAPHER){
-            $data= Photographer::where('area_id',$user->area_id)->get();
+            $data= Photographer::where('status',Photographer::undefine)->where('area_uuid',$user->area_uuid)->orWhere('photographer_uuid',$user->uuid)->get();
         }
 
 
@@ -91,7 +91,7 @@ class HomeController extends Controller
 
 
 
-        $ads = $query->select(['uuid', 'brand_id', 'model_id', 'year'])->paginate(6);
+        $ads = $query->select(['uuid', 'brand_uuid', 'model_uuid', 'year'])->paginate(6);
         $cars = carresourse::collection($ads);
 
         return mainResponse(true, __('ok'), $cars, [], 200);

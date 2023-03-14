@@ -62,12 +62,12 @@
                                         </div>
                                         <div class="col-3">
                                             <div class="form-group">
-                                                <label for="city_id">@lang('city')</label>
-                                                <select name="city_id" id="s_city" class="search_input form-control"
+                                                <label for="city_uuid">@lang('city')</label>
+                                                <select name="city_uuid" id="s_city" class="search_input form-control"
                                                     data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                                     <option selected disabled>@lang('select') @lang('city')</option>
                                                     @foreach ($cities as $itemm)
-                                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
+                                                        <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -75,15 +75,15 @@
                                         </div>
                                         <div class="col-3">
                                             <div class="form-group">
-                                                <label for="area_id">@lang('area')</label>
-                                                <select name="area_id" id="s_area" class="search_input form-control"
+                                                <label for="area_uuid">@lang('area')</label>
+                                                <select name="area_uuid" id="s_area" class="search_input form-control"
                                                     data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-3">
                                             <div class="form-group">
-                                                <label for="area_id">@lang('date')</label>
+                                                <label for="area_uuid">@lang('date')</label>
                                                 <input name="date" type="date" id="s_date"
                                                     class="search_input form-control">
 
@@ -110,12 +110,13 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>@lang('name')</th>
+
                                             <th>@lang('phone')</th>
                                             <th>@lang('area')</th>
                                             <th>@lang('cities')</th>
                                             <th>@lang('date')</th>
                                             <th>@lang('time')</th>
+                                            <th>@lang('photographer')</th>
                                             <th style="width: 225px;">@lang('actions')</th>
                                         </tr>
                                     </thead>
@@ -150,11 +151,11 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('country')</label>
-                                    <select name="country_id" id="" class="select form-control"
+                                    <select name="country_uuid" id="" class="select form-control"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                         <option selected disabled>@lang('select') @lang('country')</option>
                                         @foreach ($country as $itemm)
-                                            <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
+                                            <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
                                             </option>
                                         @endforeach
                                     </select>
@@ -164,7 +165,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('city')</label>
-                                    <select name="city_id" id="edit_city" class="select form-control"
+                                    <select name="city_uuid" id="edit_city" class="select form-control"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                         <option selected disabled>@lang('select') @lang('city')</option>
                                     </select>
@@ -178,7 +179,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('area')</label>
-                                    <select name="area_id" id="" class="select form-control"
+                                    <select name="area_uuid" id="" class="select form-control"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                         <option selected disabled>@lang('select') @lang('area')</option>
                                     </select>
@@ -188,11 +189,11 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('user')</label>
-                                    <select name="user_id" id="" class="form-control"
+                                    <select name="user_uuid" id="" class="form-control"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                         <option selected disabled>@lang('select') @lang('users')</option>
                                         @foreach ($users as $itemm)
-                                            <option value="{{ $itemm->id }}"> {{ $itemm->phone }} </option>
+                                            <option value="{{ $itemm->uuid }}"> {{ $itemm->phone }} </option>
                                             </option>
                                         @endforeach
                                     </select>
@@ -278,17 +279,17 @@
                     enctype="multipart/form-data">
                     <div class="modal-body">
                         <div class="row">
-                            <input type="hidden" name="uuid" id="id" class="form-control" />
+                            <input type="hidden" name="uuid" id="uuid" class="form-control" />
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('country')</label>
-                                    <select name="country_id" id="edit_country" class="select form-control"
+                                    <select name="country_uuid" id="edit_country" class="select form-control"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                         <option selected disabled>@lang('select') @lang('country')</option>
                                         @foreach ($country as $itemm)
-                                            <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
+                                            <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
                                             </option>
                                         @endforeach
                                     </select>
@@ -298,7 +299,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('city')</label>
-                                    <select name="city_id" id="edit_city_id" class="select form-control"
+                                    <select name="city_uuid" id="edit_city_uuid" class="select form-control"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                         <option selected disabled>@lang('select') @lang('city')</option>
                                     </select>
@@ -312,7 +313,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('area')</label>
-                                    <select name="area_id" id="edit_area" class="select form-control"
+                                    <select name="area_uuid" id="edit_area" class="select form-control"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                         <option selected disabled>@lang('select') @lang('area')</option>
                                     </select>
@@ -322,11 +323,11 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('user')</label>
-                                    <select name="user_id" id="edit_user_id" class="form-control"
+                                    <select name="user_uuid" id="edit_user_uuid" class="form-control"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                         <option selected disabled>@lang('select') @lang('users')</option>
                                         @foreach ($users as $itemm)
-                                            <option value="{{ $itemm->id }}"> {{ $itemm->phone }} </option>
+                                            <option value="{{ $itemm->uuid }}"> {{ $itemm->phone }} </option>
                                             </option>
                                         @endforeach
                                     </select>
@@ -447,9 +448,9 @@
             ajax: {
                 url: '{{ route('photographer.getData', app()->getLocale()) }}',
                 data: function(d) {
-                    d.city_id = $('#s_city').val();
-                    d.area_id = $('#s_area').val();
-                    d.user_id = $('#s_name').val();
+                    d.city_uuid = $('#s_city').val();
+                    d.area_uuid = $('#s_area').val();
+                    d.user_uuid = $('#s_name').val();
                     d.phone = $('#s_phone').val()
                     d.status = $('#s_date').val();
 
@@ -461,12 +462,7 @@
                     orderable: false,
                     searchable: false
                 },
-                {
-                    data: 'user_name',
-                    name: 'user_name',
-                    orderable: false,
-                    searchable: false
-                },
+
                 {
                     data: 'phone',
                     name: 'phone',
@@ -475,7 +471,7 @@
                 },
                 {
                     data: 'city_name',
-                    name: 'city_id',
+                    name: 'city_uuid',
 
                 },
                 {
@@ -490,13 +486,19 @@
                     orderable: false,
                     searchable: false
                 },
+
                 {
                     data: 'time',
                     name: 'time',
                     orderable: false,
                     searchable: false
                 },
-
+                {
+                    data: 'photographer',
+                    name: 'photographer',
+                    orderable: false,
+                    searchable: false
+                },
                 {
                     data: 'action',
                     name: 'action',
@@ -515,16 +517,16 @@
                 event.preventDefault();
                 var button = $(this);
                 var uuid = button.data('uuid');
-                $('#edit_user_id').val(button.data('user_id')).trigger('change');
+                $('#edit_user_uuid').val(button.data('user_uuid')).trigger('change');
                 $('#phone').val(button.data('phone'));
                 $('#date').val(button.data('date'));
                 $('#time').val(button.data('time'));
-                $('#edit_country').val(button.data('country_id'));
-                $('#edit_city_id').append('<option value="' + button.data('city_id') + '" selected>' + button
+                $('#edit_country').val(button.data('country_uuid'));
+                $('#edit_city_uuid').append('<option value="' + button.data('city_uuid') + '" selected>' + button
                     .data('city_name') + '</option>');
-                $('#edit_area').append('<option value="' + button.data('area_id') + '" selected>' + button
+                $('#edit_area').append('<option value="' + button.data('area_uuid') + '" selected>' + button
                     .data('area_name') + '</option>');
-                $('#id').val(uuid);
+                $('#uuid').val(uuid);
 
                 @foreach (locales() as $key => $value)
                     $('#edit_name_{{ $key }}').val(button.data('name_{{ $key }}'))
@@ -537,23 +539,23 @@
 
     <script>
         $(document).ready(function() {
-            $('select[name="city_id"]').on('change', function() {
+            $('select[name="city_uuid"]').on('change', function() {
 
-                var city_id = $(this).val();
-                console.log(city_id)
-                if (city_id) {
+                var city_uuid = $(this).val();
+                console.log(city_uuid)
+                if (city_uuid) {
                     $.ajax({
-                        url: "usertype/area" + "/" + city_id,
+                        url: "users/area" + "/" + city_uuid,
                         type: "GET",
                         dataType: "json",
                         success: function(data) {
-                            $('select[name="area_id"]').empty();
+                            $('select[name="area_uuid"]').empty();
 
-                            $('select[name="area_id"]').append(`
+                            $('select[name="area_uuid"]').append(`
                              <option selected  disabled>@lang('select') @lang('area')</option>
                              `)
                             $.each(data, function(key, value) {
-                                $('select[name="area_id"]').append('<option value="' +
+                                $('select[name="area_uuid"]').append('<option value="' +
                                     key + '">' + value + '</option>');
                             });
                         },
@@ -564,23 +566,23 @@
             });
 
 
-            $('select[name="country_id"]').on('change', function() {
-                var country_id = $(this).val();
-                console.log(country_id);
-                if (country_id) {
+            $('select[name="country_uuid"]').on('change', function() {
+                var country_uuid = $(this).val();
+                console.log(country_uuid);
+                if (country_uuid) {
                     $.ajax({
-                        url: "usertype/country" + "/" + country_id,
+                        url: "users/country" + "/" + country_uuid,
                         type: "GET",
                         dataType: "json",
                         success: function(data) {
                             console.log('ccc')
-                            $('select[name="city_id"]').empty();
-                            $('select[name="city_id"]').append(`
+                            $('select[name="city_uuid"]').empty();
+                            $('select[name="city_uuid"]').append(`
                              <option selected  disabled>@lang('select') @lang('area')</option>
                              `)
-                            $('select[name="area_id"]').empty();
+                            $('select[name="area_uuid"]').empty();
                             $.each(data, function(key, value) {
-                                $('select[name="city_id"]').append('<option value="' +
+                                $('select[name="city_uuid"]').append('<option value="' +
                                     key + '">' + value + '</option>');
                             });
                         },

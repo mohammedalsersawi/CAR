@@ -14,10 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('deals', function (Blueprint $table) {
-            $table->id();
-            $table->uuid()->index()->nullable();
+            $table->uuid()->index();
             $table->text('deals');
-            $table->foreignId('user_id')->constrained('users')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignUuid('user_uuid')->references('uuid')->on('users')->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
         });
     }

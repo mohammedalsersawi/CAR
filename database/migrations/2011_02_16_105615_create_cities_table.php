@@ -14,9 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('cities', function (Blueprint $table) {
-            $table->id();
+            $table->uuid()->primary();
             $table->string('name');
-            $table->foreignId('country_id')->references('id')->on('countries')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->char('country_uuid', 36);
+            $table->foreign('country_uuid')->references('uuid')->on('countries')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }

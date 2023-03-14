@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Car\City;
+namespace App\Http\Controllers\Admin\places\City;
 
 use App\Http\Controllers\Admin\ResponseTrait;
 use App\Http\Controllers\Controller;
-
 use App\Models\City;
 use App\Models\Country;
 use App\Utils\ImageUpload;
@@ -16,7 +15,7 @@ class CityController extends Controller
     use ResponseTrait;
     public function index()
     {
-       $country=Country::select(['name','id'])->get();
+       $country=Country::select(['name','uuid'])->get();
 
         return view('admin.pages.city.index',compact('country'));
     }
@@ -28,13 +27,13 @@ class CityController extends Controller
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:45';
         }
-        $rules['country_id']='required|exists:countries,id';
+        $rules['country_uuid']='required|exists:countries,uuid';
         $this->validate($request, $rules);
         $data = [];
         foreach (locales() as $key => $language) {
             $data['name'][$key] = $request->get('name_' . $key);
         }
-        $data['country_id']=$request->country_id;
+        $data['country_uuid']=$request->country_uuid;
         $this->validate($request, $rules);
          City::create($data);
         return $this->sendResponse(null, 'تم الاضافة بنجاح');
@@ -48,22 +47,22 @@ class CityController extends Controller
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
         }
-        $rules['country_id']='required|exists:countries,id';
+        $rules['country_uuid']='required|exists:countries,uuid';
         $this->validate($request, $rules);
         $data = [];
         foreach (locales() as $key => $language) {
             $data['name'][$key] = $request->get('name_' . $key);
         }
-        $data['country_id']=$request->country_id;
-        $brands = City::findOrFail($request->id);
+        $data['country_uuid']=$request->country_uuid;
+        $brands = City::findOrFail($request->uuid);
         $brands->update($data);
         return $this->sendResponse(null, 'تم التعدييل بنجاح');
 
     }
 
-    public function destroy($id)
+    public function destroy($uuid)
     {
-        $brands = City::destroy($id);
+        City::destroy($uuid);
         return $this->sendResponse(null, 'تم الحذف بنجاح');
     }
 
@@ -81,16 +80,16 @@ class CityController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function ($que) {
                 $data_attr = '';
-                $data_attr .= 'data-id="' . $que->id . '" ';
+                $data_attr .= 'data-uuid="' . $que->uuid . '" ';
                 $data_attr .= 'data-country_name="' . $que->country->name . '" ';
-                $data_attr .= 'data-country_id="' . $que->country->id . '" ';
+                $data_attr .= 'data-country_uuid="' . $que->country->uuid . '" ';
                 foreach (locales() as $key => $value) {
                     $data_attr .= 'data-name_' . $key . '="' . $que->getTranslation('name', $key) . '" ';
                 }
                 $string = '';
                 $string .= '<button class="edit_btn btn btn-sm btn-outline-primary btn_edit" data-toggle="modal"
                     data-target="#edit_modal" ' . $data_attr . '>' . __('edit') . '</button>';
-                $string .= ' <button type="button"  class="btn btn-sm btn-outline-danger btn_delete" data-id="' . $que->id .
+                $string .= ' <button type="button"  class="btn btn-sm btn-outline-danger btn_delete" data-uuid="' . $que->uuid .
                     '">' . __('delete') . '  </button>';
                 return $string;
             })
