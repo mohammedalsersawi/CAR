@@ -19,56 +19,56 @@ class Car extends Model
         'brand',
         'engine',
         'fueltype',
-        'color_exterior_id',
-        'color_interior_id',
+        'color_exterior_uuid',
+        'color_interior_uuid',
         'model',
         'transmission',
-        'model_id',
-        'brand_id',
-        'transmission_id',
-        'user_id',
+        'model_uuid',
+        'brand_uuid',
+        'transmission_uuid',
+        'user_uuid',
         'color_exterior_car',
         'color_interior_car',
-        'fule_type_id',
-        'engine_id',
+        'fule_type_uuid',
+        'engine_uuid',
         'updated_at',
         'created_at'
 
     ];
     protected $guarded = [];
     public function user(){
-        return $this->belongsTo(User::class,'user_id');
+        return $this->belongsTo(User::class,'user_uuid');
     }
     public function ImagesCar()
     {
         return $this->morphMany(Image::class, 'imageable');
     }
     public function brand(){
-        return $this->belongsTo(Brand::class,'brand_id');
+        return $this->belongsTo(Brand::class,'brand_uuid');
     }
     public function engine(){
-        return $this->belongsTo(Engine::class,'engine_id');
+        return $this->belongsTo(Engine::class,'engine_uuid');
     }
     public function fueltype(){
-        return $this->belongsTo(FuelType::class,'fule_type_id');
+        return $this->belongsTo(FuelType::class,'fule_type_uuid');
     }
     public function color_interior_car(){
-        return $this->belongsTo(ColorCar::class,'color_interior_id');
+        return $this->belongsTo(ColorCar::class,'color_interior_uuid');
     }
     public function color_exterior_car(){
-        return $this->belongsTo(ColorCar::class,'color_exterior_id');
+        return $this->belongsTo(ColorCar::class,'color_exterior_uuid');
     }
     public function year(){
-        return $this->belongsTo(Year::class,'year_id');
+        return $this->belongsTo(Year::class,'year_uuid');
     }
     public function model(){
-        return $this->belongsTo(ModelCar::class,'model_id');
+        return $this->belongsTo(ModelCar::class,'model_uuid');
     }
     public function transmission(){
-        return $this->belongsTo(Transmission::class,'transmission_id');
+        return $this->belongsTo(Transmission::class,'transmission_uuid');
     }
     public function specification(){
-        return $this->hasMany(Specification::class,'car_id');
+        return $this->hasMany(Specification::class,'car_uuid');
     }
     public function getBrandNameAttribute()
     {
@@ -128,4 +128,6 @@ class Car extends Model
         });
 
     }
+
+
 }

@@ -78,12 +78,12 @@
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label for="s_user_id">@lang('users')</label>
-                                                <select  id="s_user_id" class="search_input form-control"
+                                                <label for="s_user_uuid">@lang('users')</label>
+                                                <select  id="s_user_uuid" class="search_input form-control"
                                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                                     <option selected disabled>@lang('select') @lang('users')</option>
                                                     @foreach ($User as $itemm)
-                                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
+                                                        <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -115,7 +115,7 @@
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="">@lang('brand')</label>
-                                                <select name="brand_id" id="s_brand" class="search_input form-control"
+                                                <select name="brand_uuid" id="s_brand" class="search_input form-control"
                                                         data-select2-id="select2-data-1-bgy2" tabindex="-1"
                                                         aria-hidden="true">
                                                     <option selected disabled>@lang('select') @lang('brand')</option>
@@ -130,12 +130,12 @@
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="">@lang('Model')</label>
-                                                <select name="model_id" id="s_model" class="search_input form-control"
+                                                <select name="model_uuid" id="s_model" class="search_input form-control"
                                                         data-select2-id="select2-data-1-bgy2" tabindex="-1"
                                                         aria-hidden="true">
                                                     <option selected disabled>@lang('select') @lang('Model')</option>
                                                     @foreach ($ModelCar as $itemm)
-                                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
+                                                        <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -145,12 +145,12 @@
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="">@lang('Engine')</label>
-                                                <select name="engine_id" id="s_engine" class="search_input form-control"
+                                                <select name="engine_uuid" id="s_engine" class="search_input form-control"
                                                         data-select2-id="select2-data-1-bgy2" tabindex="-1"
                                                         aria-hidden="true">
                                                     <option selected disabled>@lang('select') @lang('Engine')</option>
                                                     @foreach ($Engine as $itemm)
-                                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
+                                                        <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -162,13 +162,13 @@
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="">@lang('Transmission')</label>
-                                                <select name="transmission_id" id="s_transmission"
+                                                <select name="transmission_uuid" id="s_transmission"
                                                         class="search_input form-control"
                                                         data-select2-id="select2-data-1-bgy2" tabindex="-1"
                                                         aria-hidden="true">
                                                     <option selected disabled>@lang('select') @lang('Transmission')</option>
                                                     @foreach ($Transmission as $itemm)
-                                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }}
+                                                        <option value="{{ $itemm->uuid }}"> {{ $itemm->name }}
                                                         </option>
 
                                                     @endforeach
@@ -179,13 +179,13 @@
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="">@lang('color_interior')</label>
-                                                <select name="color_interior_id" id="s_color_interior"
+                                                <select name="color_interior_uuid" id="s_color_interior"
                                                         class="search_input form-control"
                                                         data-select2-id="select2-data-1-bgy2" tabindex="-1"
                                                         aria-hidden="true">
                                                     <option selected disabled>@lang('select') @lang('color_interior')</option>
                                                     @foreach ($ColorCar as $itemm)
-                                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }}
+                                                        <option value="{{ $itemm->uuid }}"> {{ $itemm->name }}
                                                             <div
                                                                 style="height:50px;width:50px;background-color:{{ $itemm->color }}">
                                                             </div>
@@ -198,13 +198,13 @@
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="">@lang('color_exterior')</label>
-                                                <select name="color_exterior_id" id="s_color_exterior"
+                                                <select name="color_exterior_uuid" id="s_color_exterior"
                                                         class="search_input form-control"
                                                         data-select2-id="select2-data-1-bgy2" tabindex="-1"
                                                         aria-hidden="true">
                                                     <option selected disabled>@lang('select') @lang('color_exterior')</option>
                                                     @foreach ($ColorCar as $itemm)
-                                                        <option value="{{ $itemm->id }}">
+                                                        <option value="{{ $itemm->uuid }}">
                                                             <h1>{{ $itemm->name }} </h1>
                                                         </option>
                                                         </option>
@@ -217,13 +217,13 @@
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="">@lang('fueltype')</label>
-                                                <select name="fule_type_id" id="s_fuel"
+                                                <select name="fule_type_uuid" id="s_fuel"
                                                         class="search_input form-control"
                                                         data-select2-id="select2-data-1-bgy2" tabindex="-1"
                                                         aria-hidden="true">
                                                     <option selected disabled>@lang('select') @lang('fueltype')</option>
                                                     @foreach ($FuelType as $itemm)
-                                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }}
+                                                        <option value="{{ $itemm->uuid }}"> {{ $itemm->name }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -299,11 +299,11 @@
                           <div class="col-md-6">
                             <div class="form-group">
                                 <label for="">@lang('users')</label>
-                                <select name="user_id" id="" class="select form-control"
+                                <select name="user_uuid" id="" class="select form-control"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                     <option selected disabled>@lang('select') @lang('users')</option>
                                     @foreach ($User as $itemm)
-                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }} {{ $itemm->phone }} </option>
+                                        <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} {{ $itemm->phone }} </option>
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback"></div>
@@ -330,11 +330,11 @@
                           <div class="col-6">
                             <div class="form-group">
                                 <label for="">@lang('brand')</label>
-                                <select name="brand_id" id="" class="select form-control"
+                                <select name="brand_uuid" id="" class="select form-control"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                     <option selected disabled>@lang('select') @lang('brand')</option>
                                     @foreach ($Brand as $itemm)
-                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
+                                        <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback"></div>
@@ -343,11 +343,11 @@
                           <div class="col-md-6">
                             <div class="form-group">
                                 <label for="">@lang('Model')</label>
-                                <select name="model_id" id="" class="select form-control"
+                                <select name="model_uuid" id="" class="select form-control"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                     <option selected disabled>@lang('select') @lang('Model')</option>
                                     @foreach ($ModelCar as $itemm)
-                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
+                                        <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback"></div>
@@ -358,11 +358,11 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('color_interior')</label>
-                                    <select name="color_interior_id" id="" class="select form-control"
+                                    <select name="color_interior_uuid" id="" class="select form-control"
                                             data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                         <option selected disabled>@lang('select') @lang('color_interior')</option>
                                         @foreach ($ColorCar as $itemm)
-                                            <option value="{{ $itemm->id }}"> {{ $itemm->name }}
+                                            <option value="{{ $itemm->uuid }}"> {{ $itemm->name }}
                                                 <div
                                                     style="height:50px;width:50px;background-color:{{ $itemm->color }}">
                                                 </div>
@@ -376,11 +376,11 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('color_exterior')</label>
-                                    <select name="color_exterior_id" id="" class="select form-control"
+                                    <select name="color_exterior_uuid" id="" class="select form-control"
                                             data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                         <option selected disabled>@lang('select') @lang('color_exterior')</option>
                                         @foreach ($ColorCar as $itemm)
-                                            <option value="{{ $itemm->id }}">
+                                            <option value="{{ $itemm->uuid }}">
                                                 <h1>{{ $itemm->name }} </h1>
                                             </option>
 
@@ -402,11 +402,11 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('Engine')</label>
-                                    <select name="engine_id" id="" class="select form-control"
+                                    <select name="engine_uuid" id="" class="select form-control"
                                             data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                         <option selected disabled>@lang('select') @lang('Engine')</option>
                                         @foreach ($Engine as $itemm)
-                                            <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
+                                            <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
 
                                         @endforeach
                                     </select>
@@ -432,11 +432,11 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="">@lang('Transmission')</label>
-                                <select name="transmission_id" id="" class="select form-control"
+                                <select name="transmission_uuid" id="" class="select form-control"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                     <option selected disabled>@lang('select') @lang('Transmission')</option>
                                     @foreach ($Transmission as $itemm)
-                                        <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
+                                        <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback"></div>
@@ -448,11 +448,11 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('fueltype')</label>
-                                    <select name="fule_type_id" id="" class="select form-control"
+                                    <select name="fule_type_uuid" id="" class="select form-control"
                                             data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                         <option selected disabled>@lang('select') @lang('fueltype')</option>
                                         @foreach ($FuelType as $itemm)
-                                            <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
+                                            <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
 
                                         @endforeach
                                     </select>
@@ -530,11 +530,11 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('users')</label>
-                                    <select name="user_id" id="edit_user" class="select form-control"
+                                    <select name="user_uuid" id="edit_user" class="select form-control"
                                             data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                         <option selected disabled>@lang('select') @lang('users')</option>
                                         @foreach ($User as $itemm)
-                                            <option value="{{ $itemm->id }}"> {{ $itemm->name }} {{ $itemm->phone }}</option>
+                                            <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} {{ $itemm->phone }}</option>
 
                                         @endforeach
                                     </select>
@@ -563,12 +563,12 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('brand')</label>
-                                    <select name="brand_id" id="edit_brand" class="select form-control"
+                                    <select name="brand_uuid" id="edit_brand" class="select form-control"
                                             data-select2-id="select2-data-1-bgy2" tabindex="-1"
                                             aria-hidden="true">
                                         <option selected disabled>@lang('select') @lang('brand')</option>
                                         @foreach ($Brand as $itemm)
-                                            <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
+                                            <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
 
                                         @endforeach
                                     </select>
@@ -578,7 +578,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('Model')</label>
-                                    <select name="model_id" id="edit_model" class="select form-control"
+                                    <select name="model_uuid" id="edit_model" class="select form-control"
                                             data-select2-id="select2-data-1-bgy2" tabindex="-1"
                                             aria-hidden="true">
                                         <option selected disabled>@lang('select') @lang('Model')</option>
@@ -595,12 +595,12 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('color_interior')</label>
-                                    <select name="color_interior_id" id="edit_color_exterior"
+                                    <select name="color_interior_uuid" id="edit_color_exterior"
                                             class="select form-control" data-select2-id="select2-data-1-bgy2"
                                             tabindex="-1" aria-hidden="true">
                                         <option selected disabled>@lang('select') @lang('color_interior')</option>
                                         @foreach ($ColorCar as $itemm)
-                                            <option value="{{ $itemm->id }}"> {{ $itemm->name }}
+                                            <option value="{{ $itemm->uuid }}"> {{ $itemm->name }}
                                                 <div
                                                     style="height:50px;width:50px;background-color:{{ $itemm->color }}">
                                                 </div>
@@ -614,12 +614,12 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('color_exterior')</label>
-                                    <select name="color_exterior_id" id="edit_color_interior"
+                                    <select name="color_exterior_uuid" id="edit_color_interior"
                                             class="select form-control" data-select2-id="select2-data-1-bgy2"
                                             tabindex="-1" aria-hidden="true">
                                         <option selected disabled>@lang('select') @lang('color_exterior')</option>
                                         @foreach ($ColorCar as $itemm)
-                                            <option value="{{ $itemm->id }}">
+                                            <option value="{{ $itemm->uuid }}">
                                                 <h1>{{ $itemm->name }} </h1>
                                             </option>
 
@@ -641,12 +641,12 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('Engine')</label>
-                                    <select name="engine_id" id="edit_engine" class="select form-control"
+                                    <select name="engine_uuid" id="edit_engine" class="select form-control"
                                             data-select2-id="select2-data-1-bgy2" tabindex="-1"
                                             aria-hidden="true">
                                         <option selected disabled>@lang('select') @lang('Engine')</option>
                                         @foreach ($Engine as $itemm)
-                                            <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
+                                            <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
 
                                         @endforeach
                                     </select>
@@ -671,12 +671,12 @@
                            <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="">@lang('Transmission')</label>
-                                        <select name="transmission_id" id="edit_transmission"
+                                        <select name="transmission_uuid" id="edit_transmission"
                                                 class="select form-control" data-select2-id="select2-data-1-bgy2"
                                                 tabindex="-1" aria-hidden="true">
                                             <option selected disabled>@lang('select') @lang('Transmission')</option>
                                             @foreach ($Transmission as $itemm)
-                                                <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
+                                                <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
 
                                             @endforeach
                                         </select>
@@ -695,12 +695,12 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="">@lang('fueltype')</label>
-                                            <select name="fule_type_id" id="edit_fuel" class="select form-control"
+                                            <select name="fule_type_uuid" id="edit_fuel" class="select form-control"
                                                     data-select2-id="select2-data-1-bgy2" tabindex="-1"
                                                     aria-hidden="true">
                                                 <option selected disabled>@lang('select') @lang('fueltype')</option>
                                                 @foreach ($FuelType as $itemm)
-                                                    <option value="{{ $itemm->id }}"> {{ $itemm->name }} </option>
+                                                    <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
 
                                                 @endforeach
                                             </select>
@@ -803,7 +803,7 @@
                     d.phone = $('#s_phone').val();
                     d.mileage = $('#s_mileage').val();
                     d.year = $('#s_year').val();
-                    d.user_id = $('#s_user_id').val();
+                    d.user_uuid = $('#s_user_uuid').val();
                     d.brand = $('#s_brand').val();
                     d.model = $('#s_model').val();
                     d.engine = $('#s_engine').val();
@@ -828,7 +828,7 @@
                 },
                 {
                     data: 'user_name',
-                    name: 'user_id'
+                    name: 'user_uuid'
                 },
                 {
                     data: 'price',
@@ -906,17 +906,17 @@
                 event.preventDefault();
                 var button = $(this);
                 var uuid = button.data('uuid');
-                $('#edit_model').val(button.data('model_id')).trigger('change');
-                $('#edit_transmission').val(button.data('transmission_id')).trigger('change');
-                $('#edit_brand').val(button.data('brand_id'));
-                $('#edit_model').append('<option value="' + button.data('model_id') + '" selected>' + button
+                $('#edit_model').val(button.data('model_uuid')).trigger('change');
+                $('#edit_transmission').val(button.data('transmission_uuid')).trigger('change');
+                $('#edit_brand').val(button.data('brand_uuid'));
+                $('#edit_model').append('<option value="' + button.data('model_uuid') + '" selected>' + button
                     .data('model_name') + '</option>');
-                // $('#edit_model').val( button.data('model_id'));
-                $('#edit_engine').val(button.data('engine_id')).trigger('change');
-                $('#edit_fuel').val(button.data('fueltype_id')).trigger('change');
+                // $('#edit_model').val( button.data('model_uuid'));
+                $('#edit_engine').val(button.data('engine_uuid')).trigger('change');
+                $('#edit_fuel').val(button.data('fule_type_uuid')).trigger('change');
 
-                $('#edit_color_exterior').val(button.data('color_exterior_id'));
-                $('#edit_color_interior').val(button.data('color_interior_id'));
+                $('#edit_color_exterior').val(button.data('color_exterior_uuid'));
+                $('#edit_color_interior').val(button.data('color_interior_uuid'));
                 $('#edit_lat').val(button.data('lat'))
                 $('#edit_year').val(button.data('year')).trigger('change')
                 $('#edit_lng').val(button.data('lng'))
@@ -939,27 +939,27 @@
             });
         });
         $('#edit_modal').on('hidden.bs.modal', function () {
-            $('select[name="model_id"]').empty();
+            $('select[name="model_uuid"]').empty();
             // $('.search_input').val("").trigger("change")
 
         })
     </script>
     <script>
         $(document).ready(function () {
-            $('select[name="brand_id"]').on('change', function () {
-                var brand_id = $(this).val();
-                if (brand_id) {
+            $('select[name="brand_uuid"]').on('change', function () {
+                var brand_uuid = $(this).val();
+                if (brand_uuid) {
                     $.ajax({
-                        url: "car/model" + "/" + brand_id,
+                        url: "car/model" + "/" + brand_uuid,
                         type: "GET",
                         dataType: "json",
                         success: function (data) {
-                            $('select[name="model_id"]').empty();
-                            $('select[name="model_id"]').append(`
+                            $('select[name="model_uuid"]').empty();
+                            $('select[name="model_uuid"]').append(`
                                  <option selected  disabled>@lang('select') @lang('Model')</option>
                                  `)
                             $.each(data, function (key, value) {
-                                $('select[name="model_id"]').append('<option value="' +
+                                $('select[name="model_uuid"]').append('<option value="' +
                                     key + '">' + value + '</option>');
                             });
                         },
