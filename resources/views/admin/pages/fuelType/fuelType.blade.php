@@ -35,8 +35,8 @@
                                 </div>
                                 <div class="text-right">
                                     <div class="form-group">
-                                        <button class="btn btn-outline-primary button_modal" type="button" data-toggle="modal"
-                                            data-target="#full-modal-stem"><span><i
+                                        <button class="btn btn-outline-primary button_modal" type="button"
+                                            data-toggle="modal" data-target="#full-modal-stem"><span><i
                                                     class="fa fa-plus"></i>@lang('add')</span>
                                         </button>
                                     </div>
@@ -87,7 +87,7 @@
                 <form action="{{ route('fuelType.update') }}" method="POST" id="form_edit" class=""
                     enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" name="id" id="id" class="form-control" />
+                    <input type="hidden" name="uuid" id="uuid" class="form-control" />
                     <div class="modal-body">
                         @foreach (locales() as $key => $value)
                             <div class="col-12">
@@ -128,7 +128,7 @@
                 </div>
                 <form action="{{ route('fuelType.store') }}" method="POST" id="add_model_form" class="add-mode-form">
 
-                    <input type="hidden" name="id" id="id" class="form-control" />
+                    <input type="hidden" name="uuid" id="uuid" class="form-control" />
                     <div class="modal-body">
                         @foreach (locales() as $key => $value)
                             <div class="col-12">
@@ -189,14 +189,16 @@
                 }
             },
             ajax: {
-                url: '{{route('fuelType.getData',app()->getLocale())}}',
+                url: '{{ route('fuelType.getData', app()->getLocale()) }}',
                 data: function(d) {
                     d.name = $('#s_name').val();
                 }
             },
             columns: [{
-                    data: 'id',
-                    name: 'id',
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    orderable: false,
+                    searchable: false
                 },
                 {
                     data: 'name_text',
@@ -220,8 +222,8 @@
                 $('input').removeClass('is-invalid');
                 $('.invalid-feedback').text('');
                 var button = $(this)
-                var id = button.data('id');
-                $('#id').val(id);
+                var uuid = button.data('uuid');
+                $('#uuid').val(uuid);
                 @foreach (locales() as $key => $value)
                     $('#edit_name_{{ $key }}').val(button.data('name_{{ $key }}'))
                 @endforeach

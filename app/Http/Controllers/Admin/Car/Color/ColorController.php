@@ -50,14 +50,14 @@ class ColorController extends Controller
             $data['name'][$key] = $request->get('name_' . $key);
         }
         $data['color'] = $request->color;
-        $colorCar =   ColorCar::findOrFail($request->id);
+        $colorCar =   ColorCar::findOrFail($request->uuid);
         $colorCar->update($data);
         return $this->sendResponse(null, __('item_edited'));
     }
 
-    public function destroy($id)
+    public function destroy($uuid)
     {
-        $Color = ColorCar::find($id);
+        $Color = ColorCar::find($uuid);
         $Color->delete();
         return $this->sendResponse(null,null);
     }
@@ -80,7 +80,7 @@ class ColorController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function ($que) {
                 $data_attr = '';
-                $data_attr .= 'data-id="' . $que->id . '" ';
+                $data_attr .= 'data-uuid="' . $que->uuid . '" ';
                 $data_attr .= 'data-color="' . $que->color . '" ';
                 $data_attr .= 'data-name="' . $que->name . '" ';
                 foreach (locales() as $key => $value) {
@@ -89,7 +89,7 @@ class ColorController extends Controller
                 $string = '';
                 $string .= '<button class="edit_btn btn btn-sm btn-outline-primary btn_edit" data-toggle="modal"
                     data-target="#edit_modal" ' . $data_attr . '>' . __('edit') . '</button>';
-                $string .= ' <button type="button" class="btn btn-sm btn-outline-danger btn_delete" data-id="' . $que->id .
+                $string .= ' <button type="button" class="btn btn-sm btn-outline-danger btn_delete" data-uuid="' . $que->uuid .
                     '">' . __('delete') . '</button>';
                 return $string;
             })

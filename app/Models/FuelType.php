@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,4 +20,15 @@ class FuelType extends Model
     {
         return @$this->name;
     }
+    protected $primaryKey = 'uuid';
+    public $incrementing = false;
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function ($fuelType) {
+            $fuelType->uuid = Str::uuid();
+        });
+
+    }
+
 }
