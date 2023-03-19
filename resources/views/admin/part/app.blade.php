@@ -463,7 +463,6 @@
         function CheckAll(className, elem) {
             var elements = document.getElementsByClassName(className);
             var l = elements.length;
-            // alert(l)
             if (elem.checked) {
                 for (var i = 0; i < l; i++) {
                     elements[i].checked = true;
@@ -474,26 +473,20 @@
                 }
             }
         }
-        var expanded = false;
 
 
-        // $(function() {
-        //     $("#btn_delete_all").click(function() {
-        //
-        //
-        //         var selected = new Array();
-        //         $("#datatable input[type=checkbox]:checked").each(function() {
-        //             selected.push(this.value);
-        //         });
-        //
-        //         if (selected.length > 0) {
-        //             $('#delete_all').modal('show')
-        //             $('input[id="delete_all_id"]').val(selected);
-        //         }
-        //     });
-        // });
+
     </script>
     <script>
+
+
+
+
+
+    </script>
+    <script>
+
+
         // $(document).on('change', "#select_all", function (e) {
         //     var delete_btn = $('#delete_btn'), export_btn = $('#export_btn'),
         //         chart_btn = $('#chart_btn'), all_status_btn = $('.all_status_btn'), table_ids = $('.table_ids');

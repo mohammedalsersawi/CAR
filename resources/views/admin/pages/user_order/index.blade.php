@@ -261,7 +261,7 @@
             columns: [
                 {
                     "render": function (data, type, full, meta) {
-                        return `<td><input type="checkbox"  value="${data}" class="box1" ></td>
+                        return `<td><input type="checkbox" value="${data}" class="box1" ></td>
 `;
                     },
                     name: 'checkbox',

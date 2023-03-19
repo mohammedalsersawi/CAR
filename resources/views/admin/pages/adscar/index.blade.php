@@ -824,12 +824,15 @@
 
                 }
             },
-            columns: [{
-                data: 'DT_RowIndex',
-                name: 'DT_RowIndex',
-                orderable: false,
-                searchable: false
-            },
+            columns: [
+                {
+                    "render": function (data, type, full, meta) {
+                        return `<td><input type="checkbox" value="${data}" class="box1" ></td>
+`;
+                    },
+                    name: 'checkbox',
+                    data: 'checkbox',
+                },
 
                 {
                     data: 'phone',
