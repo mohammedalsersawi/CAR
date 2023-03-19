@@ -35,7 +35,7 @@ class AdsCarController extends Controller
         $Transmission = Transmission::select(['name', 'uuid'])->get();
         $ColorCar = ColorCar::select(['name', 'uuid', 'color'])->get();
         $User = User::select(['name', 'uuid','phone'])->get();
-        $year = Year::query()->firstOrFail();
+        $year = Year::query()->first();
 
         return view('admin.pages.adscar.index', compact(['User','Brand', 'Engine', 'ModelCar', 'FuelType', 'Transmission', 'ColorCar', 'year']));
     }

@@ -45,8 +45,6 @@
                             <div class="card-body">
                                 <form id="search_form">
                                     <div class="row">
-
-
                                         <div class="col-3" style="margin-top: 20px">
 
                                         </div>
