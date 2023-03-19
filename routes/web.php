@@ -44,6 +44,7 @@ Route::group(
             Route::post('/update', 'update')->name('update');
             Route::delete('/{id}', 'destroy')->name('delete');
             Route::get('/getData', 'getData')->name('getData');
+            Route::put('/activate/{uuid}', 'activate')->name('activate');
         });
         Route::controller(EngineController::class)->prefix('engines')->name('engines.')->group(function () {
             Route::get('/', 'index')->name('index');

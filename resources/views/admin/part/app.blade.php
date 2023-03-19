@@ -118,7 +118,8 @@
                         <a class="dropdown-item"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             <i class="mr-50" data-feather="power"></i>Logout</a>
-                        <form id="logout-form" action="{{route('logout')}}" method="POST" style="display: none;">
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                            style="display: none;">
                             {{ csrf_field() }}
                         </form>
                     </div>
@@ -459,7 +460,6 @@
 
     @yield('scripts')
     <script type="text/javascript">
-
         function CheckAll(className, elem) {
             var elements = document.getElementsByClassName(className);
             var l = elements.length;
@@ -492,11 +492,8 @@
         //         }
         //     });
         // });
-
     </script>
     <script>
-
-
         // $(document).on('change', "#select_all", function (e) {
         //     var delete_btn = $('#delete_btn'), export_btn = $('#export_btn'),
         //         chart_btn = $('#chart_btn'), all_status_btn = $('.all_status_btn'), table_ids = $('.table_ids');
@@ -608,12 +605,12 @@
             e.preventDefault();
 
 
-                var uuid = button.data('uuid')
-                var deletes='@lang('confirm_delete')'
+            var uuid = button.data('uuid')
+            var deletes = '@lang('confirm_delete')'
 
             Swal.fire({
                 title: '@lang('delete_confirmation')',
-                text:deletes,
+                text: deletes,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: '@lang('yes')',
@@ -667,7 +664,7 @@
                 var uuid = selected;
                 Swal.fire({
                     title: '@lang('delete_confirmation')',
-                    text:'@lang('confirm_deletes')',
+                    text: '@lang('confirm_deletes')',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: '@lang('yes')',
@@ -768,6 +765,32 @@
             $('input').removeClass('is-invalid');
             $('select').removeClass('is-invalid');
             $('.invalid-feedback').text('');
+        });
+
+
+
+        $(document).on("click", ".activate-row", function(event) {
+            var _this = $(this);
+            var action = _this.attr("url");
+            $.ajax({
+                type: "put",
+                url: action,
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+                },
+                contentType: "application/json",
+                success: function(data) {
+                    toastr.success('@lang('done_successfully')', '', {
+                        rtl: isRtl
+                    });
+                    table.draw()
+                },
+                error: function(data) {
+                    toastr.error('@lang('something_wrong')', '', {
+                        rtl: isRtl
+                    });
+                },
+            });
         });
     </script>
 

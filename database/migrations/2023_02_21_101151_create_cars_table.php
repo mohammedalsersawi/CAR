@@ -24,7 +24,7 @@ return new class extends Migration
             $table->foreignUuid('color_interior_uuid')->nullable()->references('uuid')->on('color_cars')->cascadeOnUpdate()->nullOnDelete();
             $table->integer('mileage');
             $table->double('price');
-            $table->foreignUuid('appointment_uuid')->nullable()->references('uuid')->on('order_appointments')->nullOnDelete();
+            // $table->foreignUuid('appointment_uuid')->nullable()->references('uuid')->on('order_appointments')->nullOnDelete();
             $table->foreignUuid('year');
             $table->string('phone');
             $table->double('lat');

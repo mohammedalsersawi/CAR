@@ -3,6 +3,11 @@
     @lang('Model Cars')
 @endsection
 @section('styles')
+    <style>
+        input[type="checkbox"] {
+            transform: scale(1.5);
+        }
+    </style>
 @endsection
 @section('content')
     <div class="content-wrapper">
@@ -35,8 +40,8 @@
                                 </div>
                                 <div class="text-right">
                                     <div class="form-group">
-                                        <button class="btn btn-outline-primary button_modal" type="button" data-toggle="modal"
-                                            data-target="#full-modal-stem"><span><i
+                                        <button class="btn btn-outline-primary button_modal" type="button"
+                                            data-toggle="modal" data-target="#full-modal-stem"><span><i
                                                     class="fa fa-plus"></i>@lang('add')</span>
                                         </button>
                                     </div>
@@ -59,6 +64,7 @@
                                             <th>#</th>
                                             <th>@lang('name')</th>
                                             <th>@lang('Brand')</th>
+                                            <th>@lang('status')</th>
                                             <th style="width: 225px;">@lang('actions')</th>
                                         </tr>
                                     </thead>
@@ -101,18 +107,18 @@
                                 </div>
                             </div>
                         @endforeach
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label for="edit_brand_uuid">@lang('brand')</label>
-                                    <select class="form-control" id="edit_brand_uuid" name="brand_uuid" required>
-                                        <option value="">@lang('select')</option>
-                                        @foreach ($brand as $itemm)
-                                            <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
-                                        @endforeach
-                                    </select>
-                                    <div class="invalid-feedback"></div>
-                                </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="edit_brand_uuid">@lang('brand')</label>
+                                <select class="form-control" id="edit_brand_uuid" name="brand_uuid" required>
+                                    <option value="">@lang('select')</option>
+                                    @foreach ($brand as $itemm)
+                                        <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback"></div>
                             </div>
+                        </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
                                 data-dismiss="modal">@lang('close')</button>
@@ -152,18 +158,18 @@
                                 </div>
                             </div>
                         @endforeach
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label for="brand_uuid">@lang('brand')</label>
-                                    <select class="form-control" id="brand_uuid" name="brand_uuid" >
-                                        <option value="">@lang('select')</option>
-                                        @foreach ($brand as $itemm)
-                                            <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
-                                        @endforeach
-                                    </select>
-                                    <div class="invalid-feedback"></div>
-                                </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="brand_uuid">@lang('brand')</label>
+                                <select class="form-control" id="brand_uuid" name="brand_uuid">
+                                    <option value="">@lang('select')</option>
+                                    @foreach ($brand as $itemm)
+                                        <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback"></div>
                             </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('close')</button>
@@ -212,7 +218,7 @@
                 }
             },
             ajax: {
-                url: '{{route('model.getData',app()->getLocale())}}',
+                url: '{{ route('model.getData', app()->getLocale()) }}',
                 data: function(d) {
                     d.name = $('#s_name').val();
                 }
@@ -231,6 +237,10 @@
                 {
                     data: 'brand',
                     name: 'brand'
+                },
+                {
+                    data: 'status',
+                    name: 'status'
                 },
                 {
                     data: 'action',

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->uuid()->primary();
             $table->text('name');
             $table->foreignUuid('brand_uuid')->references('uuid')->on('brands')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('status',1)->default(1);
             $table->timestamps();
         });
     }
