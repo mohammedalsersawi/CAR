@@ -47,7 +47,8 @@ class TypeController extends Controller
     }
     public function destroy($uuid)
     {
-        Type::destroy($uuid);
+        $uuids=explode(',', $uuid);
+        Type::whereIn('uuid', $uuids)->delete();
         return $this->sendResponse(null, null);
     }
     public function getData(Request $request)
@@ -56,7 +57,9 @@ class TypeController extends Controller
 
         return Datatables::of($deals)
 
-            ->addIndexColumn()
+            ->addColumn('checkbox',function ($que){
+                return $que->uuid;
+            })
             ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-uuid="' . $que->uuid . '" ';

@@ -48,7 +48,10 @@
 
 
                                         <div class="col-3" style="margin-top: 20px">
-
+                                            <button id="btn_delete_all"
+                                                    class="btn_delete_all btn btn-outline-danger " type="button">
+                                                <span><i class="fa fa-lg fa-trash-alt" aria-hidden="true"></i> @lang('delete')</span>
+                                            </button>
                                         </div>
                                     </div>
                                 </form>
@@ -57,7 +60,7 @@
                                 <table class="table" id="datatable">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
+                                            <th><input name="select_all" id="example-select-all" type="checkbox" onclick="CheckAll('box1', this)" /></th>
                                             <th>@lang('city')</th>
                                             <th>@lang('country')</th>
                                             <th style="width: 225px;">@lang('actions')</th>
@@ -81,7 +84,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title add</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">@lang('add')</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -133,7 +136,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">@lang('edit')</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -214,12 +217,16 @@
                     d.name = $('#s_name').val();
                 }
             },
-            columns: [{
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex',
-                    orderable: false,
-                    searchable: false
+            columns: [      {
+                "render": function (data, type, full, meta) {
+                    return `<td><input type="checkbox" value="${data}" class="box1" ></td>
+`;
                 },
+                name: 'checkbox',
+                data: 'checkbox',
+                orderable: false,
+                searchable: false
+            },
                 {
                     data: 'name_text',
                     name: 'name'

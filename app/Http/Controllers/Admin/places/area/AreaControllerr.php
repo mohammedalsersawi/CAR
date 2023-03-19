@@ -60,7 +60,8 @@ class AreaControllerr extends Controller
 
     public function destroy($uuid)
     {
-        $area = Area::destroy($uuid);
+        $uuids=explode(',', $uuid);
+        Area::whereIn('uuid', $uuids)->delete();
         return $this->sendResponse(null, null);
     }
 
@@ -78,7 +79,9 @@ class AreaControllerr extends Controller
                     }
                 }
             })
-            ->addIndexColumn()
+            ->addColumn('checkbox',function ($que){
+                return $que->uuid;
+            })
 
             ->addColumn('action', function ($que) {
                 $data_attr = '';

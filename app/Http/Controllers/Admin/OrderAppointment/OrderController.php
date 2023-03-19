@@ -7,9 +7,10 @@ use App\Http\Controllers\Controller;
 use App\Models\City;
 use App\Models\Country;
 use App\Models\OrderAppointment;
-use App\Models\Photographer;
+
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Yajra\DataTables\Facades\DataTables;
 
 class OrderController extends Controller
@@ -66,7 +67,8 @@ class OrderController extends Controller
     }
     public function destroy($uuid)
     {
-        OrderAppointment::destroy($uuid);
+        $uuids=explode(',', $uuid);
+        OrderAppointment::whereIn('uuid', $uuids)->delete();
         return $this->sendResponse(null, null);
     }
     public function getData(Request $request)
@@ -92,8 +94,27 @@ class OrderController extends Controller
                     $query->where('photographer_uuid', $request->get('user_uuid'));
                 }
             })
-            ->addIndexColumn()
+            ->addColumn('checkbox',function ($que){
+                return $que->uuid;
+            })
+            ->addColumn('StatusAppointment',function ($que){
+                $string = '';
+                if ($que->status==OrderAppointment::pending){
+                    $string .= ' <button type="button"  class="btn btn-sm btn-outline-danger btn_accept" data-toggle="modal"
+                    data-target="#accept" data-uuid="'. $que->uuid .'"  data-area="' . $que->area_uuid . '" data-city="' . $que->city_uuid . '">' . __('accept') . '    </button>';
+                    return "$que->status_appointment $string";
+                }elseif ($que->status==OrderAppointment::accept){
+                    $string .= ' <button type="button"  class="btn btn-sm btn-outline-danger btn_delete" data-toggle="modal"
+                    data-target="#edit_modal" data-uuid="' . $que->uuid .
+                        '">' . __('add car') . '  </button>';
+                    return "$que->status_appointment $string";
+                }else{
+                    return $que->status_appointment;
+                }
+
+            })
             ->addColumn('action', function ($que) {
+
                 $data_attr = '';
                 $data_attr .= 'data-uuid="' . $que->uuid . '" ';
                 $data_attr .= 'data-city_uuid="' . $que->city_uuid . '" ';
@@ -111,10 +132,42 @@ class OrderController extends Controller
                     data-target="#edit_modal" ' . $data_attr . '>' . __('edit') . '</button>';
                 $string .= ' <button type="button"  class="btn btn-sm btn-outline-danger btn_delete" data-id="' . $que->uuid .
                     '">' . __('delete') . '  </button>';
+
                 return $string;
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['action','StatusAppointment'])
             ->make(true);
     }
+    public function getuser($city_uuid, $area_uuid){
+        $user = User::where("city_uuid", $city_uuid)->where('area_uuid',$area_uuid)->where('user_type_id',User::PHOTOGRAPHER)->pluck("name","uuid");
+        return $user;
+    }
+
+    public function accept(Request $request)
+    {
+
+
+
+        $rules = [];
+        $rules ['photographer_uuid'] =
+            ['required',
+                Rule::exists(User::class, 'uuid')->where(function ($query) use ($request) {
+                    $query->where('user_type_id', User::PHOTOGRAPHER);
+                }),
+            ];
+        $rules['uuid'] = 'required|exists:order_appointments,uuid';
+        $this->validate($request, $rules);
+
+
+        $Appointment = OrderAppointment::find($request->uuid);
+        if (!$Appointment->status != OrderAppointment::pending) {
+            $Appointment->update([
+                'photographer_uuid' => $request->photographer_uuid,
+                'status' => OrderAppointment::accept
+            ]);
+        }
+
+    }
+
 }
 

@@ -120,8 +120,9 @@ class UserTypeController extends Controller
 
     public function destroy($uuid)
     {
-       User::where('uuid',$uuid)->delete();
-        return $this->sendResponse(null,null);
+        $uuids=explode(',', $uuid);
+        User::whereIn('uuid', $uuids)->delete();
+        return $this->sendResponse(null, null);
     }
 
 
@@ -152,7 +153,9 @@ class UserTypeController extends Controller
                     $query->where('discount_type_uuid', $request->get('discount_type_uuid'));
                 }
             })
-            ->addIndexColumn()
+            ->addColumn('checkbox',function ($que){
+                return $que->uuid;
+            })
             ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-uuid="' . @$que->uuid . '" ';

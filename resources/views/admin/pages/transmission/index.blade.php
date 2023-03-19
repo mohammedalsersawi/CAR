@@ -49,9 +49,9 @@
 
                                         <div class="col-3" style="margin-top: 20px">
                                             <div class="form-group">
-                                                <button class="btn btn-outline-primary button_modal" type="button"
-                                                        data-toggle="modal" data-target="#full-modal-stem"><span><i
-                                                            class="fa fa-plus"></i>@lang('add')</span>
+                                                <button id="btn_delete_all"
+                                                        class="btn_delete_all btn btn-outline-danger " type="button">
+                                                    <span><i class="fa fa-lg fa-trash-alt" aria-hidden="true"></i> @lang('delete')</span>
                                                 </button>
                                             </div>
                                         </div>
@@ -62,7 +62,7 @@
                                 <table class="table" id="datatable">
                                     <thead>
                                     <tr>
-                                        <th>#</th>
+                                        <th><input name="select_all" id="example-select-all" type="checkbox" onclick="CheckAll('box1', this)" /></th>
                                         <th>@lang('name')</th>
                                         <th style="width: 225px;">@lang('actions')</th>
                                     </tr>
@@ -117,7 +117,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">@lang('edit')</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -195,9 +195,13 @@
                     d.name = $('#s_name').val();
                 }
             },
-            columns: [{
-                data: 'DT_RowIndex',
-                name: 'DT_RowIndex',
+            columns: [      {
+                "render": function (data, type, full, meta) {
+                    return `<td><input type="checkbox" value="${data}" class="box1" ></td>
+`;
+                },
+                name: 'checkbox',
+                data: 'checkbox',
                 orderable: false,
                 searchable: false
             },

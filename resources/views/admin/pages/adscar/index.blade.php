@@ -78,8 +78,8 @@
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label for="s_user_uuid">@lang('users')</label>
-                                                <select  id="s_user_uuid" class="search_input form-control"
+                                                <label for="s_showroom_uuid">@lang('users')</label>
+                                                <select  id="s_showroom_uuid" class="search_input form-control"
                                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                                     <option selected disabled>@lang('select') @lang('users')</option>
                                                     @foreach ($User as $itemm)
@@ -241,6 +241,10 @@
                                                 <button id="clear_btn" class="btn btn-outline-secondary" type="submit">
                                                     <span><i class="fa fa-undo"></i> @lang('reset')</span>
                                                 </button>
+                                                <button id="btn_delete_all"
+                                                        class="btn_delete_all btn btn-outline-danger " type="button">
+                                                    <span><i class="fa fa-lg fa-trash-alt" aria-hidden="true"></i> @lang('delete')</span>
+                                                </button>
 
                                             </div>
                                         </div>
@@ -254,7 +258,7 @@
                                 <table class="table" id="datatable">
                                     <thead>
                                     <tr>
-                                        <th>#</th>
+                                        <th><input name="select_all" id="example-select-all" type="checkbox" onclick="CheckAll('box1', this)" /></th>
                                         <th>@lang('phone')</th>
                                         <th>@lang('users')</th>
                                         <th>@lang('price')</th>
@@ -302,7 +306,7 @@
                           <div class="col-md-6">
                             <div class="form-group">
                                 <label for="">@lang('users')</label>
-                                <select name="user_uuid" id="" class="select form-control"
+                                <select name="showroom_uuid" id="" class="select form-control"
                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                     <option selected disabled>@lang('select') @lang('users')</option>
                                     @foreach ($User as $itemm)
@@ -536,7 +540,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('users')</label>
-                                    <select name="user_uuid" id="edit_user" class="select form-control"
+                                    <select name="showroom_uuid" id="edit_user" class="select form-control"
                                             data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                         <option selected disabled>@lang('select') @lang('users')</option>
                                         @foreach ($User as $itemm)
@@ -812,7 +816,7 @@
                     d.phone = $('#s_phone').val();
                     d.mileage = $('#s_mileage').val();
                     d.year = $('#s_year').val();
-                    d.user_uuid = $('#s_user_uuid').val();
+                    d.showroom_uuid = $('#s_showroom_uuid').val();
                     d.brand = $('#s_brand').val();
                     d.model = $('#s_model').val();
                     d.engine = $('#s_engine').val();
@@ -832,6 +836,8 @@
                     },
                     name: 'checkbox',
                     data: 'checkbox',
+                    orderable: false,
+                    searchable: false
                 },
 
                 {
@@ -840,7 +846,7 @@
                 },
                 {
                     data: 'user_name',
-                    name: 'user_uuid'
+                    name: 'user_name'
                 },
                 {
                     data: 'price',

@@ -53,9 +53,9 @@ class CountryController extends Controller
 
     public function destroy($uuid)
     {
-        $Country = Country::find($uuid);
-        $Country->delete();
-        return $this->sendResponse(null,  null);
+        $uuids=explode(',', $uuid);
+        Country::whereIn('uuid', $uuids)->delete();
+        return $this->sendResponse(null, null);
     }
 
     public function getData(Request $request)
@@ -72,7 +72,9 @@ class CountryController extends Controller
 
                 }
             })
-            ->addIndexColumn()
+            ->addColumn('checkbox',function ($que){
+                return $que->uuid;
+            })
             ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-uuid="' . $que->uuid . '" ';

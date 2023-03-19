@@ -102,7 +102,10 @@
                                                 <button id="clear_btn" class="btn btn-outline-secondary" type="submit">
                                                     <span><i class="fa fa-undo"></i> @lang('reset')</span>
                                                 </button>
-
+                                                <button id="btn_delete_all"
+                                                        class="btn_delete_all btn btn-outline-danger " type="button">
+                                                    <span><i class="fa fa-lg fa-trash-alt" aria-hidden="true"></i> @lang('delete')</span>
+                                                </button>
                                             </div>
                                         </div>
 
@@ -113,7 +116,7 @@
                                 <table class="table" id="datatable">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
+                                            <th><input name="select_all" id="example-select-all" type="checkbox" onclick="CheckAll('box1', this)" /></th>
 
                                             <th>@lang('phone')</th>
                                             <th>@lang('area')</th>
@@ -249,6 +252,47 @@
                             <button type="button" class="btn btn-secondary"
                                 data-dismiss="modal">@lang('close')</button>
                             <button class="btn btn-primary">@lang('add')</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="accept" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">@lang('accept')</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ route('OrderAppointment.accept') }}" method="POST" id="form_edit" class=""
+                      enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="row">
+                            <input type="hidden" name="uuid" id="uuid_appointment" class="form-control" />
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">@lang('user')</label>
+                                    <select name="photographer_uuid" id="photographer_uuid" class="form-control"
+                                            data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                    data-dismiss="modal">@lang('close')</button>
+                            <button class="btn btn-primary btn-success">@lang('accept')</button>
                         </div>
                     </div>
                 </form>
@@ -435,12 +479,16 @@
 
                 }
             },
-            columns: [{
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex',
-                    orderable: false,
-                    searchable: false
+            columns: [      {
+                "render": function (data, type, full, meta) {
+                    return `<td><input type="checkbox" value="${data}" class="box1" ></td>
+`;
                 },
+                name: 'checkbox',
+                data: 'checkbox',
+                orderable: false,
+                searchable: false
+            },
 
                 {
                     data: 'phone',
@@ -473,8 +521,8 @@
                     searchable: false
                 },
                 {
-                    data: 'status_appointment',
-                    name: 'status_appointment',
+                    data: 'StatusAppointment',
+                    name: 'StatusAppointment',
                     orderable: false,
                     searchable: false
                 },
@@ -520,6 +568,37 @@
 
             });
         });
+        $(document).ready(function() {
+            $(document).on('click', '.btn_accept', function(event) {
+                $('input').removeClass('is-invalid');
+                $('.invalid-feedback').text('');
+                event.preventDefault();
+                var button = $(this);
+                var uuid = button.data('uuid');
+                $('#uuid_appointment').val(uuid);
+                $.ajax({
+                    url: "Appointment/user/Photographer" + "/" + button.data('city') + "/" + button.data('area'),
+                    type: "GET",
+                    dataType: "json",
+                    success: function(data) {
+                        $('select[name="photographer_uuid"]').empty();
+
+                        $('select[name="photographer_uuid"]').append(`
+                             <option selected  disabled>@lang('select') @lang('users')</option>
+                             `)
+                        $.each(data, function(key, value) {
+                            $('select[name="photographer_uuid"]').append('<option value="' +
+                                key + '">' + value + '</option>');
+                        });
+                    },
+                });
+
+
+
+
+
+            });
+        });
     </script>
 
 
@@ -550,8 +629,6 @@
                     console.log('AJAX load did not work');
                 }
             });
-
-
             $('select[name="country_uuid"]').on('change', function() {
                 var country_uuid = $(this).val();
                 console.log(country_uuid);
@@ -575,6 +652,55 @@
                     });
                 } else {
                     console.log('AJAX load did not work');
+                }
+            });
+        });
+
+
+        $(document).on("click", ".btn-success", function(e) {
+            var button = $(this)
+            e.preventDefault();
+            Swal.fire({
+                title: '@lang('accept_confirmation')',
+                text: '@lang('confirm_accept')',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '@lang('yes')',
+                cancelButtonText: '@lang('cancel')',
+                customClass: {
+                    confirmButton: 'btn btn-primary',
+                    cancelButton: 'btn btn-outline-success'
+                },
+                buttonsStyling: true
+            }).then(function(result) {
+                if (result.value) {
+                    var uuid = $('#uuid_appointment').val()
+                    var photographer = $('#photographer_uuid').val()
+                    var url =  "Appointment/accept";
+                    $.ajax({
+                        url: url,
+                        method: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            'uuid':uuid,
+                            'photographer uuid':photographer
+                        },
+                    }).done(function() {
+                        toastr.success('@lang('accepted')', '', {
+                            rtl: isRtl
+                        });
+                        table.draw()
+                        $('#accept').modal('hide');
+
+                    }).fail(function() {
+                        toastr.error('@lang('something_wrong')', '', {
+                            rtl: isRtl
+                        });
+                    });
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    toastr.info('@lang('accept_canceled')', '', {
+                        rtl: isRtl
+                    })
                 }
             });
         });

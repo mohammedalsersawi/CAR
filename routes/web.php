@@ -158,6 +158,8 @@ Route::group(
             Route::post('/update', 'update')->name('update');
             Route::delete('/{uuid}', 'destroy')->name('delete');
             Route::get('/getData', 'getData')->name('getData');
+            Route::post('/accept', 'accept')->name('accept');
+            Route::get('/user/Photographer/{city}/{area}', 'getuser')->name('users');
         });
         Route::controller(PlatesController::class)->name('Plates.')->prefix('Plates')->group(function () {
             Route::get('/', 'index')->name('index');

@@ -38,7 +38,7 @@ class BrandController extends Controller
         $this->validate($request, $rules);
         $brands =  Brand::create($data);
         if ($request->hasFile('image')) {
-            UploadImage($request->image, null, 'App\Models\Brand', $brands->uuid, false);
+            UploadImage($request->image, null, 'App\Models\Brand', $brands->uuid, false ,null,Image::IMAGE);
         }
         return $this->sendResponse(null, __('item_added'));
     }
@@ -59,7 +59,7 @@ class BrandController extends Controller
         $brands =   Brand::findOrFail($request->uuid);
         $brands->update($data);
         if ($request->hasFile('image')) {
-            UploadImage($request->image, null, 'App\Models\Brand', $brands->uuid, true);
+            UploadImage($request->image, null, 'App\Models\Brand', $brands->uuid, true,null,Image::IMAGE);
         }
         return $this->sendResponse(null, __('item_edited'));
 
@@ -67,7 +67,8 @@ class BrandController extends Controller
 
     public function destroy($uuid)
     {
-       Brand::destroy($uuid);
+        $uuid_brand=explode(',', $uuid);
+        Brand::whereIn('uuid', $uuid_brand)->delete();
         return $this->sendResponse(null, null);
     }
 
@@ -85,7 +86,9 @@ class BrandController extends Controller
                     }
                 }
             })
-            ->addIndexColumn()
+            ->addColumn('checkbox',function ($que){
+                return $que->uuid;
+            })
             ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-uuid="' . @$que->uuid . '" ';

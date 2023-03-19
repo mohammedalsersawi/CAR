@@ -96,7 +96,9 @@ class PlatesController extends Controller
                     $query->where('status', '=', $request->get('status'));
                 }
             })
-            ->addIndexColumn()
+            ->addColumn('checkbox',function ($que){
+                return $que->uuid;
+            })
             ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-uuid="' . @$que->uuid . '" ';
@@ -133,7 +135,8 @@ class PlatesController extends Controller
 
     public function destroy($uuid)
     {
-        $plates = Plates::destroy($uuid);
+        $uuids=explode(',', $uuid);
+        Plates::whereIn('uuid', $uuids)->delete();
         return $this->sendResponse(null, null);
     }
 }

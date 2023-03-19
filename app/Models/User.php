@@ -53,7 +53,6 @@ class User extends Authenticatable
         'city',
         'area',
         'type',
-
         'created_at',
         'updated_at'
     ];

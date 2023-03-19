@@ -53,8 +53,8 @@ class EngineController extends Controller
 
     public function destroy($uuid)
     {
-        $engines = Engine::find($uuid);
-        $engines->delete();
+        $uuids=explode(',', $uuid);
+        Engine::whereIn('uuid', $uuids)->delete();
         return $this->sendResponse(null, null);
     }
 

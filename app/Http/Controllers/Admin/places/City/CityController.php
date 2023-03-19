@@ -62,8 +62,9 @@ class CityController extends Controller
 
     public function destroy($uuid)
     {
-        City::destroy($uuid);
-        return $this->sendResponse(null, 'تم الحذف بنجاح');
+        $uuids=explode(',', $uuid);
+        City::whereIn('uuid', $uuids)->delete();
+        return $this->sendResponse(null, null);
     }
 
 
@@ -77,7 +78,9 @@ class CityController extends Controller
                     $query->where('name->'.locale(), 'like', "%{$request->search['value']}%");
                 }
             })
-            ->addIndexColumn()
+            ->addColumn('checkbox',function ($que){
+                return $que->uuid;
+            })
             ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-uuid="' . $que->uuid . '" ';

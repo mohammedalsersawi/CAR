@@ -1,5 +1,5 @@
 @extends('admin.part.app')
-@section('users')
+@section('title')
     @lang('users')
 @endsection
 @section('styles')
@@ -125,7 +125,10 @@
                                                 <button id="clear_btn" class="btn btn-outline-secondary" type="submit">
                                                     <span><i class="fa fa-undo"></i> @lang('reset')</span>
                                                 </button>
-
+                                                <button id="btn_delete_all"
+                                                        class="btn_delete_all btn btn-outline-danger " type="button">
+                                                    <span><i class="fa fa-lg fa-trash-alt" aria-hidden="true"></i> @lang('delete')</span>
+                                                </button>
                                             </div>
                                         </div>
 
@@ -138,7 +141,7 @@
                                 <table class="table" id="datatable">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
+                                            <th><input name="select_all" id="example-select-all" type="checkbox" onclick="CheckAll('box1', this)" /></th>
                                             <th>@lang('name')</th>
                                             <th>@lang('phone')</th>
                                             <th>@lang('image')</th>
@@ -536,8 +539,12 @@
             },
             columns: [
                 {
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex',
+                    "render": function (data, type, full, meta) {
+                        return `<td><input type="checkbox" value="${data}" class="box1" ></td>
+`;
+                    },
+                    name: 'checkbox',
+                    data: 'checkbox',
                     orderable: false,
                     searchable: false
                 },

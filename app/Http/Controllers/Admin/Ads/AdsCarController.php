@@ -34,7 +34,7 @@ class AdsCarController extends Controller
         $FuelType = FuelType::select(['name', 'uuid'])->get();
         $Transmission = Transmission::select(['name', 'uuid'])->get();
         $ColorCar = ColorCar::select(['name', 'uuid', 'color'])->get();
-        $User = User::select(['name', 'uuid','phone'])->get();
+        $User = User::select(['name', 'uuid','phone'])->where('user_type_id',User::SHOWROOM)->get();
         $year = Year::query()->first();
 
         return view('admin.pages.adscar.index', compact(['User','Brand', 'Engine', 'ModelCar', 'FuelType', 'Transmission', 'ColorCar', 'year']));
@@ -53,7 +53,7 @@ class AdsCarController extends Controller
 
         $rules['mileage'] = 'required';
         $rules['image'] = 'required';
-        $rules['user_uuid'] = 'required|exists:users,uuid';
+        $rules['showroom_uuid'] = 'required|exists:users,uuid';
 
         $rules['brand_uuid'] = 'required|exists:brands,uuid';
         $rules['model_uuid'] =
@@ -75,7 +75,7 @@ class AdsCarController extends Controller
             'lat',
             'lng',
             'year',
-            'user_uuid',
+            'showroom_uuid',
             'phone',
             'price',
             'mileage',
@@ -111,7 +111,7 @@ class AdsCarController extends Controller
         $rules['price'] = 'required';
 
         $rules['mileage'] = 'required';
-        $rules['user_uuid'] = 'required|exists:users,uuid';
+        $rules['showroom_uuid'] = 'nullable|exists:users,uuid';
 
         $rules['brand_uuid'] = 'required|exists:brands,uuid';
         $rules['model_uuid'] =
@@ -131,10 +131,11 @@ class AdsCarController extends Controller
         $Car->update($request->only(
             'transmission_uuid',
             'lat',
-            'user_uuid',
+            'showroom_uuid',
             'lng',
             'phone',
             'price',
+            'appointment_uuid',
             'year',
             'mileage',
             'brand_uuid',
@@ -146,7 +147,7 @@ class AdsCarController extends Controller
         ));
         if ($request->hasFile('image')) {
             foreach ($request->File('image') as $file) {
-                UploadImage($file, null, 'App\Models\Car', $Car->uuid, false);
+                UploadImage($file, null, 'App\Models\Car', $Car->uuid, false,null,Image::IMAGE);
             }
         }
         return $this->sendResponse(null, __('item_edited'));
@@ -154,7 +155,9 @@ class AdsCarController extends Controller
 
     public function destroy($uuid)
     {
-        $Car = Car::destroy($uuid);
+        $uuid_car=explode(',', $uuid);
+        Car::whereIn('uuid', $uuid_car)->delete();
+
         return $this->sendResponse(null, null);
     }
 
@@ -171,8 +174,8 @@ class AdsCarController extends Controller
                 if ($request->get('price')) {
                     $query->where('price', $request->price);
                 }
-                if ($request->get('user_uuid')) {
-                    $query->where('user_uuid', $request->user_uuid);
+                if ($request->get('showroom_uuid')) {
+                    $query->where('showroom_uuid', $request->showroom_uuid);
                 }
                 if ($request->get('mileage')) {
                     $query->where('mileage', $request->get('mileage'));
@@ -203,7 +206,9 @@ class AdsCarController extends Controller
                     $query->where('color_interior_uuid', $request->get('color_interior'));
                 }
             })
-            ->addIndexColumn()
+            ->addColumn('checkbox',function ($que){
+                return $que->uuid;
+            })
             ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-uuid="' . @$que->uuid . '" ';
@@ -214,7 +219,7 @@ class AdsCarController extends Controller
                 $data_attr .= 'data-mileage="' . @$que->mileage . '" ';
                 $data_attr .= 'data-year="' . @$que->year . '" ';
                 $data_attr .= 'data-brand_uuid="' . @$que->brand_uuid . '" ';
-                $data_attr .= 'data-user="' . @$que->user_uuid . '" ';
+                $data_attr .= 'data-user="' . @$que->showroom_uuid . '" ';
                 $data_attr .= 'data-brand_name="' . @$que->brand->name . '" ';
                 $data_attr .= 'data-model_name="' . @$que->model->name . '" ';
                 $data_attr .= 'data-model_uuid="' . @$que->model_uuid . '" ';
@@ -235,10 +240,10 @@ class AdsCarController extends Controller
             })
 
             ->addColumn('color_exterior_car', function ($row) {
-                return $row->color_exterior_car->color;
+                return @$row->color_exterior_car->color;
             })
             ->addColumn('color_interior_car', function ($row) {
-                return $row->color_interior_car->color;
+                return @$row->color_interior_car->color;
             })
 
 

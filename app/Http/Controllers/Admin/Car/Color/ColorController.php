@@ -57,8 +57,8 @@ class ColorController extends Controller
 
     public function destroy($uuid)
     {
-        $Color = ColorCar::find($uuid);
-        $Color->delete();
+        $uuids=explode(',', $uuid);
+        ColorCar::whereIn('uuid', $uuids)->delete();
         return $this->sendResponse(null,null);
     }
 
@@ -77,7 +77,9 @@ class ColorController extends Controller
 
                 }
             })
-            ->addIndexColumn()
+            ->addColumn('checkbox',function ($que){
+                return $que->uuid;
+            })
             ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-uuid="' . $que->uuid . '" ';

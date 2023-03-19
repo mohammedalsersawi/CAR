@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Deals;
 use App\Http\Controllers\Admin\ResponseTrait;
 use App\Http\Controllers\Controller;
 use App\Models\Deals;
+use App\Models\Image;
 use App\Models\Type;
 use App\Models\User;
 use App\Utils\ImageUpload;
@@ -31,7 +32,7 @@ class DealsController extends Controller
         $data['deals']= $request->get('deals');
         $data['user_uuid']=$request->user_uuid;
         $deals =  Deals::create($data);
-        UploadImage($request->image, null, 'App\Models\Deals', $deals->uuid, false);
+        UploadImage($request->image, null, 'App\Models\Deals', $deals->uuid, false,null,Image::IMAGE);
         return $this->sendResponse(null, __('item_added'));
     }
     public function update(Request $request)
@@ -50,21 +51,24 @@ class DealsController extends Controller
 
         $deals->update($data);
         if ($request->hasFile('image')) {
-            UploadImage($request->image, null, 'App\Models\Deals', $deals->uuid, true);
+            UploadImage($request->image, null, 'App\Models\Deals', $deals->uuid, true,null,Image::IMAGE);
         }
         return $this->sendResponse(null, __('item_edited'));
 
     }
     public function destroy($uuid)
     {
-       Deals::destroy($uuid);
+        $uuids=explode(',', $uuid);
+        Deals::whereIn('uuid', $uuids)->delete();
         return $this->sendResponse(null, null);
     }
     public function getData(Request $request)
     {
         $deals = Deals::query();
         return Datatables::of($deals)
-            ->addIndexColumn()
+            ->addColumn('checkbox',function ($que){
+                return $que->uuid;
+            })
             ->filter(function ($query) use ($request) {
                 if ($request->get('user_uuid')) {
                     $user=User::where('name','like', "%{$request->get('user_uuid')}%")->pluck('uuid');

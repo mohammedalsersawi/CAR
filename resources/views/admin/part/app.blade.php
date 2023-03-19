@@ -3,6 +3,41 @@
 <!-- BEGIN: Head-->
 
 <head>
+    <style>
+        .multiselect {
+            width: 200px;
+        }
+
+        .selectBox {
+            position: relative;
+        }
+
+        .selectBox select {
+            width: 100%;
+            font-weight: bold;
+        }
+
+        .overSelect {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+        }
+
+        #checkboxes {
+            display: none;
+            border: 1px #dadada solid;
+        }
+
+        #checkboxes label {
+            display: block;
+        }
+
+        #checkboxes label:hover {
+            background-color: #1e90ff;
+        }
+    </style>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">

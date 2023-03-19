@@ -37,7 +37,7 @@ class Car extends Model
     ];
     protected $guarded = [];
     public function user(){
-        return $this->belongsTo(User::class,'user_uuid');
+        return $this->belongsTo(User::class,'showroom_uuid');
     }
     public function ImagesCar()
     {

@@ -52,8 +52,9 @@ class FuelTypeController extends Controller
 
     public function destroy($uuid)
     {
-        $fuel_type = FuelType::find($uuid);
-        $fuel_type->delete();
+
+        $uuids=explode(',', $uuid);
+        FuelType::whereIn('uuid', $uuids)->delete();
         return $this->sendResponse(null, null);
     }
 
@@ -71,7 +72,9 @@ class FuelTypeController extends Controller
 
                 }
             })
-            ->addIndexColumn()
+            ->addColumn('checkbox',function ($que){
+                return $que->uuid;
+            })
             ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-uuid="' . $que->uuid . '" ';
