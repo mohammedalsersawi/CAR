@@ -13,8 +13,8 @@ class Plates extends Model
     use HasFactory;
     protected $primaryKey = 'uuid';
     public $incrementing = false;
-    protected $guarded=[];
-    protected $hidden=[
+    protected $guarded = [];
+    protected $hidden = [
         'city',
         'user',
         'user_uuid',
@@ -22,9 +22,10 @@ class Plates extends Model
         'updated_at',
         'created_at'
     ];
-    protected $appends = ['city_name','user_name'];
+    protected $appends = ['city_name', 'user_name'];
 
-    public function city(){
+    public function city()
+    {
         return @$this->belongsTo(City::class);
     }
 
