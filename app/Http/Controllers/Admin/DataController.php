@@ -10,21 +10,21 @@ use Illuminate\Http\Request;
 
 class DataController extends Controller
 {
-    public function area($id)
-    {
-        $area = Area::where("city_id", $id)->pluck("name", "id");
-        return $area;
-    }
-
-    public function country($id)
-    {
-        $country = City::where("country_id", $id)->pluck("name", "id");
-        return $country;
-    }
+//    public function area($id)
+//    {
+//        $area = Area::where("city_id", $id)->pluck("name", "id");
+//        return $area;
+//    }
+//
+//    public function country($id)
+//    {
+//        $country = City::where("country_id", $id)->pluck("name", "id");
+//        return $country;
+//    }
 
     public function model($id)
     {
-        $ModelCar = ModelCar::where("brand_id", $id)->pluck("name","id");
+        $ModelCar = ModelCar::where("brand_uuid", $id)->pluck("name","uuid");
         return $ModelCar;
     }
 }
