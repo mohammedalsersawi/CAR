@@ -131,8 +131,9 @@ Route::group(
             Route::post('/update', 'update')->name('update');
             Route::delete('/{uuid}', 'destroy')->name('delete');
             Route::get('/getData', 'getData')->name('getData');
+            Route::delete('/images/{uuid}/{id}', 'deleteimages')->name('deletemages');
             Route::get('/images/{uuid}', 'showImages')->name('showImages');
-            Route::delete('/images/{uuid}/{uuidd}', 'deleteimages')->name('deletemages');
+
             Route::post('update/images', 'updateImages')->name('updateImages');
             Route::get('/show/card/', 'showCard')->name('showCard');
             Route::get('model/{uuid}', [DataController::class,'model'])->name('model');
@@ -146,7 +147,7 @@ Route::group(
         Route::controller(UserOrderController::class)->prefix('orders')->name('orders.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/getData', 'getData')->name('getData');
-            Route::delete('/{uuid}', 'destroy')->name('delete');
+            Route::delete('/{uuid?}', 'destroy')->name('delete');
             Route::post('/accepted/{uuid}', 'accepted')->name('accepted');
             Route::post('/rejected/{uuid}', 'rejected')->name('rejected');
             Route::delete('{uuid}','destroy')->name('delete');

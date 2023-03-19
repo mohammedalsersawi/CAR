@@ -21,7 +21,7 @@ class Deals extends Model
         'updated_at',
         'created_at',
         'imageDeal',
-        'user_uuid'
+        'user_id'
     ];
 
     public function getUserNameAttribute()

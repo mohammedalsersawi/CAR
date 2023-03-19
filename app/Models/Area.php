@@ -15,7 +15,7 @@ class Area extends Model
     protected $translatable = ['name'];
     protected $guarded = [];
     protected $appends = ['name_text','name_city'];
-
+protected $hidden=['name','uuid'];
     public function getNameTextAttribute()
     {
         return @$this->name;

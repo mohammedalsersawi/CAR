@@ -16,6 +16,7 @@ class Engine extends Model
     protected $appends = ['name_text'];
     protected $primaryKey = 'uuid';
     public $incrementing = false;
+    protected $hidden=['name'];
     public function getNameTextAttribute()
     {
         return @$this->name;

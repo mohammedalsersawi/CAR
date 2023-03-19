@@ -11,12 +11,16 @@ class UserOrder extends Model
     use HasFactory;
     protected $guarded = [];
     public $incrementing = false;
-    protected $appends = ['area_name', 'city_name', 'user_name', 'status_type'];
+    protected $appends = ['area_name', 'city_name',  'status_type'];
     protected $primaryKey = 'uuid';
     protected $hidden = [
         'city_uuid',
         'area_uuid',
-
+        'area',
+        'city',
+        'user',
+        'created_at',
+        'updated_at',
 
     ];
     const rejected = 2;
@@ -49,18 +53,15 @@ class UserOrder extends Model
     {
         return @$this->area->name;
     }
-    public function getUserNameAttribute()
-    {
-        return @$this->user->name;
-    }
+
     public function getStatusTypeAttribute()
     {
-        if ($this->status == 3) {
-            return (app()->currentLocale() == 'ar') ? 'معلق' : 'pending';
+        if ($this->status === 2) {
+            return (app()->currentLocale() == 'ar') ? 'تم الرفض' : 'rejected';
+
         } elseif ($this->status == 1) {
             return (app()->currentLocale() == 'ar') ? 'تم القبول' : 'accepted';
         } else {
-            return (app()->currentLocale() == 'ar') ? 'تم الرفض' : 'rejected';
-        }
+            return (app()->currentLocale() == 'ar') ? 'معلق' : 'pending';        }
     }
 }

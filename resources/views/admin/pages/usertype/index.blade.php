@@ -99,7 +99,7 @@
                                                     data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                                     <option selected disabled>Select @lang('type')</option>
                                                     @foreach ($user as $item)
-                                                        <option value="{{ $item->uuid }}"> {{ $item->Name }} </option>
+                                                        <option value="{{ $item->id }}"> {{ $item->Name }} </option>
                                                     @endforeach
                                                 </select>
                                             </div>

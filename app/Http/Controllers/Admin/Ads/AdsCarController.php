@@ -259,9 +259,9 @@ class AdsCarController extends Controller
     }
 
 
-    public function deleteimages($uuid, $idd)
+    public function deleteimages($uuid, $id)
     {
-        $data = Image::findOrFail($idd);
+        $data = Image::findOrFail($id);
         File::delete(public_path('uploads/' . $data->filename));
         $data->delete();
         return $this->sendResponse(null, null);

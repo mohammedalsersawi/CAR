@@ -18,8 +18,11 @@ class User extends Authenticatable
      * @var array
      */
 
+    protected $primaryKey = 'uuid';
+    public $incrementing = false;
     protected $appends = ['area_name','city_name','type_name','image_user','DiscountStoreType'];
     protected $fillable = [
+
         'phone',
         'password',
         'about',
@@ -44,12 +47,13 @@ class User extends Authenticatable
         'city_uuid',
         'area_uuid',
         'discount_type_uuid',
+        'Discount_Type',
         'code',
         'image',
         'city',
         'area',
         'type',
-        'user_type_id',
+
         'created_at',
         'updated_at'
     ];
@@ -76,7 +80,11 @@ class User extends Authenticatable
         return @$this->belongsTo(Area::class);
     }
     public function cars(){
-        return @$this->hasMany(Car::class);
+        return @$this->hasMany(Car::class,'showroom_uuid');
+    }
+
+    public function appointment(){
+        return @$this->hasMany(OrderAppointment::class,'user_uuid');
     }
     public function deals(){
         if ($this->user_type_uuid==User::DISCOUNT_STORE){
@@ -86,11 +94,11 @@ class User extends Authenticatable
         }
     }
     public function photographer(){
-        if ($this->user_type_uuid==User::PHOTOGRAPHER){
-            return $this->hasMany(Photographer::class);
-        }else{
-            return 'sorry';
-        }
+//        if ($this->user_type_uuid==User::PHOTOGRAPHER){
+            return $this->hasMany(OrderAppointment::class);
+//        }else{
+//            return 'sorry';
+//        }
     }
     public function image()
     {
@@ -120,7 +128,7 @@ class User extends Authenticatable
     {
 
 
-            return (@$this->image->filename==null)?url()->previous(). '/uploads/'. @$this->image->filename:"";
+            return (!@$this->image->filename==null)?url('/'). '/uploads/'. @$this->image->filename:null;
 
 
     }

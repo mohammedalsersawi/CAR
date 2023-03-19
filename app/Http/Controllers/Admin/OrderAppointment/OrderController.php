@@ -19,7 +19,7 @@ class OrderController extends Controller
     {
         $cities = City::select(['name', 'uuid'])->get();
         $country = Country::select(['name', 'uuid'])->get();
-        $users = User::select(['name', 'uuid', 'phone'])->get();
+        $users = User::select(['name', 'uuid', 'phone'])->where('user_type_id',User::PHOTOGRAPHER)->get();
         $type =  OrderAppointment::TYPES;
         return view('admin.pages.OrderAppointment.index', compact('country', 'cities', 'users', 'type'));
     }
@@ -89,7 +89,7 @@ class OrderController extends Controller
                     $query->where('date', $request->get('date'));
                 }
                 if ($request->get('user_uuid')) {
-                    $query->where('user_uuid', $request->get('user_uuid'));
+                    $query->where('photographer_uuid', $request->get('user_uuid'));
                 }
             })
             ->addIndexColumn()

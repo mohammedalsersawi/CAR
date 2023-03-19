@@ -14,14 +14,10 @@ class CountUserOrderEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    /**
-     * Create a new event instance.
-     *
-     * @return void
-     */
-    public function __construct()
+   public $count;
+    public function __construct($count)
     {
-        //
+        $this->count=$count;
     }
 
     /**
@@ -32,5 +28,11 @@ class CountUserOrderEvent implements ShouldBroadcast
     public function broadcastOn()
     {
         return new PrivateChannel('countuserorder');
+    }
+    public function broadcastWith()
+    {
+        return[
+          "count"=>  $this->count
+        ];
     }
 }

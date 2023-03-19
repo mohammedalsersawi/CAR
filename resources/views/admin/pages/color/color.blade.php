@@ -185,7 +185,7 @@
                     searchable: false
                 },
                 {
-                    data: 'name.{{ app()->currentLocale() }}',
+                    data: 'name_text',
                     name: 'name'
                 },
                 {

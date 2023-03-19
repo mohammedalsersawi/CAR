@@ -112,7 +112,7 @@ function mainResponse($status, $msg, $items, $validator, $code = 200, $pages = n
 
     return response()->json($newData);
 }
-function UploadImage($file, $path = null, $model, $imageable_id, $update = false, $id = null)
+function UploadImage($file, $path = null, $model, $imageable_id, $update = false, $id = null,$type)
 {
 
     $imagename = uniqid() . '.' . $file->getClientOriginalExtension();
@@ -122,6 +122,7 @@ function UploadImage($file, $path = null, $model, $imageable_id, $update = false
             'filename' =>  $imagename,
             'imageable_id' => $imageable_id,
             'imageable_type' => $model,
+            'type'=>$type
         ]);
     } else {
 
@@ -136,6 +137,7 @@ function UploadImage($file, $path = null, $model, $imageable_id, $update = false
                     'filename' => $imagename,
                     'imageable_id' => $imageable_id,
                     'imageable_type' => $model,
+                    'type'=>$type
                 ]
             );
         } else {
@@ -143,6 +145,7 @@ function UploadImage($file, $path = null, $model, $imageable_id, $update = false
                 'filename' =>  $imagename,
                 'imageable_id' => $imageable_id,
                 'imageable_type' => $model,
+                'type'=>$type
             ]);
         }
     }

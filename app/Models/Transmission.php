@@ -15,6 +15,7 @@ class Transmission extends Model
     protected $fillable = [
         'name',
     ];
+    protected $hidden=['name'];
     public function getNameTextAttribute()
     {
         return @$this->name;

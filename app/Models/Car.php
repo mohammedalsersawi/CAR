@@ -12,7 +12,7 @@ class Car extends Model
     use HasFactory;
     protected $primaryKey = 'uuid';
     public $incrementing = false;
-    protected $appends=['images','brand_name','model_name','user_name','transmission_name','color_interior','color_exterior','engine_name','fueltype_name'];
+    protected $appends=['attachments','brand_name','model_name','user_name','transmission_name','color_interior','color_exterior','engine_name','fueltype_name'];
     protected $hidden=[
       'user',
         'ImagesCar',
@@ -106,13 +106,17 @@ class Car extends Model
     {
         return @$this->color_exterior_car->color;
     }
-    public function getImagesAttribute()
+    public function getAttachmentsAttribute()
     {
-        $images=[];
+        $attachments=[];
         foreach ($this->ImagesCar as $item) {
-            array_push($images,url()->previous().'uploads/'.$item->filename);
+            $attachments[] = [
+                'attachment' => url('/') . '/uploads/' . $item->filename,
+                'type' => $item->type_attachment
+
+            ];
         }
-        return $images;
+        return $attachments;
     }
     public static function boot()
     {

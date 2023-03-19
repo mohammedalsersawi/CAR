@@ -37,7 +37,7 @@ class Brand extends Model
 
     public function getImageAttribute()
     {
-        return url()->previous() . '/uploads/' . @$this->imageBrand->filename;
+        return url('/') . '/uploads/' . @$this->imageBrand->filename;
     }
     public function getNameTextAttribute()
     {

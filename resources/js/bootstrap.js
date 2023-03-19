@@ -48,8 +48,9 @@ window.Echo.private(`orderUser`)
 window.Echo.private(`countuserorder`)
     .listen('CountUserOrderEvent', (e) => {
             console.log('count');
+        console.log(e.count);
             var count=$('#count').text();
             console.log(count);
-            $('#count').html(parseInt(count)-1)
+            $('#count').html(parseInt(count)-e.count)
         }
     );

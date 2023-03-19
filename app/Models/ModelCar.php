@@ -17,7 +17,7 @@ class ModelCar extends Model
     ];
     protected $primaryKey = 'uuid';
     public $incrementing = false;
-
+    protected $hidden=['name'];
     protected $appends = ['name_text'];
     public function brand()
     {

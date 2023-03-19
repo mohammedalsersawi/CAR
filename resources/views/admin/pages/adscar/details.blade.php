@@ -116,6 +116,7 @@
                 if (result.value) {
                     var id = button.data('id')
                     var url = window.location.href + '/' + id;
+                    alert(url)
                     $.ajax({
                         url: url,
                         method: 'DELETE',

@@ -15,6 +15,7 @@ class UserOrderController extends Controller
 
     public function store(Request $request)
     {
+//        |exists:user_orders,uuid
         $rules = [
             'name' => 'required',
             'phone' => 'required|between:8,14',

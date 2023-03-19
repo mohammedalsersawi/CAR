@@ -17,13 +17,17 @@ class OrderAppointment extends Model
         'area_uuid',
         'updated_at',
         'created_at',
-        'user_uuid',
+        'user_id',
         'user',
         'city',
         'area',
+        'status',
+        'type',
+        'photographer_uuid',
+        'photographer'
     ];
     public $incrementing = false;
-    protected $appends = ['area_name', 'city_name', 'photographer','status_appointment'];
+    protected $appends = ['area_name', 'city_name', 'photographer_name','status_appointment','type_media'];
 
     const image=1;
     const imagevideo=2;
@@ -71,14 +75,22 @@ class OrderAppointment extends Model
         } elseif ($this->status == 2) {
             return (app()->currentLocale() == 'ar') ? 'تم القبول' : 'accept';
         } else {
-            return (app()->currentLocale() === 'ar') ? 'مكمل' : 'complete';
+            return (app()->currentLocale() === 'ar') ? 'مكتمل' : 'complete';
+        }
+    }
+    public function getTypeMediaAttribute()
+    {
+        if ($this->type == 1 ) {
+            return (app()->currentLocale() == 'ar') ? 'صورة' : 'image';
+        }else {
+            return (app()->currentLocale() === 'ar') ? 'صورة+فيديو' : 'image+vedio';
         }
     }
     public function getAreaNameAttribute()
     {
         return @$this->area->name;
     }
-    public function getPhotographerAttribute()
+    public function getPhotographerNameAttribute()
     {
         return @$this->photographer->name;
     }

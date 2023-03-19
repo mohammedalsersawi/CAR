@@ -15,7 +15,7 @@ class Country extends Model
     protected $translatable = ['name'];
     protected $guarded = [];
     protected $appends = ['name_text'];
-
+    protected $hidden=['name','uuid'];
     public function getNameTextAttribute()
     {
         return @$this->name;

@@ -55,9 +55,14 @@
                                         </div>
                                         <div class="col-3">
                                             <div class="form-group">
-                                                <label for="s_name">@lang('name')</label>
-                                                <input id="s_name" type="text" class="search_input form-control"
-                                                    placeholder="@lang('name')">
+                                                <label for="s_name">@lang('photographer')</label>
+                                                <select  id="s_name" class="search_input form-control"
+                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                                    <option selected disabled>@lang('select') @lang('photographer')</option>
+                                                    @foreach ($users as $itemm)
+                                                        <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-3">
@@ -68,7 +73,6 @@
                                                     <option selected disabled>@lang('select') @lang('city')</option>
                                                     @foreach ($cities as $itemm)
                                                         <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
-                                                        </option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -113,7 +117,7 @@
 
                                             <th>@lang('phone')</th>
                                             <th>@lang('area')</th>
-                                            <th>@lang('cities')</th>
+                                            <th>@lang('city')</th>
                                             <th>@lang('date')</th>
                                             <th>@lang('time')</th>
                                             <th>@lang('status')</th>
@@ -475,8 +479,8 @@
                     searchable: false
                 },
                 {
-                    data: 'photographer',
-                    name: 'photographer',
+                    data: 'photographer_name',
+                    name: 'photographer_name',
                     orderable: false,
                     searchable: false
                 },

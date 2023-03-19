@@ -17,11 +17,11 @@ class TypeResource extends JsonResource
      */
     public function toArray($request)
     {
-        $id=User::where('discount_type_id',$this->id)->pluck('id');
+        $id=User::where('discount_type_id',$this->uuid)->pluck('uuid');
         return [
-            'uuid'=>$this->id,
+            'uuid'=>$this->uuid,
             'title'=>$this->name,
-            'deals'=>Deals::whereIn('user_id',$id)->get()
+            'deals'=>Deals::whereIn('user_uuid',$id)->get()
         ];
 
     }

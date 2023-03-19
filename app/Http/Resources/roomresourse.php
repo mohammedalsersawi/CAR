@@ -15,8 +15,8 @@ class roomresourse extends JsonResource
     public function toArray($request)
     {
         return [
-            "id"=> $this->id,
-            "image"=> 'uploads/'.$this->image_user,
+            "uuid"=> $this->uuid,
+            "image"=>url('/'). '/uploads/'.$this->image_user,
             "name"=> $this->name,
 
         ];    }

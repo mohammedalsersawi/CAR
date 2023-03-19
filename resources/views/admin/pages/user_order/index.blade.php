@@ -3,6 +3,41 @@
     @lang('user_order')
 @endsection
 @section('styles')
+    <style>
+        .multiselect {
+            width: 200px;
+        }
+
+        .selectBox {
+            position: relative;
+        }
+
+        .selectBox select {
+            width: 100%;
+            font-weight: bold;
+        }
+
+        .overSelect {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+        }
+
+        #checkboxes {
+            display: none;
+            border: 1px #dadada solid;
+        }
+
+        #checkboxes label {
+            display: block;
+        }
+
+        #checkboxes label:hover {
+            background-color: #1e90ff;
+        }
+    </style>
 @endsection
 @section('content')
     @vite('resources/js/app.js')
@@ -46,13 +81,7 @@
                                                        placeholder="@lang('phone')">
                                             </div>
                                         </div>
-                                        <div class="col-3">
-                                            <div class="form-group">
-                                                <label for="s_name">@lang('name')</label>
-                                                <input id="s_name" type="text" class="search_input form-control"
-                                                       placeholder="@lang('name')">
-                                            </div>
-                                        </div>
+
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="city_uuid">@lang('city')</label>
@@ -98,7 +127,10 @@
                                                 <button id="clear_btn" class="btn btn-outline-secondary" type="submit">
                                                     <span><i class="fa fa-undo"></i> @lang('reset')</span>
                                                 </button>
-
+                                                <button id="btn_delete_all"
+                                                        class="btn_delete_all btn btn-outline-danger " type="button">
+                                                    <span><i class="fa fa-lg fa-trash-alt" aria-hidden="true"></i> @lang('delete')</span>
+                                                </button>
                                             </div>
                                         </div>
 
@@ -109,7 +141,7 @@
                                 <table class="table" id="datatable">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
+                                            <th><input name="select_all" id="example-select-all" type="checkbox" onclick="CheckAll('box1', this)" /></th>
                                             <th>@lang('name')</th>
                                             <th>@lang('phone')</th>
                                             <th>@lang('city')</th>
@@ -125,6 +157,37 @@
                         </div>
                     </div>
                 </div>
+                <div class="modal fade" id="delete_all" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 style="font-family: 'Cairo', sans-serif;" class="modal-title" id="exampleModalLabel">
+                                    @lang('user_order')
+                                </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+
+                            <form action="{{route('orders.delete','all')}}" method="POST">
+                                @csrf
+                               @method('delete')
+                                <div class="modal-body">
+                                    @lang('Are you sure to delete the items you checked?')
+                                    <input class="text" type="hidden" id="delete_all_id" name="delete_all_id" value=''>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">@lang('close')</button>
+                                    <button type="submit" class="btn btn-danger">@lang('delete')</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
             </section>
 
         </div>
@@ -148,33 +211,47 @@
             responsive: true,
             searching: false,
             "oLanguage": {
-                @if (app()->isLocale('ar'))
-                    "sEmptyTable": "ليست هناك بيانات متاحة في الجدول",
-                    "sLoadingRecords": "جارٍ التحميل...",
-                    "sProcessing": "جارٍ التحميل...",
-                    "sLengthMenu": "أظهر _MENU_ مدخلات",
-                    "sZeroRecords": "لم يعثر على أية سجلات",
-                    "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
-                    "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
-                    "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
-                    "sInfoPostFix": "",
-                    "sSearch": "ابحث:",
-                    "oAria": {
-                        "sSortAscending": ": تفعيل لترتيب العمود تصاعدياً",
-                        "sSortDescending": ": تفعيل لترتيب العمود تنازلياً"
-                    },
-                @endif // "oPaginate": {"sPrevious": '<-', "sNext": '->'},
+                @if(app()->isLocale('ar'))
+                "sEmptyTable": "ليست هناك بيانات متاحة في الجدول",
+                "sLoadingRecords": "جارٍ التحميل...",
+                "sProcessing": "جارٍ التحميل...",
+                "sLengthMenu": "أظهر _MENU_ مدخلات",
+                "sZeroRecords": "لم يعثر على أية سجلات",
+                "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
+                "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
+                "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
+                "sInfoPostFix": "",
+                "sSearch": "ابحث:",
+                "oAria": {
+                    "sSortAscending": ": تفعيل لترتيب العمود تصاعدياً",
+                    "sSortDescending": ": تفعيل لترتيب العمود تنازلياً"
+                },
+
+                @endif// "oPaginate": {"sPrevious": '<-', "sNext": '->'},
                 "oPaginate": {
                     // remove previous & next text from pagination
                     "sPrevious": '&nbsp;',
                     "sNext": '&nbsp;'
                 }
             },
+            'columnDefs': [
+                {
+                    "targets": 1,
+                    "visible": false
+                },
+                {
+                    'targets': 0,
+                    "searchable": false,
+                    "orderable": false
+                },
+            ],
+            // dom: 'lrtip',
+
             ajax: {
                 url: '{{route('orders.getData',app()->getLocale())}}',
                 data: function(d) {
                     d.phone = $('#s_phone').val();
-                    d.name = $('#s_name').val();
+
                     d.city_uuid = $('#s_city').val();
                     d.area_uuid = $('#s_area').val();
                     d.status = $('#s_status').val();
@@ -183,11 +260,14 @@
             },
             columns: [
                 {
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex',
-                    orderable: false,
-                    searchable: false
+                    "render": function (data, type, full, meta) {
+                        return `<td><input type="checkbox"  value="${data}" class="box1" ></td>
+`;
+                    },
+                    name: 'checkbox',
+                    data: 'checkbox',
                 },
+
                 {
                     data: 'name',
                     name: 'name',

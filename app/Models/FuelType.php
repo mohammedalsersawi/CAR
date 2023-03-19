@@ -14,6 +14,7 @@ class FuelType extends Model
     protected $fillable = [
         'name',
     ];
+    protected $hidden=['name'];
     protected $appends = ['name_text'];
 
     public function getNameTextAttribute()

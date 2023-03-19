@@ -17,9 +17,14 @@ class ColorCar extends Model
         'name',
         'color'
     ];
+    protected $appends = ['name_text'];
+    protected $hidden=['name'];
     protected $primaryKey = 'uuid';
     public $incrementing = false;
-
+    public function getNameTextAttribute()
+    {
+        return @$this->name;
+    }
     public static function boot()
     {
         parent::boot();

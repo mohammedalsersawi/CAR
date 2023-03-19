@@ -17,7 +17,7 @@ class Plates extends Model
     protected $hidden=[
         'city',
         'user',
-        'user_uuid',
+        'user_id',
         'city_uuid',
         'updated_at',
         'created_at'

@@ -15,8 +15,8 @@ class carresourse extends JsonResource
     public function toArray($request)
     {
         return [
-            "id" => $this->uuid,
-            "images" => $this->images,
+            "uuid" => $this->uuid,
+            "attachments" => $this->images,
             "display_name" => $this->year . ' ' . $this->brand_name . ' ' . $this->model_name,
 
         ];

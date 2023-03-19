@@ -12,7 +12,20 @@ class Image extends Model
     protected $primaryKey = 'uuid';
     public $incrementing = false;
     protected $guarded=[];
+    protected $appends=[
+        'type_attachment'
+    ];
+    const IMAGE = 1;
+    const VIDEO = 2;
+    public function getTypeAttachmentAttribute()
+    {
+        if ($this->type==2){
+            return (app()->currentLocale() == 'ar') ? 'فيديو' : 'video';
+        }else{
+            return (app()->currentLocale() == 'ar') ? 'صورة' : 'image';
 
+        }
+    }
     public function imageable()
     {
         return $this->morphTo();

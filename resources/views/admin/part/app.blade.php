@@ -458,8 +458,89 @@
     </script>
 
     @yield('scripts')
+    <script type="text/javascript">
 
+        function CheckAll(className, elem) {
+            var elements = document.getElementsByClassName(className);
+            var l = elements.length;
+            // alert(l)
+            if (elem.checked) {
+                for (var i = 0; i < l; i++) {
+                    elements[i].checked = true;
+                }
+            } else {
+                for (var i = 0; i < l; i++) {
+                    elements[i].checked = false;
+                }
+            }
+        }
+        var expanded = false;
+
+
+        // $(function() {
+        //     $("#btn_delete_all").click(function() {
+        //
+        //
+        //         var selected = new Array();
+        //         $("#datatable input[type=checkbox]:checked").each(function() {
+        //             selected.push(this.value);
+        //         });
+        //
+        //         if (selected.length > 0) {
+        //             $('#delete_all').modal('show')
+        //             $('input[id="delete_all_id"]').val(selected);
+        //         }
+        //     });
+        // });
+
+    </script>
     <script>
+
+
+        // $(document).on('change', "#select_all", function (e) {
+        //     var delete_btn = $('#delete_btn'), export_btn = $('#export_btn'),
+        //         chart_btn = $('#chart_btn'), all_status_btn = $('.all_status_btn'), table_ids = $('.table_ids');
+        //     this.checked ? table_ids.each(function () {
+        //         this.checked = true
+        //     }) : table_ids.each(function () {
+        //         this.checked = false
+        //     })
+        //     delete_btn.attr('data-uuid', selectedIds().join());
+        //     export_btn.attr('data-uuid', selectedIds().join());
+        //     chart_btn.attr('data-uuid', selectedIds().join());
+        //     all_status_btn.attr('data-uuid', selectedIds().join());
+        //     if (selectedIds().join().length) {
+        //         delete_btn.prop('disabled', '');
+        //         all_status_btn.prop('disabled', '');
+        //     } else {
+        //         delete_btn.prop('disabled', 'disabled');
+        //         all_status_btn.prop('disabled', 'disabled');
+        //     }
+        // });
+        //
+        // $(document).on('change', ".table_ids", function (e) {
+        //     var delete_btn = $('#delete_btn'), select_all = $('#select_all'), all_status_btn = $('.all_status_btn');
+        //     if ($(".table_ids:checked").length === $(".table_ids").length) {
+        //         select_all.prop("checked", true)
+        //     } else {
+        //         select_all.prop("checked", false)
+        //     }
+        //     delete_btn.attr('data-uuid', selectedIds().join());
+        //     all_status_btn.attr('data-uuid', selectedIds().join());
+        //     console.log(selectedIds().join().length)
+        //     if (selectedIds().join().length) {
+        //         delete_btn.prop('disabled', '');
+        //         all_status_btn.prop('disabled', '');
+        //     } else {
+        //         delete_btn.prop('disabled', 'disabled');
+        //         all_status_btn.prop('disabled', 'disabled');
+        //     }
+        // });
+
+
+
+
+
         $('#search_btn').on('click', function(e) {
             table.draw();
             e.preventDefault();
@@ -525,9 +606,14 @@
         $(document).on("click", ".btn_delete", function(e) {
             var button = $(this)
             e.preventDefault();
+
+
+                var uuid = button.data('uuid')
+                var deletes='@lang('confirm_delete')'
+
             Swal.fire({
                 title: '@lang('delete_confirmation')',
-                text: '@lang('confirm_delete')',
+                text:deletes,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: '@lang('yes')',
@@ -539,8 +625,11 @@
                 buttonsStyling: true
             }).then(function(result) {
                 if (result.value) {
-                    var uuid = button.data('uuid')
+
+
+
                     var url = window.location.href + '/' + uuid;
+                    alert(url)
                     $.ajax({
                         url: url,
                         method: 'DELETE',
@@ -566,7 +655,62 @@
                 }
             });
         });
+        $(document).on("click", ".btn_delete_all", function(e) {
+            var button = $(this)
+            e.preventDefault();
+            var selected = new Array();
+            $("#datatable input[type=checkbox]:checked").each(function() {
+                selected.push(this.value);
+            });
+            if (selected.length > 0) {
+                $('input[id="delete_all_id"]').val(selected);
+                var uuid = selected;
+                Swal.fire({
+                    title: '@lang('delete_confirmation')',
+                    text:'@lang('confirm_deletes')',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: '@lang('yes')',
+                    cancelButtonText: '@lang('cancel')',
+                    customClass: {
+                        confirmButton: 'btn btn-primary',
+                        cancelButton: 'btn btn-outline-danger'
+                    },
+                    buttonsStyling: true
+                }).then(function(result) {
+                    if (result.value) {
 
+
+
+                        var url = window.location.href + '/' + uuid;
+                        alert(url)
+                        $.ajax({
+                            url: url,
+                            method: 'DELETE',
+                            type: 'DELETE',
+                            data: {
+                                _token: '{{ csrf_token() }}'
+                            },
+                        }).done(function() {
+                            toastr.success('@lang('deleted')', '', {
+                                rtl: isRtl
+                            });
+                            table.draw()
+
+                        }).fail(function() {
+                            toastr.error('@lang('something_wrong')', '', {
+                                rtl: isRtl
+                            });
+                        });
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        toastr.info('@lang('delete_canceled')', '', {
+                            rtl: isRtl
+                        })
+                    }
+                });
+            }
+
+        });
 
         $('#form_edit').on('submit', function(event) {
             $('.search_input').val("").trigger("change")

@@ -17,20 +17,21 @@ class UserOrderController extends Controller
 
     public function index()
     {
-        $cities=City::select(['name','uuid'])->get();
+        $cities = City::select(['name', 'uuid'])->get();
 
 //        return UserOrder::select('uuid')->get();
-        return view('admin.pages.user_order.index',compact('cities'));
+        return view('admin.pages.user_order.index', compact('cities'));
     }
-    public function destroy($uuid){
-       $userorder= UserOrder::where('uuid',$uuid)->first();
-        if ($userorder->status==UserOrder::pending){
-            event(new CountUserOrderEvent());
-        }
 
-        $userorder->delete();
+    public function destroy($uuid)
+    {
+        $uuid_user=explode(',', $uuid);
+        $count = UserOrder::whereIn('uuid',$uuid_user )->where('status',UserOrder::pending)->count();
+            event(new CountUserOrderEvent($count));
+         UserOrder::whereIn('uuid', $uuid_user)->delete();
 
-        return $this->sendResponse(null, null);
+return $this->sendResponse(null, null);
+
     }
     public function accepted($uuid){
        $useroreder= UserOrder::findOrFail($uuid);
@@ -45,7 +46,7 @@ class UserOrderController extends Controller
             'status'=>1
         ]);
        //sms
-        event(new CountUserOrderEvent());
+        event(new CountUserOrderEvent(1));
         return $this->sendResponse(null, __('item_added'));
 
     }
@@ -55,7 +56,7 @@ class UserOrderController extends Controller
             'status'=>2
         ]);
         //sms
-        event(new CountUserOrderEvent());
+        event(new CountUserOrderEvent(1));
         return $this->sendResponse(null, __('item_added'));
 
     }
@@ -66,9 +67,6 @@ class UserOrderController extends Controller
         $userOrder = UserOrder::query();
         return Datatables::of($userOrder)
              ->filter(function ($query) use ($request) {
-                 if ($request->get('name')) {
-                     $query->where('name', 'like', "%{$request->name}%");
-                 }
                  if ($request->get('phone')) {
                      $query->where('phone', 'like', "%{$request->phone}%");
                  }
@@ -82,7 +80,9 @@ class UserOrderController extends Controller
                      $query->where('status', $request->status);
                  }
              })
-            ->addIndexColumn()
+            ->addColumn('checkbox',function ($que){
+                return $que->uuid;
+            })
             ->addColumn('action', function ($que) {
                 $string = '';
                 if ($que->status == UserOrder::pending){

@@ -13,7 +13,8 @@ class PlatesController extends Controller
 
     public function getplates(){
         $plates=Plates::paginate(6);
-        return $plates;
+        return mainResponse(true, __('ok'), $plates, [], 101);
+
     }
 
     public function plates(Request $request){

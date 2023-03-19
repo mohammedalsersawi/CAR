@@ -7,7 +7,7 @@
             <img src="{{ asset('uploads/' . $itam->filename) }}" class="card-img-top" style="width:  200px; height: 200px"
                 alt="Hollywood Sign on The Hill" />
             <div class="card-body">
-                <button data-id="{{ $itam->id }}" class="btn btn-outline-danger" id="delete-image">
+                <button data-id="{{ $itam->uuid }}" class="btn btn-outline-danger" id="delete-image">
                     <span>@lang('delete')</span>
                 </button>
                 <button data-id="{{ $itam->id }}" class="btn btn-outline-success" id="edite-image"

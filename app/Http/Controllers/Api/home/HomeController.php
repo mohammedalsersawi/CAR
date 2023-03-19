@@ -28,68 +28,73 @@ class HomeController extends Controller
     {
         $videoo = video::query()->take(1)->value('video');
         $video = [
-            'link' => url()->previous() . '/uploads/' . $videoo
+            'link' => url('/') . '/uploads/' . $videoo
         ];
-        $room = User::where('user_type_id', User::SHOWROOM)->select(['name', 'id'])->limit(10)->get();
+        $room = User::where('user_type_id', User::SHOWROOM)->select(['name', 'uuid'])->limit(10)->get();
         $showrooms = roomresourse::collection($room);
         $deals = Deals::select(['uuid', 'user_uuid', 'deals'])->get();
-        $brands = Brand::select('name', 'id')->get();
+        $brands = Brand::select('name', 'uuid')->get();
         $ads = Car::query()->select(['uuid', 'brand_uuid', 'model_uuid', 'year'])->take(3)->get();
         $cars = carresourse::collection($ads);
         return mainResponse(true, __('ok'), compact('video', 'showrooms', 'deals', 'brands', 'cars'), [], 200);
     }
-    public function profile(){
-        $user=Auth::guard('sanctum')->user();
-        $profile = new profileResource($user);
-        $data=[];
-        if ($user->user_type_id==User::SHOWROOM){
-            $ads= $user->cars;
-            $data= carresourse::collection($ads);
-        }elseif ($user->user_type_id==User::DISCOUNT_STORE){
-            $data= $user->deals;
-             $sales=salesResource::collection($user->deals()->select('deals')->withCount('seals')->get());
-            return mainResponse(true, __('ok'), compact('profile','data','sales'), [], 200);
 
-        }elseif ($user->user_type_id==User::USER){
-        $profile=[
-            'uuid'=>$user->uuid,
-            'phone'=>$user->phone,
-        ];
-            $ads= $user->cars;
-            $data= carresourse::collection($ads);
-        }elseif ($user->user_type_id==User::PHOTOGRAPHER){
-            $data= OrderAppointment::where('status',OrderAppointment::pending)->where('area_uuid',$user->area_uuid)->orWhere('photographer_uuid',$user->uuid)->get();
+    public function profile()
+    {
+        $user = Auth::guard('sanctum')->user();
+        $profile = new profileResource($user);
+        $data = [];
+        if ($user->user_type_id == User::SHOWROOM) {
+            $ads = $user->cars;
+            $data = carresourse::collection($ads);
+        } elseif ($user->user_type_id == User::DISCOUNT_STORE) {
+            $data = $user->deals;
+            $sales = salesResource::collection($user->deals()->select('deals')->withCount('seals')->get());
+            return mainResponse(true, __('ok'), compact('profile', 'data', 'sales'), [], 200);
+
+        } elseif ($user->user_type_id == User::USER) {
+            $profile = [
+                'uuid' => $user->uuid,
+                'phone' => $user->phone,
+                'type' => $user->user_type_id
+
+            ];
+            $Appointment = OrderAppointment::where('user_uuid', $user->uuid)->pluck('uuid');
+            $ads = Car::whereIn('appointment_uuid', $Appointment)->get();
+            $data = carresourse::collection($ads);
+        } elseif ($user->user_type_id == User::PHOTOGRAPHER) {
+            $data = OrderAppointment::where('status', OrderAppointment::pending)->where('area_uuid', $user->area_uuid)->orWhere('photographer_uuid', $user->uuid)->get();
         }
 
 
-        return mainResponse(true, __('ok'), compact('profile','data'), [], 200);
+        return mainResponse(true, __('ok'), compact('profile', 'data'), [], 200);
     }
+
     public function lodemor(Request $request)
     {
         $query = Car::query();
         $query->when($request->get('search'), function ($query, $search) {
-                $query->where('year', $search)
-                      ->orWhere(function ($query) use ($search) {
-                        $query->whereHas('brand', function ($query) use ($search) {
-                            $query->where('name->' . locale(), 'like', "%{$search}%");
-                            foreach (locales() as $key => $value) {
-                                if ($key != locale())
-                                    $query->orWhere('name->' . $key, 'like', "%{$search}%");
-                            }
-                        });
-                    })
-                      ->orWhere(function ($query) use ($search) {
-                        $query->whereHas('model', function ($query) use ($search) {
-                            $query->where('name->' . locale(), 'like', "%{$search}%");
-                            foreach (locales() as $key => $value) {
-                                if ($key != locale())
-                                    $query->orWhere('name->' . $key, 'like', "%{$search}%");
-                            }
-                        });
+            $query->where('year', $search)
+                ->orWhere(function ($query) use ($search) {
+                    $query->whereHas('brand', function ($query) use ($search) {
+                        $query->where('name->' . locale(), 'like', "%{$search}%");
+                        foreach (locales() as $key => $value) {
+                            if ($key != locale())
+                                $query->orWhere('name->' . $key, 'like', "%{$search}%");
+                        }
                     });
+                })
+                ->orWhere(function ($query) use ($search) {
+                    $query->whereHas('model', function ($query) use ($search) {
+                        $query->where('name->' . locale(), 'like', "%{$search}%");
+                        foreach (locales() as $key => $value) {
+                            if ($key != locale())
+                                $query->orWhere('name->' . $key, 'like', "%{$search}%");
+                        }
+                    });
+                });
 
         });
-
 
 
         $ads = $query->select(['uuid', 'brand_uuid', 'model_uuid', 'year'])->paginate(6);
@@ -97,10 +102,12 @@ class HomeController extends Controller
 
         return mainResponse(true, __('ok'), $cars, [], 200);
     }
-    public function deals(){
-        $type=Type::all();
-        $data=TypeResource::collection($type);
-   return mainResponse(true, __('ok'), $data, [], 200);
+
+    public function deals()
+    {
+        $type = Type::all();
+        $data = TypeResource::collection($type);
+        return mainResponse(true, __('ok'), $data, [], 200);
     }
 
 }

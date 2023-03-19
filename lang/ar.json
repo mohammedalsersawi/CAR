@@ -55,6 +55,7 @@
     "select_delivery_address": "اختر عنوان التوصيل",
     "delivery_addresses": "عناوين التوصيل",
     "delivery_time": "وقت التوصيل",
+    "time": "الوقت",
     "payment_method": "طريقة الدفع",
     "payment_methods": "طرق الدفع",
     "available_payment_methods": "طرق الدفع المتاحة",
@@ -172,6 +173,8 @@
     "accept_confirmation": "تأكيد القبول",
     "rejected_confirmation": "تأكيد الرفض",
     "confirm_delete": "هل انت متاكد من حذف هذا العنصر",
+    "confirm_deletes": "هل انت متاكد من حذف هؤلاء العناصر",
+    "Select the items you want to delete": "حدد العناصر التي تريد حذفها",
     "confirm_accept": "هل انت متاكد من قبول هذا المستخدم",
     "confirm_rejected": "هل انت متاكد من رفض هذا المستخدم",
     "deleted": "تم حذف العنصر",
@@ -460,5 +463,6 @@
     "Sold" : "تم البيع",
     "Nat_Sold" : "لم تباع",
     "failed": "فشل",
-    "Order Appointment": "طلبات المواعيد"
+    "Order Appointment": "طلبات المواعيد",
+    "Are you sure to delete the items you checked?": "هل انت متاكد من حذف العناصر التي حدها؟"
 }
