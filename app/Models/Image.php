@@ -20,9 +20,9 @@ class Image extends Model
     public function getTypeAttachmentAttribute()
     {
         if ($this->type==2){
-            return (app()->currentLocale() == 'ar') ? 'فيديو' : 'video';
+            return  'video';
         }else{
-            return (app()->currentLocale() == 'ar') ? 'صورة' : 'image';
+            return  'image';
 
         }
     }
