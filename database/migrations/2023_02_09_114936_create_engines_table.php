@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('engines', function (Blueprint $table) {
             $table->uuid()->primary();
             $table->text('name');
+            $table->string('status',1)->default(1);
             $table->timestamps();
         });
     }

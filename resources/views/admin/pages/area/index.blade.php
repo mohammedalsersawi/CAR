@@ -3,6 +3,11 @@
     @lang('area')
 @endsection
 @section('styles')
+<style>
+    input[type="checkbox"] {
+        transform: scale(1.5);
+    }
+</style>
 @endsection
 @section('content')
     <div class="content-wrapper">
@@ -62,6 +67,7 @@
                                             <th>#</th>
                                             <th>@lang('area')</th>
                                             <th>@lang('cities')</th>
+                                            <th>@lang('stats')</th>
                                             <th style="width: 225px;">@lang('actions')</th>
                                         </tr>
                                     </thead>
@@ -231,7 +237,10 @@
                     data: 'name_city',
                     name: 'cities'
                 },
-
+                {
+                    data: 'status',
+                    name: 'status'
+                },
                 {
                     data: 'action',
                     name: 'action',

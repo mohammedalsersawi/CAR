@@ -17,6 +17,7 @@ return new class extends Migration
             $table->uuid()->primary();
             $table->string('name');
             $table->char('country_uuid', 36);
+            $table->string('status',1)->default(1);
             $table->foreign('country_uuid')->references('uuid')->on('countries')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });

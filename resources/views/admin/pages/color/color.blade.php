@@ -3,6 +3,11 @@
     @lang('Color Cars')
 @endsection
 @section('styles')
+    <style>
+        input[type="checkbox"] {
+            transform: scale(1.5);
+        }
+    </style>
 @endsection
 @section('content')
     <div class="content-wrapper">
@@ -58,7 +63,7 @@
                                             <th>#</th>
                                             <th>@lang('name')</th>
                                             <th>@lang('colors')</th>
-
+                                            <th>@lang('status')</th>
                                             <th style="width: 225px;">@lang('actions')</th>
                                         </tr>
                                     </thead>
@@ -175,8 +180,7 @@
             processing: true,
             serverSide: true,
             ajax: "{{ route('color.getData') }}",
-            columns: [
-                {
+            columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex',
                     orderable: false,
@@ -191,8 +195,10 @@
                     "render": function(data, type, full, meta) {
                         return "<div style='background-color:" + data + ";width: 50px;height: 50px'></div>";
                     },
-
-
+                },
+                {
+                    data: 'status',
+                    name: 'status'
                 },
                 {
                     data: 'action',

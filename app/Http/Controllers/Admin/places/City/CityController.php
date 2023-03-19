@@ -92,8 +92,24 @@ class CityController extends Controller
                 $string .= ' <button type="button"  class="btn btn-sm btn-outline-danger btn_delete" data-uuid="' . $que->uuid .
                     '">' . __('delete') . '  </button>';
                 return $string;
+            }) ->addColumn('status', function ($que) {
+                $currentUrl = url('/');
+                return '<div class="checkbox">
+                <input class="activate-row"  url="' . $currentUrl . "/city/activate/" . $que->uuid . '" type="checkbox" id="checkbox' . $que->id . '" ' .
+                    ($que->status ? 'checked' : '')
+                    . '>
+                <label for="checkbox' . $que->uuid . '"><span class="checkbox-icon"></span> </label>
+            </div>';
             })
-            ->rawColumns(['action'])
-            ->make(true);
+            ->rawColumns(['action', 'status'])->toJson();
+    }
+
+    public function activate($uuid)
+    {
+        $activate =  City::findOrFail($uuid);
+        $activate->status = !$activate->status;
+        if (isset($activate) && $activate->save()) {
+            return $this->sendResponse(null, __('item_edited'));
+        }
     }
 }

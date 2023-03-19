@@ -17,6 +17,7 @@ return new class extends Migration
             $table->uuid()->primary();
             $table->text('name');
             $table->timestamps();
+            $table->string('status',1)->default(1);
         });
     }
 

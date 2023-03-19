@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('filename');
             $table->string('imageable_id');
             $table->string('imageable_type');
-            $table->enum('type',[1,2]);
+            $table->enum('type',[1,2])->nullable();
             $table->timestamps();
         });
     }
