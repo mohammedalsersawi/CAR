@@ -3,6 +3,11 @@
     @lang('Fuel Type Cars')
 @endsection
 @section('styles')
+<style>
+    input[type="checkbox"] {
+        transform: scale(1.5);
+    }
+</style>
 @endsection
 @section('content')
     <div class="content-wrapper">
@@ -61,6 +66,7 @@
                                             <th><input name="select_all" id="example-select-all" type="checkbox" onclick="CheckAll('box1', this)" /></th>
 
                                             <th>@lang('name')</th>
+                                            <th>@lang('status')</th>
                                             <th style="width: 225px;">@lang('actions')</th>
                                         </tr>
                                     </thead>
@@ -212,8 +218,10 @@
                     data: 'name_text',
                     name: 'name'
                 },
-
-
+                {
+                    data: 'status',
+                    name: 'status'
+                },
                 {
                     data: 'action',
                     name: 'action',

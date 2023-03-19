@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Car\Color;
 use App\Http\Controllers\Admin\ResponseTrait;
 use App\Http\Controllers\Controller;
 use App\Models\ColorCar;
+use Faker\Core\Color;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -74,7 +75,6 @@ class ColorController extends Controller
                         if ($key != locale())
                             $query->orWhere('name->' . $key, 'like', "%{$request->search['value']}%");
                     }
-
                 }
             })
             ->addColumn('checkbox',function ($que){
@@ -95,7 +95,24 @@ class ColorController extends Controller
                     '">' . __('delete') . '</button>';
                 return $string;
             })
-            ->rawColumns(['action'])
-            ->make(true);
+            ->addColumn('status', function ($que) {
+                $currentUrl = url('/');
+                return '<div class="checkbox">
+                <input class="activate-row"  url="' . $currentUrl . "/color/activate/" . $que->uuid . '" type="checkbox" id="checkbox' . $que->id . '" ' .
+                    ($que->status ? 'checked' : '')
+                    . '>
+                <label for="checkbox' . $que->uuid . '"><span class="checkbox-icon"></span> </label>
+            </div>';
+            })
+            ->rawColumns(['action', 'status'])->toJson();
+    }
+
+    public function activate($uuid)
+    {
+        $activate =  ColorCar::findOrFail($uuid);
+        $activate->status = !$activate->status;
+        if (isset($activate) && $activate->save()) {
+            return $this->sendResponse(null, __('item_edited'));
+        }
     }
 }

@@ -96,9 +96,24 @@ class AreaControllerr extends Controller
                 $string .= ' <button type="button"  class="btn btn-sm btn-outline-danger btn_delete" data-uuid="' . $que->id .
                     '">' . __('delete') . '  </button>';
                 return $string;
+            }) ->addColumn('status', function ($que) {
+                $currentUrl = url('/');
+                return '<div class="checkbox">
+                <input class="activate-row"  url="' . $currentUrl . "/area/activate/" . $que->uuid . '" type="checkbox" id="checkbox' . $que->id . '" ' .
+                    ($que->status ? 'checked' : '')
+                    . '>
+                <label for="checkbox' . $que->uuid . '"><span class="checkbox-icon"></span> </label>
+            </div>';
             })
+            ->rawColumns(['action', 'status'])->toJson();
+    }
 
-            ->rawColumns(['action'])
-            ->make(true);
+    public function activate($uuid)
+    {
+        $activate =  Area::findOrFail($uuid);
+        $activate->status = !$activate->status;
+        if (isset($activate) && $activate->save()) {
+            return $this->sendResponse(null, __('item_edited'));
+        }
     }
 }

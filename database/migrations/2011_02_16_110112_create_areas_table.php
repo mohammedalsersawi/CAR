@@ -17,6 +17,7 @@ return new class extends Migration
             $table->uuid()->primary();
             $table->string('name');
             $table->char('city_uuid', 36);
+            $table->string('status',1)->default(1);
             $table->foreign('city_uuid')->references('uuid')->on('cities')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });

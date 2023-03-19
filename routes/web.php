@@ -44,6 +44,7 @@ Route::group(
             Route::post('/update', 'update')->name('update');
             Route::delete('/{id}', 'destroy')->name('delete');
             Route::get('/getData', 'getData')->name('getData');
+            Route::put('/activate/{uuid}', 'activate')->name('activate');
         });
         Route::controller(EngineController::class)->prefix('engines')->name('engines.')->group(function () {
             Route::get('/', 'index')->name('index');
@@ -51,6 +52,7 @@ Route::group(
             Route::post('/update', 'update')->name('update');
             Route::delete('/{uuid}', 'destroy')->name('delete');
             Route::get('/getData', 'getData')->name('getData');
+            Route::put('/activate/{uuid}', 'activate')->name('activate');
         });
         Route::controller(FuelTypeController::class)->prefix('fuel/type')->name('fuelType.')->group(function () {
             Route::get('/', 'index')->name('index');
@@ -58,6 +60,7 @@ Route::group(
             Route::post('//update', 'update')->name('update');
             Route::delete('/{uuid}', 'destroy')->name('delete');
             Route::GET('/getData', 'getData')->name('getData');
+            Route::put('/activate/{uuid}', 'activate')->name('activate');
         });
         Route::controller(BrandController::class)->prefix('brand')->name('brand.')->group(function () {
             Route::get('/', 'index')->name('index');
@@ -65,6 +68,7 @@ Route::group(
             Route::post('/update', 'update')->name('update');
             Route::delete('/{uuid}', 'destroy')->name('delete');
             Route::get('/getData', 'getData')->name('getData');
+            Route::put('/activate/{uuid}', 'activate')->name('activate');
         });
         Route::controller(ColorController::class)->prefix('color')->name('color.')->group(function () {
             Route::get('/', 'index')->name('index');
@@ -72,6 +76,7 @@ Route::group(
             Route::post('/update', 'update')->name('update');
             Route::delete('/{uuid}', 'destroy')->name('delete');
             Route::get('/getData', 'getData')->name('getData');
+            Route::put('/activate/{uuid}', 'activate')->name('activate');
         });
         Route::controller(TransmissionController::class)->prefix('transmission')->name('transmission.')->group(function () {
             Route::get('/', 'index')->name('index');
@@ -79,6 +84,7 @@ Route::group(
             Route::post('/update', 'update')->name('update');
             Route::delete('/{uuid}', 'destroy')->name('delete');
             Route::get('/getData', 'getData')->name('getData');
+            Route::put('/activate/{uuid}', 'activate')->name('activate');
         });
         Route::controller(CityController::class)->prefix('city')->name('city.')->group(function () {
             Route::get('/', 'index')->name('index');
@@ -86,6 +92,7 @@ Route::group(
             Route::post('/update', 'update')->name('update');
             Route::delete('/{uuid}', 'destroy')->name('delete');
             Route::get('/getData', 'getData')->name('getData');
+            Route::put('/activate/{uuid}', 'activate')->name('activate');
         });
         Route::controller(CountryController::class)->prefix('country')->name('country.')->group(function () {
             Route::get('/', 'index')->name('index');
@@ -93,6 +100,7 @@ Route::group(
             Route::post('/update', 'update')->name('update');
             Route::delete('/{uuid}', 'destroy')->name('delete');
             Route::get('/getData', 'getData')->name('getData');
+            Route::put('/activate/{uuid}', 'activate')->name('activate');
         });
         Route::controller(AreaControllerr::class)->prefix('area')->name('area.')->group(function () {
             Route::get('/', 'index')->name('index');
@@ -100,6 +108,7 @@ Route::group(
             Route::post('/update', 'update')->name('update');
             Route::delete('/{uuid}', 'destroy')->name('delete');
             Route::get('/getData', 'getData')->name('getData');
+            Route::put('/activate/{uuid}', 'activate')->name('activate');
         });
         Route::controller(DealsController::class)->prefix('deals')->name('deals.')->group(function () {
             Route::get('/', 'index')->name('index');

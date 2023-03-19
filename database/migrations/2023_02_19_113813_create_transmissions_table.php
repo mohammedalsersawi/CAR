@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('transmissions', function (Blueprint $table) {
             $table->uuid()->primary();
             $table->string('name');
+            $table->string('status',1)->default(1);
             $table->timestamps();
         });
     }

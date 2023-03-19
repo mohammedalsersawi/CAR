@@ -62,7 +62,6 @@ class BrandController extends Controller
             UploadImage($request->image, null, 'App\Models\Brand', $brands->uuid, true,null,Image::IMAGE);
         }
         return $this->sendResponse(null, __('item_edited'));
-
     }
 
     public function destroy($uuid)
@@ -92,7 +91,7 @@ class BrandController extends Controller
             ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-uuid="' . @$que->uuid . '" ';
-                $data_attr .= 'data-name="' .@ $que->name . '" ';
+                $data_attr .= 'data-name="' . @$que->name . '" ';
                 $data_attr .= 'data-image="' . @$que->image . '" ';
                 foreach (locales() as $key => $value) {
                     $data_attr .= 'data-name_' . $key . '="' . $que->getTranslation('name', $key) . '" ';
@@ -109,8 +108,23 @@ class BrandController extends Controller
                 $imageData = @$row->imageBrand->filename;
                 return @$imageData;
             })
-            ->rawColumns(['image'])
-            ->rawColumns(['action'])
-            ->make(true);
+            ->addColumn('status', function ($que) {
+                $currentUrl = url('/');
+                return '<div class="checkbox">
+                <input class="activate-row"  url="' . $currentUrl . "/brand/activate/" . $que->uuid . '" type="checkbox" id="checkbox' . $que->id . '" ' .
+                    ($que->status ? 'checked' : '')
+                    . '>
+                <label for="checkbox' . $que->uuid . '"><span class="checkbox-icon"></span> </label>
+            </div>';
+            })
+            ->rawColumns(['action', 'status', 'image'])->toJson();
+    }
+    public function activate($uuid)
+    {
+        $activate =  Brand::findOrFail($uuid);
+        $activate->status = !$activate->status;
+        if (isset($activate) && $activate->save()) {
+            return $this->sendResponse(null, __('item_edited'));
+        }
     }
 }

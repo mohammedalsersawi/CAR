@@ -17,8 +17,8 @@ class ModelController extends Controller
 
     public function index()
     {
-        $brand=Brand::select(['uuid','name'])->get();
-        return view('admin.pages.model.mode-car',compact('brand'));
+        $brand = Brand::select(['uuid', 'name'])->get();
+        return view('admin.pages.model.index', compact('brand'));
     }
 
     public function store(Request $request)
@@ -27,17 +27,16 @@ class ModelController extends Controller
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
         }
-        $rules['brand_uuid']='required|exists:brands,uuid';
+        $rules['brand_uuid'] = 'required|exists:brands,uuid';
         $this->validate($request, $rules);
         $data = [];
         foreach (locales() as $key => $language) {
             $data['name'][$key] = $request->get('name_' . $key);
         }
-        $data['brand_uuid']=$request->brand_uuid;
+        $data['brand_uuid'] = $request->brand_uuid;
 
         ModelCar::create($data);
         return $this->sendResponse(null, __('item_added'));
-
     }
 
 
@@ -47,18 +46,17 @@ class ModelController extends Controller
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
         }
-        $rules['brand_uuid']='required|exists:brands,uuid';
+        $rules['brand_uuid'] = 'required|exists:brands,uuid';
         $this->validate($request, $rules);
         $data = [];
         foreach (locales() as $key => $language) {
             $data['name'][$key] = $request->get('name_' . $key);
         }
-        $data['brand_uuid']=$request->brand_uuid;
+        $data['brand_uuid'] = $request->brand_uuid;
 
         $modelCar =   ModelCar::findOrFail($request->uuid);
         $modelCar->update($data);
         return $this->sendResponse(null, __('item_edited'));
-
     }
 
     public function destroy($uuid)
@@ -81,7 +79,6 @@ class ModelController extends Controller
                         if ($key != locale())
                             $query->orWhere('name->' . $key, 'like', "%{$request->search['value']}%");
                     }
-
                 }
             })
             ->addColumn('checkbox',function ($que){
@@ -102,11 +99,27 @@ class ModelController extends Controller
                     '">' . __('delete') . '</button>';
                 return $string;
             })
-            ->addColumn('brand',function ($row){
+            ->addColumn('status', function ($que) {
+                $currentUrl = url('/');
+                return '<div class="checkbox">
+                <input class="activate-row"  url="' . $currentUrl . "/model/activate/" . $que->uuid . '" type="checkbox" id="checkbox' . $que->id . '" ' .
+                    ($que->status ? 'checked' : '')
+                    . '>
+                <label for="checkbox' . $que->uuid . '"><span class="checkbox-icon"></span> </label>
+            </div>';
+            })
+            ->addColumn('brand', function ($row) {
                 return @$row->brand->name;
             })
-            ->rawColumns(['brand'])
-            ->rawColumns(['action'])
-            ->make(true);
+            ->rawColumns(['action', 'status', 'brand'])->toJson();
+    }
+
+    public function activate($uuid)
+    {
+        $activate =  ModelCar::findOrFail($uuid);
+        $activate->status = !$activate->status;
+        if (isset($activate) && $activate->save()) {
+            return $this->sendResponse(null, __('item_edited'));
+        }
     }
 }
