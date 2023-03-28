@@ -6,6 +6,7 @@ use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
+use App\Models\Admin;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -65,6 +66,14 @@ class FortifyServiceProvider extends ServiceProvider
         });
         Fortify::loginView(function () {
             return view('admin.auth.login');
+        });
+        Fortify::authenticateUsing(function ($req){
+            $admin=Admin::where('email',$req->email)->first();
+            if ($admin){
+             return   ($admin->status==1)?$admin: abort(403);
+            }else{
+                return false;
+            }
         });
 
 //        Fortify::loginView('admin.auth.register');

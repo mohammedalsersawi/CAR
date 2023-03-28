@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\places\area\AreaControllerr;
 use App\Http\Controllers\Admin\places\City\CityController;
 use App\Http\Controllers\Admin\places\country\CountryController;
 use App\Http\Controllers\Admin\Plates\PlatesController;
+use App\Http\Controllers\Admin\Role\RolesController;
 use App\Http\Controllers\Admin\Setting\SettingController;
 use App\Http\Controllers\Admin\UserTyue\TypeController;
 use App\Http\Controllers\Admin\UserTyue\UserTypeController;
@@ -177,7 +178,16 @@ Route::group(
             Route::delete('/{uuid}', 'destroy')->name('delete');
             Route::get('/getData', 'getData')->name('getData');
         });
-
+        Route::controller(\App\Http\Controllers\Admin\Admins\AdminController::class)->name('admin.')->prefix('admins')->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::post('/store', 'store')->name('store');
+                Route::post('/update', 'update')->name('update');
+                Route::delete('/{uuid}', 'destroy')->name('delete');
+                Route::get('/getData', 'getData')->name('getData');
+                Route::put('/activate/{uuid}', 'activate')->name('activate');
+                Route::get('/edit/{uuid}', 'edit')->name('edit');
+        });
+            Route::resource('role',RolesController::class);
         });
     }
 );

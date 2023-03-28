@@ -38,14 +38,16 @@
                                 <div class="head-label">
                                     <h4 class="card-title">@lang('Engine Cars')</h4>
                                 </div>
-                                <div class="text-right">
-                                    <div class="form-group">
-                                        <button class="btn btn-outline-primary button_modal" type="button"
-                                            data-toggle="modal" data-target="#full-modal-stem"><span><i
-                                                    class="fa fa-plus"></i>@lang('add')</span>
-                                        </button>
+                                @can('engine.create')
+                                    <div class="text-right">
+                                        <div class="form-group">
+                                            <button class="btn btn-outline-primary button_modal" type="button" data-toggle="modal" id=""
+                                                    data-target="#full-modal-stem"><span><i
+                                                        class="fa fa-plus"></i>@lang('add')</span>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
+                                @endcan
                             </div>
                             <div class="card-body">
                                 <form id="search_form">
@@ -66,9 +68,13 @@
                                     <thead>
                                     <tr>
                                         <th><input name="select_all" id="example-select-all" type="checkbox" onclick="CheckAll('box1', this)" /></th>
-
                                         <th>@lang('name')</th>
-                                        <th style="width: 225px;">@lang('actions')</th>
+                                        @can('engine.update')
+                                            <th>@lang('status')</th>
+                                        @endcan
+                                        @can('engine.delete'||'engine.update')
+                                            <th style="width: 225px;">@lang('actions')</th>
+                                        @endcan
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -199,30 +205,34 @@
                     d.name = $('#s_name').val();
                 }
             },
-            columns: [      {
-                "render": function (data, type, full, meta) {
-                    return `<td><input type="checkbox" value="${data}" class="box1" ></td>
-`;
-                },
+            columns: [
+                {
+                // "render": function (data, type, full, meta) {
+                //     return `<td><input type="checkbox" onclick="checkClickFunc()"  value="${data}" class="box1" ></td>`;
+                // },
                 name: 'checkbox',
                 data: 'checkbox',
                 orderable: false,
                 searchable: false
-            },
+               },
                 {
                     data: 'name_text',
                     name: 'name'
                 },
+                    @can('engine.update')
                 {
                     data: 'status',
                     name: 'status'
                 },
+                    @endcan
+                    @can('engine.delete'||'engine.update')
                 {
                     data: 'action',
                     name: 'action',
                     orderable: false,
-                    searchable: false
+                    searchable: true
                 },
+                @endcan
             ]
 
         });

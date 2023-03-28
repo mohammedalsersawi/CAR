@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Car\Brand;
 
 use App\Models\Image;
+use Illuminate\Support\Facades\Gate;
 use Throwable;
 use App\Models\Brand;
 
@@ -18,12 +19,14 @@ class BrandController extends Controller
 
     public function index(Request $request)
     {
+        Gate::authorize('brand.view');
         return view('admin.pages.brand.index');
     }
 
 
     public function store(Request $request)
     {
+        Gate::authorize('brand.create');
         $rules = [];
         $rules['image'] = 'required|image';
         foreach (locales() as $key => $language) {
@@ -45,6 +48,8 @@ class BrandController extends Controller
 
     public function update(Request $request)
     {
+        Gate::authorize('brand.update');
+        Gate::authorize('admin.update');
         $rules = [];
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
@@ -66,8 +71,9 @@ class BrandController extends Controller
 
     public function destroy($uuid)
     {
+        Gate::authorize('brand.delete');
         $uuid_brand=explode(',', $uuid);
-        Brand::whereIn('uuid', $uuid_brand)->delete();
+        Brand::whereIn('uuid', $uuid)->delete();
         return $this->sendResponse(null, null);
     }
 

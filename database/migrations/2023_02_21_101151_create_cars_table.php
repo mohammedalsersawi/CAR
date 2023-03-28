@@ -27,8 +27,8 @@ return new class extends Migration
             $table->foreignUuid('appointment_uuid')->nullable()->references('uuid')->on('order_appointments')->nullOnDelete();
             $table->foreignUuid('year');
             $table->string('phone');
-            $table->double('lat');
-            $table->double('lng');
+            $table->double('lat')->nullable();
+            $table->double('lng')->nullable();
             $table->timestamps();
         });
     }

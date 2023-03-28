@@ -8,6 +8,7 @@ use App\Models\Plates;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Admin\ResponseTrait;
+use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\Facades\DataTables;
 
 class PlatesController extends Controller
@@ -17,6 +18,7 @@ class PlatesController extends Controller
 
     public function index()
     {
+        Gate::authorize('Plate.view');
         $users = User::select(['name', 'uuid', 'phone'])->get();
         $cities = City::select(['name', 'uuid'])->get();
         return view('admin.pages.Plates.index', compact('cities', 'users'));
@@ -25,6 +27,7 @@ class PlatesController extends Controller
 
     public function store(Request $request)
     {
+        Gate::authorize('Plate.create');
         $rules = [];
         $rules['numberone'] = 'required|numeric|digits:4';
         $rules['numbertow'] = 'required|numeric|digits:4';
@@ -49,6 +52,7 @@ class PlatesController extends Controller
     }
     public function update(Request $request)
     {
+        Gate::authorize('Plate.update');
         $rules = [];
         $rules['numberone'] = 'required|numeric|digits:4';
         $rules['numbertow'] = 'required|numeric|digits:4';
@@ -135,6 +139,8 @@ class PlatesController extends Controller
 
     public function destroy($uuid)
     {
+        Gate::authorize('Plate.delete');
+
         $uuids=explode(',', $uuid);
         Plates::whereIn('uuid', $uuids)->delete();
         return $this->sendResponse(null, null);

@@ -48,7 +48,10 @@
                                 <form id="search_form">
                                     <div class="row">
                                         <div class="col-3" style="margin-top: 20px">
-
+                                            <button id="btn_delete_all"
+                                                    class="btn_delete_all btn btn-outline-danger " type="button">
+                                                <span><i class="fa fa-lg fa-trash-alt" aria-hidden="true"></i> @lang('delete')</span>
+                                            </button>
                                         </div>
                                     </div>
                                 </form>
@@ -57,7 +60,7 @@
                                 <table class="table" id="datatable">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
+                                            <th><input name="select_all" id="example-select-all" type="checkbox" onclick="CheckAll('box1', this)" /></th>
                                             <th>@lang('name')</th>
                                             <th style="width: 225px;">@lang('actions')</th>
                                         </tr>
@@ -195,8 +198,12 @@
             },
             columns: [
                 {
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex',
+                    "render": function (data, type, full, meta) {
+                        return `<td><input type="checkbox" value="${data}" class="box1" ></td>
+`;
+                    },
+                    name: 'checkbox',
+                    data: 'checkbox',
                     orderable: false,
                     searchable: false
                 },

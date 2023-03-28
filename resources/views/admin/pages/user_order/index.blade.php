@@ -110,8 +110,12 @@
                                             <th>@lang('phone')</th>
                                             <th>@lang('city')</th>
                                             <th>@lang('area')</th>
+                                            @can('order.acceptedOrRejected')
                                             <th>@lang('status')</th>
+                                            @endcan
+                                            @can('order.delete')
                                             <th style="width: 225px;">@lang('actions')</th>
+                                            @endcan
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -256,19 +260,22 @@
                     orderable: false,
                     searchable: false
                 },
+                    @can('order.acceptedOrRejected')
                 {
                     data: 'action',
                     name: 'action',
                     orderable: false,
                     searchable: false
                 },
-
+                    @endcan
+                    @can('order.delete')
                 {
                     data: 'delete',
                     name: 'delete',
                     orderable: false,
                     searchable: false
                 },
+                @endcan
             ]
 
         });

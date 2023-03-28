@@ -10,6 +10,7 @@ use App\Models\Type;
 use App\Models\User;
 use App\Utils\ImageUpload;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\Facades\DataTables;
 
 class DealsController extends Controller
@@ -17,12 +18,15 @@ class DealsController extends Controller
     use ResponseTrait;
     public function index()
     {
+        Gate::authorize('deal.view');
         $user=User::select(['phone','uuid','name'])->where('user_type_id',User::DISCOUNT_STORE)->get();
         $type=Type::select(['uuid','name'])->get();
         return view('admin.pages.deal.index',compact('user','type'));
     }
     public function store(Request $request)
     {
+        Gate::authorize('deal.create');
+
         $rules = [];
         $rules['image'] = 'required|image';
         $rules['deals'] = 'required|string|max:255';
@@ -37,6 +41,8 @@ class DealsController extends Controller
     }
     public function update(Request $request)
     {
+        Gate::authorize('deal.update');
+
         $rules = [];
         $rules['deals'] = 'required|string|max:255';
 
@@ -58,6 +64,8 @@ class DealsController extends Controller
     }
     public function destroy($uuid)
     {
+        Gate::authorize('deal.delete');
+
         $uuids=explode(',', $uuid);
         Deals::whereIn('uuid', $uuids)->delete();
         return $this->sendResponse(null, null);

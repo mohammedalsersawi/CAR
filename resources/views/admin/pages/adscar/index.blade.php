@@ -47,6 +47,7 @@
                                 <div class="head-label">
                                     <h4 class="card-title">@lang('Car ads')</h4>
                                 </div>
+                                @can('ads.create')
                                 <div class="text-right">
                                     <div class="form-gruop">
                                         <button class="btn btn-outline-primary button_modal" type="button"
@@ -56,6 +57,7 @@
 
                                     </div>
                                 </div>
+                                @endcan
                             </div>
 
 
@@ -271,8 +273,9 @@
                                         <th>@lang('color_exterior')</th>
                                         <th>@lang('color_interior')</th>
                                         <th>@lang('Transmission')</th>
-
+                                        @can('ads.delete'||'ads.update')
                                         <th style="width: 225px;">@lang('actions')</th>
+                                        @endcan
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -831,7 +834,7 @@
             columns: [
                 {
                     "render": function (data, type, full, meta) {
-                        return `<td><input type="checkbox" value="${data}" class="box1" ></td>
+                        return `<td><input type="checkbox" onclick="checkClickFunc()" value="${data}" class="box1" ></td>
 `;
                     },
                     name: 'checkbox',
@@ -905,12 +908,14 @@
                     data: 'transmission_name',
                     name: 'transmission'
                 },
+                    @can('ads.delete'||'ads.update')
                 {
                     data: 'action',
                     name: 'action',
                     orderable: false,
                     searchable: true
                 },
+                @endcan
             ]
 
         });

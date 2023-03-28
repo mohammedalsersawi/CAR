@@ -38,14 +38,16 @@
                                 <div class="head-label">
                                     <h4 class="card-title">@lang('Model Cars')</h4>
                                 </div>
-                                <div class="text-right">
-                                    <div class="form-group">
-                                        <button class="btn btn-outline-primary button_modal" type="button"
-                                            data-toggle="modal" data-target="#full-modal-stem"><span><i
-                                                    class="fa fa-plus"></i>@lang('add')</span>
-                                        </button>
+                                @can('model.create')
+                                    <div class="text-right">
+                                        <div class="form-group">
+                                            <button class="btn btn-outline-primary button_modal" type="button" data-toggle="modal" id=""
+                                                    data-target="#full-modal-stem"><span><i
+                                                        class="fa fa-plus"></i>@lang('add')</span>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
+                                @endcan
                             </div>
                             <div class="card-body">
                                 <form id="search_form">
@@ -69,8 +71,12 @@
 
                                             <th>@lang('name')</th>
                                             <th>@lang('Brand')</th>
-                                            <th>@lang('status')</th>
-                                            <th style="width: 225px;">@lang('actions')</th>
+                                            @can('model.update')
+                                                <th>@lang('status')</th>
+                                            @endcan
+                                            @can('model.delete'||'model.update')
+                                                <th style="width: 225px;">@lang('actions')</th>
+                                            @endcan
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -230,7 +236,7 @@
             },
             columns: [      {
                 "render": function (data, type, full, meta) {
-                    return `<td><input type="checkbox" value="${data}" class="box1" ></td>
+                    return `<td><input type="checkbox" onclick="checkClickFunc()" value="${data}" class="box1" ></td>
 `;
                 },
                 name: 'checkbox',
@@ -247,16 +253,20 @@
                     data: 'brand',
                     name: 'brand'
                 },
+                    @can('model.update')
                 {
                     data: 'status',
                     name: 'status'
                 },
+                    @endcan
+                    @can('model.delete'||'model.update')
                 {
                     data: 'action',
                     name: 'action',
                     orderable: false,
-                    searchable: false
+                    searchable: true
                 },
+                @endcan
             ]
 
         });

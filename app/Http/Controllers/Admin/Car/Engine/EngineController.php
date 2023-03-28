@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Admin\ResponseTrait;
 use App\Models\Engine;
+use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\Facades\DataTables;
 
 class EngineController extends Controller
@@ -14,12 +15,13 @@ class EngineController extends Controller
 
     public function index(Request $request)
     {
-
+        Gate::authorize('engine.view');
         return view('admin.pages.engine.index');
     }
 
     public function store(Request $request)
     {
+        Gate::authorize('engine.create');
         $rules = [];
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
@@ -37,6 +39,7 @@ class EngineController extends Controller
 
     public function update(Request $request)
     {
+        Gate::authorize('engine.update');
         $rules = [];
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
@@ -53,6 +56,7 @@ class EngineController extends Controller
 
     public function destroy($uuid)
     {
+        Gate::authorize('engine.delete');
         $uuids=explode(',', $uuid);
         Engine::whereIn('uuid', $uuids)->delete();
         return $this->sendResponse(null, null);
@@ -71,7 +75,9 @@ class EngineController extends Controller
                     }
                 }
             })
-            ->addIndexColumn()
+            ->addColumn('checkbox',function ($que){
+                return $que->uuid;
+            })
             ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-uuid="' . $que->uuid . '" ';
@@ -99,6 +105,7 @@ class EngineController extends Controller
 
     public function activate($uuid)
     {
+        Gate::authorize('engine.update');
         $activate =  Engine::findOrFail($uuid);
         $activate->status = !$activate->status;
         if (isset($activate) && $activate->save()) {

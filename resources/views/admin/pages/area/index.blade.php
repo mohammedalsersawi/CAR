@@ -38,14 +38,16 @@
                                 <div class="head-label">
                                     <h4 class="card-title">@lang('area')</h4>
                                 </div>
-                                <div class="text-right">
-                                    <div class="form-gruop">
-                                        <button class="btn btn-outline-primary button_modal" type="button"
-                                            data-toggle="modal" id="" data-target="#full-modal-stem"><span><i
-                                                    class="fa fa-plus"></i>@lang('add')</span>
-                                        </button>
+                                @can('place.create')
+                                    <div class="text-right">
+                                        <div class="form-gruop">
+                                            <button class="btn btn-outline-primary button_modal" type="button"
+                                                    data-toggle="modal" id="" data-target="#full-modal-stem"><span><i
+                                                        class="fa fa-plus"></i>@lang('add')</span>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
+                                @endcan
                             </div>
                             <div class="card-body">
                                 <form id="search_form">
@@ -71,8 +73,12 @@
                                             <th><input name="select_all" id="example-select-all" type="checkbox" onclick="CheckAll('box1', this)" /></th>
                                             <th>@lang('area')</th>
                                             <th>@lang('cities')</th>
-                                            <th>@lang('stats')</th>
+                                            @can('place.update')
+                                            <th>@lang('status')</th>
+                                            @endcan
+                                            @can('place.delete'||'place.update')
                                             <th style="width: 225px;">@lang('actions')</th>
+                                            @endcan
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -229,7 +235,7 @@
             },
             columns: [      {
                 "render": function (data, type, full, meta) {
-                    return `<td><input type="checkbox" value="${data}" class="box1" ></td>
+                    return `<td><input type="checkbox" onclick="checkClickFunc()" value="${data}" class="box1" ></td>
 `;
                 },
                 name: 'checkbox',
@@ -245,16 +251,20 @@
                     data: 'name_city',
                     name: 'cities'
                 },
+                    @can('place.update')
                 {
                     data: 'status',
                     name: 'status'
                 },
+                    @endcan
+                    @can('place.delete'||'place.update')
                 {
                     data: 'action',
                     name: 'action',
                     orderable: false,
                     searchable: true
                 },
+                @endcan
             ]
 
         });

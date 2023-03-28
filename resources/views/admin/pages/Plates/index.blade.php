@@ -33,6 +33,7 @@
                                 <div class="head-label">
                                     <h4 class="card-title">@lang('Plates')</h4>
                                 </div>
+                                @can('Plate.create')
                                 <div class="text-right">
                                     <div class="form-group">
                                         <button class="btn btn-outline-primary button_modal" type="button"
@@ -41,6 +42,7 @@
                                         </button>
                                     </div>
                                 </div>
+                                @endcan
                             </div>
                             <div class="card-body">
                                 <form id="search_form">
@@ -138,7 +140,9 @@
                                             <th>@lang('phone')</th>
                                             <th>@lang('price')</th>
                                             <th>@lang('status')</th>
-                                            <th style="width: 225px;">@lang('actions')</th>
+                                            @can('Plate.delete'||'Plate.update')
+                                                <th style="width: 225px;">@lang('actions')</th>
+                                            @endcan
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -455,13 +459,15 @@
                     name: 'status'
                 },
 
-
+                @can('Plate.delete'||'Plate.update')
                 {
                     data: 'action',
                     name: 'action',
                     orderable: false,
                     searchable: false
                 },
+                    @endcan
+
             ]
 
         });

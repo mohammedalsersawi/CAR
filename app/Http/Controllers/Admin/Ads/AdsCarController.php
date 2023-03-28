@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Ads;
 
 use App\Models\Car;
+use App\Models\OrderAppointment;
 use App\Models\Specification;
 use App\Models\User;
 use App\Models\year;
@@ -15,6 +16,7 @@ use App\Models\ModelCar;
 use App\Models\Transmission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
@@ -28,6 +30,7 @@ class AdsCarController extends Controller
 
     public function index()
     {
+        Gate::authorize('ads.view');
         $Brand = Brand::select(['name', 'uuid'])->get();
         $Engine = Engine::select(['name', 'uuid'])->get();
         $ModelCar = ModelCar::select(['name', 'uuid'])->get();
@@ -43,19 +46,20 @@ class AdsCarController extends Controller
 
     public function store(Request $request)
     {
-
+        Gate::authorize('ads.create');
         $rules = [];
-        $rules['lat'] = 'required';
-        $rules['lng'] = 'required';
+        $rules['lat'] = 'nullable';
+        $rules['lng'] = 'nullable';
         $rules['year'] = 'required';
         $rules['phone'] = 'required';
         $rules['price'] = 'required';
 
         $rules['mileage'] = 'required';
         $rules['image'] = 'required';
-        $rules['showroom_uuid'] = 'required|exists:users,uuid';
+        $rules['showroom_uuid'] = 'nullable|exists:users,uuid';
 
         $rules['brand_uuid'] = 'required|exists:brands,uuid';
+        $rules['appointment_uuid'] = 'nullable|exists:order_appointments,uuid';
         $rules['model_uuid'] =
             [
                 'required',
@@ -76,6 +80,7 @@ class AdsCarController extends Controller
             'lng',
             'year',
             'showroom_uuid',
+            'appointment_uuid',
             'phone',
             'price',
             'mileage',
@@ -86,8 +91,16 @@ class AdsCarController extends Controller
             'color_exterior_uuid',
             'color_interior_uuid',
         ));
-        foreach ($request->File('image') as $file) {
-            UploadImage($file, null, 'App\Models\Car', $Car->uuid, false);
+       if ($request->hasFile('image')){
+           foreach ($request->File('image') as $file) {
+               UploadImage($file, null, 'App\Models\Car', $Car->uuid, false,null,Image::IMAGE);
+           }
+       }
+        if ($request->hasFile('video')) {
+
+            foreach ($request->File('video') as $file) {
+                UploadImage($file, null, 'App\Models\Car', $Car->uuid, false, null, Image::VIDEO);
+            }
         }
         $i=0;
         foreach ($request->specification as $item){
@@ -97,15 +110,21 @@ class AdsCarController extends Controller
             ]);
             $i++;
         }
+        if ($request->has('appointment_uuid')){
+            OrderAppointment::find($request->appointment_uuid)->update([
+                'status'=>OrderAppointment::complete
+            ]);
+        }
         return $this->sendResponse(null, __('item_added'));
     }
 
 
     public function update(Request $request)
     {
+        Gate::authorize('ads.update');
         $rules = [];
-        $rules['lat'] = 'required';
-        $rules['lng'] = 'required';
+        $rules['lat'] = 'nullable';
+        $rules['lng'] = 'nullable';
         $rules['year'] = 'required';
         $rules['phone'] = 'required';
         $rules['price'] = 'required';
@@ -145,6 +164,9 @@ class AdsCarController extends Controller
             'color_exterior_uuid',
             'color_interior_uuid',
         ));
+        foreach ($request->File('video') as $file) {
+            UploadImage($file, null, 'App\Models\Car', $Car->uuid, false,null,Image::VIDEO);
+        }
         if ($request->hasFile('image')) {
             foreach ($request->File('image') as $file) {
                 UploadImage($file, null, 'App\Models\Car', $Car->uuid, false,null,Image::IMAGE);
@@ -155,6 +177,7 @@ class AdsCarController extends Controller
 
     public function destroy($uuid)
     {
+        Gate::authorize('ads.delete');
         $uuid_car=explode(',', $uuid);
         Car::whereIn('uuid', $uuid_car)->delete();
 
@@ -229,12 +252,19 @@ class AdsCarController extends Controller
                 $data_attr .= 'data-color_interior_uuid="' . @$que->color_interior_uuid . '" ';
                 $data_attr .= 'data-transmission_uuid="' . @$que->transmission_uuid . '" ';
                 $string = '';
-                $string .= '<button class="edit_btn btn btn-sm btn-outline-primary btn_edit" data-toggle="modal"
+                if (Gate::allows('ads.update')){
+                    $string .= '<button class="edit_btn btn btn-sm btn-outline-primary btn_edit" data-toggle="modal"
                     data-target="#edit_modal" ' . $data_attr . '>' . __('edit') . '</button>';
-                $string .= ' <button type="button" class="btn btn-sm btn-outline-danger btn_delete" data-uuid="' . $que->uuid .
-                    '">' . __('delete') . '</button>';
-                $string .= ' <a href="' . url('ads/car/images') . '/' . $que->uuid . '" class="btn btn-sm btn-outline-danger"
+                }
+                if (Gate::allows('ads.delete')){
+                    $string .= ' <button type="button" class="btn btn-sm btn-outline-danger btn_delete" data-uuid="' . $que->uuid .
+                        '">' . __('delete') . '</button>';
+                }
+                if (Gate::allows('ads.view')){
+                    $string .= ' <a href="' . url('ads/car/images') . '/' . $que->uuid . '" class="btn btn-sm btn-outline-danger"
                 >' . __('details') . '</a>';
+                }
+
 
                 return $string;
             })

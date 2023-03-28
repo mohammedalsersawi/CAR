@@ -39,31 +39,25 @@
                                 <div class="head-label">
                                     <h4 class="card-title">@lang('Transmission')</h4>
                                 </div>
-                                <div class="text-right">
-                                    <div class="form-group">
-                                        <button class="btn btn-outline-primary button_modal" type="button"
-                                            data-toggle="modal" data-target="#full-modal-stem"><span><i
-                                                    class="fa fa-plus"></i>@lang('add')</span>
-                                        </button>
+                                @can('transmission.create')
+                                    <div class="text-right">
+                                        <div class="form-group">
+                                            <button class="btn btn-outline-primary button_modal" type="button"
+                                                    data-toggle="modal" data-target="#full-modal-stem"><span><i
+                                                        class="fa fa-plus"></i>@lang('add')</span>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
+                                @endcan
                             </div>
                             <div class="card-body">
                                 <form id="search_form">
                                     <div class="row">
-
-
                                         <div class="col-3" style="margin-top: 20px">
                                             <div class="form-group">
-<<<<<<< HEAD
                                                 <button id="btn_delete_all"
                                                         class="btn_delete_all btn btn-outline-danger " type="button">
                                                     <span><i class="fa fa-lg fa-trash-alt" aria-hidden="true"></i> @lang('delete')</span>
-=======
-                                                <button class="btn btn-outline-primary button_modal" type="button"
-                                                    data-toggle="modal" data-target="#full-modal-stem"><span><i
-                                                            class="fa fa-plus"></i>@lang('add')</span>
->>>>>>> 061cbdd42f1ae0c008d3111b87480dbea29e701b
                                                 </button>
                                             </div>
                                         </div>
@@ -73,26 +67,23 @@
                             <div class="table-responsive card-datatable" style="padding: 20px">
                                 <table class="table" id="datatable">
                                     <thead>
-<<<<<<< HEAD
                                     <tr>
                                         <th><input name="select_all" id="example-select-all" type="checkbox" onclick="CheckAll('box1', this)" /></th>
                                         <th>@lang('name')</th>
-                                        <th style="width: 225px;">@lang('actions')</th>
-                                    </tr>
-=======
-                                        <tr>
-                                            <th>#</th>
-                                            <th>@lang('name')</th>
+                                        @can('transmission.update')
                                             <th>@lang('status')</th>
+                                        @endcan
+                                        @can('transmission.delete'||'transmission.update')
                                             <th style="width: 225px;">@lang('actions')</th>
-                                        </tr>
->>>>>>> 061cbdd42f1ae0c008d3111b87480dbea29e701b
+                                        @endcan
+                                    </tr>
+
                                     </thead>
                                     <tbody></tbody>
 
                                 </table>
                             </div>
-                        </div>
+
                     </div>
                 </div>
             </section>
@@ -216,10 +207,10 @@
                     d.name = $('#s_name').val();
                 }
             },
-<<<<<<< HEAD
+
             columns: [      {
                 "render": function (data, type, full, meta) {
-                    return `<td><input type="checkbox" value="${data}" class="box1" ></td>
+                    return `<td><input type="checkbox" onclick="checkClickFunc()" value="${data}" class="box1" ></td>
 `;
                 },
                 name: 'checkbox',
@@ -227,30 +218,26 @@
                 orderable: false,
                 searchable: false
             },
-=======
-            columns: [{
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex',
-                    orderable: false,
-                    searchable: false
-                },
->>>>>>> 061cbdd42f1ae0c008d3111b87480dbea29e701b
+
+
                 {
                     data: 'name_text',
                     name: 'name'
                 },
+                    @can('transmission.update')
                 {
                     data: 'status',
                     name: 'status'
                 },
-
-
+                    @endcan
+                    @can('transmission.delete'||'transmission.update')
                 {
                     data: 'action',
                     name: 'action',
                     orderable: false,
-                    searchable: false
+                    searchable: true
                 },
+                @endcan
             ]
 
         });

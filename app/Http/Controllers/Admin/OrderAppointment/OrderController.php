@@ -4,12 +4,20 @@ namespace App\Http\Controllers\Admin\OrderAppointment;
 
 use App\Http\Controllers\Admin\ResponseTrait;
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
 use App\Models\City;
+use App\Models\ColorCar;
 use App\Models\Country;
+use App\Models\Engine;
+use App\Models\FuelType;
+use App\Models\ModelCar;
 use App\Models\OrderAppointment;
 
+use App\Models\Transmission;
 use App\Models\User;
+use App\Models\Year;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -18,14 +26,24 @@ class OrderController extends Controller
     use ResponseTrait;
     public function index()
     {
+        Gate::authorize('Appointment.view');
+        $Brand = Brand::select(['name', 'uuid'])->get();
+        $Engine = Engine::select(['name', 'uuid'])->get();
+        $ModelCar = ModelCar::select(['name', 'uuid'])->get();
+        $FuelType = FuelType::select(['name', 'uuid'])->get();
+        $Transmission = Transmission::select(['name', 'uuid'])->get();
+        $ColorCar = ColorCar::select(['name', 'uuid', 'color'])->get();
+        $year = Year::query()->first();
         $cities = City::select(['name', 'uuid'])->get();
         $country = Country::select(['name', 'uuid'])->get();
-        $users = User::select(['name', 'uuid', 'phone'])->where('user_type_id',User::PHOTOGRAPHER)->get();
+        $users = User::select(['name', 'uuid', 'phone'])->where('user_type_id',User::USER)->get();
+        $photographer = User::select(['name', 'uuid', 'phone'])->where('user_type_id',User::PHOTOGRAPHER)->get();
         $type =  OrderAppointment::TYPES;
-        return view('admin.pages.OrderAppointment.index', compact('country', 'cities', 'users', 'type'));
+        return view('admin.pages.OrderAppointment.index', compact('country', 'cities', 'users', 'type','photographer','year','Brand','Engine','ModelCar','FuelType','Transmission','ColorCar'));
     }
     public function store(Request $request)
     {
+        Gate::authorize('Appointment.create');
         $rules = [];
         $rules['type'] = 'required';
         $rules['user_uuid'] = 'required';
@@ -41,6 +59,7 @@ class OrderController extends Controller
     }
     public function update(Request $request)
     {
+        Gate::authorize('Appointment.update');
         $rules = [];
          $rules['typeContent'] = 'required';
         // $rules['video'] = 'required_if:typeContent,2';
@@ -53,7 +72,7 @@ class OrderController extends Controller
         $rules['city_uuid'] = 'required_with:country_uuid';
         $rules['date'] = 'required';
         $this->validate($request, $rules);
-        $photographer =  Photographer::findOrFail($request->uuid);
+        $photographer =  OrderAppointment::findOrFail($request->uuid);
         $photographer->user_uuid = $request->user_uuid;
         $photographer->phone = $request->phone;
         $photographer->area_uuid = $request->area_uuid;
@@ -67,6 +86,7 @@ class OrderController extends Controller
     }
     public function destroy($uuid)
     {
+        Gate::authorize('Appointment.delete');
         $uuids=explode(',', $uuid);
         OrderAppointment::whereIn('uuid', $uuids)->delete();
         return $this->sendResponse(null, null);
@@ -90,8 +110,11 @@ class OrderController extends Controller
                 if ($request->get('date')) {
                     $query->where('date', $request->get('date'));
                 }
-                if ($request->get('user_uuid')) {
-                    $query->where('photographer_uuid', $request->get('user_uuid'));
+                if ($request->get('status')) {
+                    $query->where('status', $request->get('status'));
+                }
+                if ($request->get('photographer_uuid')) {
+                    $query->where('photographer_uuid', $request->get('photographer_uuid'));
                 }
             })
             ->addColumn('checkbox',function ($que){
@@ -99,14 +122,14 @@ class OrderController extends Controller
             })
             ->addColumn('StatusAppointment',function ($que){
                 $string = '';
+                $data_attr = 'data-uuid="'. $que->uuid .'"  data-area="' . $que->area_uuid . '" data-city="' . $que->city_uuid . '"';
                 if ($que->status==OrderAppointment::pending){
                     $string .= ' <button type="button"  class="btn btn-sm btn-outline-danger btn_accept" data-toggle="modal"
-                    data-target="#accept" data-uuid="'. $que->uuid .'"  data-area="' . $que->area_uuid . '" data-city="' . $que->city_uuid . '">' . __('accept') . '    </button>';
+                    data-target="#accept" '. $data_attr .'>' . __('accept') . '    </button>';
                     return "$que->status_appointment $string";
                 }elseif ($que->status==OrderAppointment::accept){
-                    $string .= ' <button type="button"  class="btn btn-sm btn-outline-danger btn_delete" data-toggle="modal"
-                    data-target="#edit_modal" data-uuid="' . $que->uuid .
-                        '">' . __('add car') . '  </button>';
+                    $string .= ' <button type="button"  class="btn btn-sm btn-outline-danger add-car" data-toggle="modal"
+                    data-target="#add-car" data-uuid="'. $que->uuid .'">' . __('add car') . '  </button>';
                     return "$que->status_appointment $string";
                 }else{
                     return $que->status_appointment;
@@ -145,7 +168,7 @@ class OrderController extends Controller
 
     public function accept(Request $request)
     {
-
+        Gate::authorize('Appointment.accept');
 
 
         $rules = [];

@@ -171,10 +171,10 @@
             <ul class="nav navbar-nav flex-row">
                 <li class="nav-item mr-auto" style="margin: 0 auto;">
                     <a class="navbar-brand" href="{{ url('admin') }}">
-                        <span class="brand-logo">
-                            <img alt="logo" src="{{ asset('dashboard/app-assets/images/logo/Logo.svg') }}"
-                                style="max-width: 34% !important; margin: 0 auto; display: flex;" />
+                            <span class="brand-logo"><img alt="logo" src="{{ asset('dashboard/app-assets/images/logo/Group 16027.png') }}"
+                                 style="max-width: 34% !important; margin: 0 auto; display: flex;" />
                         </span>
+
                     </a>
                 </li>
             </ul>
@@ -182,7 +182,33 @@
         <div class="shadow-bottom"></div>
         <div class="main-menu-content">
             <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-
+                @can('admin.view')
+                    <li class="nav-item has-sub  " style="">
+                        <a class="d-flex align-items-center" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" class="feather feather-pie-chart">
+                                <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+                                <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+                            </svg>
+                            <span class="menu-title text-truncate" data-i18n="Charts">@lang('admins')</span></a>
+                        <ul class="menu-content">
+                            <li class="nav-item {{ request()->routeIs('admin.index') ? 'active' : '' }} ">
+                                <a class="d-flex align-items-center" href="{{ route('admin.index') }}">
+                                    <i data-feather="file-text"></i><span
+                                        class="menu-title text-truncate">@lang('admins')</span>
+                                </a>
+                            </li>
+                            <li class="nav-item {{ request()->routeIs('role.index') ? 'active' : '' }} ">
+                                <a class="d-flex align-items-center" href="{{ route('role.index') }}">
+                                    <i data-feather="file-text"></i><span
+                                        class="menu-title text-truncate">@lang('roles')</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
+                    @can('car.view')
                 <li class="nav-item has-sub  " style="">
                     <a class="d-flex align-items-center" href="#">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
@@ -192,47 +218,60 @@
                             <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
                         </svg>
                         <span class="menu-title text-truncate" data-i18n="Charts">@lang('cars')</span></a>
-                    <ul class="menu-content">
+                       <ul class="menu-content">
+                           @can('brand.view')
                         <li class="nav-item {{ request()->routeIs('brand.index') ? 'active' : '' }}">
                             <a class="d-flex align-items-center" href="{{ route('brand.index') }}">
                                 <i data-feather="file-text"></i><span
                                     class="menu-title text-truncate">@lang('Brand Cars')</span>
                             </a>
                         </li>
+                           @endcan
+                               @can('model.view')
                         <li class="nav-item {{ request()->routeIs('model.index') ? 'active' : '' }}">
                             <a class="d-flex align-items-center" href="{{ route('model.index') }}">
                                 <i data-feather="file-text"></i><span
                                     class="menu-title text-truncate">@lang('Model Cars')</span>
                             </a>
                         </li>
+                           @endcan
+                               @can('color.view')
                         <li class="nav-item  {{ request()->routeIs('color.index') ? 'active' : '' }}">
                             <a class="d-flex align-items-center" href="{{ route('color.index') }}">
                                 <i data-feather="file-text"></i><span
                                     class="menu-title text-truncate">@lang('Color Cars')</span>
                             </a>
                         </li>
+                           @endcan
+                               @can('engine.view')
                         <li class="nav-item {{ request()->routeIs('engines.index') ? 'active' : '' }} ">
                             <a class="d-flex align-items-center" href="{{ route('engines.index') }}">
                                 <i data-feather="file-text"></i><span
                                     class="menu-title text-truncate">@lang('Engine Cars')</span>
                             </a>
                         </li>
+                               @endcan
+                               @can('fuelType.view')
                         <li class="nav-item {{ request()->routeIs('fuelType.index') ? 'active' : '' }}">
                             <a class="d-flex align-items-center" href="{{ route('fuelType.index') }}">
                                 <i data-feather="file-text"></i><span
                                     class="menu-title text-truncate">@lang('Fuel Type Cars')</span>
                             </a>
                         </li>
+                               @endcan
+                               @can('transmission.view')
                         <li class="nav-item {{ request()->routeIs('transmission.index') ? 'active' : '' }}">
                             <a class="d-flex align-items-center" href="{{ route('transmission.index') }}">
                                 <i data-feather="file-text"></i><span
                                     class="menu-title text-truncate">@lang('Transmission')</span>
                             </a>
                         </li>
-
+                               @endcan
                     </ul>
 
                 </li>
+                    @endcan
+                    @can('place.view')
                 <li class="nav-item has-sub  " style="">
                     <a class="d-flex align-items-center" href="#">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
@@ -266,6 +305,8 @@
                     </ul>
 
                 </li>
+                    @endcan
+                    @can('deal.view')
                 <li class="nav-item has-sub  " style="">
                     <a class="d-flex align-items-center" href="#">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
@@ -288,6 +329,8 @@
                     </ul>
 
                 </li>
+                    @endcan
+                    @can('user.view')
                 <li class="nav-item has-sub  " style="">
                     <a class="d-flex align-items-center" href="#">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
@@ -314,6 +357,8 @@
                     </ul>
 
                 </li>
+                    @endcan
+                    @can('ads.view')
                 <li class="nav-item has-sub  " style="">
                     <a class="d-flex align-items-center" href="#">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
@@ -335,6 +380,8 @@
                     </ul>
 
                 </li>
+                    @endcan
+                    @can('setting.view')
                 <li class="nav-item has-sub  " style="">
                     <a class="d-flex align-items-center" href="#">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
@@ -353,6 +400,8 @@
                         </li>
                     </ul>
                 </li>
+                    @endcan
+                    @can('order.view')
                 <li class="nav-item has-sub " style="">
                     <a class="d-flex align-items-center" href="#">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
@@ -378,7 +427,8 @@
                         </li>
                     </ul>
                 </li>
-
+                    @endcan
+                    @can('Appointment.view')
                 <li class="nav-item has-sub  " style="">
                     <a class="d-flex align-items-center" href="#">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
@@ -397,6 +447,8 @@
                         </li>
                     </ul>
                 </li>
+                    @endcan
+                    @can('Plate.view')
                 <li class="nav-item has-sub  " style="">
                     <a class="d-flex align-items-center" href="#">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
@@ -415,7 +467,7 @@
                         </li>
                     </ul>
                 </li>
-
+                    @endcan
             </ul>
         </div>
     </div>
@@ -498,6 +550,7 @@
         function CheckAll(className, elem) {
             var elements = document.getElementsByClassName(className);
             var l = elements.length;
+
             if (elem.checked) {
                 for (var i = 0; i < l; i++) {
                     elements[i].checked = true;
@@ -522,49 +575,28 @@
     <script>
 
 
-        // $(document).on('change', "#select_all", function (e) {
-        //     var delete_btn = $('#delete_btn'), export_btn = $('#export_btn'),
-        //         chart_btn = $('#chart_btn'), all_status_btn = $('.all_status_btn'), table_ids = $('.table_ids');
-        //     this.checked ? table_ids.each(function () {
-        //         this.checked = true
-        //     }) : table_ids.each(function () {
-        //         this.checked = false
-        //     })
-        //     delete_btn.attr('data-uuid', selectedIds().join());
-        //     export_btn.attr('data-uuid', selectedIds().join());
-        //     chart_btn.attr('data-uuid', selectedIds().join());
-        //     all_status_btn.attr('data-uuid', selectedIds().join());
-        //     if (selectedIds().join().length) {
-        //         delete_btn.prop('disabled', '');
-        //         all_status_btn.prop('disabled', '');
-        //     } else {
-        //         delete_btn.prop('disabled', 'disabled');
-        //         all_status_btn.prop('disabled', 'disabled');
-        //     }
-        // });
-        //
-        // $(document).on('change', ".table_ids", function (e) {
-        //     var delete_btn = $('#delete_btn'), select_all = $('#select_all'), all_status_btn = $('.all_status_btn');
-        //     if ($(".table_ids:checked").length === $(".table_ids").length) {
-        //         select_all.prop("checked", true)
-        //     } else {
-        //         select_all.prop("checked", false)
-        //     }
-        //     delete_btn.attr('data-uuid', selectedIds().join());
-        //     all_status_btn.attr('data-uuid', selectedIds().join());
-        //     console.log(selectedIds().join().length)
-        //     if (selectedIds().join().length) {
-        //         delete_btn.prop('disabled', '');
-        //         all_status_btn.prop('disabled', '');
-        //     } else {
-        //         delete_btn.prop('disabled', 'disabled');
-        //         all_status_btn.prop('disabled', 'disabled');
-        //     }
-        // });
 
 
+        function checkClickFunc() {
+            var elements = document.getElementsByClassName('box1');
+            var l = elements.length;
+
+            var selected = new Array();
+            $(".box1:checked").each(function () {
+                selected.push(this.value);
+            });
+            if (l != selected.length) {
+                var box = document.getElementById('example-select-all').checked = false;
+                console.log(l)
+                console.log(selected.length)
+
+            } else {
+
+                var box = document.getElementById('example-select-all').checked = true;
+            }
 
 
+        }
 
         $('#search_btn').on('click', function(e) {
             table.draw();
@@ -598,6 +630,7 @@
                 beforeSend: function() {},
                 success: function(result) {
                     $('#full-modal-stem').modal('hide');
+                    $('#add-car').modal('hide');
                     $('#add_model_form').trigger("reset");
                     toastr.success('@lang('done_successfully')', '', {
                         rtl: isRtl
@@ -654,7 +687,7 @@
 
 
                     var url = window.location.href + '/' + uuid;
-                    alert(url)
+
                     $.ajax({
                         url: url,
                         method: 'DELETE',

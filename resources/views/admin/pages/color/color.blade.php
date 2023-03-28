@@ -38,14 +38,16 @@
                                 <div class="head-label">
                                     <h4 class="card-title">@lang('Color Cars')</h4>
                                 </div>
-                                <div class="text-right">
-                                    <div class="form-group">
-                                        <button class="btn btn-outline-primary button_modal" type="button"
-                                            data-toggle="modal" data-target="#full-modal-stem"><span><i
-                                                    class="fa fa-plus"></i>@lang('add')</span>
-                                        </button>
+                                @can('color.create')
+                                    <div class="text-right">
+                                        <div class="form-group">
+                                            <button class="btn btn-outline-primary button_modal" type="button" data-toggle="modal" id=""
+                                                    data-target="#full-modal-stem"><span><i
+                                                        class="fa fa-plus"></i>@lang('add')</span>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
+                                @endcan
                             </div>
                             <div class="card-body">
                                 <form id="search_form">
@@ -66,8 +68,12 @@
                                             <th><input name="select_all" id="example-select-all" type="checkbox" onclick="CheckAll('box1', this)" /></th>
                                             <th>@lang('name')</th>
                                             <th>@lang('colors')</th>
-                                            <th>@lang('status')</th>
-                                            <th style="width: 225px;">@lang('actions')</th>
+                                            @can('color.update')
+                                                <th>@lang('status')</th>
+                                            @endcan
+                                            @can('color.delete'||'color.update')
+                                                <th style="width: 225px;">@lang('actions')</th>
+                                            @endcan
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -186,7 +192,7 @@
             columns: [
                 {
                     "render": function (data, type, full, meta) {
-                        return `<td><input type="checkbox" value="${data}" class="box1" ></td>
+                        return `<td><input type="checkbox" onclick="checkClickFunc()" value="${data}" class="box1" ></td>
 `;
                     },
                     name: 'checkbox',
@@ -204,16 +210,20 @@
                         return "<div style='background-color:" + data + ";width: 50px;height: 50px'></div>";
                     },
                 },
+                    @can('color.update')
                 {
                     data: 'status',
                     name: 'status'
                 },
+                    @endcan
+                    @can('color.delete'||'color.update')
                 {
                     data: 'action',
                     name: 'action',
                     orderable: false,
-                    searchable: false
+                    searchable: true
                 },
+                @endcan
             ]
 
         });

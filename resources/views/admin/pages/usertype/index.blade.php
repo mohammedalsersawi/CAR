@@ -47,15 +47,17 @@
                                 <div class="head-label">
                                     <h4 class="card-title">@lang('users')</h4>
                                 </div>
-                                <div class="text-right">
-                                    <div class="form-gruop">
-                                        <button class="btn btn-outline-primary button_modal" type="button"
-                                            data-toggle="modal" id="addd" data-target="#full-modal-stem"><span><i
-                                                    class="fa fa-plus"></i>@lang('add')</span>
-                                        </button>
+                             @can('user.create')
+                                    <div class="text-right">
+                                        <div class="form-gruop">
+                                            <button class="btn btn-outline-primary button_modal" type="button"
+                                                    data-toggle="modal" id="addd" data-target="#full-modal-stem"><span><i
+                                                        class="fa fa-plus"></i>@lang('add')</span>
+                                            </button>
 
+                                        </div>
                                     </div>
-                                </div>
+                                @endcan
                             </div>
 
 
@@ -150,7 +152,9 @@
                                             <th>@lang('area')</th>
                                             <th>@lang('type')</th>
                                             <th>@lang('Discount Store Type')</th>
+                                            @can('user.delete'||'user.update')
                                             <th style="width: 225px;">@lang('actions')</th>
+                                            @endcan
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -586,13 +590,14 @@
                     data: 'DiscountStoreType',
                     name: 'DiscountStoreType'
                 },
-
+                    @can('user.delete'||'user.update')
                 {
                     data: 'action',
                     name: 'action',
                     orderable: false,
                     searchable: true
                 },
+                @endcan
             ]
 
         });

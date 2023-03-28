@@ -34,14 +34,16 @@
                                 <div class="head-label">
                                     <h4 class="card-title">@lang('OrderAppointment')</h4>
                                 </div>
-                                <div class="text-right">
-                                    <div class="form-gruop">
-                                        <button class="btn btn-outline-primary button_modal" type="button"
-                                            data-toggle="modal" id="" data-target="#full-modal-stem"><span><i
-                                                    class="fa fa-plus"></i>@lang('add')</span>
-                                        </button>
+                                @can('Appointment.create')
+                                    <div class="text-right">
+                                        <div class="form-group">
+                                            <button class="btn btn-outline-primary button_modal" type="button" data-toggle="modal" id=""
+                                                    data-target="#full-modal-stem"><span><i
+                                                        class="fa fa-plus"></i>@lang('add')</span>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
+                                @endcan
                             </div>
                             <div class="card-body">
                                 <form id="search_form">
@@ -59,7 +61,7 @@
                                                 <select  id="s_name" class="search_input form-control"
                                                         data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                                     <option selected disabled>@lang('select') @lang('photographer')</option>
-                                                    @foreach ($users as $itemm)
+                                                    @foreach ($photographer as $itemm)
                                                         <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
                                                     @endforeach
                                                 </select>
@@ -90,7 +92,18 @@
                                                 <label for="area_uuid">@lang('date')</label>
                                                 <input name="date" type="date" id="s_date"
                                                     class="search_input form-control">
-
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="status">@lang('status')</label>
+                                                <select  id="s_status" class="search_input form-control"
+                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                                    <option selected disabled>@lang('select') @lang('status')</option>
+                                                    <option value="1"> @lang('pending') </option>
+                                                    <option value="2"> @lang('accepted') </option>
+                                                    <option value="3"> @lang('complete') </option>
+                                                </select>
                                             </div>
                                         </div>
 
@@ -123,9 +136,13 @@
                                             <th>@lang('city')</th>
                                             <th>@lang('date')</th>
                                             <th>@lang('time')</th>
-                                            <th>@lang('status')</th>
                                             <th>@lang('photographer')</th>
-                                            <th style="width: 225px;">@lang('actions')</th>
+                                            @can('Appointment.accept')
+                                                <th>@lang('status')</th>
+                                            @endcan
+                                            @can('Appointment.delete'||'Appointment.update')
+                                                <th style="width: 225px;">@lang('actions')</th>
+                                            @endcan
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -141,7 +158,7 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" class="full-modal-stem" id="full-modal-stem" tabindex="-1" role="dialog"
+    <div class="modal fade" id="full-modal-stem" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -299,8 +316,6 @@
             </div>
         </div>
     </div>
-
-
     <div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
         aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -422,6 +437,239 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="add-car" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">@lang('add')</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ route('ads.car.store') }}" method="POST" id="add-mode-form" class="add-mode-form"
+                      enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input type="hidden" name="appointment_uuid" id="uuid_appointment_car" class="form-control" />
+                            </div>
+                        </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="phone">@lang('phone')</label>
+                                    <input type="text" class="form-control" placeholder="@lang('phone')"
+                                           name="phone" id="phone">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                             </div>
+                                <div class="col-md-6">
+                                   <div class="form-group">
+                                    <label for="price">@lang('price')</label>
+                                    <input type="text" class="form-control" placeholder="@lang('price')"
+                                           name="price" id="price">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                </div>
+                            </div>
+
+
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="">@lang('brand')</label>
+                                    <select name="brand_uuid" id="" class="select form-control"
+                                            data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                        <option selected disabled>@lang('select') @lang('brand')</option>
+                                        @foreach ($Brand as $itemm)
+                                            <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">@lang('Model')</label>
+                                    <select name="model_uuid" id="" class="select form-control"
+                                            data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                        <option selected disabled>@lang('select') @lang('Model')</option>
+                                        @foreach ($ModelCar as $itemm)
+                                            <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">@lang('color_interior')</label>
+                                    <select name="color_interior_uuid" id="" class="select form-control"
+                                            data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                        <option selected disabled>@lang('select') @lang('color_interior')</option>
+                                        @foreach ($ColorCar as $itemm)
+                                            <option value="{{ $itemm->uuid }}"> {{ $itemm->name }}
+                                                <div
+                                                    style="height:50px;width:50px;background-color:{{ $itemm->color }}">
+                                                </div>
+                                            </option>
+
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">@lang('color_exterior')</label>
+                                    <select name="color_exterior_uuid" id="" class="select form-control"
+                                            data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                        <option selected disabled>@lang('select') @lang('color_exterior')</option>
+                                        @foreach ($ColorCar as $itemm)
+                                            <option value="{{ $itemm->uuid }}">
+                                                <h1>{{ $itemm->name }} </h1>
+                                            </option>
+
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="mileage">@lang('mileage')</label>
+                                    <input type="text" class="form-control" placeholder="@lang('mileage')"
+                                           name="mileage" id="mileage">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">@lang('Engine')</label>
+                                    <select name="engine_uuid" id="" class="select form-control"
+                                            data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                        <option selected disabled>@lang('select') @lang('Engine')</option>
+                                        @foreach ($Engine as $itemm)
+                                            <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
+
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="year_to">@lang('year')</label>
+                                    <select name="year" id="" class="select form-control"
+                                            data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                        <option selected disabled>@lang('select') @lang('select')</option>
+                                        @isset($year)
+                                            @for ($i = $year->from; $i <= $year->to ;$i++)
+                                                <option value="{{ $i }}">{{ $i }}</option>
+                                            @endfor
+                                        @endisset
+
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">@lang('Transmission')</label>
+                                    <select name="transmission_uuid" id="" class="select form-control"
+                                            data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                        <option selected disabled>@lang('select') @lang('Transmission')</option>
+                                        @foreach ($Transmission as $itemm)
+                                            <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">@lang('fueltype')</label>
+                                    <select name="fule_type_uuid" id="" class="select form-control"
+                                            data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                        <option selected disabled>@lang('select') @lang('fueltype')</option>
+                                        @foreach ($FuelType as $itemm)
+                                            <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
+
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="image">@lang('image')</label>
+                                    <input type="file" accept="image/*" class="form-control"
+                                           placeholder="@lang('image')" name="image[]" multiple id="image">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="image">@lang('video')</label>
+                                <input type="file" accept="video/*" class="form-control"
+                                       placeholder="@lang('video')" name="video[]" multiple id="video">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="text-right mb-2">
+                                        <button class="add_row btn btn-sm btn-dark">@lang('add row')</button>
+                                    </div>
+                                    <div class="row_data">
+                                        <div class="row mb-12">
+                                            <div class="col-md-11">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <input name="specification[]" type="text" class="form-control">
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <button class="btn btn-danger  remove_row">@lang('delete')</button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div id="map"></div>
+                    <input type="hidden" name="lat" id="lat">
+                    <input type="hidden" name="lng" id="lng">
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('close')</button>
+                        <button class="btn btn-primary">@lang('add')</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('scripts')
     <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/classic/ckeditor.js"></script>
@@ -473,15 +721,16 @@
                 data: function(d) {
                     d.city_uuid = $('#s_city').val();
                     d.area_uuid = $('#s_area').val();
-                    d.user_uuid = $('#s_name').val();
+                    d.photographer_uuid = $('#s_name').val();
                     d.phone = $('#s_phone').val()
-                    d.status = $('#s_date').val();
+                    d.date = $('#s_date').val();
+                    d.status = $('#s_status').val();
 
                 }
             },
             columns: [      {
                 "render": function (data, type, full, meta) {
-                    return `<td><input type="checkbox" value="${data}" class="box1" ></td>
+                    return `<td><input type="checkbox" onclick="checkClickFunc()" value="${data}" class="box1" ></td>
 `;
                 },
                 name: 'checkbox',
@@ -520,24 +769,30 @@
                     orderable: false,
                     searchable: false
                 },
-                {
-                    data: 'StatusAppointment',
-                    name: 'StatusAppointment',
-                    orderable: false,
-                    searchable: false
-                },
+
                 {
                     data: 'photographer_name',
                     name: 'photographer_name',
                     orderable: false,
                     searchable: false
                 },
+                    @can('Appointment.accept')
+                {
+                    data: 'StatusAppointment',
+                    name: 'StatusAppointment',
+                    orderable: false,
+                    searchable: false
+                },
+                    @endcan
+                    @can('Appointment.delete'||'Appointment.update')
                 {
                     data: 'action',
                     name: 'action',
                     orderable: false,
                     searchable: true
                 },
+                    @endcan
+
             ]
 
         });
@@ -593,8 +848,16 @@
                     },
                 });
 
-
-
+            });
+        });
+        $(document).ready(function() {
+            $(document).on('click', '.add-car', function(event) {
+                $('input').removeClass('is-invalid');
+                $('.invalid-feedback').text('');
+                event.preventDefault();
+                var button = $(this);
+                var uuid = button.data('uuid');
+                $('#uuid_appointment_car').val(uuid);
 
 
             });

@@ -458,12 +458,15 @@
     "deals successfully": "تم تقديم صفقة",
     "Plates" : "اللوحات",
     "numberone" : "الرقم الاول",
+    "show room" : "صالة العرض",
     "numbertow" : "الرقم الثاني",
     "stringone" : "النص الاول",
     "stringtow" : "النص الثاني",
     "Sold" : "تم البيع",
     "Nat_Sold" : "لم تباع",
     "failed": "فشل",
+    "roles": "الصلاحيات",
+    "complete": "مكتمل",
     "Order Appointment": "طلبات المواعيد",
     "Are you sure to delete the items you checked?": "هل انت متاكد من حذف العناصر التي حدها؟"
 }

@@ -8,10 +8,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Area;
 use App\Models\City;
 use App\Models\Country;
+use App\Models\Image;
 use App\Models\Type;
 use App\Models\User;
 use App\Models\UserType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Yajra\DataTables\Facades\DataTables;
@@ -21,7 +23,7 @@ class UserTypeController extends Controller
     use ResponseTrait;
     public function index()
     {
-
+        Gate::authorize('user.view');
         $cities=City::select(['name','uuid'])->get();
         $country=Country::select(['name','uuid'])->get();
         $type=Type::select(['name','uuid'])->get();
@@ -35,7 +37,7 @@ class UserTypeController extends Controller
 
     public function store(Request $request)
     {
-
+        Gate::authorize('setting.create');
 //        $latlng=$request->latlng;
 //        $num=strpos($latlng, ",");
 //        $lat= substr($latlng, strpos($latlng, "("),$num);
@@ -72,7 +74,7 @@ class UserTypeController extends Controller
 
         if($request->image)
         {
-            UploadImage($request->image, null, 'App\Models\User', $user->uuid, false);
+            UploadImage($request->image, null, 'App\Models\User', $user->uuid, false,null,Image::IMAGE);
         }
         return $this->sendResponse(null, __('item_added'));
     }
@@ -80,7 +82,7 @@ class UserTypeController extends Controller
 
     public function update(Request $request)
     {
-
+        Gate::authorize('setting.update');
         $rules = [];
 
         $rules['name'] = 'nullable';
@@ -111,7 +113,7 @@ class UserTypeController extends Controller
             ]));
         if($request->image)
         {
-            UploadImage($request->image, null, 'App\Models\User', $user->uuid, true);
+            UploadImage($request->image, null, 'App\Models\User', $user->uuid, true,null,Image::IMAGE);
         }
 
 
@@ -120,6 +122,7 @@ class UserTypeController extends Controller
 
     public function destroy($uuid)
     {
+        Gate::authorize('setting.delete');
         $uuids=explode(',', $uuid);
         User::whereIn('uuid', $uuids)->delete();
         return $this->sendResponse(null, null);

@@ -33,14 +33,16 @@
                                 <div class="head-label">
                                     <h4 class="card-title">@lang('deals')</h4>
                                 </div>
-                                <div class="text-right">
-                                    <div class="form-gruop">
-                                        <button class="btn btn-outline-primary button_modal" type="button"
-                                            data-toggle="modal" id="" data-target="#full-modal-stem"><span><i
-                                                    class="fa fa-plus"></i>@lang('add')</span>
-                                        </button>
+                                @can('deal.create')
+                                    <div class="text-right">
+                                        <div class="form-group">
+                                            <button class="btn btn-outline-primary button_modal" type="button" data-toggle="modal" id=""
+                                                    data-target="#full-modal-stem"><span><i
+                                                        class="fa fa-plus"></i>@lang('add')</span>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
+                                @endcan
                             </div>
                             <div class="card-body">
                                 <form id="search_form">
@@ -102,7 +104,9 @@
                                             <th>@lang('Discount Store Type')</th>
                                             <th>@lang('users')</th>
                                             <th>@lang('deals')</th>
-                                            <th style="width: 225px;">@lang('actions')</th>
+                                            @can('deal.delete'||'deal.update')
+                                                <th style="width: 225px;">@lang('actions')</th>
+                                            @endcan
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -276,7 +280,7 @@
             columns: [
                 {
                     "render": function (data, type, full, meta) {
-                        return `<td><input type="checkbox" value="${data}" class="box1" ></td>
+                        return `<td><input type="checkbox" onclick="checkClickFunc()" value="${data}" class="box1" ></td>
 `;
                     },
                     name: 'checkbox',
@@ -313,13 +317,15 @@
                 },
 
 
+
+                    @can('deal.delete'||'deal.update')
                 {
                     data: 'action',
                     name: 'action',
-                    searchable: false,
                     orderable: false,
-
+                    searchable: true
                 },
+                @endcan
             ]
 
         });

@@ -75,7 +75,7 @@ class HomeController extends Controller
         $query = Car::query();
         $query->when($request->get('search'), function ($query, $search) {
             $query->where('year', $search)
-                ->orWhere(function ($query) use ($search) {
+                  ->orWhere(function ($query) use ($search) {
                     $query->whereHas('brand', function ($query) use ($search) {
                         $query->where('name->' . locale(), 'like', "%{$search}%");
                         foreach (locales() as $key => $value) {

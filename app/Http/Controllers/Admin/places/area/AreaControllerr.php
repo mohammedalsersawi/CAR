@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Area;
 use App\Models\City;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\Facades\DataTables;
 
 class AreaControllerr extends Controller
@@ -14,6 +15,7 @@ class AreaControllerr extends Controller
     use ResponseTrait;
     public function index()
     {
+        Gate::authorize('place.view');
        $cities=City::select(['name','uuid'])->get();
 
         return view('admin.pages.area.index',compact('cities'));
@@ -22,7 +24,7 @@ class AreaControllerr extends Controller
 
     public function store(Request $request)
     {
-
+        Gate::authorize('place.create');
         $rules = [];
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:45';
@@ -41,6 +43,7 @@ class AreaControllerr extends Controller
 
     public function update(Request $request)
     {
+        Gate::authorize('place.update');
         $rules = [];
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
@@ -60,6 +63,7 @@ class AreaControllerr extends Controller
 
     public function destroy($uuid)
     {
+        Gate::authorize('place.delete');
         $uuids=explode(',', $uuid);
         Area::whereIn('uuid', $uuids)->delete();
         return $this->sendResponse(null, null);
@@ -91,25 +95,34 @@ class AreaControllerr extends Controller
                     $data_attr .= 'data-name_' . $key . '="' . $que->getTranslation('name', $key) . '" ';
                 }
                 $string = '';
-                $string .= '<button class="edit_btn btn btn-sm btn-outline-primary btn_edit" data-toggle="modal"
+
+                if (Gate::allows('place.update')){
+                    $string .= '<button class="edit_btn btn btn-sm btn-outline-primary btn_edit" data-toggle="modal"
                     data-target="#edit_modal" ' . $data_attr . '>' . __('edit') . '</button>';
-                $string .= ' <button type="button"  class="btn btn-sm btn-outline-danger btn_delete" data-uuid="' . $que->id .
-                    '">' . __('delete') . '  </button>';
+                }
+                if (Gate::allows('place.delete')){
+                    $string .= ' <button type="button" class="btn btn-sm btn-outline-danger btn_delete" data-uuid="' . $que->uuid .
+                        '">' . __('delete') . '</button>';
+                }
                 return $string;
             }) ->addColumn('status', function ($que) {
-                $currentUrl = url('/');
-                return '<div class="checkbox">
+                if (Gate::allows('place.update')){
+                    $currentUrl = url('/');
+                    return '<div class="checkbox">
                 <input class="activate-row"  url="' . $currentUrl . "/area/activate/" . $que->uuid . '" type="checkbox" id="checkbox' . $que->id . '" ' .
-                    ($que->status ? 'checked' : '')
-                    . '>
+                        ($que->status ? 'checked' : '')
+                        . '>
                 <label for="checkbox' . $que->uuid . '"><span class="checkbox-icon"></span> </label>
             </div>';
+                }
+
             })
             ->rawColumns(['action', 'status'])->toJson();
     }
 
     public function activate($uuid)
     {
+        Gate::authorize('place.update');
         $activate =  Area::findOrFail($uuid);
         $activate->status = !$activate->status;
         if (isset($activate) && $activate->save()) {
