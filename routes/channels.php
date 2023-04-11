@@ -24,3 +24,7 @@ Broadcast::channel('orderUser', function () {
 Broadcast::channel('countuserorder', function () {
     return true;
 });
+Broadcast::channel('orderappointment', function ($user) {
+    return true;
+//    return $user->user_type_id==\App\Models\User::SHOWROOM?true:false;
+},['guards'=>['user']]);

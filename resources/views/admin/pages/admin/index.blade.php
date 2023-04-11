@@ -1,13 +1,13 @@
-@extends('admin.part.app')
+@extends('part.app')
 @section('title')
     @lang('admins')
 @endsection
 @section('styles')
-<style>
-    input[type="checkbox"] {
-        transform: scale(1.5);
-    }
-</style>
+    <style>
+        input[type="checkbox"] {
+            transform: scale(1.5);
+        }
+    </style>
 @endsection
 @section('content')
     <div class="content-wrapper">
@@ -39,14 +39,15 @@
                                     <h4 class="card-title">@lang('admins')</h4>
                                 </div>
                                 @can('admin.create')
-                                <div class="text-right">
-                                    <div class="form-group">
-                                        <button class="btn btn-outline-primary button_modal" type="button" data-toggle="modal" id=""
-                                            data-target="#full-modal-stem"><span><i
-                                                    class="fa fa-plus"></i>@lang('add')</span>
-                                        </button>
+                                    <div class="text-right">
+                                        <div class="form-group">
+                                            <button class="btn btn-outline-primary button_modal" type="button"
+                                                    data-toggle="modal" id=""
+                                                    data-target="#full-modal-stem"><span><i
+                                                            class="fa fa-plus"></i>@lang('add')</span>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
                                 @endcan
                             </div>
                             <div class="card-body">
@@ -67,16 +68,17 @@
                             <div class="table-responsive card-datatable" style="padding: 20px">
                                 <table class="table" id="datatable">
                                     <thead>
-                                        <tr>
-                                            <th><input name="select_all" id="example-select-all" type="checkbox" onclick="CheckAll('box1', this)" /></th>
-                                            <th>@lang('name')</th>
-                                            <th>@lang('email')</th>
-                                            <th>@lang('status')</th>
-                                            @can('admin.delete'||'admin.update')
+                                    <tr>
+                                        <th><input name="select_all" id="example-select-all" type="checkbox"
+                                                   onclick="CheckAll('box1', this)"/></th>
+                                        <th>@lang('name')</th>
+                                        <th>@lang('email')</th>
+                                        <th>@lang('status')</th>
+                                        @can('admin.delete'||'admin.update')
                                             <th style="width: 225px;">@lang('actions')</th>
-                                            @endcan
+                                        @endcan
 
-                                        </tr>
+                                    </tr>
                                     </thead>
                                     <tbody></tbody>
 
@@ -92,7 +94,7 @@
 
     <!-- Modal -->
     <div class="modal fade" class="full-modal-stem" id="full-modal-stem" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -102,7 +104,7 @@
                     </button>
                 </div>
                 <form action="{{ route('admin.store') }}" method="POST" id="add-mode-form" class="add-mode-form"
-                    enctype="multipart/form-data">
+                      enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
                         <div class="col-12">
@@ -110,7 +112,7 @@
                                 <label for="name">@lang('name')</label>
                                 <input type="text" class="form-control"
                                        placeholder="@lang('name')"
-                                       name="name" >
+                                       name="name">
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
@@ -119,7 +121,7 @@
                                 <label for="email">@lang('email')</label>
                                 <input type="email" class="form-control"
                                        placeholder="@lang('email')"
-                                       name="email" >
+                                       name="email">
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
@@ -128,7 +130,7 @@
                                 <label for="password">@lang('password')</label>
                                 <input type="password" class="form-control"
                                        placeholder="@lang('password')"
-                                       name="password" >
+                                       name="password">
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
@@ -137,7 +139,8 @@
 
                             @foreach($roles as $item)
                                 <div class="form-check">
-                                    <input class="form-check-input" name="roles[]" type="checkbox" value="{{$item->uuid}}" id="flexCheckDefault">
+                                    <input class="form-check-input" name="roles[]" type="checkbox"
+                                           value="{{$item->uuid}}" id="flexCheckDefault">
                                     <label class="form-check-label" for="flexCheckDefault">
                                         {{$item->name}}
                                     </label>
@@ -148,7 +151,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
-                                data-dismiss="modal">@lang('close')</button>
+                                    data-dismiss="modal">@lang('close')</button>
                             <button class="btn btn-primary">@lang('add')</button>
                         </div>
                     </div>
@@ -159,7 +162,7 @@
 
     <!-- Modal -->
     <div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true">
+         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -169,16 +172,16 @@
                     </button>
                 </div>
                 <form action="{{ route('admin.update') }}" method="POST" id="form_edit" class=""
-                    enctype="multipart/form-data">
+                      enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" name="uuid" id="uuid" class="form-control" />
+                    <input type="hidden" name="uuid" id="uuid" class="form-control"/>
                     <div class="modal-body">
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="name">@lang('name')</label>
                                 <input type="text" class="form-control"
                                        placeholder="@lang('name')"
-                                       name="name" id="edit-name" >
+                                       name="name" id="edit-name">
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
@@ -187,7 +190,7 @@
                                 <label for="email">@lang('email')</label>
                                 <input type="email" class="form-control"
                                        placeholder="@lang('email')"
-                                       name="email" id="edit-email" >
+                                       name="email" id="edit-email">
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
@@ -196,30 +199,31 @@
                                 <label for="password">@lang('password')</label>
                                 <input type="password" class="form-control"
                                        placeholder="@lang('password')"
-                                       name="password" >
+                                       name="password">
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
                         <div class="mb-5">
                             <label>Roles</label>
-{{--                            @php--}}
-{{--                                $role_admin=$item->roles->pluck('uuid')->toArray();--}}
-{{--                            @endphp--}}
-               <div id="roleadmin">
-                            @foreach($roles as $itemm)
-                                <div class="form-check">
-                                    <input class="form-check-input" name="roles[]" type="checkbox" value="{{$itemm->uuid}}" id="flexCheckDefault" >
-                                    <label class="form-check-label" for="flexCheckDefault">
-                                        {{$itemm->name}}
-                                    </label>
-                                </div>
-                            @endforeach
-               </div>
+                            {{--                            @php--}}
+                            {{--                                $role_admin=$item->roles->pluck('uuid')->toArray();--}}
+                            {{--                            @endphp--}}
+                            <div id="roleadmin">
+                                @foreach($roles as $itemm)
+                                    <div class="form-check">
+                                        <input class="form-check-input" name="roles[]" type="checkbox"
+                                               value="{{$itemm->uuid}}" id="flexCheckDefault">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            {{$itemm->name}}
+                                        </label>
+                                    </div>
+                                @endforeach
+                            </div>
 
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
-                                data-dismiss="modal">@lang('close')</button>
+                                    data-dismiss="modal">@lang('close')</button>
                             <button class="btn btn-primary">@lang('save changes')</button>
                         </div>
                     </div>
@@ -243,25 +247,25 @@
             responsive: true,
             "oLanguage": {
                 @if (app()->isLocale('ar'))
-                    "sEmptyTable": "ليست هناك بيانات متاحة في الجدول",
-                    "sLoadingRecords": "جارٍ التحميل...",
-                    "sProcessing": "جارٍ التحميل...",
-                    "sLengthMenu": "أظهر _MENU_ مدخلات",
-                    "sZeroRecords": "لم يعثر على أية سجلات",
-                    "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
-                    "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
-                    "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
-                    "sInfoPostFix": "",
-                    "sSearch": "ابحث:",
-                    "oAria": {
-                        "sSortAscending": ": تفعيل لترتيب العمود تصاعدياً",
-                        "sSortDescending": ": تفعيل لترتيب العمود تنازلياً"
-                    },
+                "sEmptyTable": "ليست هناك بيانات متاحة في الجدول",
+                "sLoadingRecords": "جارٍ التحميل...",
+                "sProcessing": "جارٍ التحميل...",
+                "sLengthMenu": "أظهر _MENU_ مدخلات",
+                "sZeroRecords": "لم يعثر على أية سجلات",
+                "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
+                "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
+                "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
+                "sInfoPostFix": "",
+                "sSearch": "ابحث:",
+                "oAria": {
+                    "sSortAscending": ": تفعيل لترتيب العمود تصاعدياً",
+                    "sSortDescending": ": تفعيل لترتيب العمود تنازلياً"
+                },
                 @endif // "oPaginate": {"sPrevious": '<-', "sNext": '->'},
             },
             ajax: {
                 url: '{{route('admin.getData',app()->getLocale())}}',
-                data: function(d) {
+                data: function (d) {
                     d.name = $('#s_name').val();
                 }
             },
@@ -306,8 +310,8 @@
         });
 
 
-        $(document).ready(function() {
-            $(document).on('click', '.btn_edit', function(event) {
+        $(document).ready(function () {
+            $(document).on('click', '.btn_edit', function (event) {
                 $('input').removeClass('is-invalid');
                 $('.invalid-feedback').text('');
                 event.preventDefault();
@@ -317,11 +321,11 @@
                 $('#edit-name').val(button.data('name'));
                 $('#edit-email').val(button.data('email'));
                 $.ajax({
-                    url: "admins" + "/" + uuid + "/"+"role",
+                    url: "admins" + "/" + uuid + "/" + "role",
                     type: "GET",
                     dataType: "json",
-                    success: function(data) {
-                        $.each(data, function(key, value) {
+                    success: function (data) {
+                        $.each(data, function (key, value) {
                             {{--$('#roleadmin').append(' <div class="form-check"> <input class="form-check-input" name="roles[]" type="checkbox" value="{{$itemm->uuid}}" id="flexCheckDefault" @checked(in_array($itemm->uuid, old('roles',$role_admin )))> <label class="form-check-label" for="flexCheckDefault">{{$itemm->name}}</label> </div>');--}}
                         });
                     },

@@ -33,13 +33,14 @@ class RolesController extends Controller
         ]);
         if ($validator->fails()){
             toastr()->error($validator->getMessageBag()->first(), 'Admin');
-            return redirect()->route('admin.index');
+            return redirect()->back();
         }
         Role::createWithAbilities($request);
         toastr()->success('Data has been ADD successfully!', 'Roles');
 
-        return redirect()
-            ->route('role.index');
+        return view('admin.pages.role.add',[
+            'role'=>new Role(),
+        ]);
     }
     public function edit(Role $role){
         Gate::authorize('role.update');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Car\Brand;
 
+use App\Events\AppointmentEvent;
 use App\Models\Image;
 use Illuminate\Support\Facades\Gate;
 use Throwable;
@@ -32,7 +33,7 @@ class BrandController extends Controller
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
         }
-
+        event(new AppointmentEvent());
         $this->validate($request, $rules);
         $data = [];
         foreach (locales() as $key => $language) {

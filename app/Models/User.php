@@ -20,7 +20,7 @@ class User extends Authenticatable
 
     protected $primaryKey = 'uuid';
     public $incrementing = false;
-    protected $appends = ['area_name','city_name','type_name','image_user','DiscountStoreType'];
+    protected $appends = ['area_name','city_name','type_name','image_user','DiscountStoreType','country_name'];
     protected $fillable = [
 
         'phone',
@@ -114,6 +114,10 @@ class User extends Authenticatable
     public function getCityNameAttribute()
     {
         return @$this->city->name;
+    }
+    public function getCountryNameAttribute()
+    {
+        return @$this->city->country->name;
     }
     public function getAreaNameAttribute()
     {

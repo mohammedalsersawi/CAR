@@ -1,4 +1,4 @@
-@extends('admin.part.app')
+@extends('part.app')
 @section('title')
     @lang('user_order')
 @endsection
@@ -15,7 +15,8 @@
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ url('/admin') }}">@lang('home')</a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="{{ route('orders.index') }}">@lang('user_order')</a>
+                                <li class="breadcrumb-item"><a
+                                            href="{{ route('orders.index') }}">@lang('user_order')</a>
                                 </li>
                             </ol>
                         </div>
@@ -50,7 +51,8 @@
                                             <div class="form-group">
                                                 <label for="city_uuid">@lang('city')</label>
                                                 <select name="city_uuid" id="s_city" class="search_input form-control"
-                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1"
+                                                        aria-hidden="true">
                                                     <option selected disabled>@lang('select') @lang('city')</option>
                                                     @foreach ($cities as $itemm)
                                                         <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
@@ -63,7 +65,8 @@
                                             <div class="form-group">
                                                 <label for="area_uuid">@lang('area')</label>
                                                 <select name="area_uuid" id="s_area" class="search_input form-control"
-                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1"
+                                                        aria-hidden="true">
                                                 </select>
                                             </div>
                                         </div>
@@ -71,11 +74,12 @@
                                             <div class="form-group">
                                                 <label for="status">@lang('status')</label>
                                                 <select name="status" id="s_status" class="search_input form-control"
-                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1"
+                                                        aria-hidden="true">
                                                     <option selected disabled>@lang('select') @lang('status')</option>
 
                                                     <option value="3"> @lang('pending') </option>
-                                                     <option value="1"> @lang('accepted') </option>
+                                                    <option value="1"> @lang('accepted') </option>
                                                     <option value="2"> @lang('rejected') </option>
 
                                                 </select>
@@ -104,19 +108,20 @@
                             <div class="table-responsive card-datatable" style="padding: 20px">
                                 <table class="table" id="datatable">
                                     <thead>
-                                        <tr>
-                                            <th><input name="select_all" id="example-select-all" type="checkbox" onclick="CheckAll('box1', this)" /></th>
-                                            <th>@lang('name')</th>
-                                            <th>@lang('phone')</th>
-                                            <th>@lang('city')</th>
-                                            <th>@lang('area')</th>
-                                            @can('order.acceptedOrRejected')
+                                    <tr>
+                                        <th><input name="select_all" id="example-select-all" type="checkbox"
+                                                   onclick="CheckAll('box1', this)"/></th>
+                                        <th>@lang('name')</th>
+                                        <th>@lang('phone')</th>
+                                        <th>@lang('city')</th>
+                                        <th>@lang('area')</th>
+                                        @can('order.acceptedOrRejected')
                                             <th>@lang('status')</th>
-                                            @endcan
-                                            @can('order.delete')
+                                        @endcan
+                                        @can('order.delete')
                                             <th style="width: 225px;">@lang('actions')</th>
-                                            @endcan
-                                        </tr>
+                                        @endcan
+                                    </tr>
                                     </thead>
                                     <tbody></tbody>
 
@@ -130,7 +135,8 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 style="font-family: 'Cairo', sans-serif;" class="modal-title" id="exampleModalLabel">
+                                <h5 style="font-family: 'Cairo', sans-serif;" class="modal-title"
+                                    id="exampleModalLabel">
                                     @lang('user_order')
                                 </h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -140,7 +146,7 @@
 
                             <form action="{{route('orders.delete','all')}}" method="POST">
                                 @csrf
-                               @method('delete')
+                                @method('delete')
                                 <div class="modal-body">
                                     @lang('Are you sure to delete the items you checked?')
                                     <input class="text" type="hidden" id="delete_all_id" name="delete_all_id" value=''>
@@ -217,7 +223,7 @@
 
             ajax: {
                 url: '{{route('orders.getData',app()->getLocale())}}',
-                data: function(d) {
+                data: function (d) {
                     d.phone = $('#s_phone').val();
 
                     d.city_uuid = $('#s_city').val();
@@ -279,7 +285,7 @@
             ]
 
         });
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('select[name="city_uuid"]').on('change', function () {
 
                 var city_uuid = $(this).val();
@@ -306,7 +312,7 @@
                 }
             });
         });
-        $(document).on("click", ".btn-success", function(e) {
+        $(document).on("click", ".btn-success", function (e) {
             var button = $(this)
             e.preventDefault();
             Swal.fire({
@@ -321,23 +327,23 @@
                     cancelButton: 'btn btn-outline-success'
                 },
                 buttonsStyling: true
-            }).then(function(result) {
+            }).then(function (result) {
                 if (result.value) {
                     var uuid = button.data('uuid')
-                    var url = window.location.href + '/' +'accepted'+'/'+uuid;
+                    var url = window.location.href + '/' + 'accepted' + '/' + uuid;
                     $.ajax({
                         url: url,
                         method: 'POST',
                         data: {
                             _token: '{{ csrf_token() }}'
                         },
-                    }).done(function() {
+                    }).done(function () {
                         toastr.success('@lang('accepted')', '', {
                             rtl: isRtl
                         });
                         table.draw()
 
-                    }).fail(function() {
+                    }).fail(function () {
                         toastr.error('@lang('something_wrong')', '', {
                             rtl: isRtl
                         });
@@ -349,7 +355,7 @@
                 }
             });
         });
-        $(document).on("click", ".btn-warning", function(e) {
+        $(document).on("click", ".btn-warning", function (e) {
             var button = $(this)
             e.preventDefault();
             Swal.fire({
@@ -364,23 +370,23 @@
                     cancelButton: 'btn btn-outline-success'
                 },
                 buttonsStyling: true
-            }).then(function(result) {
+            }).then(function (result) {
                 if (result.value) {
                     var uuid = button.data('uuid')
-                    var url = window.location.href + '/' +'rejected'+'/'+uuid;
+                    var url = window.location.href + '/' + 'rejected' + '/' + uuid;
                     $.ajax({
                         url: url,
                         method: 'POST',
                         data: {
                             _token: '{{ csrf_token() }}'
                         },
-                    }).done(function() {
+                    }).done(function () {
                         toastr.success('@lang('rejected')', '', {
                             rtl: isRtl
                         });
                         table.draw()
 
-                    }).fail(function() {
+                    }).fail(function () {
                         toastr.error('@lang('something_wrong')', '', {
                             rtl: isRtl
                         });

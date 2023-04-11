@@ -1,4 +1,4 @@
-@extends('admin.part.app')
+@extends('part.app')
 @section('title')
     @lang('roles')
 @endsection
@@ -15,26 +15,18 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-flex align-items-center justify-content-between">
-                    <div class="page-title">
-                        <h4 class="mb-0 font-size-18">Responsive Table</h4>
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Agroxa</a></li>
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
-                            <li class="breadcrumb-item active">Responsive Table</li>
-                        </ol>
-                    </div>
-
-                    <div class="state-information d-none d-sm-block">
-                        <div class="state-graph">
-                            <div id="header-chart-1"></div>
-                            <div class="info">Balance $ 2,317</div>
-                        </div>
-                        <div class="state-graph">
-                            <div id="header-chart-2"></div>
-                            <div class="info">Item Sold 1230</div>
-
+                    <div class="col-12">
+                        <h2 class="content-header-title float-left mb-0">@lang('create') @lang('roles')</h2>
+                        <div class="breadcrumb-wrapper">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{{ route('admin.index') }}">@lang('home')</a>
+                                </li>
+                                <li class="breadcrumb-item"><a href="{{ route('role.index') }}">@lang('roles')</a>
+                                </li>
+                            </ol>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -46,8 +38,8 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <form action="{{route('role.store')}}" method="post"  >
-                               @csrf
+                            <form action="{{route('role.store')}}" method="post">
+                                @csrf
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">Name Category</label>
                                     <input type="text" name="name" class="form-control">
@@ -59,14 +51,14 @@
                                             <div class="col-md-6">
                                                 {{ $ability_name }}
                                             </div>
-                                            <div class="col-md-2">
-                                                <input type="radio" name="abilities[{{ $ability_code }}]" value="1" >
+                                            <button type="button" class="col-md-2 allow-btn">
+                                                <input type="radio" name="abilities[{{ $ability_code }}]" value="1">
                                                 Allow
-                                            </div>
-                                            <div class="col-md-2">
-                                                <input type="radio" name="abilities[{{ $ability_code }}]" value="0" ) checked>
+                                            </button>
+                                            <button type="button" class="col-md-2 deny-btn">
+                                                <input type="radio" name="abilities[{{ $ability_code }}]" value="0" checked>
                                                 Deny
-                                            </div>
+                                            </button>
                                         </div>
                                     @endforeach
                                 </fieldset>
@@ -87,6 +79,22 @@
 
 
 
+@endsection
 
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            // Attach click event listener to allow button
+            $('.allow-btn').click(function() {
+                // Find the radio input within the parent button and set checked to true
+                $(this).find('input[type=radio]').prop('checked', true);
+            });
 
+            // Attach click event listener to deny button
+            $('.deny-btn').click(function() {
+                // Find the radio input within the parent button and set checked to true
+                $(this).find('input[type=radio]').prop('checked', true);
+            });
+        });
+    </script>
 @endsection

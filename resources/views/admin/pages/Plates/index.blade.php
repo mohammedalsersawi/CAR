@@ -1,4 +1,4 @@
-@extends('admin.part.app')
+@extends('part.app')
 @section('title')
     @lang('Plates')
 @endsection
@@ -34,14 +34,14 @@
                                     <h4 class="card-title">@lang('Plates')</h4>
                                 </div>
                                 @can('Plate.create')
-                                <div class="text-right">
-                                    <div class="form-group">
-                                        <button class="btn btn-outline-primary button_modal" type="button"
-                                            data-toggle="modal" id="" data-target="#full-modal-stem"><span><i
-                                                    class="fa fa-plus"></i>@lang('add')</span>
-                                        </button>
+                                    <div class="text-right">
+                                        <div class="form-group">
+                                            <button class="btn btn-outline-primary button_modal" type="button"
+                                                    data-toggle="modal" id="" data-target="#full-modal-stem"><span><i
+                                                            class="fa fa-plus"></i>@lang('add')</span>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
                                 @endcan
                             </div>
                             <div class="card-body">
@@ -62,32 +62,33 @@
                                                        placeholder="@lang('price')">
                                             </div>
                                         </div>
-{{--                                        <div class="col-3">--}}
-{{--                                            <div class="form-group">--}}
-{{--                                                <label for="s_numbertow">@lang('number tow')</label>--}}
-{{--                                                <input id="s_numbertow" type="text" class="search_input form-control"--}}
-{{--                                                       placeholder="@lang('number tow')">--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                        <div class="col-3">--}}
-{{--                                            <div class="form-group">--}}
-{{--                                                <label for="s_textone">@lang('text one')</label>--}}
-{{--                                                <input id="s_textone" type="text" class="search_input form-control"--}}
-{{--                                                       placeholder="@lang('text one')">--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                        <div class="col-3">--}}
-{{--                                            <div class="form-group">--}}
-{{--                                                <label for="s_textrtow">@lang('text tow')</label>--}}
-{{--                                                <input id="s_textrtow" type="text" class="search_input form-control"--}}
-{{--                                                       placeholder="@lang('text tow')">--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
+                                        {{--                                        <div class="col-3">--}}
+                                        {{--                                            <div class="form-group">--}}
+                                        {{--                                                <label for="s_numbertow">@lang('number tow')</label>--}}
+                                        {{--                                                <input id="s_numbertow" type="text" class="search_input form-control"--}}
+                                        {{--                                                       placeholder="@lang('number tow')">--}}
+                                        {{--                                            </div>--}}
+                                        {{--                                        </div>--}}
+                                        {{--                                        <div class="col-3">--}}
+                                        {{--                                            <div class="form-group">--}}
+                                        {{--                                                <label for="s_textone">@lang('text one')</label>--}}
+                                        {{--                                                <input id="s_textone" type="text" class="search_input form-control"--}}
+                                        {{--                                                       placeholder="@lang('text one')">--}}
+                                        {{--                                            </div>--}}
+                                        {{--                                        </div>--}}
+                                        {{--                                        <div class="col-3">--}}
+                                        {{--                                            <div class="form-group">--}}
+                                        {{--                                                <label for="s_textrtow">@lang('text tow')</label>--}}
+                                        {{--                                                <input id="s_textrtow" type="text" class="search_input form-control"--}}
+                                        {{--                                                       placeholder="@lang('text tow')">--}}
+                                        {{--                                            </div>--}}
+                                        {{--                                        </div>--}}
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="city_uuid">@lang('city')</label>
                                                 <select id="s_city" class="search_input form-control"
-                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1"
+                                                        aria-hidden="true">
                                                     <option selected disabled>Select @lang('city')</option>
                                                     @foreach ($cities as $itemm)
                                                         <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
@@ -100,10 +101,11 @@
                                             <div class="form-group">
                                                 <label for="">@lang('status')</label>
                                                 <select id="s_status" class="search_input form-control"
-                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1"
+                                                        aria-hidden="true">
                                                     <option selected disabled>@lang('select') @lang('status')</option>
-                                                          <option value="0"> @lang('Nat_Sold') </option>
-                                                        <option value="1"> @lang('Sold') </option>
+                                                    <option value="0"> @lang('Nat_Sold') </option>
+                                                    <option value="1"> @lang('Sold') </option>
 
 
                                                 </select>
@@ -129,21 +131,21 @@
                             <div class="table-responsive card-datatable" style="padding: 20px">
                                 <table class="table" id="datatable">
                                     <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>@lang('user_name')</th>
-                                            <th>@lang('city')</th>
-                                            <th>@lang('numberone')</th>
-                                            <th>@lang('numbertow')</th>
-                                            <th>@lang('stringone')</th>
-                                            <th>@lang('stringtow')</th>
-                                            <th>@lang('phone')</th>
-                                            <th>@lang('price')</th>
-                                            <th>@lang('status')</th>
-                                            @can('Plate.delete'||'Plate.update')
-                                                <th style="width: 225px;">@lang('actions')</th>
-                                            @endcan
-                                        </tr>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>@lang('user_name')</th>
+                                        <th>@lang('city')</th>
+                                        <th>@lang('numberone')</th>
+                                        <th>@lang('numbertow')</th>
+                                        <th>@lang('stringone')</th>
+                                        <th>@lang('stringtow')</th>
+                                        <th>@lang('phone')</th>
+                                        <th>@lang('price')</th>
+                                        <th>@lang('status')</th>
+                                        @can('Plate.delete'||'Plate.update')
+                                            <th style="width: 225px;">@lang('actions')</th>
+                                        @endcan
+                                    </tr>
                                     </thead>
                                     <tbody></tbody>
 
@@ -159,17 +161,17 @@
 
     <!-- Modal -->
     <div class="modal fade" class="full-modal-stem" id="full-modal-stem" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLongTitle">@lang('add')/h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                 </div>
                 <form action="{{ route('Plates.store') }}" method="POST" id="add-mode-form" class="add-mode-form"
-                    enctype="multipart/form-data">
+                      enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
                         <div class="row">
@@ -211,7 +213,7 @@
                                 <div class="form-group">
                                     <label for="user_uuid">@lang('user_name')</label>
                                     <select name="user_uuid" id="" class="form-control"
-                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                            data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                         <option selected disabled>@lang('select') @lang('users')</option>
                                         @foreach ($users as $item)
                                             <option value="{{ $item->uuid }}">
@@ -226,7 +228,7 @@
                                 <div class="form-group">
                                     <label for="city_uuid">@lang('cities')</label>
                                     <select id="" class="form-control" name="city_uuid"
-                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                            data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                         <option selected disabled>@lang('select') @lang('cities')</option>
                                         @foreach ($cities as $item)
                                             <option value="{{ $item->uuid }}">
@@ -258,7 +260,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
-                                data-dismiss="modal">@lang('close')</button>
+                                    data-dismiss="modal">@lang('close')</button>
                             <button class="btn btn-primary">@lang('add')</button>
                         </div>
                     </div>
@@ -269,7 +271,7 @@
 
     <!-- Modal -->
     <div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true">
+         aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -279,9 +281,9 @@
                     </button>
                 </div>
                 <form action="{{ route('Plates.update') }}" method="POST" id="form_edit" class=""
-                    enctype="multipart/form-data">
+                      enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" name="uuid" id="uuid" class="form-control" />
+                    <input type="hidden" name="uuid" id="uuid" class="form-control"/>
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6">
@@ -321,7 +323,7 @@
                                 <div class="form-group">
                                     <label for="user_uuid">@lang('user_name')</label>
                                     <select name="user_uuid" id="edit_user_uuid" class="form-control"
-                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                            data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                         @foreach ($users as $item)
                                             <option value="{{ $item->uuid }}">
                                                 {{ $item->phone }}
@@ -335,7 +337,7 @@
                                 <div class="form-group">
                                     <label for="city_uuid">@lang('cities')</label>
                                     <select name="city_uuid" id="edit_city_uuid" class="form-control"
-                                 >
+                                    >
                                         @foreach ($cities as $item)
                                             <option value="{{ $item->uuid }}">
                                                 {{ $item->name }}
@@ -370,9 +372,9 @@
                         <button class="btn btn-primary">@lang('save changes')</button>
                     </div>
 
-            </form>
+                </form>
+            </div>
         </div>
-    </div>
     </div>
 @endsection
 @section('scripts')
@@ -390,25 +392,25 @@
             responsive: true,
             "oLanguage": {
                 @if (app()->isLocale('ar'))
-                    "sEmptyTable": "ليست هناك بيانات متاحة في الجدول",
-                    "sLoadingRecords": "جارٍ التحميل...",
-                    "sProcessing": "جارٍ التحميل...",
-                    "sLengthMenu": "أظهر _MENU_ مدخلات",
-                    "sZeroRecords": "لم يعثر على أية سجلات",
-                    "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
-                    "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
-                    "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
-                    "sInfoPostFix": "",
-                    "sSearch": "ابحث:",
-                    "oAria": {
-                        "sSortAscending": ": تفعيل لترتيب العمود تصاعدياً",
-                        "sSortDescending": ": تفعيل لترتيب العمود تنازلياً"
-                    },
+                "sEmptyTable": "ليست هناك بيانات متاحة في الجدول",
+                "sLoadingRecords": "جارٍ التحميل...",
+                "sProcessing": "جارٍ التحميل...",
+                "sLengthMenu": "أظهر _MENU_ مدخلات",
+                "sZeroRecords": "لم يعثر على أية سجلات",
+                "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
+                "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
+                "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
+                "sInfoPostFix": "",
+                "sSearch": "ابحث:",
+                "oAria": {
+                    "sSortAscending": ": تفعيل لترتيب العمود تصاعدياً",
+                    "sSortDescending": ": تفعيل لترتيب العمود تنازلياً"
+                },
                 @endif // "oPaginate": {"sPrevious": '<-', "sNext": '->'},
             },
             ajax: {
                 url: '{{ route('Plates.getData', app()->getLocale()) }}',
-                data: function(d) {
+                data: function (d) {
                     d.status = $('#s_status').val();
                     d.city_uuid = $('#s_city').val();
                     d.phone = $('#s_phone').val();
@@ -417,11 +419,11 @@
                 }
             },
             columns: [{
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex',
-                    orderable: false,
-                    searchable: false
-                },
+                data: 'DT_RowIndex',
+                name: 'DT_RowIndex',
+                orderable: false,
+                searchable: false
+            },
                 {
                     data: 'user_name',
                     name: 'user_name'
@@ -459,22 +461,22 @@
                     name: 'status'
                 },
 
-                @can('Plate.delete'||'Plate.update')
+                    @can('Plate.delete'||'Plate.update')
                 {
                     data: 'action',
                     name: 'action',
                     orderable: false,
                     searchable: false
                 },
-                    @endcan
+                @endcan
 
             ]
 
         });
 
 
-        $(document).ready(function() {
-            $(document).on('click', '.btn_edit', function(event) {
+        $(document).ready(function () {
+            $(document).on('click', '.btn_edit', function (event) {
                 $('input').removeClass('is-invalid');
                 $('.invalid-feedback').text('');
                 event.preventDefault();
@@ -490,7 +492,7 @@
                 $('#edit_user_uuid').val(button.data('user_uuid')).trigger('change');
                 $('#edit_city_uuid').val(button.data('city_uuid')).trigger('change');
                 @foreach (locales() as $key => $value)
-                    $('#edit_name_{{ $key }}').val(button.data('name_{{ $key }}'))
+                $('#edit_name_{{ $key }}').val(button.data('name_{{ $key }}'))
                 @endforeach
 
             });

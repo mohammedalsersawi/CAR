@@ -1,4 +1,4 @@
-@extends('admin.part.app')
+@extends('part.app')
 @section('title')
     @lang('roles')
 @endsection
@@ -15,26 +15,18 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-flex align-items-center justify-content-between">
-                    <div class="page-title">
-                        <h4 class="mb-0 font-size-18">Responsive Table</h4>
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Agroxa</a></li>
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
-                            <li class="breadcrumb-item active">Responsive Table</li>
-                        </ol>
-                    </div>
-
-                    <div class="state-information d-none d-sm-block">
-                        <div class="state-graph">
-                            <div id="header-chart-1"></div>
-                            <div class="info">Balance $ 2,317</div>
-                        </div>
-                        <div class="state-graph">
-                            <div id="header-chart-2"></div>
-                            <div class="info">Item Sold 1230</div>
-
+                    <div class="col-12">
+                        <h2 class="content-header-title float-left mb-0">@lang('update') @lang('roles')</h2>
+                        <div class="breadcrumb-wrapper">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{{ route('admin.index') }}">@lang('home')</a>
+                                </li>
+                                <li class="breadcrumb-item"><a href="{{ route('role.index') }}">@lang('roles')</a>
+                                </li>
+                            </ol>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -46,11 +38,11 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <form action="{{route('role.update',$role->uuid)}}" method="post"  >
+                            <form action="{{route('role.update',$role->uuid)}}" method="post">
                                 @method('put')
-                               @csrf
+                                @csrf
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">Name Category</label>
+                                    <label for="exampleInputEmail1" class="form-label">@lang("name")</label>
                                     <input value="{{$role->name}}" type="text" name="name" class="form-control">
                                 </div>
                                 <fieldset>
@@ -61,11 +53,13 @@
                                                 {{ $ability_name }}
                                             </div>
                                             <div class="col-md-2">
-                                                <input type="radio" name="abilities[{{ $ability_code }}]" value="1"  @checked(($role_abilities[$ability_code] ?? '') == 1)>
+                                                <input type="radio" name="abilities[{{ $ability_code }}]"
+                                                       value="1" @checked(($role_abilities[$ability_code] ?? '') == 1)>
                                                 Allow
                                             </div>
                                             <div class="col-md-2">
-                                                <input type="radio" name="abilities[{{ $ability_code }}]" value="0" @checked(($role_abilities[$ability_code] ?? '') == 0)>
+                                                <input type="radio" name="abilities[{{ $ability_code }}]"
+                                                       value="0" @checked(($role_abilities[$ability_code] ?? '') == 0)>
                                                 Deny
                                             </div>
                                         </div>
@@ -85,9 +79,5 @@
         <!-- End Page-content-wrapper -->
 
     </div>
-
-
-
-
 
 @endsection

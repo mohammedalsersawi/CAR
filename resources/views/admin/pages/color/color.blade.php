@@ -1,4 +1,4 @@
-@extends('admin.part.app')
+@extends('part.app')
 @section('title')
     @lang('Color Cars')
 @endsection
@@ -41,9 +41,10 @@
                                 @can('color.create')
                                     <div class="text-right">
                                         <div class="form-group">
-                                            <button class="btn btn-outline-primary button_modal" type="button" data-toggle="modal" id=""
+                                            <button class="btn btn-outline-primary button_modal" type="button"
+                                                    data-toggle="modal" id=""
                                                     data-target="#full-modal-stem"><span><i
-                                                        class="fa fa-plus"></i>@lang('add')</span>
+                                                            class="fa fa-plus"></i>@lang('add')</span>
                                             </button>
                                         </div>
                                     </div>
@@ -64,17 +65,18 @@
                             <div class="table-responsive card-datatable" style="padding: 20px">
                                 <table class="table" id="datatable">
                                     <thead>
-                                        <tr>
-                                            <th><input name="select_all" id="example-select-all" type="checkbox" onclick="CheckAll('box1', this)" /></th>
-                                            <th>@lang('name')</th>
-                                            <th>@lang('colors')</th>
-                                            @can('color.update')
-                                                <th>@lang('status')</th>
-                                            @endcan
-                                            @can('color.delete'||'color.update')
-                                                <th style="width: 225px;">@lang('actions')</th>
-                                            @endcan
-                                        </tr>
+                                    <tr>
+                                        <th><input name="select_all" id="example-select-all" type="checkbox"
+                                                   onclick="CheckAll('box1', this)"/></th>
+                                        <th>@lang('name')</th>
+                                        <th>@lang('colors')</th>
+                                        @can('color.update')
+                                            <th>@lang('status')</th>
+                                        @endcan
+                                        @can('color.delete'||'color.update')
+                                            <th style="width: 225px;">@lang('actions')</th>
+                                        @endcan
+                                    </tr>
                                     </thead>
                                     <tbody></tbody>
 
@@ -90,7 +92,7 @@
 
     <!-- Modal -->
     <div class="modal fade" id="full-modal-stem" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true">
+         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -107,8 +109,8 @@
                                 <div class="form-group">
                                     <label for="name_{{ $key }}">@lang('name') @lang($value)</label>
                                     <input type="text" class="form-control"
-                                        placeholder="@lang('name') @lang($value)" name="name_{{ $key }}"
-                                        id="name_{{ $key }}">
+                                           placeholder="@lang('name') @lang($value)" name="name_{{ $key }}"
+                                           id="name_{{ $key }}">
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
@@ -117,7 +119,7 @@
                             <div class="form-group">
                                 <label for="color">@lang('color')</label>
                                 <input type="color" class="form-control" placeholder="@lang('color')" name="color"
-                                    id="color">
+                                       id="color">
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
@@ -136,7 +138,7 @@
 
     <!-- Modal -->
     <div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true">
+         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -146,17 +148,17 @@
                     </button>
                 </div>
                 <form action="{{ route('color.update') }}" method="POST" id="form_edit" class=""
-                    enctype="multipart/form-data">
+                      enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" name="uuid" id="uuid" class="form-control" />
+                    <input type="hidden" name="uuid" id="uuid" class="form-control"/>
                     <div class="modal-body">
                         @foreach (locales() as $key => $value)
                             <div class="col-12">
                                 <div class="form-group">
                                     <label for="name_{{ $key }}">@lang('name') @lang($value)</label>
                                     <input type="text" class="form-control"
-                                        placeholder="@lang('name') @lang($value)"
-                                        name="name_{{ $key }}" id="edit_name_{{ $key }}">
+                                           placeholder="@lang('name') @lang($value)"
+                                           name="name_{{ $key }}" id="edit_name_{{ $key }}">
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
@@ -165,13 +167,13 @@
                             <div class="form-group">
                                 <label for="color">@lang('color')</label>
                                 <input type="color" class="form-control colors-list" placeholder="@lang('color')"
-                                    name="color">
+                                       name="color">
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
-                                data-dismiss="modal">@lang('close')</button>
+                                    data-dismiss="modal">@lang('close')</button>
                             <button class="btn btn-primary">@lang('save changes')</button>
                         </div>
                     </div>
@@ -206,7 +208,7 @@
                 },
                 {
                     data: 'color',
-                    "render": function(data, type, full, meta) {
+                    "render": function (data, type, full, meta) {
                         return "<div style='background-color:" + data + ";width: 50px;height: 50px'></div>";
                     },
                 },
@@ -236,9 +238,9 @@
         });
         //add
         //Update
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#color').val();
-            $(document).on('click', '.edit_btn', function(event) {
+            $(document).on('click', '.edit_btn', function (event) {
                 event.preventDefault();
                 $('input').removeClass('is-invalid');
                 $('.invalid-feedback').text('');
@@ -249,7 +251,7 @@
                 $('.colors-list').val(color);
                 console.log(color);
                 @foreach (locales() as $key => $value)
-                    $('#edit_name_{{ $key }}').val(button.data('name_{{ $key }}'))
+                $('#edit_name_{{ $key }}').val(button.data('name_{{ $key }}'))
                 @endforeach
 
             });

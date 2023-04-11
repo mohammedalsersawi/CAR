@@ -1,4 +1,4 @@
-@extends('admin.part.app')
+@extends('part.app')
 @section('title')
     @lang('year')
 @endsection
@@ -42,45 +42,49 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <form action="{{ route('setting.year') }}" method="POST"  id="add_model_form" class="add-mode-form">
-                                   @csrf
+                                <form action="{{ route('setting.year') }}" method="POST" id="add_model_form"
+                                      class="add-mode-form">
+                                    @csrf
                                     <div class="row">
                                         <div class="col-3">
                                             <div class="form-group">
-                                                <label  for="from">@lang('from')</label>
-                                                <input value="{{$year->from??''}}" type="text" name="from" class="form-control"
+                                                <label for="from">@lang('from')</label>
+                                                <input value="{{$year->from??''}}" type="text" name="from"
+                                                       class="form-control"
                                                        placeholder="@lang('year')">
                                             </div>
                                         </div>
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="to">@lang('to')</label>
-                                                <input value="{{$year->to??''}}"  type="text" name="to" class=" form-control"
-                                                       placeholder="@lang('year')" >
+                                                <input value="{{$year->to??''}}" type="text" name="to"
+                                                       class=" form-control"
+                                                       placeholder="@lang('year')">
                                             </div>
                                         </div>
 
                                         <div class="col-3" style="margin-top: 20px">
-                                            <button class="btn btn-outline-primary button_modal" type="submit" ><span><i
-                                                        class="fa fa-plus"></i>@lang('add')</span>
+                                            <button class="btn btn-outline-primary button_modal" type="submit"><span><i
+                                                            class="fa fa-plus"></i>@lang('add')</span>
                                             </button>
 
                                         </div>
                                     </div>
                                 </form>
-                                <form action="{{ route('setting.video') }}" method="POST"  id="add_model_form" class="add-mode-form" enctype="multipart/form-data">
+                                <form action="{{ route('setting.video') }}" method="POST" id="add_model_form"
+                                      class="add-mode-form" enctype="multipart/form-data">
                                     @csrf
                                     <div class="row">
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="from">@lang('video')</label>
-                                                <input  type="file" name="video" class="form-control"
-                                                        placeholder="@lang('video')">
+                                                <input type="file" name="video" class="form-control"
+                                                       placeholder="@lang('video')">
                                             </div>
                                         </div>
                                         <div class="col-3" style="margin-top: 20px">
-                                            <button class="btn btn-outline-primary button_modal" type="submit" ><span><i
-                                                        class="fa fa-plus"></i>@lang('add')</span>
+                                            <button class="btn btn-outline-primary button_modal" type="submit"><span><i
+                                                            class="fa fa-plus"></i>@lang('add')</span>
                                             </button>
 
                                         </div>

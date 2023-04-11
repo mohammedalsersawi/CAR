@@ -1,4 +1,4 @@
-@extends('admin.part.app')
+@extends('part.app')
 @section('title')
     @lang('Order Appointment')
 @endsection
@@ -16,7 +16,7 @@
                                 <li class="breadcrumb-item"><a href="{{ route('admin.index') }}">@lang('home')</a>
                                 </li>
                                 <li class="breadcrumb-item"><a
-                                        href="{{ route('OrderAppointment.index') }}">@lang('Order Appointment')</a>
+                                            href="{{ route('OrderAppointment.index') }}">@lang('Order Appointment')</a>
                                 </li>
                             </ol>
                         </div>
@@ -37,9 +37,10 @@
                                 @can('Appointment.create')
                                     <div class="text-right">
                                         <div class="form-group">
-                                            <button class="btn btn-outline-primary button_modal" type="button" data-toggle="modal" id=""
+                                            <button class="btn btn-outline-primary button_modal" type="button"
+                                                    data-toggle="modal" id=""
                                                     data-target="#full-modal-stem"><span><i
-                                                        class="fa fa-plus"></i>@lang('add')</span>
+                                                            class="fa fa-plus"></i>@lang('add')</span>
                                             </button>
                                         </div>
                                     </div>
@@ -52,15 +53,17 @@
                                             <div class="form-group">
                                                 <label for="s_mobile">@lang('phone')</label>
                                                 <input id="s_phone" type="text" class="search_input form-control"
-                                                    placeholder="@lang('phone')">
+                                                       placeholder="@lang('phone')">
                                             </div>
                                         </div>
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="s_name">@lang('photographer')</label>
-                                                <select  id="s_name" class="search_input form-control"
-                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
-                                                    <option selected disabled>@lang('select') @lang('photographer')</option>
+                                                <select id="s_name" class="search_input form-control"
+                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1"
+                                                        aria-hidden="true">
+                                                    <option selected
+                                                            disabled>@lang('select') @lang('photographer')</option>
                                                     @foreach ($photographer as $itemm)
                                                         <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
                                                     @endforeach
@@ -71,7 +74,8 @@
                                             <div class="form-group">
                                                 <label for="city_uuid">@lang('city')</label>
                                                 <select name="city_uuid" id="s_city" class="search_input form-control"
-                                                    data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1"
+                                                        aria-hidden="true">
                                                     <option selected disabled>@lang('select') @lang('city')</option>
                                                     @foreach ($cities as $itemm)
                                                         <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
@@ -83,7 +87,8 @@
                                             <div class="form-group">
                                                 <label for="area_uuid">@lang('area')</label>
                                                 <select name="area_uuid" id="s_area" class="search_input form-control"
-                                                    data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1"
+                                                        aria-hidden="true">
                                                 </select>
                                             </div>
                                         </div>
@@ -91,14 +96,15 @@
                                             <div class="form-group">
                                                 <label for="area_uuid">@lang('date')</label>
                                                 <input name="date" type="date" id="s_date"
-                                                    class="search_input form-control">
+                                                       class="search_input form-control">
                                             </div>
                                         </div>
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="status">@lang('status')</label>
-                                                <select  id="s_status" class="search_input form-control"
-                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                                <select id="s_status" class="search_input form-control"
+                                                        data-select2-id="select2-data-1-bgy2" tabindex="-1"
+                                                        aria-hidden="true">
                                                     <option selected disabled>@lang('select') @lang('status')</option>
                                                     <option value="1"> @lang('pending') </option>
                                                     <option value="2"> @lang('accepted') </option>
@@ -128,22 +134,23 @@
                             <div class="table-responsive card-datatable" style="padding: 20px">
                                 <table class="table" id="datatable">
                                     <thead>
-                                        <tr>
-                                            <th><input name="select_all" id="example-select-all" type="checkbox" onclick="CheckAll('box1', this)" /></th>
+                                    <tr>
+                                        <th><input name="select_all" id="example-select-all" type="checkbox"
+                                                   onclick="CheckAll('box1', this)"/></th>
 
-                                            <th>@lang('phone')</th>
-                                            <th>@lang('area')</th>
-                                            <th>@lang('city')</th>
-                                            <th>@lang('date')</th>
-                                            <th>@lang('time')</th>
-                                            <th>@lang('photographer')</th>
-                                            @can('Appointment.accept')
-                                                <th>@lang('status')</th>
-                                            @endcan
-                                            @can('Appointment.delete'||'Appointment.update')
-                                                <th style="width: 225px;">@lang('actions')</th>
-                                            @endcan
-                                        </tr>
+                                        <th>@lang('phone')</th>
+                                        <th>@lang('area')</th>
+                                        <th>@lang('city')</th>
+                                        <th>@lang('date')</th>
+                                        <th>@lang('time')</th>
+                                        <th>@lang('photographer')</th>
+                                        @can('Appointment.accept')
+                                            <th>@lang('status')</th>
+                                        @endcan
+                                        @can('Appointment.delete'||'Appointment.update')
+                                            <th style="width: 225px;">@lang('actions')</th>
+                                        @endcan
+                                    </tr>
                                     </thead>
                                     <tbody></tbody>
 
@@ -159,7 +166,7 @@
 
     <!-- Modal -->
     <div class="modal fade" id="full-modal-stem" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -169,7 +176,7 @@
                     </button>
                 </div>
                 <form action="{{ route('OrderAppointment.store') }}" method="POST" id="add_model_form"
-                    class="add-mode-form" enctype="multipart/form-data">
+                      class="add-mode-form" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
                         <div class="row">
@@ -177,7 +184,7 @@
                                 <div class="form-group">
                                     <label for="">@lang('country')</label>
                                     <select name="country_uuid" id="" class="select form-control"
-                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                            data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                         <option selected disabled>@lang('select') @lang('country')</option>
                                         @foreach ($country as $itemm)
                                             <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
@@ -191,7 +198,7 @@
                                 <div class="form-group">
                                     <label for="">@lang('city')</label>
                                     <select name="city_uuid" id="edit_city" class="select form-control"
-                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                            data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
 
                                     </select>
                                     <div class="invalid-feedback"></div>
@@ -205,7 +212,7 @@
                                 <div class="form-group">
                                     <label for="">@lang('area')</label>
                                     <select name="area_uuid" id="" class="select form-control"
-                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                            data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                         <option selected disabled>@lang('select') @lang('area')</option>
                                     </select>
                                     <div class="invalid-feedback"></div>
@@ -215,7 +222,7 @@
                                 <div class="form-group">
                                     <label for="">@lang('user')</label>
                                     <select name="user_uuid" id="" class="form-control"
-                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                            data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                         <option selected disabled>@lang('select') @lang('users')</option>
                                         @foreach ($users as $itemm)
                                             <option value="{{ $itemm->uuid }}"> {{ $itemm->phone }} </option>
@@ -238,7 +245,7 @@
                                 <div class="form-group">
                                     <label for="">@lang('phone')</label>
                                     <input type="text" name="phone" class="form-control"
-                                        placeholder="@lang('phone')">
+                                           placeholder="@lang('phone')">
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
@@ -248,7 +255,7 @@
                                 <div class="form-group">
                                     <label for="">@lang('type_content')</label>
                                     <select class="form-control type_content" name="type" id=""
-                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                            data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                         <option selected disabled>@lang('select') @lang('select')</option>
                                         @foreach ($type as $key => $item)
                                             <option value="{{ $key }}">@lang($item)</option>
@@ -267,7 +274,7 @@
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
-                                data-dismiss="modal">@lang('close')</button>
+                                    data-dismiss="modal">@lang('close')</button>
                             <button class="btn btn-primary">@lang('add')</button>
                         </div>
                     </div>
@@ -289,7 +296,7 @@
                       enctype="multipart/form-data">
                     <div class="modal-body">
                         <div class="row">
-                            <input type="hidden" name="uuid" id="uuid_appointment" class="form-control" />
+                            <input type="hidden" name="uuid" id="uuid_appointment" class="form-control"/>
                         </div>
 
 
@@ -317,7 +324,7 @@
         </div>
     </div>
     <div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true">
+         aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -327,17 +334,17 @@
                     </button>
                 </div>
                 <form action="{{ route('OrderAppointment.update') }}" method="POST" id="form_edit" class=""
-                    enctype="multipart/form-data">
+                      enctype="multipart/form-data">
                     <div class="modal-body">
                         <div class="row">
-                            <input type="hidden" name="uuid" id="uuid" class="form-control" />
+                            <input type="hidden" name="uuid" id="uuid" class="form-control"/>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">@lang('country')</label>
                                     <select name="country_uuid" id="edit_country" class="select form-control"
-                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                            data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                         <option selected disabled>@lang('select') @lang('country')</option>
                                         @foreach ($country as $itemm)
                                             <option value="{{ $itemm->uuid }}"> {{ $itemm->name }} </option>
@@ -351,7 +358,7 @@
                                 <div class="form-group">
                                     <label for="">@lang('city')</label>
                                     <select name="city_uuid" id="edit_city_uuid" class="select form-control"
-                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                            data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                         <option selected disabled>@lang('select') @lang('city')</option>
                                     </select>
                                     <div class="invalid-feedback"></div>
@@ -365,7 +372,7 @@
                                 <div class="form-group">
                                     <label for="">@lang('area')</label>
                                     <select name="area_uuid" id="edit_area" class="select form-control"
-                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                            data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                         <option selected disabled>@lang('select') @lang('area')</option>
                                     </select>
                                     <div class="invalid-feedback"></div>
@@ -375,7 +382,7 @@
                                 <div class="form-group">
                                     <label for="">@lang('user')</label>
                                     <select name="user_uuid" id="edit_user_uuid" class="form-control"
-                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                            data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                         <option selected disabled>@lang('select') @lang('users')</option>
                                         @foreach ($users as $itemm)
                                             <option value="{{ $itemm->uuid }}"> {{ $itemm->phone }} </option>
@@ -400,7 +407,7 @@
                                 <div class="form-group">
                                     <label for="">@lang('phone')</label>
                                     <input type="text" name="phone" class="form-control" id="phone"
-                                        placeholder="@lang('phone')">
+                                           placeholder="@lang('phone')">
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
@@ -416,7 +423,7 @@
                                 <div class="form-group">
                                     <label for="">@lang('type_content')</label>
                                     <select class="form-control type_content" name="type" id="edit_type"
-                                        data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
+                                            data-select2-id="select2-data-1-bgy2" tabindex="-1" aria-hidden="true">
                                         <option selected disabled>@lang('select') @lang('select')</option>
                                         @foreach ($type as $key => $item)
                                             <option value="{{ $key }}">@lang($item)</option>
@@ -429,7 +436,7 @@
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
-                                data-dismiss="modal">@lang('close')</button>
+                                    data-dismiss="modal">@lang('close')</button>
                             <button class="btn btn-primary">@lang('add')</button>
                         </div>
                     </div>
@@ -453,27 +460,28 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6">
-                                <input type="hidden" name="appointment_uuid" id="uuid_appointment_car" class="form-control" />
+                                <input type="hidden" name="appointment_uuid" id="uuid_appointment_car"
+                                       class="form-control"/>
                             </div>
                         </div>
-                            <div class="row">
-                                <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="phone">@lang('phone')</label>
                                     <input type="text" class="form-control" placeholder="@lang('phone')"
                                            name="phone" id="phone">
                                     <div class="invalid-feedback"></div>
                                 </div>
-                             </div>
-                                <div class="col-md-6">
-                                   <div class="form-group">
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
                                     <label for="price">@lang('price')</label>
                                     <input type="text" class="form-control" placeholder="@lang('price')"
                                            name="price" id="price">
                                     <div class="invalid-feedback"></div>
                                 </div>
-                                </div>
                             </div>
+                        </div>
 
 
                         <div class="row">
@@ -514,7 +522,7 @@
                                         @foreach ($ColorCar as $itemm)
                                             <option value="{{ $itemm->uuid }}"> {{ $itemm->name }}
                                                 <div
-                                                    style="height:50px;width:50px;background-color:{{ $itemm->color }}">
+                                                        style="height:50px;width:50px;background-color:{{ $itemm->color }}">
                                                 </div>
                                             </option>
 
@@ -674,7 +682,7 @@
 @section('scripts')
     <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/classic/ckeditor.js"></script>
     <script>
-        $('.type_content').change(function(e) {
+        $('.type_content').change(function (e) {
             debugger;
             e.preventDefault();
             var value = $(this).val();
@@ -700,25 +708,25 @@
             responsive: true,
             "oLanguage": {
                 @if (app()->isLocale('ar'))
-                    "sEmptyTable": "ليست هناك بيانات متاحة في الجدول",
-                    "sLoadingRecords": "جارٍ التحميل...",
-                    "sProcessing": "جارٍ التحميل...",
-                    "sLengthMenu": "أظهر _MENU_ مدخلات",
-                    "sZeroRecords": "لم يعثر على أية سجلات",
-                    "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
-                    "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
-                    "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
-                    "sInfoPostFix": "",
-                    "sSearch": "ابحث:",
-                    "oAria": {
-                        "sSortAscending": ": تفعيل لترتيب العمود تصاعدياً",
-                        "sSortDescending": ": تفعيل لترتيب العمود تنازلياً"
-                    },
+                "sEmptyTable": "ليست هناك بيانات متاحة في الجدول",
+                "sLoadingRecords": "جارٍ التحميل...",
+                "sProcessing": "جارٍ التحميل...",
+                "sLengthMenu": "أظهر _MENU_ مدخلات",
+                "sZeroRecords": "لم يعثر على أية سجلات",
+                "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
+                "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
+                "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
+                "sInfoPostFix": "",
+                "sSearch": "ابحث:",
+                "oAria": {
+                    "sSortAscending": ": تفعيل لترتيب العمود تصاعدياً",
+                    "sSortDescending": ": تفعيل لترتيب العمود تنازلياً"
+                },
                 @endif // "oPaginate": {"sPrevious": '<-', "sNext": '->'},
             },
             ajax: {
                 url: '{{ route('OrderAppointment.getData', app()->getLocale()) }}',
-                data: function(d) {
+                data: function (d) {
                     d.city_uuid = $('#s_city').val();
                     d.area_uuid = $('#s_area').val();
                     d.photographer_uuid = $('#s_name').val();
@@ -728,7 +736,7 @@
 
                 }
             },
-            columns: [      {
+            columns: [{
                 "render": function (data, type, full, meta) {
                     return `<td><input type="checkbox" onclick="checkClickFunc()" value="${data}" class="box1" ></td>
 `;
@@ -791,15 +799,15 @@
                     orderable: false,
                     searchable: true
                 },
-                    @endcan
+                @endcan
 
             ]
 
         });
 
 
-        $(document).ready(function() {
-            $(document).on('click', '.btn_edit', function(event) {
+        $(document).ready(function () {
+            $(document).on('click', '.btn_edit', function (event) {
                 $('input').removeClass('is-invalid');
                 $('.invalid-feedback').text('');
                 event.preventDefault();
@@ -818,13 +826,13 @@
                 $('#uuid').val(uuid);
 
                 @foreach (locales() as $key => $value)
-                    $('#edit_name_{{ $key }}').val(button.data('name_{{ $key }}'))
+                $('#edit_name_{{ $key }}').val(button.data('name_{{ $key }}'))
                 @endforeach
 
             });
         });
-        $(document).ready(function() {
-            $(document).on('click', '.btn_accept', function(event) {
+        $(document).ready(function () {
+            $(document).on('click', '.btn_accept', function (event) {
                 $('input').removeClass('is-invalid');
                 $('.invalid-feedback').text('');
                 event.preventDefault();
@@ -835,13 +843,13 @@
                     url: "Appointment/user/Photographer" + "/" + button.data('city') + "/" + button.data('area'),
                     type: "GET",
                     dataType: "json",
-                    success: function(data) {
+                    success: function (data) {
                         $('select[name="photographer_uuid"]').empty();
 
                         $('select[name="photographer_uuid"]').append(`
                              <option selected  disabled>@lang('select') @lang('users')</option>
                              `)
-                        $.each(data, function(key, value) {
+                        $.each(data, function (key, value) {
                             $('select[name="photographer_uuid"]').append('<option value="' +
                                 key + '">' + value + '</option>');
                         });
@@ -850,8 +858,8 @@
 
             });
         });
-        $(document).ready(function() {
-            $(document).on('click', '.add-car', function(event) {
+        $(document).ready(function () {
+            $(document).on('click', '.add-car', function (event) {
                 $('input').removeClass('is-invalid');
                 $('.invalid-feedback').text('');
                 event.preventDefault();
@@ -866,8 +874,8 @@
 
 
     <script>
-        $(document).ready(function() {
-            $('select[name="city_uuid"]').on('change', function() {
+        $(document).ready(function () {
+            $('select[name="city_uuid"]').on('change', function () {
 
                 var city_uuid = $(this).val();
                 console.log(city_uuid)
@@ -876,13 +884,13 @@
                         url: "users/area" + "/" + city_uuid,
                         type: "GET",
                         dataType: "json",
-                        success: function(data) {
+                        success: function (data) {
                             $('select[name="area_uuid"]').empty();
 
                             $('select[name="area_uuid"]').append(`
                              <option selected  disabled>@lang('select') @lang('area')</option>
                              `)
-                            $.each(data, function(key, value) {
+                            $.each(data, function (key, value) {
                                 $('select[name="area_uuid"]').append('<option value="' +
                                     key + '">' + value + '</option>');
                             });
@@ -892,7 +900,7 @@
                     console.log('AJAX load did not work');
                 }
             });
-            $('select[name="country_uuid"]').on('change', function() {
+            $('select[name="country_uuid"]').on('change', function () {
                 var country_uuid = $(this).val();
                 console.log(country_uuid);
                 if (country_uuid) {
@@ -900,14 +908,14 @@
                         url: "users/country" + "/" + country_uuid,
                         type: "GET",
                         dataType: "json",
-                        success: function(data) {
+                        success: function (data) {
                             console.log('ccc')
                             $('select[name="city_uuid"]').empty();
                             $('select[name="city_uuid"]').append(`
                              <option selected  disabled>@lang('select') @lang('area')</option>
                              `)
                             $('select[name="area_uuid"]').empty();
-                            $.each(data, function(key, value) {
+                            $.each(data, function (key, value) {
                                 $('select[name="city_uuid"]').append('<option value="' +
                                     key + '">' + value + '</option>');
                             });
@@ -920,7 +928,7 @@
         });
 
 
-        $(document).on("click", ".btn-success", function(e) {
+        $(document).on("click", ".btn-success", function (e) {
             var button = $(this)
             e.preventDefault();
             Swal.fire({
@@ -935,27 +943,27 @@
                     cancelButton: 'btn btn-outline-success'
                 },
                 buttonsStyling: true
-            }).then(function(result) {
+            }).then(function (result) {
                 if (result.value) {
                     var uuid = $('#uuid_appointment').val()
                     var photographer = $('#photographer_uuid').val()
-                    var url =  "Appointment/accept";
+                    var url = "Appointment/accept";
                     $.ajax({
                         url: url,
                         method: 'POST',
                         data: {
                             _token: '{{ csrf_token() }}',
-                            'uuid':uuid,
-                            'photographer uuid':photographer
+                            'uuid': uuid,
+                            'photographer uuid': photographer
                         },
-                    }).done(function() {
+                    }).done(function () {
                         toastr.success('@lang('accepted')', '', {
                             rtl: isRtl
                         });
                         table.draw()
                         $('#accept').modal('hide');
 
-                    }).fail(function() {
+                    }).fail(function () {
                         toastr.error('@lang('something_wrong')', '', {
                             rtl: isRtl
                         });

@@ -1,4 +1,4 @@
-@extends('admin.part.app')
+@extends('part.app')
 @section('title')
     @lang('roles')
 @endsection
@@ -42,7 +42,9 @@
                                 <h3 class="m-0"></h3>
                                 @can('role.create')
 
-                                <a href="{{route('role.create')}}">  <button class="btn btn-success waves-effect waves-light">@lang('add')</button></a>
+                                    <a href="{{route('role.create')}}">
+                                        <button class="btn btn-success waves-effect waves-light">@lang('add')</button>
+                                    </a>
                                 @endcan
                             </div>
 
@@ -68,19 +70,21 @@
                                                         <div class="btn-group me-1 mt-2">
 
 
-                                                                @can('role.update')
-                                                                <a class="dropdown-item" href="{{route('role.edit',$item->uuid)}}">
+                                                            @can('role.update')
+                                                                <a class="dropdown-item"
+                                                                   href="{{route('role.edit',$item->uuid)}}">
                                                                     <i data-feather="edit-2" class="mr-50"></i>
                                                                     <span>@lang('edit')</span>
                                                                 </a>
-                                                                @endcan
-                                                                @can('role.delete')
-                                                                <button class="dropdown-item btn_delete" data-bs-toggle="modal"
+                                                            @endcan
+                                                            @can('role.delete')
+                                                                <button class="dropdown-item btn_delete"
+                                                                        data-bs-toggle="modal"
                                                                         data-id="{{$item->uuid}}">
                                                                     <i data-feather="edit-2" class="mr-50"></i>
                                                                     <span>@lang('delete')</span>
                                                                 </button>
-                                                                @endcan
+                                                            @endcan
 
                                                         </div>
                                                     </div>
@@ -109,9 +113,5 @@
         <!-- End Page-content-wrapper -->
 
     </div>
-
-
-
-
 
 @endsection

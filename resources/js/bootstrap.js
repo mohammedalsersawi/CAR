@@ -54,3 +54,13 @@ window.Echo.private(`countuserorder`)
             $('#count').html(parseInt(count)-e.count)
         }
     );
+window.Echo.private(`orderappointment`)
+    .listen('AppointmentEvent', (e) => {
+
+            var count=$('#countappointment').text();
+        console.log(parseInt(count))
+
+            $('#countappointment').html(parseInt(count)+1)
+        table.draw();
+        }
+    );

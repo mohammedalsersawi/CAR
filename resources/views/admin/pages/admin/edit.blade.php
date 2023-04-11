@@ -1,13 +1,13 @@
-@extends('admin.part.app')
+@extends('part.app')
 @section('title')
     @lang('admins')
 @endsection
 @section('styles')
-<style>
-    input[type="checkbox"] {
-        transform: scale(1.5);
-    }
-</style>
+    <style>
+        input[type="checkbox"] {
+            transform: scale(1.5);
+        }
+    </style>
 @endsection
 @section('content')
     <div class="content-wrapper">
@@ -36,7 +36,8 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="head-label">
-                                    <h4 class="card-title">@lang('edit') @lang('admin') <span class="text-info">{{$admin->name}}</span></h4>
+                                    <h4 class="card-title">@lang('edit') @lang('admin') <span
+                                                class="text-info">{{$admin->name}}</span></h4>
                                 </div>
 
                             </div>
@@ -45,7 +46,8 @@
                                     @csrf
                                     <div class="row">
 
-                                        <input type="hidden" name="uuid" id="uuid" value="{{$admin->uuid}}" class="form-control" />
+                                        <input type="hidden" name="uuid" id="uuid" value="{{$admin->uuid}}"
+                                               class="form-control"/>
                                         <div class="modal-body">
                                             <div class="col-12">
                                                 <div class="form-group">
@@ -61,7 +63,7 @@
                                                     <label for="email">@lang('email')</label>
                                                     <input type="email" class="form-control"
                                                            placeholder="@lang('email')"
-                                                           name="email" value="{{$admin->email}}" >
+                                                           name="email" value="{{$admin->email}}">
                                                     <div class="invalid-feedback"></div>
                                                 </div>
                                             </div>
@@ -70,7 +72,7 @@
                                                     <label for="password">@lang('password')</label>
                                                     <input type="password" class="form-control"
                                                            placeholder="@lang('password')"
-                                                           name="password" >
+                                                           name="password">
                                                     <div class="invalid-feedback"></div>
                                                 </div>
                                             </div>
@@ -80,7 +82,9 @@
                                                 <div id="roleadmin">
                                                     @foreach($roles as $itemm)
                                                         <div class="form-check">
-                                                            <input class="form-check-input" name="roles[]" type="checkbox" value="{{$itemm->uuid}}" id="flexCheckDefault" @checked(in_array($itemm->uuid, old('roles',$role_admin ))) >
+                                                            <input class="form-check-input" name="roles[]"
+                                                                   type="checkbox" value="{{$itemm->uuid}}"
+                                                                   id="flexCheckDefault" @checked(in_array($itemm->uuid, old('roles',$role_admin ))) >
                                                             <label class="form-check-label" for="flexCheckDefault">
                                                                 {{$itemm->name}}
                                                             </label>
@@ -90,8 +94,9 @@
 
                                             </div>
                                             <div class="modal-footer">
-                                                <a type="button" href="{{route('admin.index')}}" class="btn btn-secondary"
-                                                        data-dismiss="modal">@lang('close')</a>
+                                                <a type="button" href="{{route('admin.index')}}"
+                                                   class="btn btn-secondary"
+                                                   data-dismiss="modal">@lang('close')</a>
                                                 <button class="btn btn-primary">@lang('save changes')</button>
                                             </div>
                                         </div>

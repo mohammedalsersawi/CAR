@@ -1,4 +1,4 @@
-@extends('admin.part.app')
+@extends('part.app')
 @section('title')
     @lang('user_order')
 @endsection
@@ -15,7 +15,8 @@
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ url('/admin') }}">@lang('home')</a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="{{ route('orders.index') }}">@lang('images_car')</a>
+                                <li class="breadcrumb-item"><a
+                                            href="{{ route('orders.index') }}">@lang('images_car')</a>
                                 </li>
                             </ol>
                         </div>
@@ -36,15 +37,14 @@
                                 <div class="text-right">
                                     <div class="form-gruop">
                                         <button class="btn btn-outline-primary button_modal" type="button"
-                                            data-toggle="modal" id="addd" data-target="#full-modal-stem"><span><i
-                                                    class="fa fa-plus"></i>@lang('add')</span>
+                                                data-toggle="modal" id="addd" data-target="#full-modal-stem"><span><i
+                                                        class="fa fa-plus"></i>@lang('add')</span>
                                         </button>
 
                                     </div>
                                 </div>
                             </div>
                             <div class="row row-cols-1 row-cols-md-3 g-4" id="images-crad" style="margin-right: 120px">
-
 
 
                             </div>
@@ -58,7 +58,7 @@
 
 
     <div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true">
+         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -68,7 +68,7 @@
                     </button>
                 </div>
                 <form action="{{ route('ads.car.updateImages') }}" method="POST" id="form_edit_image" class="form_edit"
-                    enctype="multipart/form-data">
+                      enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" id="uuid" name="uuid">
                     <div class="modal-body">
@@ -77,7 +77,7 @@
                                 <div class="form-group">
                                     <label for="phone">@lang('image')</label>
                                     <input type="file" class="form-control" placeholder="@lang('image')"
-                                        name="car_image" id="">
+                                           name="car_image" id="">
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
@@ -94,11 +94,11 @@
 @endsection
 @section('scripts')
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             loadCard();
         });
 
-        $(document).on("click", "#delete-image", function(e) {
+        $(document).on("click", "#delete-image", function (e) {
             var button = $(this)
             Swal.fire({
                 title: '@lang('delete_confirmation')',
@@ -112,7 +112,7 @@
                     cancelButton: 'btn btn-outline-danger'
                 },
                 buttonsStyling: true
-            }).then(function(result) {
+            }).then(function (result) {
                 if (result.value) {
                     var id = button.data('id')
                     var url = window.location.href + '/' + id;
@@ -124,13 +124,13 @@
                         data: {
                             _token: '{{ csrf_token() }}'
                         },
-                    }).done(function() {
+                    }).done(function () {
                         toastr.success('@lang('deleted')', '', {
                             rtl: isRtl
                         });
                         loadCard();
 
-                    }).fail(function() {
+                    }).fail(function () {
                         toastr.error('@lang('something_wrong')', '', {
                             rtl: isRtl
                         });
@@ -150,13 +150,13 @@
                 data: {
                     'uuid': uuid
                 },
-                success: function(response) {
+                success: function (response) {
                     $("#images-crad").html(response);
                 },
             });
         };
 
-        $(document).on("click", "#edite-image", function(e) {
+        $(document).on("click", "#edite-image", function (e) {
             $('#uuid').val('');
             var data_btm = $(this)
             var id = data_btm.data('id')
@@ -164,8 +164,7 @@
         })
 
 
-
-        $('#form_edit_image').on('submit', function(event) {
+        $('#form_edit_image').on('submit', function (event) {
             event.preventDefault();
             var data = new FormData(this);
             let url = $(this).attr('action');
@@ -177,12 +176,12 @@
                 processData: false,
                 url: url,
                 data: data,
-                beforeSend: function() {
+                beforeSend: function () {
                     $('input').removeClass('is-invalid');
                     $('.text-danger').text('');
                     $('.btn-file').addClass('');
                 },
-                success: function(result) {
+                success: function (result) {
                     $('#edit_modal').modal('hide');
                     $('.form_edit').trigger("reset");
                     toastr.success('@lang('done_successfully')', '', {
@@ -191,12 +190,12 @@
                     loadCard();
 
                 },
-                error: function(data) {
+                error: function (data) {
 
                     if (data.status === 422) {
 
                         var response = data.responseJSON;
-                        $.each(response.errors, function(key, value) {
+                        $.each(response.errors, function (key, value) {
                             var str = (key.split("."));
                             if (str[1] === '0') {
                                 key = str[0] + '[]';
