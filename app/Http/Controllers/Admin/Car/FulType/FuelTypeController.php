@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Admin\ResponseTrait;
 use App\Models\FuelType;
+use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\Facades\DataTables;
 
 class FuelTypeController extends Controller
@@ -14,11 +15,14 @@ class FuelTypeController extends Controller
 
     public function index()
     {
+        Gate::authorize('fuelType.view');
         return view('admin.pages.fuelType.fuelType');
     }
 
     public function store(Request $request)
     {
+        Gate::authorize('fuelType.create');
+
         $rules = [];
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
@@ -35,6 +39,7 @@ class FuelTypeController extends Controller
 
     public function update(Request $request)
     {
+        Gate::authorize('fuelType.update');
         $rules = [];
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
@@ -52,8 +57,9 @@ class FuelTypeController extends Controller
 
     public function destroy($uuid)
     {
-        $fuel_type = FuelType::find($uuid);
-        $fuel_type->delete();
+        Gate::authorize('fuelType.delete');
+        $uuids=explode(',', $uuid);
+        FuelType::whereIn('uuid', $uuids)->delete();
         return $this->sendResponse(null, null);
     }
 
@@ -71,7 +77,9 @@ class FuelTypeController extends Controller
 
                 }
             })
-            ->addIndexColumn()
+            ->addColumn('checkbox',function ($que){
+                return $que->uuid;
+            })
             ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-uuid="' . $que->uuid . '" ';
@@ -99,6 +107,7 @@ class FuelTypeController extends Controller
 
     public function activate($uuid)
     {
+        Gate::authorize('fuelType.update');
         $activate =  FuelType::findOrFail($uuid);
         $activate->status = !$activate->status;
         if (isset($activate) && $activate->save()) {

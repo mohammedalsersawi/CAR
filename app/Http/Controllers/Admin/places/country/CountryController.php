@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\ResponseTrait;
 use App\Http\Controllers\Controller;
 use App\Models\Country;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\Facades\DataTables;
 
 class CountryController extends Controller
@@ -14,12 +15,13 @@ class CountryController extends Controller
 
     public function index(Request $request)
     {
-
+        Gate::authorize('place.view');
         return view('admin.pages.country.index');
     }
 
     public function store(Request $request)
     {
+        Gate::authorize('place.create');
         $rules = [];
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
@@ -37,6 +39,7 @@ class CountryController extends Controller
 
     public function update(Request $request)
     {
+        Gate::authorize('place.update');
         $rules = [];
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
@@ -53,9 +56,10 @@ class CountryController extends Controller
 
     public function destroy($uuid)
     {
-        $Country = Country::find($uuid);
-        $Country->delete();
-        return $this->sendResponse(null,  null);
+        Gate::authorize('place.delete');
+        $uuids=explode(',', $uuid);
+        Country::whereIn('uuid', $uuids)->delete();
+        return $this->sendResponse(null, null);
     }
 
     public function getData(Request $request)
@@ -72,7 +76,9 @@ class CountryController extends Controller
 
                 }
             })
-            ->addIndexColumn()
+            ->addColumn('checkbox',function ($que){
+                return $que->uuid;
+            })
             ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-uuid="' . $que->uuid . '" ';
@@ -100,6 +106,7 @@ class CountryController extends Controller
 
     public function activate($uuid)
     {
+        Gate::authorize('place.update');
         $activate =  Country::findOrFail($uuid);
         $activate->status = !$activate->status;
         if (isset($activate) && $activate->save()) {

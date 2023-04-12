@@ -43,19 +43,16 @@ class Brand extends Model
     {
         return @$this->name;
     }
-    protected static function booted()
-    {
-        self::deleted(function ($brand) {
-            File::delete(public_path('uploads/' . $brand->imageBrand->filename));
-            $brand->imageBrand()->delete();
-        });
-    }
 
     public static function boot()
     {
         parent::boot();
         self::creating(function ($brand) {
             $brand->uuid = Str::uuid();
+        });
+        self::deleted(function ($brand) {
+            File::delete(public_path('uploads/'.$brand->imageBrand->filename));
+            $brand->imageBrand()->delete();
         });
     }
 }

@@ -9,6 +9,7 @@ use App\Models\City;
 use App\Models\User;
 use App\Models\UserOrder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\Facades\DataTables;
 
 class UserOrderController extends Controller
@@ -17,6 +18,8 @@ class UserOrderController extends Controller
 
     public function index()
     {
+        Gate::authorize('order.view');
+
         $cities = City::select(['name', 'uuid'])->get();
 
 //        return UserOrder::select('uuid')->get();
@@ -25,6 +28,8 @@ class UserOrderController extends Controller
 
     public function destroy($uuid)
     {
+        Gate::authorize('order.delete');
+
         $uuid_user=explode(',', $uuid);
         $count = UserOrder::whereIn('uuid',$uuid_user )->where('status',UserOrder::pending)->count();
             event(new CountUserOrderEvent($count));
@@ -34,7 +39,9 @@ return $this->sendResponse(null, null);
 
     }
     public function accepted($uuid){
-       $useroreder= UserOrder::findOrFail($uuid);
+        Gate::authorize('order.acceptedOrRejected');
+
+        $useroreder= UserOrder::findOrFail($uuid);
        User::where('uuid',$useroreder->user_uuid)->update([
            'name'=>$useroreder->name,
            'city_uuid'=>$useroreder->city_uuid,
@@ -51,6 +58,7 @@ return $this->sendResponse(null, null);
 
     }
     public function rejected($uuid){
+        Gate::authorize('order.acceptedOrRejected');
         $useroreder= UserOrder::findOrFail($uuid);
         $useroreder->update([
             'status'=>2

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api\appointment;
 
+use App\Events\AppointmentEvent;
+use App\Events\UserOrderEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Area;
 use App\Models\Brand;
@@ -48,7 +50,9 @@ class AppointmentController extends Controller
         $photographer = OrderAppointment::create($request->only(['type', 'user_uuid', 'city_uuid', 'area_uuid', 'date', 'phone', 'time']));
 
         if ($photographer) {
+            event(new AppointmentEvent());
             return mainResponse(true, __('ok'), $photographer, [], 200);
+
         } else {
             return mainResponse(false, __('fail'), [], [], 200);
 

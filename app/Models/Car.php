@@ -37,7 +37,7 @@ class Car extends Model
     ];
     protected $guarded = [];
     public function user(){
-        return $this->belongsTo(User::class,'user_uuid');
+        return $this->belongsTo(User::class,'showroom_uuid');
     }
     public function ImagesCar()
     {
@@ -125,7 +125,7 @@ class Car extends Model
             $car->uuid = Str::uuid();
         });
         self::deleted(function ($car) {
-            foreach ($car->images as $item) {
+            foreach ($car->ImagesCar as $item) {
                 File::delete(public_path('uploads/'.$item->filename));
             }
             $car->ImagesCar()->delete();

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\video;
 use App\Models\Year;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class SettingController extends Controller
 
@@ -15,12 +16,14 @@ class SettingController extends Controller
 
     public function getyear()
     {
+        Gate::authorize('setting.view');
         $year = Year::query()->first();
         return view('admin.pages.setting.year.index',compact('year'));
     }
 
     public function year(Request $request)
     {
+        Gate::authorize('setting.view');
         $rules = [
             'from' => 'required',
             'to' => 'required',
@@ -37,6 +40,7 @@ class SettingController extends Controller
 
     public function video(Request $request)
     {
+        Gate::authorize('setting.view');
         $rules = [
             'video' => 'required'
         ];

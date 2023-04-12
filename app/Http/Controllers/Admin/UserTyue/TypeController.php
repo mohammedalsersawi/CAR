@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\ResponseTrait;
 use App\Http\Controllers\Controller;
 use App\Models\Type;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\Facades\DataTables;
 
 class TypeController extends Controller
@@ -13,10 +14,12 @@ class TypeController extends Controller
     use ResponseTrait;
     public function index()
     {
+        Gate::authorize('user.view');
         return view('admin.pages.usertype.Type');
     }
     public function store(Request $request)
     {
+        Gate::authorize('user.create');
         $rules = [];
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
@@ -31,6 +34,7 @@ class TypeController extends Controller
     }
     public function update(Request $request)
     {
+        Gate::authorize('user.update');
         $rules = [];
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
@@ -47,7 +51,9 @@ class TypeController extends Controller
     }
     public function destroy($uuid)
     {
-        Type::destroy($uuid);
+        Gate::authorize('user.delete');
+        $uuids=explode(',', $uuid);
+        Type::whereIn('uuid', $uuids)->delete();
         return $this->sendResponse(null, null);
     }
     public function getData(Request $request)
@@ -56,7 +62,9 @@ class TypeController extends Controller
 
         return Datatables::of($deals)
 
-            ->addIndexColumn()
+            ->addColumn('checkbox',function ($que){
+                return $que->uuid;
+            })
             ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-uuid="' . $que->uuid . '" ';

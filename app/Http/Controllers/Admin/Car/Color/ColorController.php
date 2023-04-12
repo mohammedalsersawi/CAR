@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ColorCar;
 use Faker\Core\Color;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\Facades\DataTables;
 
 class ColorController extends Controller
@@ -15,12 +16,14 @@ class ColorController extends Controller
     use ResponseTrait;
     public function index(Request $request)
     {
+        Gate::authorize('color.view');
         return view('admin.pages.color.color');
     }
 
 
     public function store(Request $request)
     {
+        Gate::authorize('color.create');
         $rules = [];
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
@@ -41,6 +44,7 @@ class ColorController extends Controller
 
     public function update(Request $request)
     {
+        Gate::authorize('color.update');
         $rules = [];
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
@@ -58,9 +62,10 @@ class ColorController extends Controller
 
     public function destroy($uuid)
     {
-        $Color = ColorCar::find($uuid);
-        $Color->delete();
-        return $this->sendResponse(null, null);
+        Gate::authorize('color.delete');
+        $uuids=explode(',', $uuid);
+        ColorCar::whereIn('uuid', $uuids)->delete();
+        return $this->sendResponse(null,null);
     }
 
 
@@ -77,7 +82,9 @@ class ColorController extends Controller
                     }
                 }
             })
-            ->addIndexColumn()
+            ->addColumn('checkbox',function ($que){
+                return $que->uuid;
+            })
             ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-uuid="' . $que->uuid . '" ';

@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Admin\Deals;
 use App\Http\Controllers\Admin\ResponseTrait;
 use App\Http\Controllers\Controller;
 use App\Models\Deals;
+use App\Models\Image;
 use App\Models\Type;
 use App\Models\User;
 use App\Utils\ImageUpload;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\Facades\DataTables;
 
 class DealsController extends Controller
@@ -16,12 +18,15 @@ class DealsController extends Controller
     use ResponseTrait;
     public function index()
     {
+        Gate::authorize('deal.view');
         $user=User::select(['phone','uuid','name'])->where('user_type_id',User::DISCOUNT_STORE)->get();
         $type=Type::select(['uuid','name'])->get();
         return view('admin.pages.deal.index',compact('user','type'));
     }
     public function store(Request $request)
     {
+        Gate::authorize('deal.create');
+
         $rules = [];
         $rules['image'] = 'required|image';
         $rules['deals'] = 'required|string|max:255';
@@ -31,11 +36,13 @@ class DealsController extends Controller
         $data['deals']= $request->get('deals');
         $data['user_uuid']=$request->user_uuid;
         $deals =  Deals::create($data);
-        UploadImage($request->image, null, 'App\Models\Deals', $deals->uuid, false);
+        UploadImage($request->image, null, 'App\Models\Deals', $deals->uuid, false,null,Image::IMAGE);
         return $this->sendResponse(null, __('item_added'));
     }
     public function update(Request $request)
     {
+        Gate::authorize('deal.update');
+
         $rules = [];
         $rules['deals'] = 'required|string|max:255';
 
@@ -50,21 +57,26 @@ class DealsController extends Controller
 
         $deals->update($data);
         if ($request->hasFile('image')) {
-            UploadImage($request->image, null, 'App\Models\Deals', $deals->uuid, true);
+            UploadImage($request->image, null, 'App\Models\Deals', $deals->uuid, true,null,Image::IMAGE);
         }
         return $this->sendResponse(null, __('item_edited'));
 
     }
     public function destroy($uuid)
     {
-       Deals::destroy($uuid);
+        Gate::authorize('deal.delete');
+
+        $uuids=explode(',', $uuid);
+        Deals::whereIn('uuid', $uuids)->delete();
         return $this->sendResponse(null, null);
     }
     public function getData(Request $request)
     {
         $deals = Deals::query();
         return Datatables::of($deals)
-            ->addIndexColumn()
+            ->addColumn('checkbox',function ($que){
+                return $que->uuid;
+            })
             ->filter(function ($query) use ($request) {
                 if ($request->get('user_uuid')) {
                     $user=User::where('name','like', "%{$request->get('user_uuid')}%")->pluck('uuid');

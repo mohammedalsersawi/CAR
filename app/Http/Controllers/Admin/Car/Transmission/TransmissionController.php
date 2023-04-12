@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\ResponseTrait;
 use App\Http\Controllers\Controller;
 use App\Models\Transmission;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\Facades\DataTables;
 
 class TransmissionController extends Controller
@@ -14,12 +15,13 @@ class TransmissionController extends Controller
 
     public function index(Request $request)
     {
-
+        Gate::authorize('transmission.view');
         return view('admin.pages.transmission.index');
     }
 
     public function store(Request $request)
     {
+        Gate::authorize('transmission.create');
         $rules = [];
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
@@ -36,6 +38,7 @@ class TransmissionController extends Controller
 
     public function update(Request $request)
     {
+        Gate::authorize('transmission.update');
         $rules = [];
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
@@ -52,8 +55,9 @@ class TransmissionController extends Controller
 
     public function destroy($uuid)
     {
-        $transmission = Transmission::find($uuid);
-        $transmission->delete();
+        Gate::authorize('transmission.delete');
+        $uuids=explode(',', $uuid);
+        Transmission::whereIn('uuid', $uuids)->delete();
         return $this->sendResponse(null, null);
     }
 
@@ -70,7 +74,9 @@ class TransmissionController extends Controller
                     }
                 }
             })
-            ->addIndexColumn()
+            ->addColumn('checkbox',function ($que){
+                return $que->uuid;
+            })
             ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-uuid="' . $que->uuid . '" ';
@@ -98,6 +104,7 @@ class TransmissionController extends Controller
 
     public function activate($uuid)
     {
+        Gate::authorize('transmission.update');
         $activate =  Transmission::findOrFail($uuid);
         $activate->status = !$activate->status;
         if (isset($activate) && $activate->save()) {

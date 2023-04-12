@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\places\area\AreaControllerr;
 use App\Http\Controllers\Admin\places\City\CityController;
 use App\Http\Controllers\Admin\places\country\CountryController;
 use App\Http\Controllers\Admin\Plates\PlatesController;
+use App\Http\Controllers\Admin\Role\RolesController;
 use App\Http\Controllers\Admin\Setting\SettingController;
 use App\Http\Controllers\Admin\UserTyue\TypeController;
 use App\Http\Controllers\Admin\UserTyue\UserTypeController;
@@ -32,11 +33,10 @@ Route::group(
         'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath']
     ],
     function () {
-        Route::prefix('admin')->middleware('auth')->group(function () {
-            Route::view('/index', 'admin.part.app')->name('admin.index');
-        });
-        Route::middleware('auth')->group(function () {
-            Route::view('/index', 'admin.part.app');
+
+        Route::middleware('auth:web')->group(function () {
+//            Route::view('/index', 'admin.part.app');
+            Route::get('/admin/profile',[\App\Http\Controllers\Admin\Profile\ProfileController::class,'index'])->name('profile');
 
         Route::controller(ModelController::class)->name('model.')->prefix('model')->group(function () {
             Route::get('/', 'index')->name('index');
@@ -167,6 +167,8 @@ Route::group(
             Route::post('/update', 'update')->name('update');
             Route::delete('/{uuid}', 'destroy')->name('delete');
             Route::get('/getData', 'getData')->name('getData');
+            Route::post('/accept', 'accept')->name('accept');
+            Route::get('/user/Photographer/{city}/{area}', 'getuser')->name('users');
         });
         Route::controller(PlatesController::class)->name('Plates.')->prefix('Plates')->group(function () {
             Route::get('/', 'index')->name('index');
@@ -175,9 +177,46 @@ Route::group(
             Route::delete('/{uuid}', 'destroy')->name('delete');
             Route::get('/getData', 'getData')->name('getData');
         });
+        Route::controller(\App\Http\Controllers\Admin\Admins\AdminController::class)->name('admin.')->prefix('admins')->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::post('/store', 'store')->name('store');
+                Route::post('/update', 'update')->name('update');
+                Route::delete('/{uuid}', 'destroy')->name('delete');
+                Route::get('/getData', 'getData')->name('getData');
+                Route::put('/activate/{uuid}', 'activate')->name('activate');
+                Route::get('/edit/{uuid}', 'edit')->name('edit');
+        });
+            Route::resource('role',RolesController::class);
+        });
+        Route::middleware('auth:user')->prefix('user')->name('user.')->group(function (){
+            Route::get('/profile',[\App\Http\Controllers\User\Profile\ProfileController::class,'index'])->name('profile');
+
+            Route::get('/appointment',[\App\Http\Controllers\User\photograoher\OrderAppointmentController::class,'index'])->name('appointment');
+            Route::get('/appointment/getData', [\App\Http\Controllers\User\photograoher\OrderAppointmentController::class,'getData'])->name('appointment.getData');
+            Route::post('/appointment/accept', [\App\Http\Controllers\User\photograoher\OrderAppointmentController::class,'accept'])->name('accept');
+            Route::post('/appointment/store/ads', [\App\Http\Controllers\User\photograoher\OrderAppointmentController::class,'store'])->name('appointment.ads');
+
+            Route::get('/deals',[\App\Http\Controllers\User\deal\UserDealController::class,'index'])->name('deal');
+            Route::get('/deals/getData', [\App\Http\Controllers\User\deal\UserDealController::class,'getData'])->name('deal.getData');
+            Route::post('/deal/store',[\App\Http\Controllers\User\deal\UserDealController::class,'store'])->name('deal.store');
+            Route::post('/deal/update', [\App\Http\Controllers\User\deal\UserDealController::class,'update'])->name('deal.update');
+            Route::delete('/deals/{uuid}', [\App\Http\Controllers\User\deal\UserDealController::class,'destroy'])->name('deals.delete');
+
+            Route::get('/ads',[\App\Http\Controllers\User\ads\UserAdsController::class,'index'])->name('ads');
+            Route::get('/ads/getData', [\App\Http\Controllers\User\ads\UserAdsController::class,'getData'])->name('ads.getData');
+            Route::post('/ads/store',[\App\Http\Controllers\User\ads\UserAdsController::class,'store'])->name('ads.store');
+            Route::post('/ads/update', [\App\Http\Controllers\User\ads\UserAdsController::class,'update'])->name('ads.update');
+            Route::delete('/ads/{uuid}', [\App\Http\Controllers\User\ads\UserAdsController::class,'destroy'])->name('ads.delete');
+            Route::delete('/ads/images/{uuid}/{id}',[\App\Http\Controllers\User\ads\UserAdsController::class,'deleteimages'] )->name('ads.deletemages');
+            Route::get('/ads/images/{uuid}',[\App\Http\Controllers\User\ads\UserAdsController::class,'showImages'] )->name('ads.showImages');
+            Route::post('/ads/update/images',[\App\Http\Controllers\User\ads\UserAdsController::class,'updateImages'] )->name('ads.updateImages');
+            Route::get('/ads/show/card/',[\App\Http\Controllers\User\ads\UserAdsController::class,'showCard'] )->name('ads.showCard');
+            Route::get('/model/{uuid}', [DataController::class,'model'])->name('model');
 
         });
     }
+
+
 );
 
 

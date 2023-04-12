@@ -8,6 +8,7 @@ use App\Models\City;
 use App\Models\Country;
 use App\Utils\ImageUpload;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\Facades\DataTables;
 
 class CityController extends Controller
@@ -15,6 +16,7 @@ class CityController extends Controller
     use ResponseTrait;
     public function index()
     {
+        Gate::authorize('place.view');
        $country=Country::select(['name','uuid'])->get();
 
         return view('admin.pages.city.index',compact('country'));
@@ -23,6 +25,7 @@ class CityController extends Controller
 
     public function store(Request $request)
     {
+        Gate::authorize('place.create');
         $rules = [];
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:45';
@@ -42,7 +45,7 @@ class CityController extends Controller
     public function update(Request $request)
     {
 
-
+        Gate::authorize('place.update');
         $rules = [];
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
@@ -62,8 +65,10 @@ class CityController extends Controller
 
     public function destroy($uuid)
     {
-        City::destroy($uuid);
-        return $this->sendResponse(null, 'تم الحذف بنجاح');
+        Gate::authorize('place.delete');
+        $uuids=explode(',', $uuid);
+        City::whereIn('uuid', $uuids)->delete();
+        return $this->sendResponse(null, null);
     }
 
 
@@ -77,7 +82,9 @@ class CityController extends Controller
                     $query->where('name->'.locale(), 'like', "%{$request->search['value']}%");
                 }
             })
-            ->addIndexColumn()
+            ->addColumn('checkbox',function ($que){
+                return $que->uuid;
+            })
             ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-uuid="' . $que->uuid . '" ';
@@ -106,6 +113,7 @@ class CityController extends Controller
 
     public function activate($uuid)
     {
+        Gate::authorize('place.update');
         $activate =  City::findOrFail($uuid);
         $activate->status = !$activate->status;
         if (isset($activate) && $activate->save()) {

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin\Car\Brand;
 
+use App\Events\AppointmentEvent;
 use App\Models\Image;
+use Illuminate\Support\Facades\Gate;
 use Throwable;
 use App\Models\Brand;
 
@@ -18,18 +20,20 @@ class BrandController extends Controller
 
     public function index(Request $request)
     {
+        Gate::authorize('brand.view');
         return view('admin.pages.brand.index');
     }
 
 
     public function store(Request $request)
     {
+        Gate::authorize('brand.create');
         $rules = [];
         $rules['image'] = 'required|image';
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
         }
-
+        event(new AppointmentEvent());
         $this->validate($request, $rules);
         $data = [];
         foreach (locales() as $key => $language) {
@@ -38,13 +42,15 @@ class BrandController extends Controller
         $this->validate($request, $rules);
         $brands =  Brand::create($data);
         if ($request->hasFile('image')) {
-            UploadImage($request->image, null, 'App\Models\Brand', $brands->uuid, false, null, Image::IMAGE);
+            UploadImage($request->image, null, 'App\Models\Brand', $brands->uuid, false ,null,Image::IMAGE);
         }
         return $this->sendResponse(null, __('item_added'));
     }
 
     public function update(Request $request)
     {
+        Gate::authorize('brand.update');
+        Gate::authorize('admin.update');
         $rules = [];
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
@@ -59,14 +65,16 @@ class BrandController extends Controller
         $brands =   Brand::findOrFail($request->uuid);
         $brands->update($data);
         if ($request->hasFile('image')) {
-            UploadImage($request->image, null, 'App\Models\Brand', $brands->uuid, true, null, Image::IMAGE);
+            UploadImage($request->image, null, 'App\Models\Brand', $brands->uuid, true,null,Image::IMAGE);
         }
         return $this->sendResponse(null, __('item_edited'));
     }
 
     public function destroy($uuid)
     {
-        Brand::destroy($uuid);
+        Gate::authorize('brand.delete');
+        $uuid_brand=explode(',', $uuid);
+        Brand::whereIn('uuid', $uuid)->delete();
         return $this->sendResponse(null, null);
     }
 
@@ -84,7 +92,9 @@ class BrandController extends Controller
                     }
                 }
             })
-            ->addIndexColumn()
+            ->addColumn('checkbox',function ($que){
+                return $que->uuid;
+            })
             ->addColumn('action', function ($que) {
                 $data_attr = '';
                 $data_attr .= 'data-uuid="' . @$que->uuid . '" ';
