@@ -31,8 +31,6 @@ class AuthController extends Controller
         } else {
             return mainResponse(false, __('auth.failed'), [], [], 101);
         }
-
-
     }
 
     public function register(Request $request)
@@ -53,13 +51,12 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
             'code' => $code
         ]);
-        $phone=$user->phone;
-        $token=$user->createToken('api')->plainTextToken;
+        $phone = $user->phone;
+        $token = $user->createToken('api')->plainTextToken;
 
 
 
-        return mainResponse(true, 'User created successfully', compact('phone','token','number',), [], 101);
-
+        return mainResponse(true, 'User created successfully', compact('phone', 'token', 'number',), [], 101);
     }
 
     public function logout(Request $request)
@@ -83,7 +80,6 @@ class AuthController extends Controller
             return mainResponse(true, __('ok'), $user, [], 200);
         }
         return mainResponse(true, __('The number you entered'), [], [], 200);
-
     }
 
     public function resend_code(Request $request)
@@ -95,7 +91,5 @@ class AuthController extends Controller
             'code' => $code
         ]);
         return mainResponse(true, __('ok'), $number, [], 200);
-
     }
-
 }

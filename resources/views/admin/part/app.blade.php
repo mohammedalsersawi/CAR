@@ -473,20 +473,9 @@
                 }
             }
         }
-
-
-
     </script>
+    <script></script>
     <script>
-
-
-
-
-
-    </script>
-    <script>
-
-
         // $(document).on('change', "#select_all", function (e) {
         //     var delete_btn = $('#delete_btn'), export_btn = $('#export_btn'),
         //         chart_btn = $('#chart_btn'), all_status_btn = $('.all_status_btn'), table_ids = $('.table_ids');
@@ -619,7 +608,6 @@
 
 
                     var url = window.location.href + '/' + uuid;
-                    alert(url)
                     $.ajax({
                         url: url,
                         method: 'DELETE',

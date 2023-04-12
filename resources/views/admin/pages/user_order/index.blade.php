@@ -310,7 +310,6 @@
         });
         $(document).ready(function() {
             $('select[name="city_uuid"]').on('change', function () {
-
                 var city_uuid = $(this).val();
                 console.log(city_uuid)
                 if (city_uuid) {
