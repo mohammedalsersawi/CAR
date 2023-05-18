@@ -16,9 +16,9 @@ class AreaControllerr extends Controller
     public function index()
     {
         Gate::authorize('place.view');
-       $cities=City::select(['name','uuid'])->get();
+        $cities = City::select(['name', 'uuid'])->get();
 
-        return view('admin.pages.area.index',compact('cities'));
+        return view('admin.pages.area.index', compact('cities'));
     }
 
 
@@ -29,15 +29,15 @@ class AreaControllerr extends Controller
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:45';
         }
-        $rules['city_uuid']='required|exists:cities,uuid';
+        $rules['city_uuid'] = 'required|exists:cities,uuid';
         $this->validate($request, $rules);
         $data = [];
         foreach (locales() as $key => $language) {
             $data['name'][$key] = $request->get('name_' . $key);
         }
-        $data['city_uuid']=$request->city_uuid;
+        $data['city_uuid'] = $request->city_uuid;
         $this->validate($request, $rules);
-         Area::create($data);
+        Area::create($data);
         return $this->sendResponse(null, __('item_added'));
     }
 
@@ -48,23 +48,22 @@ class AreaControllerr extends Controller
         foreach (locales() as $key => $language) {
             $rules['name_' . $key] = 'required|string|max:255';
         }
-        $rules['city_uuid']='required|exists:cities,uuid';
+        $rules['city_uuid'] = 'required|exists:cities,uuid';
         $this->validate($request, $rules);
         $data = [];
         foreach (locales() as $key => $language) {
             $data['name'][$key] = $request->get('name_' . $key);
         }
-        $data['city_uuid']=$request->city_uuid;
+        $data['city_uuid'] = $request->city_uuid;
         $area = Area::findOrFail($request->uuid);
         $area->update($data);
         return $this->sendResponse(null, __('item_edited'));
-
     }
 
     public function destroy($uuid)
     {
         Gate::authorize('place.delete');
-        $uuids=explode(',', $uuid);
+        $uuids = explode(',', $uuid);
         Area::whereIn('uuid', $uuids)->delete();
         return $this->sendResponse(null, null);
     }
@@ -83,30 +82,30 @@ class AreaControllerr extends Controller
                     }
                 }
             })
-            ->addColumn('checkbox',function ($que){
+            ->addColumn('checkbox', function ($que) {
                 return $que->uuid;
             })
 
             ->addColumn('action', function ($que) {
                 $data_attr = '';
-                $data_attr .= 'data-uuid="' .@$que->uuid . '" ';
-                $data_attr .= 'data-city_uuid="' .@$que->cites->uuid . '" ';
+                $data_attr .= 'data-uuid="' . @$que->uuid . '" ';
+                $data_attr .= 'data-city_uuid="' . @$que->cites->uuid . '" ';
                 foreach (locales() as $key => $value) {
                     $data_attr .= 'data-name_' . $key . '="' . $que->getTranslation('name', $key) . '" ';
                 }
                 $string = '';
 
-                if (Gate::allows('place.update')){
+                if (Gate::allows('place.update')) {
                     $string .= '<button class="edit_btn btn btn-sm btn-outline-primary btn_edit" data-toggle="modal"
                     data-target="#edit_modal" ' . $data_attr . '>' . __('edit') . '</button>';
                 }
-                if (Gate::allows('place.delete')){
+                if (Gate::allows('place.delete')) {
                     $string .= ' <button type="button" class="btn btn-sm btn-outline-danger btn_delete" data-uuid="' . $que->uuid .
                         '">' . __('delete') . '</button>';
                 }
                 return $string;
-            }) ->addColumn('status', function ($que) {
-                if (Gate::allows('place.update')){
+            })->addColumn('status', function ($que) {
+                if (Gate::allows('place.update')) {
                     $currentUrl = url('/');
                     return '<div class="checkbox">
                 <input class="activate-row"  url="' . $currentUrl . "/area/activate/" . $que->uuid . '" type="checkbox" id="checkbox' . $que->id . '" ' .
@@ -115,7 +114,6 @@ class AreaControllerr extends Controller
                 <label for="checkbox' . $que->uuid . '"><span class="checkbox-icon"></span> </label>
             </div>';
                 }
-
             })
             ->rawColumns(['action', 'status'])->toJson();
     }
